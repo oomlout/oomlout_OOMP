@@ -2,6 +2,9 @@
 details = list()
 parts = list()
 
+
+
+
 def oompAddDetail(category,code,name,sort="",extra1="",extra2=""):
     details.append(oompDetail(category,code,name,sort,extra1="",extra2=""))
 
@@ -107,4 +110,15 @@ class oompDetail:
         self.extra2 = extra2
     
     
+#### import detail lists
+
+import OOMPdetailsType
+import OOMPdetailsSize
+import OOMPdetailsColor
+import OOMPdetailsDesc
+import OOMPdetailsIndex
+
+#### import parts
+
+import OOMPparts
         
