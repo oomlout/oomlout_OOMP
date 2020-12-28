@@ -1,5 +1,6 @@
 
 details = list()
+parts = list()
 
 def oompAddDetail(category,code,name,sort="",extra1="",extra2=""):
     details.append(oompDetail(category,code,name,sort,extra1="",extra2=""))
@@ -11,6 +12,14 @@ def getDetailFromCode(category,code):
                 return x
     return oompDetail("","","","","","")
     
+
+def printParts():
+    print("OOMP Parts")
+    y = 1
+    for x in parts:
+        print("    Part: " + str(x))
+        y = y + 1
+        
 
 class oompItem:
 
@@ -67,13 +76,11 @@ class oompItem:
             return(oompTag("name", name))
         else:
             for x in self.tags:
-                #print(x)
                 if x.name == name:
                     return x
             return oompTag("XXXXX","XXXXX")
 
     def getName(self):
-        print(self.getTag("name"))
         return "OOMP Item " + self.getTag("name").value + " " + self.getTag("oompID").value + "\n"
 
     

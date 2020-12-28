@@ -5,14 +5,25 @@
 
 ;######  OOMP Search and replace xml to python
 
-<oompColor>\r\n\t\t
-OOMP.oompAddDetail(category="color",
+<oompSize>\r\n
+OOMP.oompAddDetail(category="size",
 
 <code>
 code="
 
-</code>\r\n\t\t<name>
+</code>\r\n<name>
 ",name="
+
+</name>\r\n</oompSize>
+")
+
+
+
+
+
+
+
+
 
 ((maybe a mistake)
 </name>\r\n\t\t<colorSort>
