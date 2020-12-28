@@ -3,7 +3,9 @@ import OOMP
 
 #### sample item
 
-OOMP.printParts()
+##OOMP.printParts()
+
+print(OOMP.parts[258])
 
 
 

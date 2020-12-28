@@ -18,10 +18,9 @@ def getDetailFromCode(category,code):
 
 def printParts():
     print("OOMP Parts")
-    y = 1
     for x in parts:
         print("    Part: " + str(x))
-        y = y + 1
+
         
 
 class oompItem:
@@ -34,8 +33,8 @@ class oompItem:
     def __str__(self):
         rv = ""
         rv = rv + self.getName()
-        for x in self.tags:
-            rv = rv + "    " + str(x)
+        #for x in self.tags:
+        #    rv = rv + "    " + str(x)
         return rv
     
 
@@ -50,32 +49,30 @@ class oompItem:
             name = ""
             #size
             value = getDetailFromCode("size",self.getTag("oompSize").value).name
-            name = name + value
             if value != "":
-                name = name + " "
+                name = name + value + " "
 
             #desc
             value = getDetailFromCode("desc",self.getTag("oompDesc").value).name
-            name = name + value
             if value != "":
-                name = name + " "
-
+                name = name + value + " "
+                
             #color
             value = getDetailFromCode("color",self.getTag("oompColor").value).name
-            name = name + value
             if value != "":
-                name = name + " "
-
+                name = name + value + " "
+                
             #type
             value = getDetailFromCode("type",self.getTag("oompType").value).name
-            name = name + value
             if value != "":
-                name = name + " "
-
+                name = name + value + " "
+                
             #index
             value = getDetailFromCode("index",self.getTag("oompIndex").value).name
-            name = name + value
-            
+            if value != "":
+                name = name + value + " "                      
+
+            name = name.strip()
             return(oompTag("name", name))
         else:
             for x in self.tags:
@@ -84,7 +81,7 @@ class oompItem:
             return oompTag("XXXXX","XXXXX")
 
     def getName(self):
-        return "OOMP Item " + self.getTag("name").value + " " + self.getTag("oompID").value + "\n"
+        return "OOMP Item:    " + self.getTag("oompID").value + " " + self.getTag("name").value
 
     
 class oompTag:
