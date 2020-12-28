@@ -1,0 +1,25 @@
+
+
+
+
+
+;######  OOMP Search and replace xml to python
+
+<oompColor>\r\n\t\t
+OOMP.oompAddDetail(category="color",
+
+<code>
+code="
+
+</code>\r\n\t\t<name>
+",name="
+
+((maybe a mistake)
+</name>\r\n\t\t<colorSort>
+",sort="
+
+
+</colorSort>\r\n\t</oompColor>
+")
+
+
