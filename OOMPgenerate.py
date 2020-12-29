@@ -5,6 +5,10 @@ import re
 import time
 
 
+def generateLabels():
+    for x in OOMP.parts:
+        generateLabel(x)
+
 def generateLabel(item):
     print("    Generating Labels for " + str(item))
     oompID = item.getTag("oompID")
@@ -13,6 +17,24 @@ def generateLabel(item):
     outputDirectory = "parts\\" + oompID.value
     output = outputDirectory + "\\label-inventory.svg" 
     outputPDF = outputDirectory + "\\label-inventory.pdf" 
+    if not os.path.isdir(outputDirectory):
+        os.makedirs(outputDirectory)
+    oompSearchAndReplace(template, output, item)
+    oompMakePDF(output,outputPDF)
+    #front label
+    template = "templates\\OOMP-label-front.tmpl.svg"
+    outputDirectory = "parts\\" + oompID.value
+    output = outputDirectory + "\\label-front.svg" 
+    outputPDF = outputDirectory + "\\label-front.pdf" 
+    if not os.path.isdir(outputDirectory):
+        os.makedirs(outputDirectory)
+    oompSearchAndReplace(template, output, item)
+    oompMakePDF(output,outputPDF)
+    #spec label
+    template = "templates\\OOMP-label-spec.tmpl.svg"
+    outputDirectory = "parts\\" + oompID.value
+    output = outputDirectory + "\\label-spec.svg" 
+    outputPDF = outputDirectory + "\\label-spec.pdf" 
     if not os.path.isdir(outputDirectory):
         os.makedirs(outputDirectory)
     oompSearchAndReplace(template, output, item)
@@ -44,7 +66,7 @@ def oompSearchAndReplace(inFile,outFile,item):
         ##  @@%%ID%%,oompPart.oompID,name@@
 
         for x in matches:
-            print(x)
+##            print(x)
             #remove deliminator
             orig = x
             x = x.replace(delim,"")
@@ -57,7 +79,7 @@ def oompSearchAndReplace(inFile,outFile,item):
                     part = OOMP.getPartByID(str(splitTag[0]))
                     ##print(part)
                     replaceValue = part.getTag(tag).value
-                    print("        Replacing: " + x + " with -- " + replaceValue )
+##                    print("        Replacing: " + x + " with -- " + replaceValue )
                     template = template.replace(orig,replaceValue)
                 else: ##detail
                     cat = ""
@@ -73,7 +95,7 @@ def oompSearchAndReplace(inFile,outFile,item):
                         cat = "index"
                     
                     replaceValue = OOMP.getDetailByCode(cat,splitTag[0]).name
-                    print("        Replacing: " + x + " in " + cat + " with -- " + replaceValue )
+##                    print("        Replacing: " + x + " in " + cat + " with -- " + replaceValue )
                     template = template.replace(orig,replaceValue)
                 
     
@@ -84,11 +106,14 @@ def oompSearchAndReplace(inFile,outFile,item):
 def oompMakePDF(inFile,outFile):
     executeString = "inkscape.exe --export-filename=\"" + outFile + "\" \"" + inFile + "\""
     print("                Converting to PDF: " + inFile)
-    subprocess.Popen(executeString)
-
-
+    subprocess.call(executeString)
     
-part = OOMP.parts[256]
 
-print(part)
-generateLabel(part)
+
+####Test One Label Generation
+##part = OOMP.parts[256]
+##print(part)
+##generateLabel(part)
+
+## Generate All Labels
+generateLabels()

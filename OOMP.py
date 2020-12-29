@@ -16,14 +16,14 @@ def getDetailFromCode(category,code):
     return oompDetail("","","","")
 
 def getPartByID(part):
-    print("     Get Part By ID: " + part)
+##    print("     Get Part By ID: " + part)
     for x in parts:
         if x.getTag("oompID").value == part:
             return x     
     return oompItem("")
 
 def getDetailByCode(category, code):    
-    print("     Get Part By ID: " + code)
+##    print("     Get Part By ID: " + code)
     for x in details:
         #print("    Matching: " + x.code + " with -- " + code)
         if x.code == code:
