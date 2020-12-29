@@ -1,15 +1,23 @@
 import OOMP
-
-
+import os
+import subprocess
+import re
+import time
 
 
 def generateLabel(item):
+    print("    Generating Labels for " + str(item))
     oompID = item.getTag("oompID")
     #inventory label
     template = "templates\\OOMP-label-inventory.tmpl.svg"
-    output = "parts\\" + oompID.value + "\\label-inventory.svg"
+    outputDirectory = "parts\\" + oompID.value
+    output = outputDirectory + "\\label-inventory.svg" 
+    outputPDF = outputDirectory + "\\label-inventory.pdf" 
+    if not os.path.isdir(outputDirectory):
+        os.makedirs(outputDirectory)
     oompSearchAndReplace(template, output, item)
-
+    oompMakePDF(output,outputPDF)
+    
 
 
 
@@ -18,13 +26,66 @@ def oompSearchAndReplace(inFile,outFile,item):
     
     f = open(inFile, "r")
     template = f.read()
+    f.close()
 
     template = template.replace("%%ID%%", oompID.value)
 
-    toReplace = template.split("@@")
+    
+    splitters = ["@1","@@"]
+    for y in splitters:
+        delim = y
+        ##matches = re.findall(r'@1.+?@1',template)
+        matches = re.findall(delim + '.+?' + delim,template)
 
-    for x in toReplace:
-        print(x)
+        ##  CODE
+        ##  @@@1%%ID%%,oompPart.oompID,oompDesc@1,oompDesc.code,name@@
+
+        ##  PART DETAIL
+        ##  @@%%ID%%,oompPart.oompID,name@@
+
+        for x in matches:
+            print(x)
+            #remove deliminator
+            orig = x
+            x = x.replace(delim,"")
+            #split replace
+            splitTag = x.split(",")
+            if len(splitTag) > 1:
+                style = splitTag[1]
+                tag = splitTag[2]
+                if "oompPart" in style:
+                    part = OOMP.getPartByID(str(splitTag[0]))
+                    ##print(part)
+                    replaceValue = part.getTag(tag).value
+                    print("        Replacing: " + x + " with -- " + replaceValue )
+                    template = template.replace(orig,replaceValue)
+                else: ##detail
+                    cat = ""
+                    if "oompType" in style:
+                        cat = "type"
+                    elif "oompSize" in style:
+                        cat = "size"
+                    elif "oompColor" in style:
+                        cat = "color"
+                    elif "oompDesc" in style:
+                        cat = "desc"
+                    elif "oompIndex" in style:
+                        cat = "index"
+                    
+                    replaceValue = OOMP.getDetailByCode(cat,splitTag[0]).name
+                    print("        Replacing: " + x + " in " + cat + " with -- " + replaceValue )
+                    template = template.replace(orig,replaceValue)
+                
+    
+    f = open(outFile, "w+")
+    f.write(template)
+    f.close
+
+def oompMakePDF(inFile,outFile):
+    executeString = "inkscape.exe --export-filename=\"" + outFile + "\" \"" + inFile + "\""
+    print("                Converting to PDF: " + inFile)
+    subprocess.Popen(executeString)
+
 
     
 part = OOMP.parts[256]

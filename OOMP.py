@@ -13,8 +13,23 @@ def getDetailFromCode(category,code):
         if x.category == category:
             if x.code == code:
                 return x
-    return oompDetail("","","","","","")
-    
+    return oompDetail("","","","")
+
+def getPartByID(part):
+    print("     Get Part By ID: " + part)
+    for x in parts:
+        if x.getTag("oompID").value == part:
+            return x     
+    return oompItem("")
+
+def getDetailByCode(category, code):    
+    print("     Get Part By ID: " + code)
+    for x in details:
+        #print("    Matching: " + x.code + " with -- " + code)
+        if x.code == code:
+            return x     
+    return oompDetail("","","","")
+
 
 def printParts():
     print("OOMP Parts")
@@ -45,7 +60,10 @@ class oompItem:
         if name == "oompID":
             id = self.getTag("oompType").value + "-" +  self.getTag("oompSize").value + "-" +  self.getTag("oompColor").value + "-" +  self.getTag("oompDesc").value + "-" +  self.getTag("oompIndex").value
             return(oompTag("oompID", id))
-        if name == "name":
+        elif name == "hexID":
+            hexValue = hex(self.getTag("index").value).replace("0x","").upper()
+            return(oompTag("hexID",hexValue))
+        elif name == "name":
             name = ""
             #size
             value = getDetailFromCode("size",self.getTag("oompSize").value).name
