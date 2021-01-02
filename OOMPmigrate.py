@@ -3,6 +3,7 @@ import OOMP
 import os
 import time
 from shutil import copyfile
+import re
 
 baseDir = "C:\\GH\\OLD01-oomlout-OOMP\\parts\\"
 dirList = os.listdir(baseDir)
@@ -40,6 +41,53 @@ def addPartFromDir(string):
         #add to parts load
         addToPartsLoadFile(string)
 
+def addPartFromXML(string):
+    print("Adding part from xml")
+    oldOompDir = "C:\\GH\\OLD01-oomlout-OOMP\\parts\\"
+    oompBase = "C:\\GH\\oomlout-OOMP\\"
+
+    xmlFile=oldOompDir + string + "\\" + string + ".oomp"
+    print("    XML file: " + xmlFile)
+    
+    fileName = "OOMPpart_" + string.replace("-","_")
+    parts = string.split("-")
+
+    f = open(xmlFile)
+    contents = f.read()
+    f.close()
+
+    contents = contents.replace("<xml>","")
+    contents = contents.replace("</xml>","")
+    contents = contents.replace("<oompPart>","")
+    contents = contents.replace("</oompPart>","")
+
+    delim1 = "<"
+    delim2 = ">"
+    matches = re.findall(delim1 + '.+?' + delim2,contents)
+    print("    Found: " + str(len(matches)) + " tags")
+    tags = []
+    
+    for x in range(len(matches)-2):
+        currentTag = matches[x]
+        currentStripped = currentTag.replace("<","")
+        currentStripped = currentStripped.replace(">","")
+        nextTag = matches[x+1]
+        if "/" not in currentTag:
+            print("        Iteration: " + str(x) + " of " + str(len(matches)))
+            print("Index: " + str(x) + "    current: " + str(currentTag) + " next tag: " + str(nextTag))   
+            if currentTag.replace("<","</") == nextTag:
+                delim1 = currentTag
+                delim2 = nextTag
+                search = re.findall(delim1 + '.+?' + delim2,contents)
+                tagValue = search[0]
+                tagValue = tagValue.replace(delim1,"")
+                tagValue = tagValue.replace(delim2,"")
+                print("        Adding Tag: " + currentStripped + "    value: " + tagValue)
+                tags.append(OOMP.oompTag(currentStripped,tagValue))
+                x=x+1
+        
+
+    
 def addToPartsLoadFile(string):
     oompBase = "C:\\GH\\oomlout-OOMP\\"
     partsLoadFile = oompBase + "OOMPparts.py"
@@ -86,11 +134,13 @@ def migrateFiles(string):
 
 index = 8762
 
-for x in dirList:
-    if os.path.isdir(baseDir + x):
-        print(x)
-        addPartFromDir(str(x))
+##for x in dirList:
+##    if os.path.isdir(baseDir + x):
+##        print(x)
+##        addPartFromDir(str(x))
 
 ##addPartFromDir("HEAD-I01-X-PI03-01")
+addPartFromXML("HEAD-I01-X-PI03-01")
+
 
 #### oomp add
