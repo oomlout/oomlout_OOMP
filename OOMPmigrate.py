@@ -41,7 +41,7 @@ def addPartFromDir(string):
         #add to parts load
         addToPartsLoadFile(string)
 
-def addPartFromXML(string,index):
+def addPartFromXML(string):
     print("Adding part from xml")
     oldOompDir = "C:\\GH\\OLD01-oomlout-OOMP\\parts\\"
     oompBase = "C:\\GH\\oomlout-OOMP\\"
@@ -325,13 +325,12 @@ def migrateFiles(string):
 
 index = 8762
 
-##for x in dirList:
-##    if os.path.isdir(baseDir + x):
-##        print(x)
+for x in dirList:
+    if os.path.isdir(baseDir + x):
+        print(x)
 ##        addPartFromDir(str(x))
+        addPartFromXML(str(x))
 
 ##addPartFromDir("HEAD-I01-X-PI03-01")
-addPartFromXML("HEAD-I01-X-PI03-01",index)
+##addPartFromXML("HEAD-I01-X-PI03-01")
 
-
-#### oomp add
