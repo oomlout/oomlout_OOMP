@@ -41,12 +41,14 @@ def addPartFromDir(string):
         #add to parts load
         addToPartsLoadFile(string)
 
-def addPartFromXML(string):
+def addPartFromXML(string,index):
     print("Adding part from xml")
     oldOompDir = "C:\\GH\\OLD01-oomlout-OOMP\\parts\\"
     oompBase = "C:\\GH\\oomlout-OOMP\\"
 
     xmlFile=oldOompDir + string + "\\" + string + ".oomp"
+    newFile = "C:\\GH\\oomlout-OOMP\\" + "test\\" + string +".py"
+
     print("    XML file: " + xmlFile)
     
     fileName = "OOMPpart_" + string.replace("-","_")
@@ -56,37 +58,107 @@ def addPartFromXML(string):
     contents = f.read()
     f.close()
 
+
+    outputContents = "import OOMP\n\nnewPart = OOMP.oompItem(" + str(index) + ")\n\n"
+
     contents = contents.replace("<xml>","")
     contents = contents.replace("</xml>","")
     contents = contents.replace("<oompPart>","")
     contents = contents.replace("</oompPart>","")
 
-    delim1 = "<"
-    delim2 = ">"
-    matches = re.findall(delim1 + '.+?' + delim2,contents)
-    print("    Found: " + str(len(matches)) + " tags")
-    tags = []
-    
-    for x in range(len(matches)-2):
-        currentTag = matches[x]
-        currentStripped = currentTag.replace("<","")
-        currentStripped = currentStripped.replace(">","")
-        nextTag = matches[x+1]
-        if "/" not in currentTag:
-            print("        Iteration: " + str(x) + " of " + str(len(matches)))
-            print("Index: " + str(x) + "    current: " + str(currentTag) + " next tag: " + str(nextTag))   
-            if currentTag.replace("<","</") == nextTag:
-                delim1 = currentTag
-                delim2 = nextTag
-                search = re.findall(delim1 + '.+?' + delim2,contents)
-                tagValue = search[0]
-                tagValue = tagValue.replace(delim1,"")
-                tagValue = tagValue.replace(delim2,"")
-                print("        Adding Tag: " + currentStripped + "    value: " + tagValue)
-                tags.append(OOMP.oompTag(currentStripped,tagValue))
-                x=x+1
+    lines = contents.split("\n")
+
+    for line in lines:
+        tagName = getXMLTagName(line)
+        newLine = ""
+        if not omitTag(tagName):
+            if not extraProcessing(tagName):
+                newLine = getPythonStringFromXML(line)
+            else:
+                newLine = "EXTRA PROCESSING: " + tagName
+        else:
+            newLine = ""
+
+        outputContents = outputContents + newLine + "\n"
+            
+                
         
 
+    f = open(newFile, "w+")
+    f.write(outputContents)
+    f.close()
+
+def omitTag(tagName):
+    rv = False
+    if "oompStatCount" in tagName:
+        rv = True
+    elif "oompStatPercent" in tagName:
+        rv = True
+    elif "oompID" in tagName:
+        rv = True
+    elif "name" in tagName:
+        rv = True
+    elif "oompStatCount" in tagName:
+        rv = True
+    return rv
+
+def extraProcessing(tagName):
+    rv = False
+    if "sourceList" in tagName:
+        rv = True
+    elif "oplList" in tagName:
+        rv = True
+    elif "oompBbls" in tagName:
+        rv = True
+    elif "oompDiag" in tagName:
+        rv = True
+    elif "oompIden" in tagName:
+        rv = True
+    elif "oompSchem" in tagName:
+        rv = True
+    elif "oompSimp" in tagName:
+        rv = True
+    return rv
+        
+        
+    
+
+
+
+    return rv
+
+def getPythonStringFromXML(xml):
+    tagName = getXMLTagName(xml)
+    if tagName != "":
+        tagValue = getXMLValue(xml)
+        pythonString = "newPart.addTag(\"" + tagName + "\", \"" + tagValue + "\")"
+        return pythonString
+    else:
+        return ""
+
+def getXMLValue(xml):
+    if "<" in xml:
+        start=">"
+        end="<"
+        result = re.search(start + "(.*?)" + end, xml)
+        if result is not None:
+##            print("Tag name: " + str(result.group(1)))
+            return str(result.group(1))
+        else:
+            return ""
+    else:
+        return ""
+        
+
+def getXMLTagName(xml):
+    if "<" in xml:
+        start="<"
+        end=">"
+        result = re.search(start + "(.*?)" + end, xml)
+##        print("Tag name: " + str(result.group(1)))
+        return str(result.group(1))
+    else:
+        return ""
     
 def addToPartsLoadFile(string):
     oompBase = "C:\\GH\\oomlout-OOMP\\"
@@ -140,7 +212,7 @@ index = 8762
 ##        addPartFromDir(str(x))
 
 ##addPartFromDir("HEAD-I01-X-PI03-01")
-addPartFromXML("HEAD-I01-X-PI03-01")
+addPartFromXML("HEAD-I01-X-PI03-01",index)
 
 
 #### oomp add
