@@ -68,25 +68,128 @@ def addPartFromXML(string,index):
 
     lines = contents.split("\n")
 
-    for line in lines:
+    global x
+    x = 0
+    while x < len(lines):
+        print("Running line # " + str(x))
+        line = lines[x]
+##        print("    " + str(line))
         tagName = getXMLTagName(line)
         newLine = ""
-        if not omitTag(tagName):
-            if not extraProcessing(tagName):
-                newLine = getPythonStringFromXML(line)
-            else:
-                newLine = "EXTRA PROCESSING: " + tagName
-        else:
-            newLine = ""
+        if tagName != "":
+            if not omitTag(tagName):
+                if singleProcessing(tagName):
+                    print("#SINGLE PROCESSING: " + tagName)
+                    testLine = ""
+                    if "oompBbls" == tagName:
+                        testLine = "/oompBbls"
+                        newLine = handleSimpleList(x,lines,"oompBbls")
+                    if "oompDiag" == tagName:
+                        testLine = "/oompDiag"
+                        newLine = handleSimpleList(x,lines,"oompDiag")
+                    if "oompIden" == tagName:
+                        testLine = "/oompIden"
+                        newLine = handleSimpleList(x,lines,"oompIden")
+                    if "oompSchem" == tagName:
+                        testLine = "/oompSchem"
+                        newLine = handleSimpleList(x,lines,"oompSchem")
+                    if "oompSimp" == tagName:
+                        testLine = "/oompSimp"
+                        newLine = handleSimpleList(x,lines,"oompSimp")
+                    runThrough = True
+                    while runThrough:
+                        line = lines[x]
+                        print("     line   " + line)
+                        if testLine in line:
+                            runThrough = False
+                        else:
+                            print(" x inside: " + str(x))
+                            x=x+1
+                    
+                elif extraProcessing(tagName):
+                    print("#EXTRA PROCESSING: " + tagName)
+                    testLine = ""
+                    if "sourceList" == tagName:
+                        testLine = "/sourceList"
+                        newLine = handleList(x,lines,"sourceList","manufacturer")
+                    elif "oplList" == tagName:
+                        testLine = "/oplList"
+                        newLine = handleList(x,lines,"oplList","oplSystem")
 
-        outputContents = outputContents + newLine + "\n"
+
+
+                    runThrough = True
+                    while runThrough:
+                        line = lines[x]
+                        if testLine in line:
+                            runThrough = False
+                        else:
+                            x=x+1
+                else:
+                    print("        not ex" + str(line))
+                    newLine = getPythonStringFromXML(tagName, line)
+                        
+            else:
+                newLine = ""
+
+        outputContents = outputContents + str(newLine) + "\n"
+        x=x+1
             
                 
         
-
+    outputContents = outputContents  + ("OOMP.parts.append(newPart)\n")
     f = open(newFile, "w+")
     f.write(outputContents)
     f.close()
+
+
+def handleList(x,lines,listName,typeName):    
+    rv = "\n" + listName + " = []\n"
+    #will be a manufacturer tag
+    line = lines[x+1]
+    #start filling first manufacurer
+    rv = rv + typeName + "Details = []\n"
+    y = x + 2
+    while y < 20000:
+        line = lines[y]
+        tagName = getXMLTagName(line)
+        print("       tag name  " + str(tagName) + "     typeName " + typeName)
+        if typeName in tagName :
+            y = 30000
+        else:
+            rv  = rv + getPythonStringFromXMLList(typeName +"Details", tagName, line) + "\n"
+            y += 1
+
+
+    rv = rv + "sourceList.append(OOMP.oompTag(\"" + typeName + "\"," + typeName + "Details))\n"
+    rv = rv + "newPart.addTag(\"" + listName + "\", " + listName + ")\n"
+    return rv                                                
+
+def handleSimpleList(x,lines,listName):    
+    rv = "\n" + listName + " = []\n"
+    #will be a manufacturer tag
+    line = lines[x+1]
+    #start filling first manufacurer
+    y = x + 1
+    while y < 20000:
+        line = lines[y]
+        tagName = getXMLTagName(line)
+        print(listName + "   " + tagName)
+        if listName in tagName :
+            y = 30000
+        else:
+            rv  = rv + getPythonStringFromXMLList(listName, tagName, line) + "\n"
+            y += 1
+
+    rv = rv + "newPart.addTag(\"" + listName + "\", " + listName + ")\n"
+    print(rv)
+
+    return rv                                                
+
+
+##    sourceListTag = 
+    rv = "newPart.addTag(\"sourceList\", sourceListTag)\n"
+    return rv
 
 def omitTag(tagName):
     rv = False
@@ -108,7 +211,11 @@ def extraProcessing(tagName):
         rv = True
     elif "oplList" in tagName:
         rv = True
-    elif "oompBbls" in tagName:
+    return rv        
+
+def singleProcessing(tagName):
+    rv = False
+    if "oompBbls" in tagName:
         rv = True
     elif "oompDiag" in tagName:
         rv = True
@@ -125,13 +232,25 @@ def extraProcessing(tagName):
 
 
 
-    return rv
+    
 
-def getPythonStringFromXML(xml):
+def getPythonStringFromXML(name, xml):
+    return getPythonStringFromXMLCustom("newPart", name, xml)
+        
+def getPythonStringFromXMLCustom(typ, name, xml):
     tagName = getXMLTagName(xml)
     if tagName != "":
         tagValue = getXMLValue(xml)
-        pythonString = "newPart.addTag(\"" + tagName + "\", \"" + tagValue + "\")"
+        pythonString = typ + ".addTag(\"" + name + "\", \"" + tagValue + "\")"
+        return pythonString
+    else:
+        return ""
+
+def getPythonStringFromXMLList(typ, name, xml):
+    tagName = getXMLTagName(xml)
+    if tagName != "":
+        tagValue = getXMLValue(xml)
+        pythonString = typ + ".append(OOMP.oompTag(\"" + name + "\", \"" + tagValue + "\"))"
         return pythonString
     else:
         return ""

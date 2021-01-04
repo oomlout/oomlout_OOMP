@@ -51,10 +51,36 @@ class oompItem:
         #for x in self.tags:
         #    rv = rv + "    " + str(x)
         return rv
-    
 
+    def fullString(self):
+        rv = ""
+        rv = rv + self.getName() + "\n"
+        for x in self.tags:
+            rv = rv + "" + str(x)
+##            if not isinstance(x.value, list):
+##                rv = rv + "    " + str(x)
+##            else: #tag has a list
+##                rv = rv + "    " + str(x) + "\n"
+##                for y in x.value:
+##                    if isinstance(y, list):
+##                        rv = rv + "    " + str(y) + "\n"
+##                        for c in y:
+##                            rv = rv + "            " + str(c) + "\n"
+##                    else:
+##                        rv = rv + "        " + str(y) + "\n"
+                    
+                
+                
+                
+
+        return rv
+    
     def addTag(self,name,value):
         self.tags.append(oompTag(name,value))
+
+    def addTagSupplied(self,name,value,tag):
+        tag.append(oompTag(name,value))
+        return tag
 
     def getTag(self,name):
         if name == "oompID":
@@ -109,7 +135,16 @@ class oompTag:
         self.value = value
 
     def __str__(self):
-        return "oompTag " + str(self.name) + " : " + str(self.value) + "\n"
+        if isinstance(self.value, list):
+            rv = "oompTagCC " + self.name + "\n"
+            for x in self.value:
+                rv = rv + "    " + str(x) 
+            return rv
+        elif isinstance(self.value, oompTag):
+            return "oompTagBB " + self.name + "    \n" + str(self.value) + "\n"
+        else:
+            return "oompTagAA " + str(self.name) + " : " + str(self.value)+ "\n"
+            
 
     def getValue(self):
         return self.value
@@ -135,5 +170,5 @@ class oompDetail:
 
 #### import parts
 
-##import OOMPparts
+import OOMPparts
         
