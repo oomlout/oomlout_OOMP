@@ -22,6 +22,15 @@ def getPartByID(part):
             return x     
     return oompItem("")
 
+def getPartByHex(hexid):
+##    print("     Get Part By ID: " + part)
+    for x in parts:
+        x.getTag("hexid").value
+        if x.getTag("hexid").value == hexid:
+            return x     
+    return oompItem("")
+
+
 def getDetailByCode(category, code):    
 ##    print("     Get Part By ID: " + code)
     for x in details:
@@ -34,7 +43,7 @@ def getDetailByCode(category, code):
 def printParts():
     print("OOMP Parts")
     for x in parts:
-        print("    Part: " + str(x))
+        print("    Part: " + str(x.fullString()))
 
         
 
@@ -86,39 +95,48 @@ class oompItem:
         if name == "oompID":
             id = self.getTag("oompType").value + "-" +  self.getTag("oompSize").value + "-" +  self.getTag("oompColor").value + "-" +  self.getTag("oompDesc").value + "-" +  self.getTag("oompIndex").value
             return(oompTag("oompID", id))
+        elif name == "taxaID":
+            id = self.getTag("taxaDomain").value.upper() + "-" + self.getTag("taxaKingdom").value.upper() + "-" + self.getTag("taxaDivision").value.upper() + "-" + self.getTag("taxaClass").value.upper() + "-" + self.getTag("taxaFamily").value.upper() + "-" + self.getTag("taxaGenus").value.upper() + "-" + self.getTag("taxaSpecies").value.upper()
+            return(oompTag("oompID", id))
         elif name == "hexID":
             hexValue = hex(self.getTag("index").value).replace("0x","").upper()
             return(oompTag("hexID",hexValue))
         elif name == "name":
-            name = ""
-            #size
-            value = getDetailFromCode("size",self.getTag("oompSize").value).name
-            if value != "":
-                name = name + value + " "
+            id = self.getTag("namename").value
+            if id == "" or id == "XXXXX":
+                name = ""
+                #size
+                value = getDetailFromCode("size",self.getTag("oompSize").value).name
+                if value != "":
+                    name = name + value + " "
 
-            #desc
-            value = getDetailFromCode("desc",self.getTag("oompDesc").value).name
-            if value != "":
-                name = name + value + " "
-                
-            #color
-            value = getDetailFromCode("color",self.getTag("oompColor").value).name
-            if value != "":
-                name = name + value + " "
-                
-            #type
-            value = getDetailFromCode("type",self.getTag("oompType").value).name
-            if value != "":
-                name = name + value + " "
-                
-            #index
-            value = getDetailFromCode("index",self.getTag("oompIndex").value).name
-            if value != "":
-                name = name + value + " "                      
+                #desc
+                value = getDetailFromCode("desc",self.getTag("oompDesc").value).name
+                if value != "":
+                    name = name + value + " "
+                    
+                #color
+                value = getDetailFromCode("color",self.getTag("oompColor").value).name
+                if value != "":
+                    name = name + value + " "
+                    
+                #type
+                value = getDetailFromCode("type",self.getTag("oompType").value).name
+                if value != "":
+                    name = name + value + " "
+                    
+                #index
+                value = getDetailFromCode("index",self.getTag("oompIndex").value).name
+                if value != "":
+                    name = name + value + " "                      
 
-            name = name.strip()
-            return(oompTag("name", name))
+                name = name.strip()
+                return(oompTag("name", name))
+            else:
+                return self.getTag("namename")
         else:
+            if name == "namename":
+                name = "name"
             for x in self.tags:
                 if x.name == name:
                     return x
@@ -162,11 +180,11 @@ class oompDetail:
     
 #### import detail lists
 
-##import OOMPdetailsType
-##import OOMPdetailsSize
-##import OOMPdetailsColor
-##import OOMPdetailsDesc
-##import OOMPdetailsIndex
+import OOMPdetailsType
+import OOMPdetailsSize
+import OOMPdetailsColor
+import OOMPdetailsDesc
+import OOMPdetailsIndex
 
 #### import parts
 
