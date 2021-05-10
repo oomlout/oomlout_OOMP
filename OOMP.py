@@ -98,9 +98,9 @@ class oompItem:
         elif name == "taxaID":
             id = self.getTag("taxaDomain").value.upper() + "-" + self.getTag("taxaKingdom").value.upper() + "-" + self.getTag("taxaDivision").value.upper() + "-" + self.getTag("taxaClass").value.upper() + "-" + self.getTag("taxaOrder").value.upper() + "-" + self.getTag("taxaFamily").value.upper() + "-" + self.getTag("taxaGenus").value.upper() + "-" + self.getTag("taxaSpecies").value.upper()
             return(oompTag("oompID", id))
-        elif name == "hexID":
-            hexValue = hex(self.getTag("index").value).replace("0x","").upper()
-            return(oompTag("hexID",hexValue))
+        #elif name == "hexID":
+        #    hexValue = hex(self.getTag("index").value).replace("0x","").upper()
+        #    return(oompTag("hexID",hexValue))
         elif name == "name":
             id = self.getTag("namename").value
             if id == "" or id == "XXXXX":
@@ -140,7 +140,7 @@ class oompItem:
             for x in self.tags:
                 if x.name == name:
                     return x
-            return oompTag("XXXXX","XXXXX")
+            return oompTag("","")
 
     def getName(self):
         return "OOMP Item:    " + self.getTag("oompID").value + " " + self.getTag("name").value
@@ -159,9 +159,9 @@ class oompTag:
                 rv = rv + "    " + str(x) 
             return rv
         elif isinstance(self.value, oompTag):
-            return "oompTagBB " + self.name + "    \n" + str(self.value) + "\n"
+            return "     " + self.name + "    \n" + str(self.value) + "\n"
         else:
-            return "oompTagAA " + str(self.name) + " : " + str(self.value)+ "\n"
+            return "     " + str(self.name) + " : " + str(self.value)+ "\n"
             
 
     def getValue(self):
@@ -176,7 +176,9 @@ class oompDetail:
         self.sort = sort
         self.extra1 = extra1
         self.extra2 = extra2
-    
+
+    def __str__(self):
+        return self.category + "   " + self.code  + "   " + self.name  + "   " + self.sort
     
 #### import detail lists
 
