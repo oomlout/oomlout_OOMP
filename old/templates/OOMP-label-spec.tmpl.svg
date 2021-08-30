@@ -648,7 +648,7 @@
    y="20.500401"
    class="fil0 fnt6"
    id="text256"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">@@BUTA,oompTag.tagName,tagReadable@@</text>
+   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">@@oompType,oompTag.tagName,tagReadable@@</text>
 
 
 
@@ -666,7 +666,7 @@
    y="26.4617"
    class="fil0 fnt6"
    id="text258"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">@@06,oompTag.tagName,tagReadable@@</text>
+   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">@@oompSize,oompTag.tagName,tagReadable@@</text>
 
 
 
@@ -684,7 +684,7 @@
    y="32.423"
    class="fil0 fnt6"
    id="text260"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">@@X,oompTag.tagName,tagReadable@@</text>
+   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">@@oompColor,oompTag.tagName,tagReadable@@</text>
 
 
 
@@ -702,7 +702,7 @@
    y="38.3843"
    class="fil0 fnt6"
    id="text262"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">@@STAN,oompTag.tagName,tagReadable@@</text>
+   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">@@oompDesc,oompTag.tagName,tagReadable@@</text>
 
 
 
@@ -720,7 +720,7 @@
    y="44.3456"
    class="fil0 fnt6"
    id="text264"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">@@01,oompTag.tagName,tagReadable@@</text>
+   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">@@oompIndex,oompTag.tagName,tagReadable@@</text>
 
 
 
@@ -1058,7 +1058,7 @@
    id="text272-0"
    style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
      style="font-size:1.8344444px"
-     id="tspan3244">@@@1%%ID%%,oompPart.oompID,BUTA@1,BUTA.code,name@@</tspan></text>
+     id="tspan3244">@@@1%%ID%%,oompPart.oompID,oompType@1,oompType.code,name@@</tspan></text>
 
 
 <text
@@ -1068,7 +1068,7 @@
    id="text274-9"
    style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
      style="font-size:1.8344444px"
-     id="tspan3246">@@@1%%ID%%,oompPart.oompID,06@1,06.code,name@@</tspan></text>
+     id="tspan3246">@@@1%%ID%%,oompPart.oompID,oompSize@1,oompSize.code,name@@</tspan></text>
 
 
 <text
@@ -1078,7 +1078,7 @@
    id="text276-4"
    style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
      style="font-size:1.8344444px"
-     id="tspan3248">@@@1%%ID%%,oompPart.oompID,X@1,X.code,name@@</tspan></text>
+     id="tspan3248">@@@1%%ID%%,oompPart.oompID,oompColor@1,oompColor.code,name@@</tspan></text>
 
 
 <text
@@ -1088,7 +1088,7 @@
    id="text278-8"
    style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
      style="font-size:1.8344444px"
-     id="tspan3250">@@@1%%ID%%,oompPart.oompID,STAN@1,STAN.code,name@@</tspan></text>
+     id="tspan3250">@@@1%%ID%%,oompPart.oompID,oompDesc@1,oompDesc.code,name@@</tspan></text>
 
 
 <text
@@ -1098,7 +1098,7 @@
    id="text280-8"
    style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
      style="font-size:1.8344444px"
-     id="tspan3252">@@@1%%ID%%,oompPart.oompID,01@1,01.code,name@@</tspan></text>
+     id="tspan3252">@@@1%%ID%%,oompPart.oompID,oompIndex@1,oompIndex.code,name@@</tspan></text>
 
 
 <text

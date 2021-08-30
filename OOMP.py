@@ -1,3 +1,5 @@
+import oomlout_SVGG as oomSVG
+
 
 details = list()
 parts = list()
@@ -14,6 +16,35 @@ def getDetailFromCode(category,code):
             if x.code == code:
                 return x
     return oompDetail("","","","")
+
+
+def makeAllLabels():
+    x=0
+    
+
+def makeLabels(part):
+    makeLabel("front",part)
+    makeLabel("inventory",part)
+    makeLabel("spec",part)
+
+def makeLabel(lType,part):
+    templateFile = "templates/OOMP-label-" + str(lType) + ".tmpl.svg"
+    outFile = getPartDirectory(part) + "label-" + lType + ".svg"
+    pdfFile = getPartDirectory(part) + "label-" + lType + ".pdf"
+    loi = []
+    for tag in part.tags:
+        loi.append([tag.name,tag.value])
+    oomSVG.searchAndReplaceSVG(loi,templateFile,outFile)
+    oomSVG.toPDF(outFile,pdfFile)
+
+    
+
+
+def getPartDirectory(part):
+    oompID = part.getTag("oompID").value
+    print("Part: " + str(part))
+    print("Part Directory: " + oompID)
+    return "parts/" + oompID + "/"
 
 def getPartByID(part):
 ##    print("     Get Part By ID: " + part)
