@@ -94,7 +94,7 @@ class oompItem:
         name = self.getTag("name").value
         rv = ""
         rv = rv + "# " + oompID + " > " + name + "  \n"
-        rv = rv + "![" + name + "](image.jpg)  \n"
+        rv = rv + "![" + name + "](image_600.jpg)  \n"
         for x in self.tags:
             rv = rv + "" + x.getMD() + ""
         return rv

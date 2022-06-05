@@ -1,5 +1,5 @@
 # RESE-W04-X-O561-01 > 1/4 Watt 560 Ohm Resistor  
-![1/4 Watt 560 Ohm Resistor](image.jpg)  
+![1/4 Watt 560 Ohm Resistor](image_600.jpg)  
 index : 9507  
 oompType : RESE  
 oompSize : W04  

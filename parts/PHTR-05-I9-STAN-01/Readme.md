@@ -1,5 +1,5 @@
 # PHTR-05-I9-STAN-01 > 5 mm IR (940 nm) Phototransistor  
-![5 mm IR (940 nm) Phototransistor](image.jpg)  
+![5 mm IR (940 nm) Phototransistor](image_600.jpg)  
 index : 9183  
 oompType : PHTR  
 oompSize : 05  

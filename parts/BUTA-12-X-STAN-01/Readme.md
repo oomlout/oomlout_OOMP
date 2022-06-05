@@ -1,5 +1,5 @@
 # BUTA-12-X-STAN-01 > 12 mm Pushbutton (Tactile)  
-![12 mm Pushbutton (Tactile)](image.jpg)  
+![12 mm Pushbutton (Tactile)](image_600.jpg)  
 index : 8773  
 oompType : BUTA  
 oompSize : 12  

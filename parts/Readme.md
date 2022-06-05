@@ -9,5 +9,3 @@
 ![](PROJ-ARDC-SHEN-STAN-01/image_140.jpg) [PROJ-ARDC-SHEN-STAN-01 > ](PROJ-ARDC-SHEN-STAN-01/Readme.md)  
 ![1/4 Watt 560 Ohm Resistor](RESE-W04-X-O561-01/image_140.jpg) [RESE-W04-X-O561-01 > 1/4 Watt 560 Ohm Resistor](RESE-W04-X-O561-01/Readme.md)  
 ![TO-220 5 Amp NPN Transistor](TRNN-T220-BCE-A05-01/image_140.jpg) [TRNN-T220-BCE-A05-01 > TO-220 5 Amp NPN Transistor](TRNN-T220-BCE-A05-01/Readme.md)  
-![](TEMPLATE-A-A-A-8998/image_140.jpg) [TEMPLATE-A-A-A-8998 > ](TEMPLATE-A-A-A-8998/Readme.md)  
-![](TEMPLATE-A-A-A-30200/image_140.jpg) [TEMPLATE-A-A-A-30200 > ](TEMPLATE-A-A-A-30200/Readme.md)  

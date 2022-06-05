@@ -1,5 +1,5 @@
 # HEAD-I01-X-PI03-01 > 2.54 mm 3 Pin Header  
-![2.54 mm 3 Pin Header](image.jpg)  
+![2.54 mm 3 Pin Header](image_600.jpg)  
 index : 8961  
 oompType : HEAD  
 oompSize : I01  

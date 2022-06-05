@@ -1,5 +1,5 @@
 # HEAD-I01-X-PI03-RA > 2.54 mm 3 Pin Header Right Angle  
-![2.54 mm 3 Pin Header Right Angle](image.jpg)  
+![2.54 mm 3 Pin Header Right Angle](image_600.jpg)  
 index : 8962  
 hexID : H03R  
 oompType : HEAD  
@@ -15,7 +15,7 @@ ooPinOffset : 1.53
 ooNumPins : 3  
 ooFootprint : OOMP-HEAD-I01-X-PI03-RA  
 ooDesignator : J1  
-manufacturer : {'', 'YXCON', 'C-YXCO', 'P125-1103A0BR138A1'}  
-opl : {'', '320020061', 'C-SEEE', 'DIP Black Male Header R/A', 'https://www.seeedstudio.com/opl.html', 'SEEED OPL'}  
+manufacturer : {'', 'P125-1103A0BR138A1', 'YXCON', 'C-YXCO'}  
+opl : {'', 'https://www.seeedstudio.com/opl.html', 'DIP Black Male Header R/A', '320020061', 'C-SEEE', 'SEEED OPL'}  
 kicadSymbol : Connector:Conn_01x03_Male  
 kicadFootprint : Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Horizontal  

@@ -168,7 +168,9 @@ def generateReadmeIndex():
     outFile = "parts\\Readme.md"
     f = open(outFile, "w")
     for item in OOMP.parts:
-        f.write(item.indexMd() + "  \n")
+        line = item.indexMd()
+        if(not "TEMPLATE" in line):
+            f.write(line + "  \n")
 
     f.close()
 

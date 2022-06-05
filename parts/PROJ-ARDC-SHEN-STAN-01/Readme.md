@@ -1,5 +1,5 @@
 # PROJ-ARDC-SHEN-STAN-01 >   
-![](image.jpg)  
+![](image_600.jpg)  
 index : 12536  
 oompType : PROJ  
 oompSize : ARDC  

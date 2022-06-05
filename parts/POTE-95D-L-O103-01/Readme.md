@@ -1,5 +1,5 @@
 # POTE-95D-L-O103-01 > 9.5 mm 10k Ohm Blue Potentiometer  
-![9.5 mm 10k Ohm Blue Potentiometer](image.jpg)  
+![9.5 mm 10k Ohm Blue Potentiometer](image_600.jpg)  
 index : 9187  
 oompType : POTE  
 oompSize : 95D  

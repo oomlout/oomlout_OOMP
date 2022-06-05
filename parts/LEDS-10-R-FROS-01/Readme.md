@@ -1,5 +1,5 @@
 # LEDS-10-R-FROS-01 > 10 mm Frosted Red LED  
-![10 mm Frosted Red LED](image.jpg)  
+![10 mm Frosted Red LED](image_600.jpg)  
 index : 9147  
 oompType : LEDS  
 oompSize : 10  

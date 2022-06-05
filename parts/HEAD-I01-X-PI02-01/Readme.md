@@ -1,5 +1,5 @@
 # HEAD-I01-X-PI02-01 > 2.54 mm 2 Pin Header  
-![2.54 mm 2 Pin Header](image.jpg)  
+![2.54 mm 2 Pin Header](image_600.jpg)  
 index : 8959  
 oompType : HEAD  
 oompSize : I01  

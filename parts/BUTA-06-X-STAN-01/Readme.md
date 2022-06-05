@@ -1,5 +1,5 @@
 # BUTA-06-X-STAN-01 > 6 mm Pushbutton (Tactile)  
-![6 mm Pushbutton (Tactile)](image.jpg)  
+![6 mm Pushbutton (Tactile)](image_600.jpg)  
 index : 8771  
 oompType : BUTA  
 oompSize : 06  

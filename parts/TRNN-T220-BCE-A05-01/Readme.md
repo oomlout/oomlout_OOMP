@@ -1,5 +1,5 @@
 # TRNN-T220-BCE-A05-01 > TO-220 5 Amp NPN Transistor  
-![TO-220 5 Amp NPN Transistor](image.jpg)  
+![TO-220 5 Amp NPN Transistor](image_600.jpg)  
 index : 9547  
 oompType : TRNN  
 oompSize : T220  
