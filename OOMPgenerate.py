@@ -6,6 +6,9 @@ import subprocess
 import re
 import time
 
+from PIL import Image
+import os.path
+
 
 def generateAll():
     generateReadmeIndex()
@@ -170,4 +173,31 @@ def generateReadmeIndex():
     f.close()
 
 def generateReadme(item):
-    item = 0
+    oompID = item.getTag("oompID").value
+    outFile = "parts\\" + oompID + "\\Readme.md"
+    if not "TEMPLATE" in oompID:
+        f = open(outFile, "w")
+        f.write(item.mdPage())
+        f.close()
+
+######  Images
+
+def generateImages():
+    for item in OOMP.parts:
+        generateResolutions(item)
+
+def generateResolutions(item):
+    oompID = item.getTag("oompID").value
+    images = ["image","image_RE","image_TOP","image_BOTTOM",]
+    res = [140,450,600]
+    for image in images:
+        for r in res:
+            fileName = "parts\\" + oompID + "\\" + image + ".jpg"
+            outFile = "parts\\" + oompID + "\\" + image + "_" + str(r) + ".jpg"
+            basewidth = r
+            if os.path.isfile(fileName):            
+                img = Image.open(fileName)
+                wpercent = (basewidth / float(img.size[0]))
+                hsize = int((float(img.size[1]) * float(wpercent)))
+                img = img.resize((basewidth, hsize), Image.ANTIALIAS)
+                img.save(outFile)

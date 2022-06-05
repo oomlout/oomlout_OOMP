@@ -80,13 +80,23 @@ class oompItem:
 ##                            rv = rv + "            " + str(c) + "\n"
 ##                    else:
 ##                        rv = rv + "        " + str(y) + "\n"
+        return rv
 
     def indexMd(self):
         oompID = self.getTag("oompID").value
         name = self.getTag("name").value
         rv = ""
-        rv = rv + "[" + oompID + " > " + name + "](" + oompID + "/Readme.md)"
-        
+        rv = rv + "![" + name + "](" + oompID + "/image_140.jpg) " + "[" + oompID + " > " + name + "](" + oompID + "/Readme.md)"        
+        return rv
+
+    def mdPage(self):        
+        oompID = self.getTag("oompID").value
+        name = self.getTag("name").value
+        rv = ""
+        rv = rv + "# " + oompID + " > " + name + "  \n"
+        rv = rv + "![" + name + "](image.jpg)  \n"
+        for x in self.tags:
+            rv = rv + "" + x.getMD() + ""
         return rv
     
     def addTag(self,name,value):
@@ -167,6 +177,17 @@ class oompTag:
             return "     " + self.name + "    \n" + str(self.value) + "\n"
         else:
             return "     " + str(self.name) + " : " + str(self.value)+ "\n"
+
+    def getMD(self):
+        if isinstance(self.value, list):
+            rv = "oompTagCC " + self.name + "\n"
+            for x in self.value:
+                rv = rv + "" + str(x) 
+            return rv
+        elif isinstance(self.value, oompTag):
+            return "" + self.name + "  \n" + str(self.value) + "  \n"
+        else:
+            return "" + str(self.name) + " : " + str(self.value)+ "  \n"
             
 
     def getValue(self):

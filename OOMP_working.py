@@ -14,5 +14,6 @@ print(OOMP.parts)
 #OOMPgenerate.generateLabels()
 #OOMPgenerate.generateScads(renders=False)
 OOMPgenerate.generateReadmes()
+#OOMPgenerate.generateImages()
 
 
