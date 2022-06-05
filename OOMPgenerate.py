@@ -8,12 +8,14 @@ import time
 
 
 def generateAll():
+    generateReadmeIndex()
     for x in OOMP.parts:
         generateAllItem(x)
 
 def generateAllItem(item):
     generateLabel(item)
     generateScad(item)
+    generateReadme(item)
 
 
 ######  labels
@@ -151,3 +153,21 @@ def generateScad(part,renders=False):
             opsc.saveToPng(file, extra="")
     else:
         print("      SKIPPING")
+
+######  Readme
+
+def generateReadmes():
+    generateReadmeIndex()
+    for item in OOMP.parts:
+        generateReadme(item)
+
+def generateReadmeIndex():
+    outFile = "parts\\Readme.md"
+    f = open(outFile, "w")
+    for item in OOMP.parts:
+        f.write(item.indexMd() + "\n")
+
+    f.close()
+
+def generateReadme(item):
+    item = 0

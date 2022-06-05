@@ -80,11 +80,13 @@ class oompItem:
 ##                            rv = rv + "            " + str(c) + "\n"
 ##                    else:
 ##                        rv = rv + "        " + str(y) + "\n"
-                    
-                
-                
-                
 
+    def indexMd(self):
+        oompID = self.getTag("oompID").value
+        name = self.getTag("name").value
+        rv = ""
+        rv = rv + "[" + oompID + " > " + name + "](" + oompID + "/Readme.md)"
+        
         return rv
     
     def addTag(self,name,value):

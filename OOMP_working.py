@@ -12,6 +12,7 @@ print(OOMP.parts)
 
 #OOMPgenerate.generateAll()
 #OOMPgenerate.generateLabels()
-OOMPgenerate.generateScads(renders=False)
+#OOMPgenerate.generateScads(renders=False)
+OOMPgenerate.generateReadmes()
 
 
