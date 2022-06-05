@@ -43,7 +43,10 @@ def getDetailByCode(category, code):
 def printParts():
     print("OOMP Parts")
     for x in parts:
-        print("    Part: " + str(x.fullString()))
+        b = 0
+        #print("    Part: " + str(x.fullString()))
+        oompID = x.getTag("oompID").value
+        print("Loading: ", oompID)
 
         
 

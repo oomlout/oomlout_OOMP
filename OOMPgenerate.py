@@ -1,4 +1,6 @@
 import OOMP
+import OOMPscad
+import OPSC as opsc
 import os
 import subprocess
 import re
@@ -11,6 +13,10 @@ def generateAll():
 
 def generateAllItem(item):
     generateLabel(item)
+    generateScad(item)
+
+
+######  labels
 
 def generateLabels():
     for x in OOMP.parts:
@@ -48,9 +54,6 @@ def generateLabel(item):
         oompSearchAndReplace(template, output, item)
         oompMakePDF(output,outputPDF)
     
-
-
-
 def oompSearchAndReplace(inFile,outFile,item):
     oompID = item.getTag("oompID")
     
@@ -123,4 +126,28 @@ def oompMakePDF(inFile,outFile):
 ##print(part)
 ##generateLabel(part)
 
+######  SCAD
 
+def generateScads(renders=False):
+    for x in OOMP.parts:
+        generateScad(x,renders)
+
+def generateScad(part,renders=False):
+    oompID = part.getTag("oompID").value
+    print("Generating SCAD for: " + oompID)
+    
+    opsc.setMode("TRUE")
+    item = opsc.item()
+    item.addPos(OOMPscad.insert("OOMP-" + oompID))
+    #print(draw)
+    #item.addPos(draw)
+    #print("Is Empty:" + str(item.isEmpty()))
+    if(not item.isEmpty()):
+        print("     MAKING")
+        file = "parts\\" + oompID + "\\3dmodel.scad"
+        opsc.saveToScad(file, item.getPart())
+        if(renders):
+            opsc.saveToStl(file)
+            opsc.saveToPng(file, extra="")
+    else:
+        print("      SKIPPING")

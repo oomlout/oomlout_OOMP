@@ -4,18 +4,54 @@ from solid.objects import *
 
 ######  OOMP ROUTINES
 
+    ######  BUTA
+def oompButa06XX01(color):
+    pinWidth = 3.25
+    pinHeight = 2.5
+    return oompButaXXX01(pinWidth,pinHeight,color)
+
+def oompButa12XX01(color):
+    pinWidth = 6.75
+    pinHeight = 2.5
+    return oompButaXXX01(pinWidth,pinHeight,color)
+
+def oompButaXXX01(pinWidth,pinHeight,color):
+    mode = opsc.getMode()
+
+    posA = [-pinWidth,pinHeight,0.1]    
+    posB = [pinWidth,pinHeight,0.1]    
+    posC = [-pinWidth,-pinHeight,0.1]    
+    posD = [pinWidth,-pinHeight,0.1]
+    depth=5.1    
+
+    part = opsc.item()
+    part.addPos(insert("pinWide",pos=posA,depth=depth,color=color))
+    part.addPos(insert("pinWide",pos=posB,depth=depth,color=color))
+    part.addPos(insert("pinWide",pos=posC,depth=depth,color=color))
+    part.addPos(insert("pinWide",pos=posD,depth=depth,color=color))
+
+    if(mode=="3DPR"):
+        clearanceGap = 1.2
+        clearancePos = [0,0,-clearanceGap]
+        clearanceSize = [18.36,10,depth-clearanceGap]
+
+        part.addPos(insert("cubeRounded",pos=clearancePos,size=clearanceSize,rad=2.5,color=color))
+
+
+    return part.getPart()
+
+    ######  LEDS
+
 def oompLeds10XX01(color):
     part = opsc.item()
-
-
-
     posA = [1.27,0,0.1]
     posB = [-posA[0],posA[1],posA[2]]
-    size = [opsc.ooebPinWidth,opsc.ooebPinWidth,5.1]
+    size = [opsc.ooebPinWidth,opsc.ooebPinWidth,4.1]
+    sizeLong = [opsc.ooebPinWidth,opsc.ooebPinWidth,6.1]
 
     color = opsc.colWire
-    part.addPos(insert("cube",pos=posA,size=size,color=color))
-    part.addPos(insert("cube",pos=posB,size=size,color=color))
+    part.addPos(insert("pin",pos=posA,size=size,color=color))
+    part.addPos(insert("cube",pos=posB,size=sizeLong,color=color))
     color = opsc.colLEDRed
     part.addPos(insert("cylinder",pos=[0,0,8.5],rad=5,depth=6.5,color=color))
     part.addPos(insert("cylinder",pos=[0,0,2.05],rad=5.5,depth=2,color=color))
@@ -23,10 +59,16 @@ def oompLeds10XX01(color):
 
     return part.getPart()
 
+    ######  RESE
 
-def oompReseW04XX01(color):
+def oompReseW04XX01(color,value):
     part = opsc.item()
     
+    dig = f"{value:03}"
+    dig1 = dig[0]
+    dig2 = dig[1]
+    dig3 = dig[2]
+    #print("Value: ",value," ",dig)
     pinSpacing = 3.81
     resLength = 6.8
     resRad = 2.5/2
@@ -49,15 +91,15 @@ def oompReseW04XX01(color):
     bandRad=resRad+0.01
     bandDepth = 0.75
     band1Pos=[resPos[0]-1,resPos[1],resPos[2]]    
-    band1Color = opsc.colRes[5]
+    band1Color = opsc.colRes[int(dig1)]
     part.addPos(insert("cylinder",pos=band1Pos,depth=bandDepth,rad=bandRad,rot=[90,0,90],color=band1Color))
     
     band2Pos=[band1Pos[0]-resBandSpacing,resPos[1],resPos[2]]    
-    band2Color = opsc.colRes[6]
+    band2Color = opsc.colRes[int(dig2)]
     part.addPos(insert("cylinder",pos=band2Pos,depth=bandDepth,rad=bandRad,rot=[90,0,90],color=band2Color))
     
     band3Pos=[band2Pos[0]-resBandSpacing,resPos[1],resPos[2]]    
-    band3Color = opsc.colRes[1]
+    band3Color = opsc.colRes[int(dig3)]
     part.addPos(insert("cylinder",pos=band3Pos,depth=bandDepth,rad=bandRad,rot=[90,0,90],color=band3Color))
 
 
@@ -79,6 +121,8 @@ def insert(item,pos=[None,None,None],x=0,y=0,z=0,ex=0,size=[None,None,None],leng
         rotY=rot[1]
         rotZ=rot[2]
     
+    #print(item,x,y,z,rotX,rotY,rotZ)
+
     returnValue = translate((x,y,z))(
             rotate((rotX,rotY,rotZ))(
                 OOEBInsertIf(item,pos,x,y,z,ex,size,length,rot,rotX,rotY,rotZ,width,height,depth,rad,rad2,color,alpha,OOwidth,OOheight,holes,negative,name)
@@ -97,10 +141,26 @@ def OOEBInsertIf(item,pos=[None,None,None],x=0,y=0,z=0,ex=0,size=[None,None,None
     if(item=="XXXX"):
         x=0
     ######  OOMP ITEMS
+        ######  BASIC
+    elif(item=="pin"):
+        returnValue = opsc.insert("cube",[None,None,None],0,0,0,ex,size,length,[None,None,None],0,0,0,opsc.ooebPinWidth,opsc.ooebPinWidth,depth,rad,rad2,color,alpha,OOwidth,OOheight,holes,negative,name)    
+    elif(item=="pinWide"):
+        returnValue = opsc.insert("cube",[None,None,None],0,0,0,ex,size,length,[None,None,None],0,0,0,opsc.ooebPinWidth,opsc.ooebPinWidthWide,depth,rad,rad2,color,alpha,OOwidth,OOheight,holes,negative,name)    
+        ######  BUTA
+    elif(item=="OOMP-BUTA-06-X-X-01"):
+        returnValue = oompButa06XX01(color)    
+    elif(item=="OOMP-BUTA-12-X-X-01"):
+        returnValue = oompButa12XX01(color)    
+        ######  LEDS
     elif(item=="OOMP-LEDS-10-X-X-01"):
         returnValue = oompLeds10XX01(color)
+    elif(item=="OOMP-LEDS-10-R-FROS-01"):
+        returnValue = oompLeds10XX01(opsc.colLEDRed)        
+        ######  RESE
     elif(item=="OOMP-RESE-W04-X-X-01"):
-        returnValue = oompReseW04XX01(color)
+        returnValue = oompReseW04XX01(color,000)
+    elif(item=="OOMP-RESE-W04-X-O561-01"):
+        returnValue = oompReseW04XX01(color,561)
 
     else:    
         returnValue = opsc.insert(item,[None,None,None],0,0,0,ex,size,length,[None,None,None],0,0,0,width,height,depth,rad,rad2,color,alpha,OOwidth,OOheight,holes,negative,name)

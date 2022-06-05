@@ -8,7 +8,10 @@ print(OOMP.parts)
 #print(OOMP.getPartByHex("H03R"))
 
 
-## Generate All Labels
-OOMPgenerate.generateAll()
+## Generate
+
+#OOMPgenerate.generateAll()
+#OOMPgenerate.generateLabels()
+OOMPgenerate.generateScads(renders=False)
 
 
