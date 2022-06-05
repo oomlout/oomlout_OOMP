@@ -25,8 +25,8 @@ def getPartByID(part):
 def getPartByHex(hexid):
 ##    print("     Get Part By ID: " + part)
     for x in parts:
-        x.getTag("hexid").value
-        if x.getTag("hexid").value == hexid:
+        x.getTag("hexID").value
+        if x.getTag("hexID").value == hexid:
             return x     
     return oompItem("")
 

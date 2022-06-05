@@ -5,40 +5,48 @@ import re
 import time
 
 
+def generateAll():
+    for x in OOMP.parts:
+        generateAllItem(x)
+
+def generateAllItem(item):
+    generateLabel(item)
+
 def generateLabels():
     for x in OOMP.parts:
         generateLabel(x)
 
 def generateLabel(item):
     print("    Generating Labels for " + str(item))
-    oompID = item.getTag("oompID")
-    #inventory label
-    template = "templates\\OOMP-label-inventory.tmpl.svg"
-    outputDirectory = "parts\\" + oompID.value
-    output = outputDirectory + "\\label-inventory.svg" 
-    outputPDF = outputDirectory + "\\label-inventory.pdf" 
-    if not os.path.isdir(outputDirectory):
-        os.makedirs(outputDirectory)
-    oompSearchAndReplace(template, output, item)
-    oompMakePDF(output,outputPDF)
-    #front label
-    template = "templates\\OOMP-label-front.tmpl.svg"
-    outputDirectory = "parts\\" + oompID.value
-    output = outputDirectory + "\\label-front.svg" 
-    outputPDF = outputDirectory + "\\label-front.pdf" 
-    if not os.path.isdir(outputDirectory):
-        os.makedirs(outputDirectory)
-    oompSearchAndReplace(template, output, item)
-    oompMakePDF(output,outputPDF)
-    #spec label
-    template = "templates\\OOMP-label-spec.tmpl.svg"
-    outputDirectory = "parts\\" + oompID.value
-    output = outputDirectory + "\\label-spec.svg" 
-    outputPDF = outputDirectory + "\\label-spec.pdf" 
-    if not os.path.isdir(outputDirectory):
-        os.makedirs(outputDirectory)
-    oompSearchAndReplace(template, output, item)
-    oompMakePDF(output,outputPDF)
+    if "TEMPLATE" not in item.getTag("oompType").value:
+        oompID = item.getTag("oompID")
+        #inventory label
+        template = "templates\\label\\OOMP-label-inventory.tmpl.svg"
+        outputDirectory = "parts\\" + oompID.value
+        output = outputDirectory + "\\label-inventory.svg" 
+        outputPDF = outputDirectory + "\\label-inventory.pdf" 
+        if not os.path.isdir(outputDirectory):
+            os.makedirs(outputDirectory)
+        oompSearchAndReplace(template, output, item)
+        oompMakePDF(output,outputPDF)
+        #front label
+        template = "templates\\label\\OOMP-label-front.tmpl.svg"
+        outputDirectory = "parts\\" + oompID.value
+        output = outputDirectory + "\\label-front.svg" 
+        outputPDF = outputDirectory + "\\label-front.pdf" 
+        if not os.path.isdir(outputDirectory):
+            os.makedirs(outputDirectory)
+        oompSearchAndReplace(template, output, item)
+        oompMakePDF(output,outputPDF)
+        #spec label
+        template = "templates\\label\\OOMP-label-spec.tmpl.svg"
+        outputDirectory = "parts\\" + oompID.value
+        output = outputDirectory + "\\label-spec.svg" 
+        outputPDF = outputDirectory + "\\label-spec.pdf" 
+        if not os.path.isdir(outputDirectory):
+            os.makedirs(outputDirectory)
+        oompSearchAndReplace(template, output, item)
+        oompMakePDF(output,outputPDF)
     
 
 
@@ -115,5 +123,4 @@ def oompMakePDF(inFile,outFile):
 ##print(part)
 ##generateLabel(part)
 
-## Generate All Labels
-generateLabels()
+

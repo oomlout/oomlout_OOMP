@@ -1,9 +1,14 @@
 import OOMP
+import OOMPgenerate
 
-OOMP.printparts()
+OOMP.printParts()
 
 
+print(OOMP.parts)
+#print(OOMP.getPartByHex("H03R"))
 
 
+## Generate All Labels
+OOMPgenerate.generateAll()
 
 
