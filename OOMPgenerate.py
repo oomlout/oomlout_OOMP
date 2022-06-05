@@ -165,7 +165,7 @@ def generateReadmeIndex():
     outFile = "parts\\Readme.md"
     f = open(outFile, "w")
     for item in OOMP.parts:
-        f.write(item.indexMd() + "\n")
+        f.write(item.indexMd() + "  \n")
 
     f.close()
 
