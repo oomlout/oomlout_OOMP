@@ -10,10 +10,8 @@ print(OOMP.parts)
 
 ## Generate
 
-#OOMPgenerate.generateAll()
-#OOMPgenerate.generateLabels()
-#OOMPgenerate.generateScads(renders=False)
-OOMPgenerate.generateReadmes()
-#OOMPgenerate.generateImages()
+#OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=False)
 
+item = OOMP.parts[3]
+OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=False)
 
