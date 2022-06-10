@@ -53,8 +53,10 @@ def printParts():
 
 class oompItem:
 
-    def __init__(self,index):
+    def __init__(self,index=0):
         self.tags=list()
+        if index == 0:
+            index = len(parts) + 1
         self.index=index
         self.addTag("index", index)
 

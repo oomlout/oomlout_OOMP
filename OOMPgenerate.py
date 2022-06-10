@@ -1,6 +1,6 @@
 import OOMP
 import OOMPscad
-import OOMPinkscape
+import OOMPdiagrams
 import OOMPlabels
 import OOMPsummaries
 import OPSC as opsc
@@ -31,7 +31,7 @@ def generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,d
     
     if diagrams:
         for item in OOMP.parts:
-            OOMPinkscape.generateDiagrams(item, diagRenders)
+            OOMPdiagrams.generateDiagrams(item, diagRenders)
 
     if images:
         for item in OOMP.parts:
@@ -49,7 +49,7 @@ def generateItem(item, labels=True,scads=True,renders=True,readmes=True,diagrams
         OOMPsummaries.generateReadme(item)
     
     if diagrams:
-        generateDiagram(item, diagRenders)
+        OOMPdiagrams.generateDiagrams(item, diagRenders)
 
     if images:
         generateResolutions(item)

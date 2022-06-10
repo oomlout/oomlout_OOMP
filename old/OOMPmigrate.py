@@ -1,13 +1,119 @@
 #### oomp migrate
-import OOMP
+#import OOMP
 import os
 import time
 from shutil import copyfile
 import re
 
+
+
+
+
+
+def translateDiag(inFile, outFile, part):
+    inf = open(inFile, "r")
+    outf = open(outFile, "w")
+
+    input = inf.read()
+
+    lines = input.split("\n")
+
+
+    newLine = "######  OOMP Template File"
+    outf.write(newLine+"\n")
+    newLine = "import OOMP"
+    outf.write(newLine+"\n")    
+    newLine = ""
+    outf.write(newLine+"\n")
+
+
+    newLine = 'indexA = len(OOMP.parts) + 1'
+    outf.write(newLine+"\n")
+    newLine = 'newPart = OOMP.oompItem(indexA)'
+    outf.write(newLine+"\n")
+    newLine = 'newPart.addTag("hexID", "' + part + '")'
+    outf.write(newLine+"\n")
+    
+
+
+    newLine = 'newPart.addTag("oompType", "TEMPLATE")'
+    outf.write(newLine+"\n")
+    newLine = 'newPart.addTag("oompSize", "A")'
+    outf.write(newLine+"\n")
+    newLine = 'newPart.addTag("oompColor", "A")'
+    outf.write(newLine+"\n")
+    newLine = 'newPart.addTag("oompDesc", "A")'
+    outf.write(newLine+"\n")
+    newLine = 'newPart.addTag("oompIndex", str(indexA))'
+    outf.write(newLine+"\n")
+    newLine = ''
+    outf.write(newLine+"\n")
+ 
+    for line in lines:
+        
+        attribute = stringBetween("</",">",line)
+        element = stringBetween(">","</",line)
+        newLine = ""
+
+        if element != None:
+            newLine = 'newPart.addTag("drawItem","' + element.group(1) + '")'
+
+               
+
+        outf.write(newLine+"\n")
+    
+    newLine = 'OOMP.parts.append(newPart)'
+    outf.write(newLine+"\n")
+    
+
+    inf.close()
+    outf.close()
+
+def stringBetween(start,end,str):
+    print(str)
+    return re.search(start + "(.*)" + end, str)
+
+def translateDiags(inFolder):
+    
+    for subdir, dirs, files in os.walk(inFolder):
+        for file in files:
+            #print os.path.join(subdir, file)
+            filepath = subdir + file
+
+            if filepath.endswith(".oomp"):
+                inFile = filepath
+                part = file.replace(".oomp","")                
+                outFile = "C:/GH/oomlout-OOMP/templates/diag/" + part + ".py"
+                print (filepath + "   " + part + "   " + outFile)
+                translateDiag(inFile, outFile, part)
+
+part = "BUTA-06-X-STAN-01"
+inFile = "C:/GH/oomlout-OOMP/templates/diag/old/" + part + ".oomp"
+outFile = "C:/GH/oomlout-OOMP/templates/diag/" + part + ".py"
+#translateDiag(inFile, outFile, part)
+
+
+
+inFolder = "C:/GH/oomlout-OOMP/templates/diag/old/"
+translateDiags(inFolder)
+
+
+
+
+##############################################################
+##############################################################
+##############################################################
+##############################################################
+##############################################################
+######  OLD
+
+"""
+
+
 baseDir = "C:\\GH\\OLD01-oomlout-OOMP\\parts\\"
 dirList = os.listdir(baseDir)
-        
+
+
 def addPartFromDir(string):
     oldOompDir = "C:\\GH\\OLD01-oomlout-OOMP\\parts\\"
     oompBase = "C:\\GH\\oomlout-OOMP\\"
@@ -334,3 +440,4 @@ for x in dirList:
 ##addPartFromDir("HEAD-I01-X-PI03-01")
 ##addPartFromXML("HEAD-I01-X-PI03-01")
 
+"""

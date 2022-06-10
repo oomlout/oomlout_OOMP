@@ -1,46 +1,19 @@
 import OOMP
+import OOMPdiagrams
 
-newPart = OOMP.oompItem(8961)
-newPart.addTag("oompType", "HEAD")
-newPart.addTag("oompSize", "I01")
-newPart.addTag("oompColor", "X")
-newPart.addTag("oompDesc", "PI03")
-newPart.addTag("oompIndex", "01")
+pins = 3
+pitch = 2.54
 
-newPart.addTag("hexID","H03")
-newPart.addTag("oompSort","")
-newPart.addTag("oompClass","Through Hole")
-newPart.addTag("oompClassCode","THTH")
-newPart.addTag("ooPitch","2.54")
-newPart.addTag("ooPinHeight","11.60")
-newPart.addTag("ooPinWidth","0.64")
-newPart.addTag("ooPinOffset","1.53")
-newPart.addTag("ooNumPins","3")
-newPart.addTag("ooFootprint","OOMP-HEAD-I01-X-PI03-01")
-newPart.addTag("manufacturer",["Yxcon","C-YXCO","","P125-1103A1BS116A1","",""])
-newPart.addTag("opl",["SEEED OPL","C-SEEE","DIP Black Male Header VERT","320020079","1X3P-2.54-2.54-11.6/3.0","1X3P-2.54-2.54-11.6/3.0","https://www.seeedstudio.com/opl.html"])
-newPart.addTag("oompBbls","variable;clear")
-newPart.addTag("oompBbls","variable;pins;3")
-newPart.addTag("oompBbls","template;XXXX-I01-X-XX-01-bbls")
-newPart.addTag("oompDiag","variable;clear")
-newPart.addTag("oompDiag","variable;pins;3")
-newPart.addTag("oompDiag","template;HEAD-I01-X-XX-01-diag")
-newPart.addTag("oompIden","variable;clear")
-newPart.addTag("oompIden","variable;pins;3")
-newPart.addTag("oompIden","template;XXXX-I01-X-XX-01-iden")
-newPart.addTag("oompSchem","variable;clear")
-newPart.addTag("oompSchem","variable;pins;3")
-newPart.addTag("oompSchem","template;XXXX-XX-X-XX-01-PINS-ODD-schem")
-newPart.addTag("oompSimp","variable;clear")
-newPart.addTag("oompSimp","variable;pins;3")
-newPart.addTag("oompSimp","template;XXXX-I01-X-XX-01-simp")
 
-newPart.addTag("ooDesignator","J1")
-newPart.addTag("schematicSymbol","HEAD-XX-X-PI03-XX")
-newPart.addTag("pcbFootprint","HEAD-I01-X-PI03-01")
+newPart = OOMP.oompItem()
 
-###### KICAD DETAILS
-newPart.addTag("kicadSymbol","Connector>Conn_01x03_Male")
-newPart.addTag("kicadFootprint","Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical")
+newPart = OOMPdiagrams.addTags(newPart,"HEAD-I01-X-X-X",pins=pins)
+
+
+
+
+
+
+
 
 OOMP.parts.append(newPart)

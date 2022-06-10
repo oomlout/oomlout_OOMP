@@ -1,0 +1,5 @@
+	<oompTemplate>
+		<drawItem>corTemplate;BUTP-07-X-STAN-69-diag</drawItem>
+		<drawItem>oompName;0;21.5;40;10;##name@@</drawItem>
+		<drawItem>oompURL;0;-17.5;5;##hexID@@</drawItem>	
+	</oompTemplate>

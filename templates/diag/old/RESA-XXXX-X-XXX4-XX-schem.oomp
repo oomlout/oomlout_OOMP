@@ -1,0 +1,5 @@
+	<oompTemplate>
+		<drawItem>corTemplate;RESA-XXXX-X-XXX4-XX-schem</drawItem>
+		<drawItem>oompName;0;40;20;6;##name@@</drawItem>
+		<drawItem>oompURL;0;-6;2.835;##hexID@@</drawItem>	
+	</oompTemplate>
