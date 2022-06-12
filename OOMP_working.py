@@ -1,6 +1,7 @@
 import OOMP
 import OOMPgenerate
 import OOMPinkscapeGenerate
+import OOMPkicad
 
 OOMP.printParts()
 
@@ -11,7 +12,7 @@ OOMP.printParts()
 
 ## Generate
 
-OOMPgenerate.generateAll(labels=True,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=False)
+#OOMPgenerate.generateAll(labels=True,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=False)
 
 #item = OOMP.parts[3]
 #OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=True,images=False)
@@ -27,3 +28,5 @@ OOMPgenerate.generateAll(labels=True,scads=False,renders=False,readmes=False,dia
 #OOMPinkscapeGenerate.generateDiagram(item)
 #item = OOMP.parts[3]
 #OOMPinkscapeGenerate.generateDiagram(item)
+
+OOMPkicad.harvestFootprintImages()
