@@ -11,8 +11,8 @@ newPart.addTag("oompDesc", "A")
 newPart.addTag("oompIndex", str(indexA))
 
 
-newPart.addTag("drawItem","linewidth;0.2")
+newPart.addTag("drawItem","linewidth;1")
 newPart.addTag("drawItem","rectangle;0;0;2.54*%%pins%%;2.54;Main Square")
-newPart.addTag("drawItem","textB;0;0;2.835;##ooDesignator@@")
+newPart.addTag("drawItem","textB;0;0;4;##ooDesignator@@")
 
 OOMP.parts.append(newPart)

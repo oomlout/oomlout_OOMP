@@ -1,19 +1,10 @@
 import OOMP
-import OOMPdiagrams
+import OOMPtags
 
 pins = 3
-pitch = 2.54
-
 
 newPart = OOMP.oompItem()
 
-newPart = OOMPdiagrams.addTags(newPart,"HEAD-I01-X-X-X",pins=pins)
-
-
-
-
-
-
-
+newPart = OOMPtags.addTags(newPart,"HEAD-I01-X-X-X",pins=pins)
 
 OOMP.parts.append(newPart)
