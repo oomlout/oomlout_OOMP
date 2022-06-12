@@ -31,7 +31,7 @@ def generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,d
     
     if diagrams:
         for item in OOMP.parts:
-            OOMPdiagrams.generateDiagrams(item, diagRenders)
+            OOMPdiagrams.generateDiagrams(item, diagrams=diagrams, renders=diagRenders)
 
     if images:
         for item in OOMP.parts:
@@ -48,8 +48,8 @@ def generateItem(item, labels=True,scads=True,renders=True,readmes=True,diagrams
     if readmes:
         OOMPsummaries.generateReadme(item)
     
-    if diagrams:
-        OOMPdiagrams.generateDiagrams(item, diagRenders)
+    if diagrams or diagRenders:
+        OOMPdiagrams.generateDiagrams(item, diagrams=diagrams, renders=diagRenders)
 
     if images:
         generateResolutions(item)
