@@ -6,6 +6,16 @@ svg_root.set('viewBox', '0 0 %.0f %.0f' % (width, height))
 svg_root.namedview.set('showgrid', 'false')
 shiftX=50
 shiftY=50
+x = 0
+y = (0)* -1
+width = 50
+height = 50
+x1 = x - width/2 
+y1 = y + height/2 
+x2 = x + width/2 
+y2 = y - height/2 
+rect(((x1+shiftX/2)*mm,(y1+shiftY/2)*mm), ((x2+shiftX/2)*mm,(y2+shiftY/2)*mm),0.1,fill='#FFFFFF',stroke='#FFFFFF',stroke_width=0.0)
+
 pins = 3    #  variable;pins;3
 # TEMPLATE  template;XXXX-I01-X-XX-01-iden
 linewidth = 1    #  linewidth;1

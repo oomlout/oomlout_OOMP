@@ -7,7 +7,9 @@ Contents
 
 * [PROJ-ARDC-SHEN-STAN-01>](#proj-ardc-shen-stan-01)
 	* [Images](#images)
-	* [Images](#images)
+	* [Diagrams](#diagrams)
+	* [Datasheets](#datasheets)
+	* [Labels](#labels)
 	* [Tags](#tags)
   
 ![][im]
@@ -22,15 +24,27 @@ Contents
 
 |Main|Top|Bottom|
 | :---: | :---: | :---: |
-|![ Main](image_450.jpg)|![ Top](image_TOP_450.jpg)|![ Bottom](image_BOTTOM_450.jpg)|
+|[![Main](image.jpg)](image.jpg)|[![Top](image_TOP.jpg)](image_TOP.jpg)|[![Bottom](image_BOTTOM.jpg)](image_BOTTOM.jpg)|
 
-## Images
+## Diagrams
   
   
 
-|Main|Top|Bottom|
+|Breadboard Layout|Diagram|Identifier|Schematic|Simple|
+| :---: | :---: | :---: | :---: | :---: |
+|[![Breadboard Layout](diagBBLS.png)](diagBBLS.png)|[![Diagram](diagDIAG.png)](diagDIAG.png)|[![Identifier](diagIDEN.png)](diagIDEN.png)|[![Schematic](diagSCHEM.png)](diagSCHEM.png)|[![Simple](diagSIMP.png)](diagSIMP.png)|
+
+## Datasheets
+
+- Datasheet: [datasheet.pdf](datasheet.pdf)
+
+## Labels
+  
+  
+
+|Front|Inventory|Specifications|
 | :---: | :---: | :---: |
-|![ Main](image_450.jpg)|![ Top](image_TOP_450.jpg)|![ Bottom](image_BOTTOM_450.jpg)|
+|[![Front](label-front.png)](label-front.png)|[![Inventory](label-inventory.png)](label-inventory.png)|[![Specifications](label-spec.png)](label-spec.png)|
 
 ## Tags
 

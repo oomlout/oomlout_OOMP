@@ -7,7 +7,9 @@ Contents
 
 * [PHTR-05-I9-STAN-01>5 mm IR (940 nm) Phototransistor](#phtr-05-i9-stan-015-mm-ir-940-nm-phototransistor)
 	* [Images](#images)
-	* [Images](#images)
+	* [Diagrams](#diagrams)
+	* [Datasheets](#datasheets)
+	* [Labels](#labels)
 	* [Tags](#tags)
   
 ![][im]
@@ -22,15 +24,27 @@ Contents
 
 |Main|Reference|
 | :---: | :---: |
-|![5 mm IR (940 nm) Phototransistor Main](image_450.jpg)|![5 mm IR (940 nm) Phototransistor Reference](image_RE_450.jpg)|
+|[![Main](image.jpg)](image.jpg)|[![Reference](image_RE.jpg)](image_RE.jpg)|
 
-## Images
+## Diagrams
   
   
 
-|Main|Reference|
-| :---: | :---: |
-|![5 mm IR (940 nm) Phototransistor Main](image_450.jpg)|![5 mm IR (940 nm) Phototransistor Reference](image_RE_450.jpg)|
+|Breadboard Layout|Diagram|Identifier|Schematic|Simple|
+| :---: | :---: | :---: | :---: | :---: |
+|[![Breadboard Layout](diagBBLS.png)](diagBBLS.png)|[![Diagram](diagDIAG.png)](diagDIAG.png)|[![Identifier](diagIDEN.png)](diagIDEN.png)|[![Schematic](diagSCHEM.png)](diagSCHEM.png)|[![Simple](diagSIMP.png)](diagSIMP.png)|
+
+## Datasheets
+
+- Datasheet: [datasheet.pdf](datasheet.pdf)
+
+## Labels
+  
+  
+
+|Front|Inventory|Specifications|
+| :---: | :---: | :---: |
+|[![Front](label-front.png)](label-front.png)|[![Inventory](label-inventory.png)](label-inventory.png)|[![Specifications](label-spec.png)](label-spec.png)|
 
 ## Tags
 

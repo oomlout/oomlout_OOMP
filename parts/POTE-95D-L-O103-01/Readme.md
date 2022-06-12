@@ -7,7 +7,9 @@ Contents
 
 * [POTE-95D-L-O103-01>9.5 mm 10k Ohm Blue Potentiometer](#pote-95d-l-o103-0195-mm-10k-ohm-blue-potentiometer)
 	* [Images](#images)
-	* [Images](#images)
+	* [Diagrams](#diagrams)
+	* [Datasheets](#datasheets)
+	* [Labels](#labels)
 	* [Tags](#tags)
   
 ![][im]
@@ -22,15 +24,27 @@ Contents
 
 |Main|Reference|Bottom|
 | :---: | :---: | :---: |
-|![9.5 mm 10k Ohm Blue Potentiometer Main](image_450.jpg)|![9.5 mm 10k Ohm Blue Potentiometer Reference](image_RE_450.jpg)|![9.5 mm 10k Ohm Blue Potentiometer Bottom](image_BOTTOM_450.jpg)|
+|[![Main](image.jpg)](image.jpg)|[![Reference](image_RE.jpg)](image_RE.jpg)|[![Bottom](image_BOTTOM.jpg)](image_BOTTOM.jpg)|
 
-## Images
+## Diagrams
   
   
 
-|Main|Reference|Bottom|
+|Breadboard Layout|Diagram|Identifier|Schematic|Simple|
+| :---: | :---: | :---: | :---: | :---: |
+|[![Breadboard Layout](diagBBLS.png)](diagBBLS.png)|[![Diagram](diagDIAG.png)](diagDIAG.png)|[![Identifier](diagIDEN.png)](diagIDEN.png)|[![Schematic](diagSCHEM.png)](diagSCHEM.png)|[![Simple](diagSIMP.png)](diagSIMP.png)|
+
+## Datasheets
+
+- Datasheet: [datasheet.pdf](datasheet.pdf)
+
+## Labels
+  
+  
+
+|Front|Inventory|Specifications|
 | :---: | :---: | :---: |
-|![9.5 mm 10k Ohm Blue Potentiometer Main](image_450.jpg)|![9.5 mm 10k Ohm Blue Potentiometer Reference](image_RE_450.jpg)|![9.5 mm 10k Ohm Blue Potentiometer Bottom](image_BOTTOM_450.jpg)|
+|[![Front](label-front.png)](label-front.png)|[![Inventory](label-inventory.png)](label-inventory.png)|[![Specifications](label-spec.png)](label-spec.png)|
 
 ## Tags
 

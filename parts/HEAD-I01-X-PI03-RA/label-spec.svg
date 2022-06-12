@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xml:space="preserve"
    width="50.8mm"
    height="76.2mm"
@@ -14,8 +7,15 @@
    viewBox="0 0 50.8 76.2"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.1 "
-   sodipodi:docname="OOMP-label-spec.tmpl.svg"><metadata
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="OOMP-label-spec.tmpl.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"><metadata
    id="metadata324"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><sodipodi:namedview
@@ -27,17 +27,21 @@
    guidetolerance="10"
    inkscape:pageopacity="0"
    inkscape:pageshadow="2"
-   inkscape:window-width="1920"
+   inkscape:window-width="1858"
    inkscape:window-height="1057"
    id="namedview322"
    showgrid="false"
    inkscape:zoom="1"
-   inkscape:cx="257.68752"
-   inkscape:cy="31.430768"
-   inkscape:window-x="1914"
-   inkscape:window-y="-8"
+   inkscape:cx="227.5"
+   inkscape:cy="31"
+   inkscape:window-x="54"
+   inkscape:window-y="2152"
    inkscape:window-maximized="1"
-   inkscape:current-layer="Layer_x0020_1" />
+   inkscape:current-layer="Layer_x0020_1"
+   inkscape:showpageshadow="2"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:document-units="mm" />
  <defs
    id="defs4">
   <font
@@ -514,16 +518,25 @@
 
 </defs>
  <g
-   id="Layer_x0020_1">
+   id="Layer_x0020_1"
+   inkscape:label="Layer 1">
   <metadata
    id="CorelCorpID_0Corel-Layer" />
-  <text
+  <rect
+   style="fill:#ffffff;stroke:#ffffff;stroke-width:0.0499999;stroke-linejoin:round"
+   id="rect2537"
+   width="51.064583"
+   height="76.199997"
+   x="-0.52916664"
+   y="-0.26458332"
+   rx="0.026455028"
+   ry="0.026455028" /><text
    x="37.895489"
    y="13.260509"
    class="fil0 fnt0"
    id="text242"
-   style="font-size:18.99093246px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;text-anchor:start;fill:#1f1a17;font-family:Consolas;-inkscape-font-specification:Consolas Bold"><tspan
-     style="font-size:12.69999981px"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:18.9909px;line-height:0%;font-family:Consolas;-inkscape-font-specification:'Consolas Bold';text-align:start;text-anchor:start;fill:#1f1a17"><tspan
+     style="font-size:12.7px"
      id="tspan3235">HEAD-I01-X-PI03-RA</tspan></text>
 
 
@@ -583,8 +596,8 @@
    y="17.587858"
    class="fil0 fnt2"
    id="text248"
-   style="font-size:4.87965631px;font-weight:bold;text-align:center;text-anchor:middle;fill:#1f1a17;font-family:Tahoma"><tspan
-     style="font-size:2.68111111px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono Bold"
+   style="font-weight:bold;font-size:4.87966px;line-height:0%;font-family:Tahoma;text-align:center;text-anchor:middle;fill:#1f1a17"><tspan
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.68111px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono Bold'"
      id="tspan3174">H03R</tspan></text>
 
 
@@ -613,23 +626,23 @@
   <g
    id="g3279"
    transform="translate(0.2090974,0)"><text
-   style="font-size:3.52780008px;font-weight:normal;fill:#1f1a17;font-family:Tahoma"
+   style="font-weight:normal;font-size:3.5278px;line-height:0%;font-family:Tahoma;fill:#1f1a17"
    id="text252"
    class="fil0 fnt4"
    y="66.5383"
    x="0.99173665"><tspan
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans;font-size:2.82222222px"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans'"
      id="tspan3239">http://oom.lt/</tspan></text>
 
 
 
 <text
-   style="font-size:3.52780008px;font-weight:bold;fill:#1f1a17;font-family:Tahoma"
+   style="font-weight:bold;font-size:3.5278px;line-height:0%;font-family:Tahoma;fill:#1f1a17"
    id="text254"
    class="fil0 fnt5"
    y="66.5383"
    x="19.603983"><tspan
-     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold;font-size:2.82222222px"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold'"
      id="tspan3237">H03R</tspan></text>
 
 
@@ -648,7 +661,7 @@
    y="20.500401"
    class="fil0 fnt6"
    id="text256"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"></text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17"></text>
 
 
 
@@ -666,7 +679,7 @@
    y="26.4617"
    class="fil0 fnt6"
    id="text258"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"></text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17"></text>
 
 
 
@@ -684,7 +697,7 @@
    y="32.423"
    class="fil0 fnt6"
    id="text260"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"></text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17"></text>
 
 
 
@@ -702,7 +715,7 @@
    y="38.3843"
    class="fil0 fnt6"
    id="text262"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"></text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17"></text>
 
 
 
@@ -720,7 +733,7 @@
    y="44.3456"
    class="fil0 fnt6"
    id="text264"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"></text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17"></text>
 
 
 
@@ -738,7 +751,7 @@
    y="50.3069"
    class="fil0 fnt6"
    id="text266"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">%ooName06</text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17">%ooName06</text>
 
 
 
@@ -756,7 +769,7 @@
    y="56.2682"
    class="fil0 fnt6"
    id="text268"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">%ooName07</text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17">%ooName07</text>
 
 
 
@@ -774,7 +787,7 @@
    y="32.423"
    class="fil0 fnt6"
    id="text270"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">%ooName10</text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17">%ooName10</text>
 
 
 
@@ -872,7 +885,7 @@
    y="20.500401"
    class="fil0 fnt6"
    id="text288"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">%ooName08</text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17">%ooName08</text>
 
 
 
@@ -890,7 +903,7 @@
    y="26.4617"
    class="fil0 fnt6"
    id="text290"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">%ooName09</text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17">%ooName09</text>
 
 
 
@@ -928,7 +941,7 @@
    y="38.3843"
    class="fil0 fnt6"
    id="text296"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">%ooName11</text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17">%ooName11</text>
 
 
 
@@ -946,7 +959,7 @@
    y="44.3456"
    class="fil0 fnt6"
    id="text298"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">%ooName12</text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17">%ooName12</text>
 
 
 
@@ -964,7 +977,7 @@
    y="50.3069"
    class="fil0 fnt6"
    id="text300"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">%ooName13</text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17">%ooName13</text>
 
 
 
@@ -982,7 +995,7 @@
    y="56.2682"
    class="fil0 fnt6"
    id="text302"
-   style="font-size:2.11669993px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#1f1a17;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">%ooName14</text>
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.1167px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';fill:#1f1a17">%ooName14</text>
 
 
 
@@ -1056,8 +1069,8 @@
    y="23.768265"
    class="fil0 fnt7"
    id="text272-0"
-   style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
-     style="font-size:1.8344444px"
+   style="font-weight:bold;font-size:2.8222px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
+     style="font-size:1.83444px"
      id="tspan3244">Header</tspan></text>
 
 
@@ -1066,8 +1079,8 @@
    y="29.729548"
    class="fil0 fnt7"
    id="text274-9"
-   style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
-     style="font-size:1.8344444px"
+   style="font-weight:bold;font-size:2.8222px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
+     style="font-size:1.83444px"
      id="tspan3246">2.54 mm</tspan></text>
 
 
@@ -1076,8 +1089,8 @@
    y="35.690838"
    class="fil0 fnt7"
    id="text276-4"
-   style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
-     style="font-size:1.8344444px"
+   style="font-weight:bold;font-size:2.8222px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
+     style="font-size:1.83444px"
      id="tspan3248"></tspan></text>
 
 
@@ -1086,8 +1099,8 @@
    y="41.652138"
    class="fil0 fnt7"
    id="text278-8"
-   style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
-     style="font-size:1.8344444px"
+   style="font-weight:bold;font-size:2.8222px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
+     style="font-size:1.83444px"
      id="tspan3250">3 Pin</tspan></text>
 
 
@@ -1096,8 +1109,8 @@
    y="47.613434"
    class="fil0 fnt7"
    id="text280-8"
-   style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
-     style="font-size:1.8344444px"
+   style="font-weight:bold;font-size:2.8222px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
+     style="font-size:1.83444px"
      id="tspan3252">Right Angle</tspan></text>
 
 
@@ -1106,8 +1119,8 @@
    y="53.574738"
    class="fil0 fnt7"
    id="text282-2"
-   style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
-     style="font-size:1.8344444px"
+   style="font-weight:bold;font-size:2.8222px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
+     style="font-size:1.83444px"
      id="tspan3254">%ooLongValue06</tspan></text>
 
 
@@ -1116,8 +1129,8 @@
    y="59.536034"
    class="fil0 fnt7"
    id="text284-4"
-   style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
-     style="font-size:1.8344444px"
+   style="font-weight:bold;font-size:2.8222px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
+     style="font-size:1.83444px"
      id="tspan3256">%ooLongValue07</tspan></text>
 
 
@@ -1126,8 +1139,8 @@
    y="35.690838"
    class="fil0 fnt7"
    id="text286-5"
-   style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
-     style="font-size:1.8344444px"
+   style="font-weight:bold;font-size:2.8222px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
+     style="font-size:1.83444px"
      id="tspan3262">%ooLongValue10</tspan></text>
 
 
@@ -1136,8 +1149,8 @@
    y="23.768265"
    class="fil0 fnt7"
    id="text292-5"
-   style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
-     style="font-size:1.8344444px"
+   style="font-weight:bold;font-size:2.8222px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
+     style="font-size:1.83444px"
      id="tspan3258">%ooLongValue08</tspan></text>
 
 
@@ -1146,8 +1159,8 @@
    y="29.729548"
    class="fil0 fnt7"
    id="text294-1"
-   style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
-     style="font-size:1.8344444px"
+   style="font-weight:bold;font-size:2.8222px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
+     style="font-size:1.83444px"
      id="tspan3260">%ooLongValue09</tspan></text>
 
 
@@ -1156,9 +1169,9 @@
    y="41.652138"
    class="fil0 fnt7"
    id="text304-7"
-   style="font-size:2.11666656px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
+   style="font-weight:bold;font-size:2.11667px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
      id="tspan3299"
-     style="font-size:1.8344444px">%ooLongValue11</tspan></text>
+     style="font-size:1.83444px">%ooLongValue11</tspan></text>
 
 
 <text
@@ -1166,8 +1179,8 @@
    y="47.613434"
    class="fil0 fnt7"
    id="text306-1"
-   style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
-     style="font-size:1.8344444px"
+   style="font-weight:bold;font-size:2.8222px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
+     style="font-size:1.83444px"
      id="tspan3264">%ooLongValue12</tspan></text>
 
 
@@ -1176,8 +1189,8 @@
    y="53.574738"
    class="fil0 fnt7"
    id="text308-1"
-   style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
-     style="font-size:1.8344444px"
+   style="font-weight:bold;font-size:2.8222px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
+     style="font-size:1.83444px"
      id="tspan3266">%ooLongValue13</tspan></text>
 
 
@@ -1186,38 +1199,43 @@
    y="59.536034"
    class="fil0 fnt7"
    id="text310-5"
-   style="font-size:2.82220006px;font-weight:bold;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd;font-family:Tahoma"><tspan
-     style="font-size:1.8344444px"
+   style="font-weight:bold;font-size:2.8222px;line-height:0%;font-family:Tahoma;text-align:end;text-anchor:end;fill:#1f1a17;fill-rule:evenodd"><tspan
+     style="font-size:1.83444px"
      id="tspan3268">%ooLongValue14</tspan></text>
 
 
 <flowRoot
    xml:space="preserve"
    id="flowRoot3181"
-   style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Sans;font-style:normal;font-weight:bold;font-size:40px;line-height:125%;letter-spacing:0px;word-spacing:0px;-inkscape-font-specification:Sans Bold;text-anchor:middle;text-align:center"><flowRegion
-     id="flowRegion3183"><rect
+   style="font-style:normal;font-weight:bold;line-height:0.01%;font-family:sans-serif;-inkscape-font-specification:'Sans Bold';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
+     id="flowRegion3183"
+     style="font-family:sans-serif"><rect
        id="rect3185"
        width="116.95487"
        height="55.347656"
        x="9.55406"
        y="10.063679" /></flowRegion><flowPara
-     id="flowPara3187" /></flowRoot><flowRoot
+     id="flowPara3187"
+     style="font-size:40px;line-height:1.25;font-family:sans-serif"> </flowPara></flowRoot><flowRoot
    xml:space="preserve"
    id="flowRoot3189"
-   style="font-size:40px;font-style:normal;font-weight:bold;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
-   transform="scale(0.28222222,0.28222222)"><flowRegion
-     id="flowRegion3191"><rect
+   style="font-style:normal;font-weight:bold;line-height:0.01%;font-family:sans-serif;-inkscape-font-specification:'Sans Bold';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
+   transform="scale(0.28222222)"><flowRegion
+     id="flowRegion3191"
+     style="font-family:sans-serif"><rect
        id="rect3193"
        width="107.07137"
        height="77.42083"
        x="-7.2479076"
        y="-38.036072" /></flowRegion><flowPara
-     id="flowPara3195">aaaaaaaaaaaaaaa</flowPara></flowRoot><flowRoot
+     id="flowPara3195"
+     style="font-size:40px;line-height:1.25;font-family:sans-serif">aaaaaaaaaaaaaaa</flowPara></flowRoot><flowRoot
    xml:space="preserve"
    id="flowRoot3197"
-   style="font-size:40px;font-style:normal;font-weight:bold;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
+   style="font-style:normal;font-weight:bold;line-height:0.01%;font-family:sans-serif;-inkscape-font-specification:'Sans Bold';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
    transform="matrix(0.28222222,0,0,0.28222222,0.2594963,1.9563228)"><flowRegion
-     id="flowRegion3199"><rect
+     id="flowRegion3199"
+     style="font-family:sans-serif"><rect
        id="rect3201"
        width="117.28432"
        height="48.429199"
@@ -1225,27 +1243,30 @@
        y="9.7342291"
        style="fill:#ffffff" /></flowRegion><flowPara
      id="flowPara3203"
-     style="font-size:13px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold">2.54 mm 3 Pin Header Right Angle</flowPara></flowRoot><flowRoot
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;line-height:1.25;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold'">2.54 mm 3 Pin Header Right Angle</flowPara></flowRoot><flowRoot
    xml:space="preserve"
    id="flowRoot3217"
-   style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Sans;font-style:normal;font-weight:bold;font-size:40px;line-height:125%;letter-spacing:0px;word-spacing:0px;-inkscape-font-specification:Sans Bold;text-anchor:middle;text-align:center"><flowRegion
-     id="flowRegion3219"><rect
+   style="font-style:normal;font-weight:bold;line-height:0.01%;font-family:sans-serif;-inkscape-font-specification:'Sans Bold';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
+     id="flowRegion3219"
+     style="font-family:sans-serif"><rect
        id="rect3221"
        width="175.92648"
        height="42.499096"
        x="60.948315"
        y="131.96031" /></flowRegion><flowPara
-     id="flowPara3223" /></flowRoot><flowRoot
+     id="flowPara3223"
+     style="font-size:40px;line-height:1.25;font-family:sans-serif"> </flowPara></flowRoot><flowRoot
    xml:space="preserve"
    id="flowRoot3225"
-   style="font-size:40px;font-style:normal;font-weight:bold;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
+   style="font-style:normal;font-weight:bold;line-height:0.01%;font-family:sans-serif;-inkscape-font-specification:'Sans Bold';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
    transform="matrix(0,0.28222222,-0.28222222,0,84.093165,3.0157702)"><flowRegion
-     id="flowRegion3227"><rect
+     id="flowRegion3227"
+     style="font-family:sans-serif"><rect
        id="rect3229"
        width="166.04297"
        height="36.898441"
        x="60.948315"
        y="131.96031" /></flowRegion><flowPara
      id="flowPara3231"
-     style="font-size:15px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono Bold">HEAD-I01-X-PI03-RA</flowPara></flowRoot></g>
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:15px;line-height:1.25;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono Bold';fill:#ffffff">HEAD-I01-X-PI03-RA</flowPara></flowRoot></g>
 </svg>

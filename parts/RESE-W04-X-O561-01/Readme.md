@@ -7,7 +7,10 @@ Contents
 
 * [RESE-W04-X-O561-01>1/4 Watt 560 Ohm Resistor](#rese-w04-x-o561-0114-watt-560-ohm-resistor)
 	* [Images](#images)
-	* [Images](#images)
+	* [Diagrams](#diagrams)
+	* [Datasheets](#datasheets)
+	* [3D Models](#3d-models)
+	* [Labels](#labels)
 	* [Tags](#tags)
   
 ![][im]
@@ -22,15 +25,35 @@ Contents
 
 |Main|Reference|
 | :---: | :---: |
-|![1/4 Watt 560 Ohm Resistor Main](image_450.jpg)|![1/4 Watt 560 Ohm Resistor Reference](image_RE_450.jpg)|
+|[![Main](image.jpg)](image.jpg)|[![Reference](image_RE.jpg)](image_RE.jpg)|
 
-## Images
+## Diagrams
   
   
 
-|Main|Reference|
+|Identifier|Simple|
 | :---: | :---: |
-|![1/4 Watt 560 Ohm Resistor Main](image_450.jpg)|![1/4 Watt 560 Ohm Resistor Reference](image_RE_450.jpg)|
+|[![Identifier](diagIDEN.png)](diagIDEN.png)|[![Simple](diagSIMP.png)](diagSIMP.png)|
+
+## Datasheets
+
+- Datasheet: [datasheet.pdf](datasheet.pdf)
+
+## 3D Models
+  
+  
+
+|3D Model Ortho|
+| :---: |
+|[![3D Model Ortho](3dmodel.png)](3dmodel.png)|
+
+## Labels
+  
+  
+
+|Front|Inventory|Specifications|
+| :---: | :---: | :---: |
+|[![Front](label-front.png)](label-front.png)|[![Inventory](label-inventory.png)](label-inventory.png)|[![Specifications](label-spec.png)](label-spec.png)|
 
 ## Tags
 

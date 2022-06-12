@@ -7,7 +7,9 @@ Contents
 
 * [HEAD-I01-X-PI03-RA>2.54 mm 3 Pin Header Right Angle](#head-i01-x-pi03-ra254-mm-3-pin-header-right-angle)
 	* [Images](#images)
-	* [Images](#images)
+	* [Diagrams](#diagrams)
+	* [Datasheets](#datasheets)
+	* [Labels](#labels)
 	* [Tags](#tags)
   
 ![][im]
@@ -22,15 +24,27 @@ Contents
 
 |Main|Reference|
 | :---: | :---: |
-|![2.54 mm 3 Pin Header Right Angle Main](image_450.jpg)|![2.54 mm 3 Pin Header Right Angle Reference](image_RE_450.jpg)|
+|[![Main](image.jpg)](image.jpg)|[![Reference](image_RE.jpg)](image_RE.jpg)|
 
-## Images
+## Diagrams
   
   
 
-|Main|Reference|
-| :---: | :---: |
-|![2.54 mm 3 Pin Header Right Angle Main](image_450.jpg)|![2.54 mm 3 Pin Header Right Angle Reference](image_RE_450.jpg)|
+|Breadboard Layout|Diagram|Identifier|Schematic|Simple|
+| :---: | :---: | :---: | :---: | :---: |
+|[![Breadboard Layout](diagBBLS.png)](diagBBLS.png)|[![Diagram](diagDIAG.png)](diagDIAG.png)|[![Identifier](diagIDEN.png)](diagIDEN.png)|[![Schematic](diagSCHEM.png)](diagSCHEM.png)|[![Simple](diagSIMP.png)](diagSIMP.png)|
+
+## Datasheets
+
+- Datasheet: [datasheet.pdf](datasheet.pdf)
+
+## Labels
+  
+  
+
+|Front|Inventory|Specifications|
+| :---: | :---: | :---: |
+|[![Front](label-front.png)](label-front.png)|[![Inventory](label-inventory.png)](label-inventory.png)|[![Specifications](label-spec.png)](label-spec.png)|
 
 ## Tags
 
@@ -49,8 +63,8 @@ Contents
 - ooNumPins: 3
 - ooFootprint: OOMP-HEAD-I01-X-PI03-RA
 - ooDesignator: J1
-- manufacturer: {'', 'P125-1103A0BR138A1', 'C-YXCO', 'YXCON'}
-- opl: {'', 'C-SEEE', '320020061', 'https://www.seeedstudio.com/opl.html', 'SEEED OPL', 'DIP Black Male Header R/A'}
+- manufacturer: {'', 'P125-1103A0BR138A1', 'YXCON', 'C-YXCO'}
+- opl: {'', 'DIP Black Male Header R/A', 'C-SEEE', '320020061', 'https://www.seeedstudio.com/opl.html', 'SEEED OPL'}
 - kicadSymbol: Connector:Conn_01x03_Male
 - kicadFootprint: Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Horizontal
 

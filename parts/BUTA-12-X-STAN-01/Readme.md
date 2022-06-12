@@ -7,7 +7,9 @@ Contents
 
 * [BUTA-12-X-STAN-01>12 mm Pushbutton (Tactile)](#buta-12-x-stan-0112-mm-pushbutton-tactile)
 	* [Images](#images)
-	* [Images](#images)
+	* [Diagrams](#diagrams)
+	* [Datasheets](#datasheets)
+	* [Labels](#labels)
 	* [Tags](#tags)
   
 ![][im]
@@ -22,15 +24,27 @@ Contents
 
 |Main|Reference|Bottom|
 | :---: | :---: | :---: |
-|![12 mm Pushbutton (Tactile) Main](image_450.jpg)|![12 mm Pushbutton (Tactile) Reference](image_RE_450.jpg)|![12 mm Pushbutton (Tactile) Bottom](image_BOTTOM_450.jpg)|
+|[![Main](image.jpg)](image.jpg)|[![Reference](image_RE.jpg)](image_RE.jpg)|[![Bottom](image_BOTTOM.jpg)](image_BOTTOM.jpg)|
 
-## Images
+## Diagrams
   
   
 
-|Main|Reference|Bottom|
+|Diagram|
+| :---: |
+|[![Diagram](diagDIAG.png)](diagDIAG.png)|
+
+## Datasheets
+
+- Datasheet: [datasheet.pdf](datasheet.pdf)
+
+## Labels
+  
+  
+
+|Front|Inventory|Specifications|
 | :---: | :---: | :---: |
-|![12 mm Pushbutton (Tactile) Main](image_450.jpg)|![12 mm Pushbutton (Tactile) Reference](image_RE_450.jpg)|![12 mm Pushbutton (Tactile) Bottom](image_BOTTOM_450.jpg)|
+|[![Front](label-front.png)](label-front.png)|[![Inventory](label-inventory.png)](label-inventory.png)|[![Specifications](label-spec.png)](label-spec.png)|
 
 ## Tags
 

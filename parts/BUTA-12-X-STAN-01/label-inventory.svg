@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xml:space="preserve"
    width="900px"
    height="600px"
@@ -14,8 +7,15 @@
    viewBox="0 0 900 600"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.1 "
-   sodipodi:docname="OOMP-label-inventory.tmpl.svg"><metadata
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="OOMP-label-inventory.tmpl.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"><metadata
    id="metadata311"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><sodipodi:namedview
@@ -27,17 +27,20 @@
    guidetolerance="10"
    inkscape:pageopacity="0"
    inkscape:pageshadow="2"
-   inkscape:window-width="1920"
+   inkscape:window-width="1858"
    inkscape:window-height="1057"
    id="namedview309"
    showgrid="false"
-   inkscape:zoom="1.7587218"
-   inkscape:cx="584.51778"
-   inkscape:cy="369.01518"
-   inkscape:window-x="-8"
+   inkscape:zoom="0.21984023"
+   inkscape:cx="1899.1065"
+   inkscape:cy="1396.4687"
+   inkscape:window-x="54"
    inkscape:window-y="2152"
    inkscape:window-maximized="1"
-   inkscape:current-layer="svg2" />
+   inkscape:current-layer="svg2"
+   inkscape:showpageshadow="2"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1" />
  <defs
    id="defs4">
   <font
@@ -468,14 +471,22 @@
   
   
  </defs>
- <text
-   style="font-size:41.66690063px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+ <rect
+   style="fill:#ffffff;stroke:#ffffff;stroke-width:0.188976;stroke-linejoin:round"
+   id="rect2797"
+   width="900.65411"
+   height="609.53357"
+   x="0"
+   y="-4.548758"
+   rx="0.099987507"
+   ry="0.099987507" /><text
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:41.6669px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';fill:#000000"
    id="text301"
    class="fil0 fnt8"
    y="339.30099"
    x="86.596222">Pushbutton (Tactile)</text>
 <text
-   style="font-size:41.66690063px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:41.6669px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';fill:#000000"
    id="text303"
    class="fil0 fnt8"
    y="386.54501"
@@ -507,16 +518,16 @@
 
   <text
    xml:space="preserve"
-   style="font-size:130px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:Sans Bold"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'Sans Bold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
    x="138.88373"
    y="643.69379"
    id="text3146"
-   sodipodi:linespacing="125%"
    transform="translate(210.00834,-169.14979)"><tspan
      sodipodi:role="line"
      id="tspan3148"
      x="138.88373"
-     y="643.69379">BT12</tspan></text>
+     y="643.69379"
+     style="font-size:130px;line-height:1.25">BT12</tspan></text>
 
 
 </g><rect
@@ -535,9 +546,9 @@
    y="295.49127"
    class="fil0 fnt0"
    id="text3168"
-   style="font-size:92.63158416999999600px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold;text-anchor:start;text-align:start"><tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:92.6316px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:start;text-anchor:start;fill:#ffffff"><tspan
      id="tspan3170"
-     style="font-size:60px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;text-anchor:start;fill:#ffffff;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono Bold">BT12</tspan></text>
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:60px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono Bold';text-align:start;text-anchor:start;fill:#ffffff">BT12</tspan></text>
 
 
 
@@ -550,15 +561,15 @@
 
   </g><text
    xml:space="preserve"
-   style="font-size:60px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:Sans Bold"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'Sans Bold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
    x="166.25604"
    y="503.29153"
-   id="text3150"
-   sodipodi:linespacing="125%"><tspan
+   id="text3150"><tspan
      sodipodi:role="line"
      id="tspan3152"
      x="166.25604"
-     y="503.29153">BT12</tspan></text>
+     y="503.29153"
+     style="font-size:60px;line-height:1.25">BT12</tspan></text>
 
 
 <rect
@@ -573,12 +584,12 @@
    id="g257"
    transform="matrix(0,-1,1,0,419.283,954.49)">
    <text
-   style="font-size:62.50040054px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:62.5004px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';fill:#000000"
    id="text259"
    class="fil0 fnt0"
    y="300"
    x="446.65558"><tspan
-     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono Bold"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono Bold';text-align:center;text-anchor:middle"
      id="tspan3326">BUTA</tspan></text>
 
 
@@ -600,12 +611,12 @@
    id="g271"
    transform="matrix(0.999997,0,0,0.943894,-1.27328,-93.0675)">
    <text
-   style="font-size:61.79999923999999800px;font-weight:bold;fill:#000000;font-family:Tahoma"
+   style="font-weight:bold;font-size:61.8px;line-height:0%;font-family:Tahoma;fill:#000000"
    id="text273"
    class="fil0 fnt3"
    y="300"
    x="449.18655"><tspan
-     style="text-align:center;text-anchor:middle;-inkscape-font-specification:DejaVu Sans Bold;font-family:DejaVu Sans;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:51.46465231px"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:51.4647px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;text-anchor:middle"
      id="tspan3314">BUTA-12-X-STAN-01</tspan></text>
 
 
@@ -623,12 +634,12 @@
    points="0,292.913 0,210.236 897.638,210.236 897.638,292.913 "
    class="fil0 str0"
    transform="scale(1.0024835,1)" /><text
-   style="font-size:37.5px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:37.5px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';fill:#ffffff"
    id="text277"
    class="fil1 fnt4"
    y="261.95001"
    x="448.76749"><tspan
-     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;text-anchor:middle"
      id="tspan3318">12 mm Pushbutton (Tactile)</tspan></text>
 
 
@@ -656,7 +667,7 @@
 
 
 <text
-   style="font-size:20px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:20px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';fill:#000000"
    id="text293"
    class="fil0 fnt8"
    y="339.30099"
@@ -671,7 +682,7 @@
 
 
 <text
-   style="font-size:20px;font-weight:bold;fill:#000000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold;font-style:normal;font-stretch:normal;font-variant:normal"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:20px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';fill:#000000"
    id="text295"
    class="fil0 fnt8"
    y="386.54501"
@@ -686,7 +697,7 @@
 
 
 <text
-   style="font-size:20px;font-weight:bold;fill:#000000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold;font-style:normal;font-stretch:normal;font-variant:normal"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:20px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';fill:#000000"
    id="text297"
    class="fil0 fnt8"
    y="339.30099"
@@ -701,7 +712,7 @@
 
 
 <text
-   style="font-size:20px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:20px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';fill:#000000"
    id="text299"
    class="fil0 fnt8"
    y="386.54501"
@@ -734,7 +745,7 @@
 
 
 <text
-   style="font-size:41.66690063px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:41.6669px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';fill:#000000"
    id="text305"
    class="fil0 fnt8"
    y="389.30099"
@@ -749,7 +760,7 @@
 
 
 <text
-   style="font-size:41.66690063px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:41.6669px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';fill:#000000"
    id="text307"
    class="fil0 fnt8"
    y="336.54501"
@@ -773,9 +784,9 @@
    y="302.12799"
    class="fil0 fnt0"
    id="text3152"
-   style="font-size:92.63158417px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;text-anchor:start;fill:#ffffff;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold"><tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:92.6316px;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:start;text-anchor:start;fill:#ffffff"><tspan
      id="tspan3154"
-     style="font-size:23.7135334px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;text-anchor:start;fill:#ffffff;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono Bold">http://oom.lt/BT12</tspan></text>
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:23.7135px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono Bold';text-align:start;text-anchor:start;fill:#ffffff">http://oom.lt/BT12</tspan></text>
 
 
 
@@ -804,12 +815,12 @@
    id="g267"
    transform="matrix(0.999997,0,0,1,299.999,273.671)">
    <text
-   style="font-size:189.89599609px;font-weight:bold;text-align:start;text-anchor:start;fill:#ffffff;font-family:Helvetica CE"
+   style="font-weight:bold;font-size:189.896px;line-height:0%;font-family:'Helvetica CE';text-align:start;text-anchor:start;fill:#ffffff"
    id="text269"
    class="fil1 fnt2"
    y="300"
    x="450.54355"><tspan
-     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;text-anchor:start;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono Bold"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono Bold';text-align:start;text-anchor:start"
      id="tspan3324">BUTA-12-X-STAN-01</tspan></text>
 
 
@@ -832,7 +843,7 @@
    id="g261"
    transform="matrix(0.819302,0,0,1,81.766,-172.44)">
    <text
-   style="font-size:138.65657043px;font-weight:normal;fill:#000000;font-family:Free 3 of 9"
+   style="font-weight:normal;font-size:138.657px;line-height:0%;font-family:'Free 3 of 9';fill:#000000"
    id="text263"
    class="fil0 fnt1"
    y="264.1413"

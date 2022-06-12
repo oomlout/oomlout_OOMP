@@ -7,7 +7,9 @@ Contents
 
 * [BUTA-06-X-STAN-01>6 mm Pushbutton (Tactile)](#buta-06-x-stan-016-mm-pushbutton-tactile)
 	* [Images](#images)
-	* [Images](#images)
+	* [Diagrams](#diagrams)
+	* [Datasheets](#datasheets)
+	* [Labels](#labels)
 	* [Tags](#tags)
   
 ![][im]
@@ -22,15 +24,27 @@ Contents
 
 |Main|Reference|Bottom|
 | :---: | :---: | :---: |
-|![6 mm Pushbutton (Tactile) Main](image_450.jpg)|![6 mm Pushbutton (Tactile) Reference](image_RE_450.jpg)|![6 mm Pushbutton (Tactile) Bottom](image_BOTTOM_450.jpg)|
+|[![Main](image.jpg)](image.jpg)|[![Reference](image_RE.jpg)](image_RE.jpg)|[![Bottom](image_BOTTOM.jpg)](image_BOTTOM.jpg)|
 
-## Images
+## Diagrams
   
   
 
-|Main|Reference|Bottom|
+|Breadboard Layout|Diagram|Identifier|Simple|
+| :---: | :---: | :---: | :---: |
+|[![Breadboard Layout](diagBBLS.png)](diagBBLS.png)|[![Diagram](diagDIAG.png)](diagDIAG.png)|[![Identifier](diagIDEN.png)](diagIDEN.png)|[![Simple](diagSIMP.png)](diagSIMP.png)|
+
+## Datasheets
+
+- Datasheet: [datasheet.pdf](datasheet.pdf)
+
+## Labels
+  
+  
+
+|Front|Inventory|Specifications|
 | :---: | :---: | :---: |
-|![6 mm Pushbutton (Tactile) Main](image_450.jpg)|![6 mm Pushbutton (Tactile) Reference](image_RE_450.jpg)|![6 mm Pushbutton (Tactile) Bottom](image_BOTTOM_450.jpg)|
+|[![Front](label-front.png)](label-front.png)|[![Inventory](label-inventory.png)](label-inventory.png)|[![Specifications](label-spec.png)](label-spec.png)|
 
 ## Tags
 
