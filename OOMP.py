@@ -84,7 +84,8 @@ class oompItem:
 ##                    else:
 ##                        rv = rv + "        " + str(y) + "\n"
         return rv
-
+    
+    ##No longer used    
     def indexMd(self):
         oompID = self.getTag("oompID").value
         name = self.getTag("name").value
@@ -92,7 +93,30 @@ class oompItem:
         rv = rv + "![" + name + "](" + oompID + "/image_140.jpg) " + "[" + oompID + " > " + name + "](" + oompID + "/Readme.md)"        
         return rv
 
-    def mdPage(self):        
+    ##No longer used
+    def mdPage(self,file):
+        oompID = item.getTag("oompID").value
+        name = item.getTag("name").value
+        with MarkdownGenerator(
+            # By setting enable_write as False, content of the file is written
+            # into buffer at first, instead of writing directly into the file
+            # This enables for example the generation of table of contents
+            filename=filename, enable_write=False
+        ) as doc:
+            header = oompID + ">" + name
+            doc.addHeader(1, header)
+
+            doc.writeTextLine(f'{doc.addBoldedText("This is just a test.")}')
+            doc.addHeader(2, "Second level header.")
+            table = [
+                {"Column1": "col1row1 data", "Column2": "col2row1 data"},
+                {"Column1": "col1row2 data", "Column2": "col2row2 data"},
+            ]
+
+            doc.addTable(dictionary_list=table)
+            doc.writeTextLine("Ending the document....")
+
+    def mdPageOld(self):        
         oompID = self.getTag("oompID").value
         name = self.getTag("name").value
         rv = ""

@@ -29,7 +29,7 @@ def generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,d
         for item in OOMP.parts:
             OOMPsummaries.generateReadme(item)
     
-    if diagrams:
+    if diagrams or diagRenders:
         for item in OOMP.parts:
             OOMPdiagrams.generateDiagrams(item, diagrams=diagrams, renders=diagRenders)
 

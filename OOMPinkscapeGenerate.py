@@ -66,7 +66,7 @@ def sendKeys(st, times=1):
     for t in range(times):
         for s in st:
             pyautogui.press(s)
-            time.sleep(0.25)    
+            time.sleep(0.05)    
     time.sleep(1.75)
 
 

@@ -5,7 +5,7 @@ import os.path
 
 types = ["Bbls","Diag","Iden","Schem","Simp"]
 
-def generateDiagrams(item, diagrams=False, renders=False):   
+def generateDiagrams(item, diagrams=False, renders=False):  
     oompID = item.getTag("oompID").value
     global types
     if diagrams:
@@ -40,6 +40,8 @@ def generateDiagrams(item, diagrams=False, renders=False):
                 line = "shiftX=" + str(wid) 
                 f.write(line + "\n")
                 line = "shiftY=" + str(hei) 
+                f.write(line + "\n")
+                line = getInkscapePython("rect",[],x=0,y=0,width=50,height=50,style="white")
                 f.write(line + "\n")
                 
 
@@ -213,10 +215,10 @@ def getInkscapePython(type,details, drawType=None, x=None, y=None, width=None, h
         line = line + "x1 = x - width/2 \ny1 = y - height/2 \nx2 = x + width/2 \ny2 = y + height/2 \n"
         line = line + type +  "([((x1+shiftX/2)*mm,(y1+shiftY/2)*mm),((x2+shiftX/2)*mm,(y2+shiftY/2)*mm)]," + style + ")\n"
     else:    
-        line = "x = " + x.replace("&&i&&","i") + "\n"
-        line = line + "y = (" + y.replace("&&i&&","i") + ")* -1\n"
-        line = line + "width = " + str(width.replace("&&i&&","i")) + "\n"
-        line = line + "height = " + str(height.replace("&&i&&","i")) + "\n"
+        line = "x = " + str(x).replace("&&i&&","i") + "\n"
+        line = line + "y = (" + str(y).replace("&&i&&","i") + ")* -1\n"
+        line = line + "width = " + str(str(width).replace("&&i&&","i")) + "\n"
+        line = line + "height = " + str(str(height).replace("&&i&&","i")) + "\n"
         line = line + "x1 = x - width/2 \ny1 = y + height/2 \nx2 = x + width/2 \ny2 = y - height/2 \n"
         line = line + type + "(((x1+shiftX/2)*mm,(y1+shiftY/2)*mm), ((x2+shiftX/2)*mm,(y2+shiftY/2)*mm),0.1," + style + ")\n"
     return line
@@ -241,6 +243,8 @@ def getInkscapeStyle(style=None, fontSize=None):
         rv = getStyleDraw(fill="black",stroke_width=1)
     elif(style == "textB"):
         rv = getStyleText(stroke_width=0.25,stroke='black',font_size=fontSize,text_anchor='middle')
+    elif(style == "white"):
+        rv = getStyleDraw(stroke_width=0.0,fill='white',stroke="white")
 
     return rv
 
@@ -268,12 +272,15 @@ def getStyleText(stroke_width=None,stroke=None,font_size=None,font_family=None,t
         print ("text Style= " + rv)
         return rv
 
-def getStyleDraw(fill=None,stroke_width=None):
+def getStyleDraw(fill=None,stroke_width=None,stroke=None,):
         rv = ""
         ######  Fill
         color = getColor(fill)
         if(color != None):
             rv=rv+"fill='" + color + "',"
+        ###### Stroke
+        if(stroke != None):
+            rv = rv + "stroke='" + getColor(stroke) + "',"            
         ######  Stroke Width
         if(stroke_width != None):
             rv = rv + "stroke_width=" + str(stroke_width)
@@ -287,4 +294,6 @@ def getColor(color):
         rv='#000000'
     if(color == "gold"):
         rv='#FFD700'
+    if(color == "white"):
+        rv='#FFFFFF'
     return rv

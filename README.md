@@ -38,6 +38,7 @@ A tag consists of a name and a value. Some tags are further defined in a sperate
 ### Part Files
 
 	* Summaries
+		Readme's are generated using mdutils (https://github.com/didix21/mdutils). Generation is done in OOMPsummaries.py
 		* Readme.md (generated)  --  A summary of the part in markdown.
 
 	* Images

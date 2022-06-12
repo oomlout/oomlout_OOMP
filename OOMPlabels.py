@@ -12,28 +12,34 @@ def generateLabel(item):
         outputDirectory = "parts\\" + oompID.value
         output = outputDirectory + "\\label-inventory.svg" 
         outputPDF = outputDirectory + "\\label-inventory.pdf" 
+        outputPNG = outputDirectory + "\\label-inventory.png" 
         if not os.path.isdir(outputDirectory):
             os.makedirs(outputDirectory)
         oompSearchAndReplace(template, output, item)
         oompMakePDF(output,outputPDF)
+        oompMakePDF(output,outputPNG)
         #front label
         template = "templates\\label\\OOMP-label-front.tmpl.svg"
         outputDirectory = "parts\\" + oompID.value
         output = outputDirectory + "\\label-front.svg" 
         outputPDF = outputDirectory + "\\label-front.pdf" 
+        outputPNG = outputDirectory + "\\label-front.png" 
         if not os.path.isdir(outputDirectory):
             os.makedirs(outputDirectory)
         oompSearchAndReplace(template, output, item)
         oompMakePDF(output,outputPDF)
+        oompMakePDF(output,outputPNG)
         #spec label
         template = "templates\\label\\OOMP-label-spec.tmpl.svg"
         outputDirectory = "parts\\" + oompID.value
         output = outputDirectory + "\\label-spec.svg" 
         outputPDF = outputDirectory + "\\label-spec.pdf" 
+        outputPNG = outputDirectory + "\\label-spec.png" 
         if not os.path.isdir(outputDirectory):
             os.makedirs(outputDirectory)
         oompSearchAndReplace(template, output, item)
         oompMakePDF(output,outputPDF)
+        oompMakePDF(output,outputPNG)
     
 def oompSearchAndReplace(inFile,outFile,item):
     oompID = item.getTag("oompID")
