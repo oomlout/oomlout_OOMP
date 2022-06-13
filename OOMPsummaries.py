@@ -1,3 +1,4 @@
+from email.errors import InvalidMultipartContentTransferEncodingDefect
 import OOMP
 from mdutils.mdutils import MdUtils
 import os
@@ -63,9 +64,47 @@ def generateReadme(item):
         baseName = "label"
         title='Labels'
         addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir)        
+        ###### EDA
+        mdFile.new_header(level=2, title="EDA")
+        ######  Footprints
+        mdFile.new_header(level=3, title="Footprints")
+        images = []
+        imageName = []
+        footprintTags = ['kicadFootprint','eagleFootprint','sparkfunFootprint','adafruitFootprint']        
+        for tag in footprintTags:
+            for oompTag in item.tags:
+                if oompTag.name == tag:
+                    footprint = oompTag.value            
+                    if footprint != "":
+                        print("Footprint:" + footprint)
+                        type = "eagle"
+                        if tag == "kicadFootprint":
+                            type = "kicad"
+                        images.append("/eda/footprints/"+ type + "/" + tag.replace("Footprint","") + "/" + footprint)
+                        imageName.append(tag + " " + footprint)
+        extension = ".png"
+        baseName = ""
+        title='Footprints'
+        addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir="")   
+        ######  Symbols      
+        mdFile.new_header(level=3, title="Symbols")
+        images = []
+        imageName = []
+        footprintTags = ['kicadSymbol','eagleSymbol','sparkfunSymbol','adafruitSymbol']        
+        for tag in footprintTags:
+            footprint = item.getTag(tag).value            
+            if footprint != "":
+                print("Footprint:" + footprint)
+                images.append("/eda/symbols/" + tag.replace("Symbol","") + "/" + footprint)
+                imageName.append(tag + " " + footprint)
+        extension = ".png"
+        baseName = ""
+        title='Footprints'
+        addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir="")   
         ###### Tags
         mdFile.new_header(level=2, title='Tags')
         tags = []
+        
         #print(item.fullString())
         for tag in item.tags:
             tags.append(str(tag.name) + ": " + str(tag.value))
@@ -74,7 +113,7 @@ def generateReadme(item):
 
 
 
-        mdFile.new_table_of_contents(table_title='Contents', depth=2)
+        mdFile.new_table_of_contents(table_title='Contents', depth=3)
         mdFile.create_md_file()
 
 def addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir):
@@ -83,10 +122,13 @@ def addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir):
         index = 0
         numImages = 0
         for image in images:            
-            if(os.path.isfile(baseDir + baseName + image + extension)):
+            print("Test File: " + baseDir  + baseName +   image.replace("/eda","eda")  +  extension)
+            if(os.path.isfile(baseDir + baseName + image.replace("/eda","eda") + extension)):
                 line1.append(imageName[index])
                 line2.append("[!["  + imageName[index] + "](" + baseName + image + extension + ")](" + baseName + image + extension + ")")
             index = index + 1
+        print("Images: " + str(len(images)) + " " + str(images))            
+        print("Line1: " + str(len(line1)) + " " + str(line1))            
         if len(line1) > 0:
             mdFile.new_header(level=2, title=title)
             mdFile.new_line()

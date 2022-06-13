@@ -1,4 +1,5 @@
 import OOMP
+import os
 
 def addTags(newPart,filter,pins=0):
     if(filter == ""):
@@ -43,7 +44,13 @@ def addTags(newPart,filter,pins=0):
         ###### KICAD DETAILS
         newPart.addTag("kicadSymbol","Connector/Conn_01x" + pinss + "_Male")
         newPart.addTag("kicadFootprint","Connector_PinHeader_2.54mm/PinHeader_1x" + pinss + "_P2.54mm_Vertical")
-
+        ######  Sparkfun footprints
+        sparkfunStyles = ["", "_BIG", "_LOCK", "_LOCK_LONGPADS", "_NO_SILK", "_PP_HOLES_ONLY"]
+        for style in sparkfunStyles: 
+            imageFile = "eda/footprints/eagle/sparkfun/Sparkfun-Connectors/1X" + pinss + style + ".png"
+            print("Image File: " + imageFile)
+            if os.path.isfile(imageFile):
+                newPart.addTag("sparkfunFootprint","Sparkfun-Connectors/1X" + pinss + style)
 
     return newPart
 
