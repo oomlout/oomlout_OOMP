@@ -11,6 +11,9 @@ Contents
 	* [Datasheets](#datasheets)
 	* [Labels](#labels)
 	* [EDA](#eda)
+		* [Footprints](#footprints)
+	* [Footprints](#footprints)
+		* [Symbols](#symbols)
 	* [Footprints](#footprints)
 	* [Tags](#tags)
   
@@ -58,7 +61,17 @@ Contents
 
 |kicadFootprint Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical|
 | :---: |
-|[![kicadFootprint Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical](/eda/footprint/kicad/Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical.png)](/eda/footprint/kicad/Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical.png)|
+|[![kicadFootprint Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical](/eda/footprints/kicad/Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical.png)](/eda/footprints/kicad/Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical.png)|
+
+### Symbols
+
+## Footprints
+  
+  
+
+|kicadSymbol Connector/Conn_01x03_Male|
+| :---: |
+|[![kicadSymbol Connector/Conn_01x03_Male](/eda/symbols/kicad/Connector/Conn_01x03_Male.png)](/eda/symbols/kicad/Connector/Conn_01x03_Male.png)|
 
 ## Tags
 
