@@ -10,6 +10,8 @@ Contents
 	* [Diagrams](#diagrams)
 	* [Datasheets](#datasheets)
 	* [Labels](#labels)
+	* [EDA](#eda)
+	* [Footprints](#footprints)
 	* [Tags](#tags)
   
 ![][im]
@@ -46,6 +48,20 @@ Contents
 | :---: | :---: | :---: |
 |[![Front](label-front.png)](label-front.png)|[![Inventory](label-inventory.png)](label-inventory.png)|[![Specifications](label-spec.png)](label-spec.png)|
 
+## EDA
+
+### Footprints
+
+## Footprints
+  
+  
+
+|kicadFootprint
+Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical|
+| :---: |
+|[![kicadFootprint
+Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical](/eda/footprint/kicad/Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical.png)](/eda/footprint/kicad/Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical.png)|
+
 ## Tags
 
 - index: 4
@@ -77,8 +93,8 @@ Contents
 - ooDesignator: J1
 - schematicSymbol: HEAD-XX-X-PI03-XX
 - pcbFootprint: HEAD-I01-X-PI03-01
-- kicadSymbol: Connector>Conn_01x03_Male
-- kicadFootprint: Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical
+- kicadSymbol: Connector/Conn_01x03_Male
+- kicadFootprint: Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical
 
 
 
