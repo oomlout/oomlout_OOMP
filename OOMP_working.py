@@ -2,6 +2,7 @@ import OOMP
 import OOMPgenerate
 import OOMPinkscapeGenerate
 import OOMPkicad
+from oomBase import *
 
 OOMP.printParts()
 
@@ -30,3 +31,6 @@ OOMP.printParts()
 #OOMPinkscapeGenerate.generateDiagram(item)
 
 OOMPkicad.harvestFootprintImages()
+
+#oomDelay(2)
+#oomMouseScrollWheel(movement=-50)

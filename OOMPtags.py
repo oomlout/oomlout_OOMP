@@ -41,8 +41,8 @@ def addTags(newPart,filter,pins=0):
         newPart.addTag("pcbFootprint","HEAD-I01-X-PI" + pinss + "-01")
 
         ###### KICAD DETAILS
-        newPart.addTag("kicadSymbol","Connector>Conn_01x" + pinss + "_Male")
-        newPart.addTag("kicadFootprint","Connector_PinHeader_2.54mm:PinHeader_1x" + pinss + "_P2.54mm_Vertical")
+        newPart.addTag("kicadSymbol","Connector/Conn_01x" + pinss + "_Male")
+        newPart.addTag("kicadFootprint","Connector_PinHeader_2.54mm/PinHeader_1x" + pinss + "_P2.54mm_Vertical")
 
 
     return newPart
