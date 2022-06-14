@@ -250,29 +250,26 @@ def loadParts():
     ##        moduleName = file.replace(".py","")
     ##        __import__(moduleName)
 
-    directory = "parts\\"
-
-    for subdir, dirs, files in os.walk(directory):
-        for file in files:
-            if(file == "details.py"):
-                moduleName = file.replace(".py","")
-                moduleName = subdir.replace("\\",".") + "." + moduleName
-                ##print("    moduleName: " + moduleName)
-                print(".",end="")
-                __import__(moduleName)
+    directory = "oomlout_OOMP_eda\\"
+    loadDirectory(directory)
+    directory = "oomlout_OOMP_parts\\"
+    loadDirectory(directory)
+    directory = "oomlout_OOMP_projects\\"
+    loadDirectory(directory)
 
     directory = "templates\\diag\\"
+    loadDirectory(directory)
 
+def loadDirectory(directory):
     for subdir, dirs, files in os.walk(directory):
-        for file in files:
-            if ".py" in file and "pycache" not in subdir :
-                moduleName = file.replace(".py","")
-                moduleName = subdir.replace("\\",".") + moduleName
-                #print("    moduleName: " + moduleName)
-                print(".",end="")
-                __import__(moduleName)                        
+            for file in files:
+                if(file == "details.py"):
+                    moduleName = file.replace(".py","")
+                    moduleName = subdir.replace("\\",".") + "." + moduleName
+                    ##print("    moduleName: " + moduleName)
+                    print(".",end="")
+                    __import__(moduleName)    
 
 #### import parts
-
 loadParts()
         

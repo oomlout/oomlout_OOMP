@@ -68,7 +68,7 @@ def harvestEagleFootprint(libraryFile,libraryName, owner):
 
 
 def captureKicadFootprint(footprint, owner, overwrite = False):
-    oompDirectory = "eda/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/" 
+    oompDirectory = "oomlout_OOMP_eda/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/" 
     oompFileNameOld = oompDirectory + footprint[0] + ".png"    
     oompDirectoryZ = oompDirectory + "zoom/"
     oompFileNameZ1Old = oompDirectoryZ +footprint[0].replace("/","-") + "z1.png"
@@ -181,7 +181,7 @@ def captureKicadFootprint(footprint, owner, overwrite = False):
             oomDelay(5)
 
     def captureKicadSymbol(footprint, owner, overwrite = False):
-        oompDirectory = "eda/symbols/kicad/" + owner + "/"  +  footprint[1] + "/" 
+        oompDirectory = "oomlout_OOMP_eda/symbols/kicad/" + owner + "/"  +  footprint[1] + "/" 
         oompFileName = oompDirectory + footprint[0] + ".png"
         if overwrite or not os.path.isfile(oompFileName) :
             shortDelay = 1
@@ -227,7 +227,7 @@ def captureKicadFootprint(footprint, owner, overwrite = False):
 
 ## needs grid set to finest
 def captureEagleFootprint(footprint, owner, overwrite=False):
-    oompDirectory = "eda/footprints/eagle/" + owner + "/"  +  footprint[1] + "/" 
+    oompDirectory = "oomlout_OOMP_eda/footprints/eagle/" + owner + "/"  +  footprint[1] + "/" 
     oompFileNameZ1 = oompDirectory + "" + footprint[0].replace("/","-") + "/zoom/imageZ1.png"
     oompFileNameZ2 = oompDirectory + "" + footprint[0].replace("/","-") + "/zoom/imageZ2.png"
     oompFileNameZ3 = oompDirectory + "" + footprint[0].replace("/","-") + "/zoom/imageZ3.png"
