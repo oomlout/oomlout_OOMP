@@ -16,7 +16,7 @@ OOMP.printParts()
 #OOMPgenerate.generateAll(labels=True,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=False)
 
 item = OOMP.parts[3]
-OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=True,diagrams=False,diagRenders=False,images=False)
+#OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=True,diagrams=False,diagRenders=False,images=False)
 
 #print(item)
 
@@ -30,7 +30,7 @@ OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=T
 #item = OOMP.parts[3]
 #OOMPinkscapeGenerate.generateDiagram(item)
 
-#OOMPeda.harvestKicadFootprintImages()
+OOMPeda.harvestKicadFootprintImages()
 #OOMPeda.harvestKicadSymbolImages()
 
 #library="C:/EAGLE 9.6.2/cache/lbr/pinhead.lbr"
