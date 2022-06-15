@@ -16,10 +16,13 @@ kicadSymbolMiddlePlus = [1110,560]
 eagleFootprintFilter = [200,680]
 eagleFootprintFirstResult = [130,90]
 eagleFootprintAddOk = [828,720]
-eagleFootprintMiddle = [1220,600]
-eagleFootprintMiddlePlus = [1210,590] 
+eagleFootprintMiddle = [970,600]
+eagleFootprintMiddlePlus = [eagleFootprintMiddle[0]+5,eagleFootprintMiddle[1]+5] 
+#eagleCrop = [820,180,800,800]
+eagleCrop = [560,200,800,800]
 
-###### need to remove to avoid name conflicts
+
+###### need to remove to avoid name coNAMEnflicts
 def harvestEagleLibraries():
     ######  Defaults
         ######  Pinhead
@@ -31,7 +34,7 @@ def harvestEagleLibraries():
     ######  Sparkfun
     owner = "SparkFun-Eagle-Libraries"
     libraryName="Sparkfun-Connectors"     
-    library="C:/GH/oomlout-OOMP/sourceFiles/SparkFun-Eagle-Libraries/" + libraryName +".lbr"    
+    library="C:/GH/oomlout_OOMP/sourceFiles/SparkFun-Eagle-Libraries/" + libraryName +".lbr"    
     harvestEagleFootprint(library,libraryName,owner)
     
 
@@ -226,17 +229,18 @@ def captureKicadFootprint(footprint, owner, overwrite = False):
             oomDelay(5)
 
 ## needs grid set to finest
+## Add locally (if doing a default one then need to switch name tab to 9 from 8)
 def captureEagleFootprint(footprint, owner, overwrite=False):
     oompDirectory = "oomlout_OOMP_eda/footprints/eagle/" + owner + "/"  +  footprint[1] + "/" 
-    oompFileNameZ1 = oompDirectory + "" + footprint[0].replace("/","-") + "/zoom/imageZ1.png"
-    oompFileNameZ2 = oompDirectory + "" + footprint[0].replace("/","-") + "/zoom/imageZ2.png"
-    oompFileNameZ3 = oompDirectory + "" + footprint[0].replace("/","-") + "/zoom/imageZ3.png"
-    oompFileNameZ4 = oompDirectory + "" + footprint[0].replace("/","-") + "/zoom/imageZ4.png"
+    oompFileNameZ1 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ1.png"
+    oompFileNameZ2 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ2.png"
+    oompFileNameZ3 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ3.png"
+    oompFileNameZ4 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ4.png"
 
-    oompFileName = oompDirectory + "" + footprint[0].replace("/","-") + "/image.png"
+    oompFileName = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/image.png"
 
 
-    partDirectory = oompDirectory + "" + footprint[0].replace("/","-")
+    partDirectory = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";")
 
     oomMakeDir(oompDirectory)   
     oomMakeDir(partDirectory)   
@@ -278,6 +282,10 @@ def captureEagleFootprint(footprint, owner, overwrite=False):
         #oomMouseClick()
         #oomDelay(shortDelay)
         ## Click component down
+        oomMouseMove(pos=eagleFootprintMiddle)
+        oomDelay(shortDelay)
+        oomMouseMove(pos=eagleFootprintMiddlePlus)
+        oomDelay(shortDelay)        
         oomMouseClick(pos=eagleFootprintMiddle)
         oomDelay(shortDelay)
         oomSendEsc()
@@ -299,7 +307,8 @@ def captureEagleFootprint(footprint, owner, overwrite=False):
         oomDelay(shortDelay)
         oomSend("NAME")
         oomDelay(shortDelay)
-        oomSendTab(9)
+        oomSendTab(8)
+        #oomSendTab(9)
         oomDelay(shortDelay)
         oomSend("VALUE")
         oomDelay(shortDelay)
@@ -312,26 +321,30 @@ def captureEagleFootprint(footprint, owner, overwrite=False):
         oomSendAltKey("f2")
         oomDelay(shortDelay)
         oomMakeDir(oompDirectory)
-        oomScreenCapture(oompFileNameZ1,crop=[820,180,800,800])
+        oomScreenCapture(oompFileNameZ1,crop=eagleCrop)
         oomSend("{F4}")
         oomDelay(shortDelay)
         oomMakeDir(oompDirectory)
-        oomScreenCapture(oompFileNameZ2,crop=[820,180,800,800])        
+        oomScreenCapture(oompFileNameZ2,crop=eagleCrop)        
         oomMakeDir(oompDirectory)
-        oomScreenCapture(oompFileName,crop=[820,180,800,800])
+        oomScreenCapture(oompFileName,crop=eagleCrop)
         oomSend("{F4}")
         oomDelay(shortDelay)
         oomMakeDir(oompDirectory)
-        oomScreenCapture(oompFileNameZ3,crop=[820,180,800,800])        
+        oomScreenCapture(oompFileNameZ3,crop=eagleCrop)        
         oomSend("{F4}")
         oomDelay(shortDelay)
         oomMakeDir(oompDirectory)
-        oomScreenCapture(oompFileNameZ4,crop=[820,180,800,800])        
+        oomScreenCapture(oompFileNameZ4,crop=eagleCrop)        
         oomDelay(shortDelay)
         ## Delete everything
         oomSendControl("a")
         oomDelay(shortDelay)    
         oomSendDelete()
+        oomDelay(shortDelay)
+        oomSend("{F4}")
+
+        
         oomDelay(longDelay)
 
 
@@ -340,7 +353,7 @@ def captureEagleFootprint(footprint, owner, overwrite=False):
            
 
 def getKicadFootprintNames():
-    directory = "C:/GH/oomlout-OOMP/sourceFiles/kicad-footprints/"
+    directory = "C:/GH/oomlout_OOMP/sourceFiles/kicad-footprints/"
     footprints = []
     for subdir, dirs, files in os.walk(directory):
         for file in files:
@@ -352,7 +365,7 @@ def getKicadFootprintNames():
     
 
 def getKicadSymbolNames():
-    directory = "C:/GH/oomlout-OOMP/sourceFiles/kicad-symbols/"
+    directory = "C:/GH/oomlout_OOMP/sourceFiles/kicad-symbols/"
     symbols = []
     for subdir, dirs, files in os.walk(directory):
         for file in files:
