@@ -14,7 +14,7 @@ def generateDiagram(part):
     if not "TEMPLATE" in oompID:
         print("Generating: " + oompID )
         for type in OOMPdiagrams.types:
-            fileName = "C:/GH/oomlout-OOMP/parts/" + oompID + "/diag" + type.upper() + ".py"
+            fileName = OOMP.getDir("parts",base=True) + oompID + "/diag" + type.upper() + ".py"
             if(os.path.exists(fileName)):
                 print("    Making: " + fileName)
                 genFileName(fileName)

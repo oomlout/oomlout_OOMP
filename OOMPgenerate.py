@@ -16,6 +16,8 @@ import os.path
 
 def generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True):
 
+    print("Generating for " + str(len(OOMP.parts)) + " items")
+
     if labels:
         for item in OOMP.parts:
             OOMPlabels.generateLabel(item)
@@ -25,11 +27,14 @@ def generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,d
                 OOMPscad.generateScad(item,renders)
 
     if readmes:
+        print("     Generating Readmes:")
         OOMPsummaries.generateReadmeIndex()
         for item in OOMP.parts:
+            print(".",end="")
             OOMPsummaries.generateReadme(item)
     
     if diagrams or diagRenders:
+        print("     Generating Diagrams:")
         for item in OOMP.parts:
             OOMPdiagrams.generateDiagrams(item, diagrams=diagrams, renders=diagRenders)
 

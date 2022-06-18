@@ -41,16 +41,18 @@ def addTags(newPart,filter,pins=0):
         newPart.addTag("schematicSymbol","HEAD-XX-X-PI" + pinss + "-XX")
         newPart.addTag("pcbFootprint","HEAD-I01-X-PI" + pinss + "-01")
 
-        ###### KICAD DETAILS
+        ###### FOOTPRINTS
         newPart.addTag("kicadSymbol","Connector/Conn_01x" + pinss + "_Male")
-        newPart.addTag("kicadFootprint","Connector_PinHeader_2.54mm/PinHeader_1x" + pinss + "_P2.54mm_Vertical")
+        ##newPart.addTag("kicadFootprint","Connector_PinHeader_2.54mm/PinHeader_1x" + pinss + "_P2.54mm_Vertical")
         ######  Sparkfun footprints
         sparkfunStyles = ["", "_BIG", "_LOCK", "_LOCK_LONGPADS", "_NO_SILK", "_PP_HOLES_ONLY"]
         for style in sparkfunStyles: 
-            imageFile = "eda/footprints/eagle/sparkfun/Sparkfun-Connectors/1X" + pinss + style + ".png"
-            print("Image File: " + imageFile)
+            imageFile = "oomlout_OOMP_eda/footprints/eagle/SparkFun-Eagle-Libraries/Sparkfun-Connectors/1X" + pinss + style + "/image.png"
+            #print("Image File: " + imageFile)
             if os.path.isfile(imageFile):
-                newPart.addTag("sparkfunFootprint","Sparkfun-Connectors/1X" + pinss + style)
-
+                newPart.addTag("footprintEagle","SparkFun-Eagle-Libraries/Sparkfun-Connectors/1X" + pinss + style)
+        
+        newPart.addTag("footprintKicad","kicad-footprints/Connector_PinHeader_2.54mm/PinHeader_1x" + pinss + "_P2.54mm_Vertical")
+        
     return newPart
 

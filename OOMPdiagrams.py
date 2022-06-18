@@ -9,12 +9,12 @@ def generateDiagrams(item, diagrams=False, renders=False):
     oompID = item.getTag("oompID").value
     global types
     if diagrams:
-        print(item.fullString())         
-        if not "TEMPLATE" in oompID:
+        #print(item.fullString())         
+        if not "TEMPLATE" in oompID and not ("PROJ" in oompID):
             print("Drawing item: " + oompID)
             for type in types:                
-                print("    Type: " + type)
-                folder = "parts/" + oompID + "/"
+                #print("    Type: " + type)
+                folder = OOMP.getDir("parts",base=False) + oompID + "/"
                 outFile = folder + "diag" + type.upper() + ".py" 
                 f = open(outFile,"w")
                 tags = item.tags
@@ -52,9 +52,9 @@ def generateDiagrams(item, diagrams=False, renders=False):
                         line = processCommand(line,item)
                         #print(line)
                         f.write(line + "\n")
-                f.write('os.chdir("C:/GH/oomlout-OOMP/' + folder + '")\n')  
+                f.write('os.chdir("' + OOMP.getDir("base",base=True) + folder + '")\n')  
                 f.write('try:\n')              
-                f.write('    os.remove("C:/GH/oomlout-OOMP/' + folder + 'diag' + type.upper() + '.svg")\n')
+                f.write('    os.remove("' + OOMP.getDir("base",base=True) + folder + 'diag' + type.upper() + '.svg")\n')
                 f.write('except:\n')  
                 f.write('    f=0\n')  
                 f.write("inkex.command.write_svg(svg_root, 'diag" + type.upper() + ".svg')")
@@ -63,7 +63,7 @@ def generateDiagrams(item, diagrams=False, renders=False):
         if not "TEMPLATE" in oompID:
             print("Rendering item: " + oompID)
             for type in types:
-                print("    Type: " + type)
+                #print("    Type: " + type)
                 folder = "parts/" + oompID + "/"
                 file = folder + "diag" + type.upper()
                 inFile = file + ".svg"
@@ -171,8 +171,8 @@ def processCommand(line,item):
 
 
 def getInkscapePython(type,details, drawType=None, x=None, y=None, width=None, height=None,style=None,text=None,fontSize=None):
-    print("Details: ", end="")
-    print( details)
+    #print("Details: ", end="")
+    #print( details)
     if len(details) > 0:
         drawType = details[0]
     if len(details) > 1 and x == None:
@@ -269,7 +269,7 @@ def getStyleText(stroke_width=None,stroke=None,font_size=None,font_family=None,t
         if(stroke_width == None):
             stroke_width = 1
         rv = rv + "stroke_width=" + str(stroke_width)
-        print ("text Style= " + rv)
+        #print("text Style= " + rv)
         return rv
 
 def getStyleDraw(fill=None,stroke_width=None,stroke=None,):

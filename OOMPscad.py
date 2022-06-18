@@ -62,6 +62,16 @@ def oompButaXXX01(pinWidth,pinHeight,color):
 
     return part.getPart()
 
+    ######  HEAD
+def oompHeadtopClearance(pitch,pins,color):
+    part = opsc.item()
+    depth= 6 + 2.54
+    clear=0.5
+    part.addPos(insert("cube",pos=[pins-1*2.54,0,0],size=[(pins*pitch)+clear,pitch+clear,depth],color=color))
+
+
+    return part.getPart()    
+
     ######  LEDS
 
 def oompLeds10XX01(color):
@@ -129,6 +139,15 @@ def oompReseW04XX01(color,value):
 
     return part.getPart()
 
+############  PROJECTS
+
+def oompProjArdcShenStan01TopClearance(color,depth=4,clear=0.5):
+    part = opsc.item()
+
+    part.addPos(insert("cube",pos=[0,0,0],size=[7*2.54+clear,17*2.54+clear,depth],color=color))
+    part.addPos(insert("cube",pos=[0,18.95,0],size=[3*2.54+clear,9.271+clear,depth],color=color))
+    return part.getPart()
+
 
 ######  Insert Routines
 
@@ -172,7 +191,10 @@ def OOEBInsertIf(item,pos=[None,None,None],x=0,y=0,z=0,ex=0,size=[None,None,None
     elif(item=="OOMP-BUTA-06-X-X-01"):
         returnValue = oompButa06XX01(color)    
     elif(item=="OOMP-BUTA-12-X-X-01"):
-        returnValue = oompButa12XX01(color)    
+        returnValue = oompButa12XX01(color)  
+        ######  HEAD
+    elif(item=="OOMP-HEAD-I01-X-PI02-01-topClearance"):          
+        returnValue = oompHeadtopClearance(pitch=2.54,pins=2,color=color)
         ######  LEDS
     elif(item=="OOMP-LEDS-10-X-X-01"):
         returnValue = oompLeds10XX01(color)
@@ -183,7 +205,9 @@ def OOEBInsertIf(item,pos=[None,None,None],x=0,y=0,z=0,ex=0,size=[None,None,None
         returnValue = oompReseW04XX01(color,000)
     elif(item=="OOMP-RESE-W04-X-O561-01"):
         returnValue = oompReseW04XX01(color,561)
-
+    ############  PROJECTS
+    elif(item=="OOMP-PROJ-ARDC-SHEN-STAN-01-topClearance"):
+        returnValue = oompProjArdcShenStan01TopClearance(color,depth=depth)    
     else:    
         returnValue = opsc.insert(item,[None,None,None],0,0,0,ex,size,length,[None,None,None],0,0,0,width,height,depth,rad,rad2,color,alpha,OOwidth,OOheight,holes,negative,name)
     return returnValue

@@ -1,8 +1,13 @@
 import os
+import random
+import shutil
+import time
+from wsgiref.handlers import BaseCGIHandler
 
 details = list()
 parts = list()
 
+baseDir = ""
 
 
 
@@ -15,6 +20,12 @@ def getDetailFromCode(category,code):
             if x.code == code:
                 return x
     return oompDetail("","","","")
+
+
+
+
+def getParts():
+    return parts
 
 def getPartByID(part):
 ##    print("     Get Part By ID: " + part)
@@ -30,6 +41,13 @@ def getPartByHex(hexid):
         if x.getTag("hexID").value == hexid:
             return x     
     return oompItem("")
+
+def getPartByName(name):
+##    print("     Get Part By ID: " + part)
+    for x in parts:
+        if x.getTag("name").value == name:
+            return x     
+    return oompItem("")    
 
 
 def getDetailByCode(category, code):    
@@ -49,11 +67,68 @@ def printParts():
         oompID = x.getTag("oompID").value
         print("Loading: ", oompID)
 
+def getNextIndex():
+    return len(parts) + 1
         
+
+def getAddTagLine(tagName,value):
+    return 'newPart.addTag("' + tagName + '", "' + value + '")\n'
+
+
+######  Directory routines
+
+def setBaseDir(base):
+    global baseDir
+    baseDir = base 
+
+def getDir(type, base=False):
+    global baseDir
+    rv = ""
+    if base:
+        rv = baseDir
+    if type == "eda":
+        rv = rv + "oomlout_OOMP_eda/"
+    if type == "parts":
+        rv = rv + "oomlout_OOMP_parts/"
+    if type == "projects":
+        rv = rv + "oomlout_OOMP_projects/"
+    return rv
+
+
+def getFileOpening(hexID="",type="",size="",color="",desc="",index=None,name=None):
+    if index == None:
+        index = getNextIndex()
+    rv = ""
+
+    rv = rv + "###### OOMP FILE  ######\n"
+    rv = rv + "\n"
+    rv = rv + "import OOMP\n"
+    rv = rv + "\n"
+    rv = rv + "newPart = OOMP.oompItem()\n"
+    rv = rv + "\n"
+    rv = rv + getAddTagLine("hexID",hexID)
+    rv = rv + getAddTagLine("oompType",type)
+    rv = rv + getAddTagLine("oompSize",size)
+    rv = rv + getAddTagLine("oompColor",color)
+    rv = rv + getAddTagLine("oompDesc",desc)
+    rv = rv + getAddTagLine("oompIndex",index)
+
+    if name != None:
+        rv = rv + getAddTagLine("oompName",name)
+
+    rv = rv + "\n"
+
+    return rv
+
+def getFileEnding():
+    return 'OOMP.parts.append(newPart)' 
+
 
 class oompItem:
 
-    def __init__(self,index=0):
+    def __init__(self,index=None):
+        if index == None:
+            index = getNextIndex()
         self.tags=list()
         if index == 0:
             index = len(parts) + 1
@@ -85,6 +160,24 @@ class oompItem:
 ##                        rv = rv + "        " + str(y) + "\n"
         return rv
     
+
+    def getFolder(self):        
+        rv = ""
+        oompType = self.getTag("oompType").value
+        oompSize = self.getTag("oompSize").value
+        oompColor = self.getTag("oompColor").value
+        oompDesc = self.getTag("oompDesc").value
+        oompIndex = self.getTag("oompIndex").value
+        oompID = self.getTag("oompID").value
+        if oompType == "FOOTPRINT":
+            rv = "oomlout_OOMP_eda/footprints/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex + "/"
+        elif oompType == "PROJ":
+            rv = "oomlout_OOMP_projects/"  + oompID + "/" 
+        else:
+            rv = "oomlout_OOMP_parts/"  + oompID + "/" 
+
+        return rv
+
     ##No longer used    
     def indexMd(self):
         oompID = self.getTag("oompID").value
@@ -184,6 +277,13 @@ class oompItem:
                     return x
             return oompTag("","")
 
+    def getTags(self,tagName):
+        rv = []
+        for tag in self.tags:
+            if tag.name == tagName:
+                rv.append(tag)
+        return rv
+
     def getName(self):
         return "OOMP Item:    " + self.getTag("oompID").value + " " + self.getTag("name").value
 
@@ -251,24 +351,47 @@ def loadParts():
     ##        __import__(moduleName)
 
     directory = "oomlout_OOMP_eda\\"
-    loadDirectory(directory)
+    #loadDirectory(directory)
     directory = "oomlout_OOMP_parts\\"
     loadDirectory(directory)
     directory = "oomlout_OOMP_projects\\"
     loadDirectory(directory)
 
     directory = "templates\\diag\\"
-    loadDirectory(directory)
+    loadDirectory(directory, fileFilter = ".py")
 
-def loadDirectory(directory):
+
+
+def loadDirectory(directory,fileFilter="details.py"):
+    testing = 1000000000000000000
+    #testing = 100000
+    count = 0
     for subdir, dirs, files in os.walk(directory):
+            if count > testing:
+                print("Breaking " + str(count) + " " + str(testing))
+                break
             for file in files:
-                if(file == "details.py"):
+                count = count + 1
+                if count > testing:
+                    print("Breaking " + str(count) + " " + str(testing))
+                    break
+                if(fileFilter in file):
                     moduleName = file.replace(".py","")
                     moduleName = subdir.replace("\\",".") + "." + moduleName
                     ##print("    moduleName: " + moduleName)
-                    print(".",end="")
-                    __import__(moduleName)    
+                    #print(".",end="")
+                    try:
+                        __import__(moduleName)    
+                    except:
+                        ###### For dealing with folders with a full stop
+                        sourceFile = subdir + "/" + file
+                        destFile = "sourceFiles/temp/" + str(random.randint(0,999999999)) + ".py"
+                        moduleName = destFile.replace("\\",".").replace("/",".").replace(".py","")
+                        shutil.copyfile(sourceFile,destFile)
+                        time.sleep(0.01)
+                        __import__(moduleName)   
+                        os.remove(destFile) 
+
 
 #### import parts
 loadParts()
