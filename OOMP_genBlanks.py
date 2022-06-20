@@ -14,10 +14,10 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 ## Generate
 
-#OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=True,diagrams=False,diagRenders=False,images=False,overwrite=True)
+#OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=True)
 
 
-#OOMPgenerate.generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True,overwrite=False)
+OOMPgenerate.generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True,overwrite=False)
 
 #item = OOMP.parts[2]
 #OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=False,diagrams=True,diagRenders=False,images=False)
@@ -32,7 +32,7 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 ######  KICAD AND EAGLE THINGS
 
 #OOMPeda.harvestEagleLibraries()
-OOMPeda.harvestKicadLibraries()
+#OOMPeda.harvestKicadLibraries()
 
 
 #library="C:/EAGLE 9.6.2/cache/lbr/pinhead.lbr"

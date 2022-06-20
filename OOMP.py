@@ -27,6 +27,36 @@ def getDetailFromCode(category,code):
 def getParts():
     return parts
 
+def getItems(type=""):
+    rv = parts
+    if type.upper() == "FOOTPRINTS":
+        rv = []
+        for part in parts:
+            t = part.getTag("oompType")
+            if t.value == "FOOTPRINT":
+                rv.append(part)
+    if type.upper() == "PARTS":
+        rv = []
+        for part in parts:
+            t = part.getTag("oompType")
+            if t.value == "TEMPLATE" or t.value == "FOOTPRINT" or t.value == "PROJ"  :
+                c = "SKIP"
+            else:
+                rv.append(part)
+    if type.upper() == "PROJECTS":
+        rv = []
+        for part in parts:
+            t = part.getTag("oompType")
+            if t.value == "PROJ":
+                rv.append(part)
+    if type.upper() == "TEMPLATES":
+        rv = []
+        for part in parts:
+            t.value = part.getTag("oompType")
+            if t == "TEMPLATE":
+                rv.append(part)                
+    return rv
+
 def getPartByID(part):
 ##    print("     Get Part By ID: " + part)
     for x in parts:
@@ -269,6 +299,9 @@ class oompItem:
                 return(oompTag("name", name))
             else:
                 return self.getTag("namename")
+        elif name == "footprintFolder":
+            folder = getDir("eda") + "footprints/" + self.getTag("oompSize").value + "/" +  self.getTag("oompColor").value + "/" + self.getTag("oompDesc").value +"/" + self.getTag("oompIndex").value + "/"
+            return(oompTag("footprintFolder",folder))
         else:
             if name == "namename":
                 name = "name"
@@ -351,7 +384,7 @@ def loadParts():
     ##        __import__(moduleName)
 
     directory = "oomlout_OOMP_eda\\"
-    #loadDirectory(directory)
+    loadDirectory(directory)
     directory = "oomlout_OOMP_parts\\"
     loadDirectory(directory)
     directory = "oomlout_OOMP_projects\\"
@@ -364,7 +397,7 @@ def loadParts():
 
 def loadDirectory(directory,fileFilter="details.py"):
     testing = 1000000000000000000
-    #testing = 100000
+    testing = 7000
     count = 0
     for subdir, dirs, files in os.walk(directory):
             if count > testing:

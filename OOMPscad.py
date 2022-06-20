@@ -1,11 +1,12 @@
 import OOMP
 import OPSC as opsc
 from solid.objects import *
+import os
 
-
-def generateScad(part,renders=False):
+def generateScad(part,renders=False,overwrite=False):
+    
     oompID = part.getTag("oompID").value
-    print("Generating SCAD for: " + oompID)
+    
     
     opsc.setMode("TRUE")
     item = opsc.item()
@@ -14,14 +15,17 @@ def generateScad(part,renders=False):
     #item.addPos(draw)
     #print("Is Empty:" + str(item.isEmpty()))
     if(not item.isEmpty()):
-        print("     MAKING")
-        file = "parts\\" + oompID + "\\3dmodel.scad"
-        opsc.saveToScad(file, item.getPart())
-        if(renders):
-            opsc.saveToStl(file)
-            opsc.saveToPng(file, extra="")
+        #print("     MAKING")
+        file = OOMP.getDir("parts") + oompID + "\\3dmodel.scad"
+        if not os.path.isfile(file) or overwrite:
+            print("Generating SCAD for: " + oompID)
+            opsc.saveToScad(file, item.getPart())
+            if(renders):
+                opsc.saveToStl(file)
+                opsc.saveToPng(file, extra="")
     else:
-        print("      SKIPPING")
+        c="SKIPPING"
+        #print("      SKIPPING")
 
 
 ######  OOMP ROUTINES

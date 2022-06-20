@@ -1,6 +1,6 @@
 import OOMP
 import OOMPdiagrams
-import pyautogui
+#import pyautogui
 import time
 import os.path
 
@@ -16,7 +16,7 @@ def generateDiagram(part):
         for type in OOMPdiagrams.types:
             fileName = OOMP.getDir("parts",base=True) + oompID + "/diag" + type.upper() + ".py"
             if(os.path.exists(fileName)):
-                print("    Making: " + fileName)
+                #print("    Making: " + fileName)
                 genFileName(fileName)
         
 
@@ -94,5 +94,15 @@ def genFileName(fileName):
     time.sleep(10) 
 
 
+
+        
+
+
+def genTest():
+    fileName = "C:/GH/oomlout_OOMP/oomlout_OOMP_parts/HEAD_I01_X_PI03_01/diagBBLS.py"
+    f = open(fileName)
+    exec(f.read())
+    f.close()
+    
 
 

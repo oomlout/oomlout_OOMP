@@ -5,19 +5,18 @@ import os.path
 
 types = ["Bbls","Diag","Iden","Schem","Simp"]
 
-def generateDiagrams(item, diagrams=False, renders=False):  
+def generateDiagrams(item, diagrams=False, renders=False, overwrite=False):  
     oompID = item.getTag("oompID").value
     global types
     if diagrams:
-        #print(item.fullString())         
-        if not "TEMPLATE" in oompID and not ("PROJ" in oompID):
-            print("Drawing item: " + oompID)
-            for type in types:                
-                #print("    Type: " + type)
-                folder = OOMP.getDir("parts",base=False) + oompID + "/"
-                outFile = folder + "diag" + type.upper() + ".py" 
+        #print(item.fullString())                 
+        for type in types:                
+            #print("    Type: " + type)
+            folder = OOMP.getDir("parts",base=False) + oompID + "/"
+            outFile = folder + "diag" + type.upper() + ".py" 
+            if not os.path.isfile(outFile) or overwrite:    
+                print("Drawing item: " + oompID)
                 f = open(outFile,"w")
-                tags = item.tags
                 ####### Setup Commands
                 #svg_root.set('width', '148mm')
                 #svg_root.set('height', '210mm')
@@ -35,16 +34,17 @@ def generateDiagrams(item, diagrams=False, renders=False):
                 f.write(line + "\n")
                 line="svg_root.namedview.set('showgrid', 'false')"
                 f.write(line + "\n")
-
+                line = "shapes=[]"
+                f.write(line + "\n")
 
                 line = "shiftX=" + str(wid) 
                 f.write(line + "\n")
                 line = "shiftY=" + str(hei) 
                 f.write(line + "\n")
-                line = getInkscapePython("rect",[],x=0,y=0,width=50,height=50,style="white")
+                line = getInkscapePython("rect",[],x=0,y=0,width=50,height=50,style="white",start="shapes.append(")
                 f.write(line + "\n")
                 
-
+                tags = item.tags
                 for tag in tags:
                     if tag.name == "oomp" + type:
                         line = tag.value.replace("\n","") 
@@ -57,16 +57,20 @@ def generateDiagrams(item, diagrams=False, renders=False):
                 f.write('    os.remove("' + OOMP.getDir("base",base=True) + folder + 'diag' + type.upper() + '.svg")\n')
                 f.write('except:\n')  
                 f.write('    f=0\n')  
-                f.write("inkex.command.write_svg(svg_root, 'diag" + type.upper() + ".svg')")
+                f.write("inkex.command.write_svg(svg_root, 'diag" + type.upper() + ".svg')\n\n")
+                f.write("for shape in shapes:\n")
+                f.write("    shape.remove()")
                 f.close()
     if renders:
-        if not "TEMPLATE" in oompID:
-            print("Rendering item: " + oompID)
-            for type in types:
-                #print("    Type: " + type)
-                folder = "parts/" + oompID + "/"
-                file = folder + "diag" + type.upper()
-                inFile = file + ".svg"
+        
+        for type in types:
+            #print("    Type: " + type)
+            folder = OOMP.getDir("parts") + oompID + "/"
+            file = folder + "diag" + type.upper()
+            inFile = file + ".svg"
+            outFile = file + ".png"
+            if not os.path.isfile(outFile) or overwrite:  
+                print("Rendering item: " + oompID)
                 if os.path.exists(inFile):
                     launchString = 'inkscape.exe --export-type="png" ' + inFile
                     print("        " + launchString)
@@ -102,6 +106,7 @@ def processCommand(line,item):
         #hLine; 7.5;    (%%pins%%*10/2)-(%%i%%-1)*10-5; 5;  0;  pin %%i%%")
         #       X       Y                               W   H
         line = "######  " + line2 + "\n" + getInkscapePython("shape = polyline",details,style="hLine")        
+        line = line + "shapes.append(shape)\n"
         
 ######  LINEWIDTH    
     elif(type == "linewidth"):
@@ -110,25 +115,29 @@ def processCommand(line,item):
     elif(type == "oompName"):
         #text = '"'+ name+'"'
         line = "######  " + line2 + "\n" + getInkscapePython("shape = rect",details,style="invisible")
+        line = line + "shapes.append(shape)\n"
         line = line + getInkscapePython("shape = text",details,style="oompName")
+        line = line + "shapes.append(shape)\n"
 ######  OOMPURL    
     elif(type == "oompURL"):
         text = 'http://oom.lt/' + hexID       
         line = "######  " + line2 + "\n" + getInkscapePython("shape = rect",details,style="invisible")
+        line = line + "shapes.append(shape)\n"
         line = line + getInkscapePython("shape = text",details,text=text,style="oompURL")
+        line = line + "shapes.append(shape)\n"
 
 ######  PIN
     elif(type == "pin"):
         line2 = line
-        line = "######  " + line2 + "\n" + getInkscapePython("rect",details, style="pin")
+        line = "######  " + line2 + "\n" + getInkscapePython("rect",details, style="pin",start="shapes.append(")
 ######  PIN Holder
     elif(type == "pinHolder"):
         line2 = line
-        line = "######  " + line2 + "\n" + getInkscapePython("rect",details, style="pinHolder")
+        line = "######  " + line2 + "\n" + getInkscapePython("rect",details, style="pinHolder",start="shapes.append(")
 ######  RECTANGLE    
     elif(type == "rectangle"):
         line2 = line
-        line = "######  " + line2 + "\n" + getInkscapePython("rect",details, style=None)
+        line = "######  " + line2 + "\n" + getInkscapePython("rect",details, style=None,start="shapes.append(")
         
 ######  REPEAT
     elif(type == "repeat"):        
@@ -156,7 +165,7 @@ def processCommand(line,item):
 ######  TEXTB    
     elif(type == "textB"):
         details = [details[0],details[1],details[2],0,0,details[3],details[4],]        
-        line = getInkscapePython("text",details,style="textB")            
+        line = getInkscapePython("text",details,style="textB",start="shapes.append(")            
 ######  VARIABLE        
     elif(type == "variable"):
         if not details[1] == "clear": 
@@ -170,7 +179,7 @@ def processCommand(line,item):
 
 
 
-def getInkscapePython(type,details, drawType=None, x=None, y=None, width=None, height=None,style=None,text=None,fontSize=None):
+def getInkscapePython(type,details, drawType=None, x=None, y=None, width=None, height=None,style=None,text=None,fontSize=None,start=None):
     #print("Details: ", end="")
     #print( details)
     if len(details) > 0:
@@ -199,12 +208,19 @@ def getInkscapePython(type,details, drawType=None, x=None, y=None, width=None, h
     if text == None:
         text = ""
 
+    if start == None:
+        start=""
+        end=""
+    else:
+        start=start
+        end=")"    
+
     if("text" in type):
         text = text.replace("&&i&&", "' + str(i) + '")
         line = "x = " + x.replace("&&i&&","i") + "\n"
         line = line + "y = (" + y.replace("&&i&&","i") + ")* -1\n"
         line = line + "fontShift = (" + fontSize + ")* 0.3527 * .5\n"
-        line = line + type +  "('" + text + "',(x+shiftX/2*mm,(y+shiftY/2+fontShift/2)*mm)," + style + ")\n"
+        line = line + start+ type +  "('" + text + "',(x+shiftX/2*mm,(y+shiftY/2+fontShift/2)*mm)," + style + ")" + end + "\n"
     elif("polyline" in type):
         #hLine; 7.5;    (%%pins%%*10/2)-(%%i%%-1)*10-5; 5;  0;  pin %%i%%")
         #       X       Y                               W   H
@@ -213,14 +229,16 @@ def getInkscapePython(type,details, drawType=None, x=None, y=None, width=None, h
         line = line + "width = " + str(width.replace("&&i&&","i")) + "\n"
         line = line + "height = " + str(height.replace("&&i&&","i")) + "\n"
         line = line + "x1 = x - width/2 \ny1 = y - height/2 \nx2 = x + width/2 \ny2 = y + height/2 \n"
-        line = line + type +  "([((x1+shiftX/2)*mm,(y1+shiftY/2)*mm),((x2+shiftX/2)*mm,(y2+shiftY/2)*mm)]," + style + ")\n"
+        line = line + start + type +  "([((x1+shiftX/2)*mm,(y1+shiftY/2)*mm),((x2+shiftX/2)*mm,(y2+shiftY/2)*mm)]," + style + ")" + end + "\n"
     else:    
         line = "x = " + str(x).replace("&&i&&","i") + "\n"
         line = line + "y = (" + str(y).replace("&&i&&","i") + ")* -1\n"
         line = line + "width = " + str(str(width).replace("&&i&&","i")) + "\n"
         line = line + "height = " + str(str(height).replace("&&i&&","i")) + "\n"
         line = line + "x1 = x - width/2 \ny1 = y + height/2 \nx2 = x + width/2 \ny2 = y - height/2 \n"
-        line = line + type + "(((x1+shiftX/2)*mm,(y1+shiftY/2)*mm), ((x2+shiftX/2)*mm,(y2+shiftY/2)*mm),0.1," + style + ")\n"
+        line = line + start +type + "(((x1+shiftX/2)*mm,(y1+shiftY/2)*mm), ((x2+shiftX/2)*mm,(y2+shiftY/2)*mm),0.1," + style + ")" + end + "\n"
+
+
     return line
 
 def getInkscapeStyle(style=None, fontSize=None):
@@ -297,3 +315,31 @@ def getColor(color):
     if(color == "white"):
         rv='#FFFFFF'
     return rv
+
+
+def genAllDiagramsFile():
+    base = "C:/GH/oomlout_OOMP/"
+    OOMP.setBaseDir(base)
+    directory = OOMP.getDir("parts",base=True)
+    filter1 = "diag"
+    filter2 = ".py"
+    count = 0
+    diagFiles = []
+    print("        Generating diagrams for: " + directory)
+    for subdir, dirs, files in os.walk(directory):
+            for file in files:
+                if(filter1 in file and filter2 in file and not "diagsAll.py" in file and not "__pycache__" in subdir):
+                    moduleName = file.replace(".py","")                    
+                    moduleName = subdir.replace(base,"").replace("\\",".").replace("/",".") + "." + moduleName
+                    fileName = subdir + "/" + file
+                    #print("    moduleName: " + moduleName)
+                    #print(".",end="")
+                    #__import__(moduleName)
+                    diagFiles.append(fileName)
+    outFile = directory + "diagsAll.py"
+    out = open(outFile,"w")
+    for file in diagFiles:
+        f = open(file)
+        out.write(f.read())
+        out.write("\n")
+        f.close()    

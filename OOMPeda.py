@@ -47,8 +47,8 @@ def harvestEagleLibraries():
 
 def harvestKicadLibraries():    
     owner = "kicad-footprints"
-    #harvestKicadFootprintImages(owner)
-    harvestKicadFootprintFiles(owner)
+    harvestKicadFootprintImages(owner)
+    #harvestKicadFootprintFiles(owner)
 
 
 
@@ -160,27 +160,27 @@ def getKicadFootprintFolder(footprint,owner):
     return"oomlout_OOMP_eda/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-") .replace(".","_")+ "/"
 
 def captureKicadFootprint(footprint, owner, overwrite = False):
-    oompDirectory = "oomlout_OOMP_eda/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/" 
+    oompDirectory = OOMP.getDir("eda") + "/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/" 
     oompFileNameOld = oompDirectory + footprint[0] + ".png"    
     oompDirectoryZ = oompDirectory + "zoom/"
-    oompFileNameZ1Old = oompDirectoryZ +footprint[0].replace("/","-") .replace(".","_")+ "z1.png"
-    oompFileNameZ2Old = oompDirectoryZ +footprint[0].replace("/","-") .replace(".","_")+ "z2.png"
-    oompFileNameZ3Old = oompDirectoryZ +footprint[0].replace("/","-") .replace(".","_")+ "z3.png"
-    oompFileNameZ4Old = oompDirectoryZ +footprint[0].replace("/","-") .replace(".","_")+ "z4.png"
-    oompFileNameZ5Old = oompDirectoryZ +footprint[0].replace("/","-") .replace(".","_")+ "z5.png"
+    oompFileNameZ1Old = oompDirectoryZ +footprint[0].replace("/","-")+ "z1.png"
+    oompFileNameZ2Old = oompDirectoryZ +footprint[0].replace("/","-")+ "z2.png"
+    oompFileNameZ3Old = oompDirectoryZ +footprint[0].replace("/","-")+ "z3.png"
+    oompFileNameZ4Old = oompDirectoryZ +footprint[0].replace("/","-")+ "z4.png"
+    oompFileNameZ5Old = oompDirectoryZ +footprint[0].replace("/","-")+ "z5.png"
 
-    oompFileNameZ1 = oompDirectory + "" + footprint[0].replace("/","-") .replace(".","_")+ "/zoom/imageZ1.png"
-    oompFileNameZ2 = oompDirectory + "" + footprint[0].replace("/","-") .replace(".","_")+ "/zoom/imageZ2.png"
-    oompFileNameZ3 = oompDirectory + "" + footprint[0].replace("/","-") .replace(".","_")+ "/zoom/imageZ3.png"
-    oompFileNameZ4 = oompDirectory + "" + footprint[0].replace("/","-") .replace(".","_")+ "/zoom/imageZ4.png"
-    oompFileNameZ5 = oompDirectory + "" + footprint[0].replace("/","-") .replace(".","_")+ "/zoom/imageZ5.png"
-    oompFileNameZ6 = oompDirectory + "" + footprint[0].replace("/","-") .replace(".","_")+ "/zoom/imageZ6.png"
-    oompFileNameZ7 = oompDirectory + "" + footprint[0].replace("/","-") .replace(".","_")+ "/zoom/imageZ7.png"
-    oompFileNameZ8 = oompDirectory + "" + footprint[0].replace("/","-") .replace(".","_")+ "/zoom/imageZ8.png"
-    oompFileNameZ9 = oompDirectory + "" + footprint[0].replace("/","-") .replace(".","_")+ "/zoom/imageZ9.png"
-    oompFileNameZ10 = oompDirectory + "" + footprint[0].replace("/","-") .replace(".","_")+ "/zoom/imageZ10.png"
+    oompFileNameZ1 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ1.png"
+    oompFileNameZ2 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ2.png"
+    oompFileNameZ3 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ3.png"
+    oompFileNameZ4 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ4.png"
+    oompFileNameZ5 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ5.png"
+    oompFileNameZ6 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ6.png"
+    oompFileNameZ7 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ7.png"
+    oompFileNameZ8 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ8.png"
+    oompFileNameZ9 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ9.png"
+    oompFileNameZ10 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ10.png"
 
-    oompFileName = oompDirectory + "" + footprint[0].replace("/","-") .replace(".","_")+ "/image.png"
+    oompFileName = oompDirectory + "" + footprint[0].replace("/","-")+ "/image.png"
 
 
     partDirectory = oompDirectory + "" + footprint[0].replace("/","-")
