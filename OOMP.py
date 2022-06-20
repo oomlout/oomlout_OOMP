@@ -397,7 +397,7 @@ def loadParts():
 
 def loadDirectory(directory,fileFilter="details.py"):
     testing = 1000000000000000000
-    testing = 7000
+    testing = 1000
     count = 0
     for subdir, dirs, files in os.walk(directory):
             if count > testing:

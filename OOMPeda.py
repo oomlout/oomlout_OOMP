@@ -11,7 +11,7 @@ kicadFootprintFilter =[145,114]
 kicadFootprintFirstResult = [145,185]
 kicadFootprintMiddle = [945,545] 
 kicadFootprintMiddlePlus = [950,550] 
-kicadFootprintTopLeft = [475,95] 
+kicadFootprintTopLeft = [365,86] 
 kicadSymbolMiddle = [1105,555] 
 kicadSymbolMiddlePlus = [1110,560] 
 
@@ -173,7 +173,7 @@ def captureKicadFootprint(footprint, owner, overwrite = False):
 
     oompFileName = oompDirectory + "" + footprint[0].replace("/","-")+ "/image.png"
 
-    screenNames = [oompFileNameZ1,oompFileName,oompFileNameZ2,oompFileNameZ3,oompFileNameZ4,oompFileNameZ5]
+    screenNames = [oompFileName,oompFileNameZ1,oompFileNameZ2,oompFileNameZ3,oompFileNameZ4,oompFileNameZ5]
 
     partDirectory = oompDirectory + "" + footprint[0].replace("/","-")
     kicadFileName = "sourceFiles/kicad-footprints/" + footprint[1] + "/" + footprint[0] + ".png"
@@ -210,7 +210,7 @@ def captureKicadFootprint(footprint, owner, overwrite = False):
         oomMouseMove(pos=kicadFootprintMiddlePlus)
         oomDelay(shortDelay)
         oomMakeDir(oompDirectory)
-        kicadCut = [575,110,900,900]
+        kicadCut = [420,90,850,850]
         for file in screenNames:
             oomMouseMove(pos=kicadFootprintTopLeft)
             oomDelay(shortDelay)
