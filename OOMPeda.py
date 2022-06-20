@@ -11,8 +11,10 @@ kicadFootprintFilter =[145,114]
 kicadFootprintFirstResult = [145,185]
 kicadFootprintMiddle = [945,545] 
 kicadFootprintMiddlePlus = [950,550] 
+kicadFootprintTopLeft = [475,95] 
 kicadSymbolMiddle = [1105,555] 
 kicadSymbolMiddlePlus = [1110,560] 
+
 
 eagleFootprintFilter = [200,680]
 eagleFootprintFirstResult = [130,90]
@@ -48,7 +50,7 @@ def harvestEagleLibraries():
 def harvestKicadLibraries():    
     owner = "kicad-footprints"
     harvestKicadFootprintImages(owner)
-    #harvestKicadFootprintFiles(owner)
+    harvestKicadFootprintFiles(owner)
 
 
 
@@ -157,31 +159,21 @@ def copyKicadSourceFile(footprint, owner):
 
 
 def getKicadFootprintFolder(footprint,owner):
-    return"oomlout_OOMP_eda/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-") .replace(".","_")+ "/"
+    return"oomlout_OOMP_eda/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-") + "/"
 
 def captureKicadFootprint(footprint, owner, overwrite = False):
     oompDirectory = OOMP.getDir("eda") + "/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/" 
-    oompFileNameOld = oompDirectory + footprint[0] + ".png"    
     oompDirectoryZ = oompDirectory + "zoom/"
-    oompFileNameZ1Old = oompDirectoryZ +footprint[0].replace("/","-")+ "z1.png"
-    oompFileNameZ2Old = oompDirectoryZ +footprint[0].replace("/","-")+ "z2.png"
-    oompFileNameZ3Old = oompDirectoryZ +footprint[0].replace("/","-")+ "z3.png"
-    oompFileNameZ4Old = oompDirectoryZ +footprint[0].replace("/","-")+ "z4.png"
-    oompFileNameZ5Old = oompDirectoryZ +footprint[0].replace("/","-")+ "z5.png"
 
     oompFileNameZ1 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ1.png"
     oompFileNameZ2 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ2.png"
     oompFileNameZ3 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ3.png"
     oompFileNameZ4 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ4.png"
     oompFileNameZ5 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ5.png"
-    oompFileNameZ6 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ6.png"
-    oompFileNameZ7 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ7.png"
-    oompFileNameZ8 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ8.png"
-    oompFileNameZ9 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ9.png"
-    oompFileNameZ10 = oompDirectory + "" + footprint[0].replace("/","-")+ "/zoom/imageZ10.png"
 
     oompFileName = oompDirectory + "" + footprint[0].replace("/","-")+ "/image.png"
 
+    screenNames = [oompFileNameZ1,oompFileName,oompFileNameZ2,oompFileNameZ3,oompFileNameZ4,oompFileNameZ5]
 
     partDirectory = oompDirectory + "" + footprint[0].replace("/","-")
     kicadFileName = "sourceFiles/kicad-footprints/" + footprint[1] + "/" + footprint[0] + ".png"
@@ -190,91 +182,50 @@ def captureKicadFootprint(footprint, owner, overwrite = False):
     oomMakeDir(partDirectory + "/zoom/")   
     oomMakeDir(oompDirectoryZ)   
 
-    if os.path.isfile(oompFileNameOld):
-        filesOld = [oompFileNameOld,oompFileNameZ1Old,oompFileNameZ2Old,oompFileNameZ3Old,oompFileNameZ4Old,oompFileNameZ5Old]
-        filesNew = [oompFileName,oompFileNameZ1,oompFileNameZ2,oompFileNameZ3,oompFileNameZ4,oompFileNameZ5]
-        index=0
-        for file in filesOld:
-            if os.path.isfile(filesOld[index]):
-                os.rename(filesOld[index],filesNew[index])
-                print("Moving: " + str(filesOld[index]) + " to " + str(filesNew[index]))
-            index = index + 1  
-        oomDelay(0)  
-    else:
-        if overwrite or not os.path.isfile(oompFileName) :
-            shortDelay = 1
-            longDelay = 3
-            footprintName = footprint[0]
-            footprintDir = footprint[1].replace(".pretty","")
-            print("Capturing :" + str(footprint))
-            oomMouseClick(pos=kicadActive)
+    if overwrite or not os.path.isfile(oompFileName) :
+        shortDelay = 1
+        longDelay = 3
+        footprintName = footprint[0]
+        footprintDir = footprint[1].replace(".pretty","")
+        print("Capturing :" + str(footprint))
+        oomMouseClick(pos=kicadActive)
+        oomDelay(shortDelay)
+        ##apply filter
+        oomMouseClick(pos=kicadFootprintFilter)
+        oomDelay(shortDelay)
+        oomSendCtrl("a")
+        oomDelay(shortDelay)
+        oomSend(footprintName + " " + footprintDir)
+        oomDelay(longDelay)
+        oomMouseDoubleClick(pos=kicadFootprintFirstResult)
+        oomDelay(longDelay)
+        #### Discard Changes
+        oomSendRight()
+        oomDelay(shortDelay)
+        oomSendEnter()
+        oomDelay(longDelay)
+        ##zoomback a little
+        oomMouseMove(pos=kicadFootprintMiddle)
+        oomDelay(shortDelay) 
+        oomMouseMove(pos=kicadFootprintMiddlePlus)
+        oomDelay(shortDelay)
+        oomMakeDir(oompDirectory)
+        kicadCut = [575,110,900,900]
+        for file in screenNames:
+            oomMouseMove(pos=kicadFootprintTopLeft)
             oomDelay(shortDelay)
-            ##apply filter
-            oomMouseClick(pos=kicadFootprintFilter)
-            oomDelay(shortDelay)
-            oomSendCtrl("a")
-            oomDelay(shortDelay)
-            oomSend(footprintName + " " + footprintDir)
-            oomDelay(longDelay)
-            oomMouseDoubleClick(pos=kicadFootprintFirstResult)
-            oomDelay(longDelay)
-            #### Discard Changes
-            oomSendRight()
-            oomDelay(shortDelay)
+            oomScreenCapture(file,crop=kicadCut)  
+            oomMouseMove(pos=kicadFootprintMiddle)      
+            oomSendAltKey("v")
+            oomSendDown()
+            oomSendDown()
+            oomSendDown()
             oomSendEnter()
-            oomDelay(longDelay)
-            ##zoomback a little
-            oomMouseMove(pos=kicadFootprintMiddle)
-            oomDelay(shortDelay) 
-            oomMouseMove(pos=kicadFootprintMiddlePlus)
-            oomDelay(shortDelay)
+            oomDelay(shortDelay)    
+                        
+        oomDelay(longDelay)    
 
-            kicadCut = [675,105,900,900]
-
-            oomScreenCapture(oompFileNameZ1,crop=kicadCut)        
-            oomMouseScrollWheel(movement=-50)
-            oomDelay(shortDelay)    
-            oomMakeDir(oompDirectory)
-            oomScreenCapture(oompFileNameZ2,crop=kicadCut)                    
-            oomScreenCapture(oompFileName,crop=kicadCut) 
-            oomScreenCapture(kicadFileName,crop=kicadCut)           
-            oomMouseScrollWheel(movement=-50)
-            oomDelay(shortDelay)
-            oomMakeDir(oompDirectory)
-            oomScreenCapture(oompFileNameZ3,crop=kicadCut)            
-            oomMouseScrollWheel(movement=-50)
-            oomDelay(shortDelay)    
-            oomScreenCapture(oompFileNameZ4,crop=kicadCut)        
-            oomMouseScrollWheel(movement=-50)
-            oomDelay(shortDelay)    
-            oomMakeDir(oompDirectory)
-            oomScreenCapture(oompFileNameZ5,crop=kicadCut)        
-            oomMouseScrollWheel(movement=-50)
-            oomDelay(shortDelay)    
-            oomScreenCapture(oompFileNameZ6,crop=kicadCut)        
-            oomMouseScrollWheel(movement=-50)
-            oomDelay(shortDelay)    
-            oomScreenCapture(oompFileNameZ7,crop=kicadCut)        
-            oomMouseScrollWheel(movement=-50)
-            oomDelay(shortDelay)    
-            oomScreenCapture(oompFileNameZ8,crop=kicadCut)  
-            oomMouseScrollWheel(movement=-50)
-            oomDelay(shortDelay)    
-            oomScreenCapture(oompFileNameZ9,crop=kicadCut)  
-            oomMouseScrollWheel(movement=-50)
-            oomDelay(shortDelay)    
-            oomScreenCapture(oompFileNameZ10,crop=kicadCut)        
-
-            
-            oomDelay(longDelay)    
-            ###### Saving
-            
-            #oompDirectory = "eda/footprint/kicad/" +  footprint[1].replace(".pretty","") + "/" 
-            #oompFileName = oompDirectory + footprint[0] + ".png"
-            oomMakeDir(oompDirectory)
-            
-            #oomScreenCapture(oompFileName,crop=[560,105,900,900])
-            oomDelay(5)
+        oomDelay(5)
 
     def captureKicadSymbol(footprint, owner, overwrite = False):
         oompDirectory = "oomlout_OOMP_eda/symbols/kicad/" + owner + "/"  +  footprint[1] + "/" 

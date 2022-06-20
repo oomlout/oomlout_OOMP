@@ -31,7 +31,7 @@ def generateReadmeFootprint(item,overwrite=False):
     Path(baseDir).mkdir(parents=True, exist_ok=True)
     filename = baseDir + "Readme.md" 
     if not os.path.isfile(filename) or overwrite:
-        title = oompID + ">" + name
+        title = name
         mdFile = MdUtils(file_name=filename,title='')
         mainImage="image.png"
         if(os.path.isfile(baseDir + mainImage)):
