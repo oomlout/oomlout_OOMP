@@ -1,9 +1,13 @@
 import OOMP
 import os
 
-def addTags(newPart,filter,pins=0):
+def addTags(newPart,filter,pins=0,pitch=0):
     if(filter == ""):
         x=0
+    elif("RESE-0603" in filter):
+        newPart.addTag("footprintEagle","Adafruit-Eagle-Library/adafruit/R0603")  
+        newPart.addTag("footprintKicad","kicad-footprints/Resistor_SMD/R_0603_1608Metric_Pad0.98x0.95mm_HandSolder")  
+        newPart.addTag("footprintKicad","kicad-footprints/Resistor_SMD/R_0603_1608Metric")  
     elif(filter == "HEAD-I01-X-X-X"):
         pinss = "{:02d}".format(pins)
         newPart.addTag("oompType", "HEAD")

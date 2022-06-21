@@ -3,6 +3,7 @@ import random
 import shutil
 import time
 from wsgiref.handlers import BaseCGIHandler
+import pickle 
 
 details = list()
 parts = list()
@@ -21,6 +22,12 @@ def getDetailFromCode(category,code):
                 return x
     return oompDetail("","","","")
 
+def getDetailsCategory(category=""):
+    rv = []
+    for detail in details:
+        if category in detail.category:
+            rv.append(detail)
+    return rv
 
 
 
@@ -212,8 +219,17 @@ class oompItem:
     def indexMd(self):
         oompID = self.getTag("oompID").value
         name = self.getTag("name").value
+        hexID = self.getTag("hexID").value
         rv = ""
-        rv = rv + "![" + name + "](" + oompID + "/image_140.jpg) " + "[" + oompID + " > " + name + "](" + oompID + "/Readme.md)"        
+        image = ""
+        filename = getDir("parts") + oompID +  "/image_140.jpg"
+        if os.path.isfile(filename):
+            image = "![" + name + "](" + oompID +  "/image_140.jpg)"
+        text = "[" + oompID + " <br> " + name + "](" + oompID + "/)"
+        hex = ""
+        if hexID != "":
+            hex = "[" + hexID + "](" + oompID + "/)"
+        rv = rv + image + "<br>" + text + "<br>" + hex
         return rv
 
     ##No longer used
@@ -255,6 +271,12 @@ class oompItem:
     def addTagSupplied(self,name,value,tag):
         tag.append(oompTag(name,value))
         return tag
+
+
+    def removeTag(self,name):
+        for x in self.tags:
+            if x.name == name:
+                self.tags.remove(x)
 
     def getTag(self,name):
         if name == "oompID":
@@ -374,30 +396,35 @@ import codes.OOMPdetailsColor
 import codes.OOMPdetailsDesc
 import codes.OOMPdetailsIndex
 
-def loadParts():
-    files = os.listdir()
+def loadParts(type):
+    if type != "pickle":        
+        if type == "all" or type == "eda":
+            directory = "oomlout_OOMP_eda\\"
+            loadDirectory(directory)
+        if type == "all" or type == "parts":        
+            directory = "oomlout_OOMP_parts\\"
+            loadDirectory(directory)
+        directory = "oomlout_OOMP_projects\\"
+        loadDirectory(directory)
 
-    ##for file in files:
-    ##    if "TAXApart_" in file:
-    ##        #print(file)
-    ##        moduleName = file.replace(".py","")
-    ##        __import__(moduleName)
+        directory = "templates\\diag\\"
+        loadDirectory(directory, fileFilter = ".py")
+    else:
+        pickleFile = "sourceFiles/pickleOOMP.pickle"
+        global parts
+        parts = pickle.load(open(pickleFile,"rb"))
 
-    directory = "oomlout_OOMP_eda\\"
-    loadDirectory(directory)
-    directory = "oomlout_OOMP_parts\\"
-    loadDirectory(directory)
-    directory = "oomlout_OOMP_projects\\"
-    loadDirectory(directory)
-
-    directory = "templates\\diag\\"
-    loadDirectory(directory, fileFilter = ".py")
-
+def exportPickle():
+    pickleFile = "sourceFiles/pickleOOMP.pickle"
+    pickle.dump(parts, open(pickleFile,"wb"))
 
 
 def loadDirectory(directory,fileFilter="details.py"):
     testing = 1000000000000000000
-    testing = 1000
+    #testing = 10000
+    #testing = 7000
+    #testing = 5000
+    #testing = 1000
     count = 0
     for subdir, dirs, files in os.walk(directory):
             if count > testing:
@@ -427,5 +454,5 @@ def loadDirectory(directory,fileFilter="details.py"):
 
 
 #### import parts
-loadParts()
+
         

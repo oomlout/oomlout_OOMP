@@ -11,13 +11,20 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
     #print(part)
 #print(OOMP.getPartByHex("H03R"))
 
-
+OOMP.loadParts("all")
 ## Generate
 
 #OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=True)
 
 
-OOMPgenerate.generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True,overwrite=False)
+######  Readmes
+OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=True,diagrams=False,diagRenders=False,images=False,overwrite=True)
+######  Images
+OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=True,overwrite=False)
+######  All but labels
+OOMPgenerate.generateAll(labels=False,scads=True,renders=True,readmes=True,diagrams=False,diagRenders=True,images=True,overwrite=False)
+######  Labels
+OOMPgenerate.generateAll(labels=True,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=False,overwrite=False)
 
 #item = OOMP.parts[2]
 #OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=False,diagrams=True,diagRenders=False,images=False)

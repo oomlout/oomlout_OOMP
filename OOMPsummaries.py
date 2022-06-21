@@ -3,16 +3,29 @@ import OOMP
 from mdutils.mdutils import MdUtils
 import os
 from pathlib import Path
+import math
 
 def generateReadmeIndex():    
-    outFile = OOMP.getDir("parts") + "\\Readme.md"
-    f = open(outFile, "w")
-    for item in OOMP.parts:
-        line = item.indexMd()
-        if(not "TEMPLATE" in line and not "FOOTPRINT" in line):
-            f.write(line + "  \n")
-
-    f.close()
+    filename = OOMP.getDir("parts") + "\\Readme.md"
+    
+    mdFile = MdUtils(file_name=filename,title="")
+    mdFile.new_header(level=1,title="Parts")
+    
+    
+    types = OOMP.getDetailsCategory("type")
+    for type in types:
+        parts = []
+        #print("Type: " + type.code)
+        for item in OOMP.getItems("parts"):      
+            testType = item.getTag("oompType").value
+            if type.code == testType:
+                parts.append(item.indexMd())
+        if len(parts) > 0:
+            mdFile.new_header(level=2, title=type.code + " > " + type.name)        
+            addDisplayTable(mdFile,parts,4)   
+    mdFile.new_table_of_contents(table_title='Contents', depth=2)
+    mdFile.create_md_file()     
+    
 
 #https://github.com/didix21/mdutils
 def generateReadme(item,overwrite=False):
@@ -46,7 +59,8 @@ def generateReadmeFootprint(item,overwrite=False):
         tags = []    
         #print(item.fullString())
         for tag in item.tags:
-            tags.append(str(tag.name) + ": " + str(tag.value))
+            if tag.name != "index":
+                tags.append(str(tag.name) + ": " + str(tag.value))
         mdFile.new_list(tags)        
         mdFile.new_table_of_contents(table_title='Contents', depth=2)
             
@@ -58,6 +72,7 @@ def generateReadmeProject(item,overwrite=False):
     name = item.getTag("name").value
     baseDir = item.getFolder()
     filename = baseDir + "Readme.md" 
+
     if not os.path.isfile(filename) or overwrite:
         title = oompID + ">" + name
         mdFile = MdUtils(file_name=filename,title=title)        
@@ -69,6 +84,9 @@ def generateReadmePart(item,overwrite=False):
     name = item.getTag("name").value
     baseDir = item.getFolder()
     filename = baseDir + "Readme.md" 
+    print(oompID)
+    if oompID == "RESE-0603-X--67":
+        c=0
     if not os.path.isfile(filename) or overwrite:
         title = oompID + ">" + name
         mdFile = MdUtils(file_name=filename,title='')
@@ -117,23 +135,27 @@ def generateReadmePart(item,overwrite=False):
         ###### EDA
         mdFile.new_header(level=2, title="EDA")
         ######  Footprints
-        mdFile.new_header(level=3, title="Footprints")
+        
         images = []
         imageName = []
         footprintTags = [['footprintKicad',"kicad"],['footprintEagle','eagle']]        
         for type in footprintTags:
             tags = item.getTags(type[0])   
-                
+            footprints = []    
             for tag in tags:
                 footprint = tag.value            
-                if footprint != "":
+                if footprint != "":                    
                     #print("Footprint:" + footprint)
                     linkPath = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/"+ type[1] + "/" + footprint + "/"
                     #https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/footprints/kicad/kicad-footprints/Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical/image.png
                     imagePath="https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/footprints/"+ type[1] + "/" + footprint + "/image_140.png"
-                    mdFile.new_line(mdFile.new_inline_link(text=footprint,link=linkPath))
-                    mdFile.new_line(mdFile.new_inline_image(text=footprint,path=imagePath))
-                    
+                    name = type[1] + "/" + footprint
+                    footprints.append(mdGetImage(image=imagePath,alt=name) + "<br> " + mdGetLink(text=name,link=linkPath))
+                    #mdFile.new_line(mdFile.new_inline_link(text=footprint,link=linkPath))
+                    #mdFile.new_line(mdFile.new_inline_image(text=footprint,path=imagePath))
+        if len(footprints) > 0:
+            mdFile.new_header(level=3, title="Footprints")
+            addDisplayTable(mdFile,footprints,4)            
         #extension = ".png"
         #baseName = ""
         #title='Footprints'
@@ -159,14 +181,32 @@ def generateReadmePart(item,overwrite=False):
         
         #print(item.fullString())
         for tag in item.tags:
-            tags.append(str(tag.name) + ": " + str(tag.value))
+            
+            if tag.name != "index":
+                tags.append(str(tag.name) + ": " + str(tag.value))
         mdFile.new_list(tags)
 
 
 
 
         mdFile.new_table_of_contents(table_title='Contents', depth=3)
-        mdFile.create_md_file()
+        try:
+            mdFile.create_md_file()
+        except:
+            c=0
+
+def addDisplayTable(mdFile,cells,width):
+    mdFile.new_line()
+
+    numCells = len(cells)
+    rows = math.floor(numCells / width) + 1
+    difference = rows * width - len(cells)
+
+    for r in range(0,difference):
+        cells.append("")
+
+    #print("Table Test: " + str(len(cells)) + "    rows: " + str(rows)  + "    Cols: " + str(width))
+    mdFile.new_table(columns=width, rows=rows, text=cells, text_align='center')                           
 
 def addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir):
         line1 = []
@@ -194,6 +234,12 @@ def addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir):
             #print(len(tableText))
             mdFile.new_line()
             mdFile.new_table(columns=len(line2), rows=2, text=tableText, text_align='center')                       
+
+def mdGetLink(text,link):
+    return "[" + text + "](" + link + ")"
+
+def mdGetImage(image,alt=""):
+    return "![" + alt + "](" + image + ")"
 
 def generateReadmeOLD(item):
     

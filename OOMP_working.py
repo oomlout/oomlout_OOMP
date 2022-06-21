@@ -3,6 +3,13 @@ import OOMPgenerate
 import OOMPinkscapeGenerate
 import OOMPeda
 from oomBase import *
+import json
+
+
+#OOMP.loadParts("all")
+#OOMP.exportPickle()
+
+OOMP.loadParts("pickle")
 
 #OOMP.printParts()
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
@@ -12,17 +19,18 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 #print(OOMP.getPartByHex("H03R"))
 
 
+
 ## Generate
 
-#OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=True,diagrams=False,diagRenders=False,images=False,overwrite=True)
+OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=False,json=True,diagrams=False,diagRenders=False,images=False,overwrite=False)
 
 
 #OOMPgenerate.generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True,overwrite=False)
 
-#item = OOMP.parts[2]
-#OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=False,diagrams=True,diagRenders=False,images=False)
+#item = OOMP.parts[517]
+#OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=False,json=True,diagrams=False,diagRenders=False,images=False,overwrite=True)
 
-#print(item)
+print(item)
 
 #OOMPinkscapeGenerate.generateDiagram(item)
 
@@ -32,7 +40,7 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 ######  KICAD AND EAGLE THINGS
 
 #OOMPeda.harvestEagleLibraries()
-OOMPeda.harvestKicadLibraries()
+#OOMPeda.harvestKicadLibraries()
 
 
 #library="C:/EAGLE 9.6.2/cache/lbr/pinhead.lbr"
@@ -50,3 +58,8 @@ OOMPeda.harvestKicadLibraries()
 #oomScreenCapture("temp1.png",crop=[560,105,900,900])
 
 
+#json testing
+#item = OOMP.parts[517]
+
+#print(json.dumps(item,default=lambda o: o.__dict__, sort_keys=True, indent=4))
+#print(item.__dict__)

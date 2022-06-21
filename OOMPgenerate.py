@@ -1,6 +1,7 @@
 import OOMP
 import OOMPscad
 import OOMPdiagrams
+import OOMPjson
 import OOMPlabels
 import OOMPsummaries
 import OPSC as opsc
@@ -14,7 +15,7 @@ from PIL import Image
 import os.path
 
 
-def generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True,overwrite=False):
+def generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True,json=False,overwrite=False):
 
     print("Generating for " + str(len(OOMP.parts)) + " items")
   
@@ -37,6 +38,15 @@ def generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,d
         for item in OOMP.getItems():
             OOMPsummaries.generateReadme(item,overwrite)
     
+    if json:
+        print("     Generating jsons:")
+        for item in OOMP.getItems("footprints"):
+            OOMPjson.generateJson(item,overwrite)
+        for item in OOMP.getItems("parts"):
+            OOMPjson.generateJson(item,overwrite)
+        for item in OOMP.getItems("projects"):
+            OOMPjson.generateJson(item,overwrite)
+
     if diagrams or diagRenders:
         print("     Generating Diagrams:")
         for item in OOMP.getItems("parts"):
@@ -48,22 +58,25 @@ def generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,d
         for item in OOMP.getItems():
             generateResolutions(item,overwrite)
 
-def generateItem(item, labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True):
+def generateItem(item, labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True,json=False,overwrite=False):
 
     if labels:
-        OOMPlabels.generateLabel(item)
+        OOMPlabels.generateLabel(item,overwrite=overwrite)
 
     if scads:
-        OOMPscad.generateScad(x,renders)
+        OOMPscad.generateScad(x,renders,overwrite=overwrite)
 
     if readmes:
-        OOMPsummaries.generateReadme(item)
+        OOMPsummaries.generateReadme(item,overwrite=overwrite)
     
+    if json:
+        OOMPjson.generateJson(item,overwrite=overwrite)
+
     if diagrams or diagRenders:
-        OOMPdiagrams.generateDiagrams(item, diagrams=diagrams, renders=diagRenders)
+        OOMPdiagrams.generateDiagrams(item, diagrams=diagrams, renders=diagRenders,overwrite=overwrite)
 
     if images:
-        generateResolutions(item)
+        generateResolutions(item,overwrite=overwrite)
 
 
 def generateResolutions(item,overwrite=False):
