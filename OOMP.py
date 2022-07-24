@@ -108,8 +108,11 @@ def getNextIndex():
     return len(parts) + 1
         
 
-def getAddTagLine(tagName,value):
-    return 'newPart.addTag("' + tagName + '", "' + value + '")\n'
+def getAddTagLine(tagName,value,quotes="single"):
+    if quotes == "single":
+        return 'newPart.addTag("' + tagName + '", "' + value + '")\n'
+    elif quotes == "triple":
+        return 'newPart.addTag("' + tagName + '", """' + value + '""")\n'
 
 
 ######  Directory routines
@@ -140,6 +143,7 @@ def getFileOpening(hexID="",type="",size="",color="",desc="",index=None,name=Non
     rv = rv + "###### OOMP FILE  ######\n"
     rv = rv + "\n"
     rv = rv + "import OOMP\n"
+    rv = rv + "import OOMPtags\n"    
     rv = rv + "\n"
     rv = rv + "newPart = OOMP.oompItem()\n"
     rv = rv + "\n"
@@ -169,7 +173,7 @@ class oompItem:
         self.tags=list()
         if index == 0:
             index = len(parts) + 1
-        self.index=index
+        #self.index=index
         self.addTag("index", index)
 
     def __str__(self):
@@ -207,7 +211,7 @@ class oompItem:
         oompIndex = self.getTag("oompIndex").value
         oompID = self.getTag("oompID").value
         if oompType == "FOOTPRINT":
-            rv = "oomlout_OOMP_eda/footprints/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex + "/"
+            rv = "oomlout_OOMP_eda/footprints/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
         elif oompType == "PROJ":
             rv = "oomlout_OOMP_projects/"  + oompID + "/" 
         else:
@@ -390,14 +394,13 @@ class oompDetail:
     
 #### import detail lists
 
-import codes.OOMPdetailsType
-import codes.OOMPdetailsSize
-import codes.OOMPdetailsColor
-import codes.OOMPdetailsDesc
-import codes.OOMPdetailsIndex
-
 def loadParts(type):
-    if type != "pickle":        
+    if type != "pickle":  
+        import codes.OOMPdetailsType
+        import codes.OOMPdetailsSize
+        import codes.OOMPdetailsColor
+        import codes.OOMPdetailsDesc
+        import codes.OOMPdetailsIndex      
         if type == "all" or type == "eda":
             directory = "oomlout_OOMP_eda\\"
             loadDirectory(directory)
@@ -410,13 +413,18 @@ def loadParts(type):
         directory = "templates\\diag\\"
         loadDirectory(directory, fileFilter = ".py")
     else:
-        pickleFile = "sourceFiles/pickleOOMP.pickle"
+        picklePartsFile = "sourceFiles/picklePartsOOMP.pickle"
+        pickleTagsFile = "sourceFiles/pickleTagsOOMP.pickle"
         global parts
-        parts = pickle.load(open(pickleFile,"rb"))
+        global details
+        parts = pickle.load(open(picklePartsFile,"rb"))
+        details = pickle.load(open(pickleTagsFile,"rb"))
 
 def exportPickle():
-    pickleFile = "sourceFiles/pickleOOMP.pickle"
-    pickle.dump(parts, open(pickleFile,"wb"))
+    picklePartsFile = "sourceFiles/picklePartsOOMP.pickle"
+    pickle.dump(parts, open(picklePartsFile,"wb"))
+    pickleTagsFile = "sourceFiles/pickleTagsOOMP.pickle"
+    pickle.dump(details, open(pickleTagsFile,"wb"))
 
 
 def loadDirectory(directory,fileFilter="details.py"):

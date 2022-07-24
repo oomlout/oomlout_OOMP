@@ -11,6 +11,11 @@ import json
 
 OOMP.loadParts("pickle")
 
+print("Number of Items: "+ str(len(OOMP.getItems("all"))))
+print("Number of Footprints: "+ str(len(OOMP.getItems("footprints"))))
+print("Number of Parts: "+ str(len(OOMP.getItems("parts"))))
+print("Number of Projects: "+ str(len(OOMP.getItems("projects"))))
+
 #OOMP.printParts()
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
@@ -22,7 +27,10 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 ## Generate
 
-OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=False,json=True,diagrams=False,diagRenders=False,images=False,overwrite=False)
+#OOMPgenerate.generateAll(labels=True,scads=False,renders=False,readmes=True,json=True,diagrams=False,diagRenders=False,images=True,overwrite=False)
+
+
+#OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=True,json=True,diagrams=False,diagRenders=False,images=False,overwrite=True)
 
 
 #OOMPgenerate.generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True,overwrite=False)
@@ -30,7 +38,7 @@ OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=False,js
 #item = OOMP.parts[517]
 #OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=False,json=True,diagrams=False,diagRenders=False,images=False,overwrite=True)
 
-print(item)
+#print(item)
 
 #OOMPinkscapeGenerate.generateDiagram(item)
 
@@ -39,10 +47,22 @@ print(item)
         
 ######  KICAD AND EAGLE THINGS
 
-#OOMPeda.harvestEagleLibraries()
+oomDelay(5)
+
+### ### Single is for doing default libraries
+#OOMPeda.harvestEagleLibraries(footprint=True,files=True,single=False, overwrite=False)
+OOMPeda.harvestEagleLibraries(footprint=True,files=True,single=True, overwrite=False)
+
+
+#OOMPeda.eagleSetLibrary("19inch")
+#OOMPeda.eagleResetLibrary()
+
+#import OOMP_genPickle
+
 #OOMPeda.harvestKicadLibraries()
 
-
+#owner = "kicad-footprints"
+#OOMPEDA.harvestKicadFootprintImages(owner)
 #library="C:/EAGLE 9.6.2/cache/lbr/pinhead.lbr"
 #libraryName="pinhead"
 #OOMPeda.harvestEagleFootprint(library,libraryName)

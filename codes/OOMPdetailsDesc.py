@@ -3021,3 +3021,8 @@ OOMP.oompAddDetail(category="desc",code="K5883",name="3-Axis Digital Compass (HM
 OOMP.oompAddDetail(category="desc",code="K9250",name="9-Axis Inertial Measurement Unit (MPU-9250)")
 OOMP.oompAddDetail(category="desc",code="K36",name="Temperature (TMP36)")
 OOMP.oompAddDetail(category="desc",code="K7660",name="3-Axis Accelerometer (MMA7660FCR1)")
+OOMP.oompAddDetail(category="desc",code="TC3950",name="3950")
+
+######  Differentiators for projects
+OOMP.oompAddDetail(category="desc",code="EVERY",name="Every")
+OOMP.oompAddDetail(category="desc",code="2040",name="2040")

@@ -20,5 +20,6 @@ cd..
 git clone https://github.com/ContextualElectronics/CE_KiCadLib
 cd CE_KiCadLib
 git pull
+REM Ned to move .pretty files up one directory
 cd..
 cd..

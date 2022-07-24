@@ -15,6 +15,8 @@ kicadFootprintTopLeft = [365,86]
 kicadSymbolMiddle = [1105,555] 
 kicadSymbolMiddlePlus = [1110,560] 
 
+kicadLibraryTop = [210,115]
+
 
 eagleFootprintFilter = [200,680]
 eagleFootprintFirstResult = [130,90]
@@ -26,31 +28,94 @@ eagleCrop = [555,200,800,800]
 
 
 ###### need to remove to avoid name coNAMEnflicts
-def harvestEagleLibraries():
-    ######  Adafruit
-    owner = "Adafruit-Eagle-Library"
-    libraryName="adafruit"     
-    library="C:/GH/oomlout_OOMP/sourceFiles/" + owner + "/"  + libraryName +".lbr"       
-    harvestEagleFootprint(library,libraryName, owner)    
-    
+def harvestEagleLibraries(footprint=True,files=True, single=False, overwrite=False):
+ 
+
+
+    ###### PROCESS
+        ###### Adarfuit             finished    2022-07-17
+        ###### Sparkfun             finished    2022-07-17    
+        ###### Eagle     
+        #           Tier one        finshed    2022-07-17       
+        #           Tier two        finshed    2022-07-17       
+
+
     ######  Defaults
         ######  Pinhead
+    #owner = "eagle-default"
+    #libraryName="pinhead"     
+    #library="C:/EAGLE 9.6.2/cache/lbr/" + libraryName +".lbr"    
+    
+
+
+    #owner = "eagle-default"
+    #libraryName="pinhead"     
+
+    directory="C:/EAGLE 9.6.2/cache/lbr/"
     owner = "eagle-default"
-    libraryName="pinhead"     
-    library="C:/EAGLE 9.6.2/cache/lbr/" + libraryName +".lbr"    
-    #harvestEagleFootprint(library,libraryName, owner)
+    
+    if single:
+        all = True
+        filters= [""]
+        ## Connectors
+        #filters = ["con-"] 
+        ## massive package
+        #filters = ["ref-packages"] 
+        #tier one
+        #filters = ["pinhead","diode","holes","led"] 
+        #tier 2
+        #filters = ["19inch","40xx","41xx","45xx","74ac-logic","allegro","altera"]
+        #tier 3
+        #filters = ["74ttl-din","altera-cyclone-II","altera-stratix-iv","am29-memory","battery","burr-brown","busbar","buzzer"] 
+        #tier 4 including all connectors
+        #filters = ["74xx-eu","atmel","capacitor-wima","chipcard-siemens","cirrus-logic","con-"]
+        #tier 5
+        #filters = ["amd-mach"] 
+        #tier 6
+        #filters = ["analog-devices"] 
+        #tier
+        #filters = ["avago"] 
+        #tier
+        #filters = [""] 
+        #tier
+        #filters = [""] 
+
+        for subdir, dirs, files in os.walk(directory):
+                for file in files:
+                        print("testing Library: " + file)
+                        if ".lbr" in file:
+                            for filter in filters or all:
+                                if filter in file:
+                                #if filter + ".lbr" == file:
+                                    library="C:/EAGLE 9.6.2/cache/lbr/" + file 
+                                    libraryName = file.replace(".lbr","")   
+                                    c=0                
+                                    #if not single:
+                                    harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
 
     ######  Sparkfun
     owner = "SparkFun-Eagle-Libraries"
     libraryName="Sparkfun-Connectors"     
     library="C:/GH/oomlout_OOMP/sourceFiles/SparkFun-Eagle-Libraries/" + libraryName +".lbr"    
-    #harvestEagleFootprint(library,libraryName,owner)
-    
+    if not single:
+        c=0
+        harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
+
+    ######  Adafruit
+    owner = "Adafruit-Eagle-Library"
+    libraryName="adafruit"     
+    library="C:/GH/oomlout_OOMP/sourceFiles/" + owner + "/"  + libraryName +".lbr"       
+    if not single:
+        c=0
+    #    harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
+
+
 
 def harvestKicadLibraries():    
     owner = "kicad-footprints"
+    harvestKicadFootprintImages(owner)    
+    owner = "CE_KiCadLib"
     harvestKicadFootprintImages(owner)
-    harvestKicadFootprintFiles(owner)
 
 
 
@@ -68,7 +133,8 @@ def harvestKicadFootprintFiles(owner):
             copyKicadSourceFile(footprint,owner)
             makeKicadOompFile(footprint,owner)
             #delay(300)
-    
+
+
 
 ### open footprint editor
 def harvestKicadFootprintImages(owner):
@@ -80,6 +146,8 @@ def harvestKicadFootprintImages(owner):
     for footprint in footprints:
         if filterDir in footprint[1]:
             captureKicadFootprint(footprint,owner)
+            copyKicadSourceFile(footprint,owner)
+            makeKicadOompFile(footprint,owner)
 
 #open symbol editor
 def harvestKicadSymbolImages(owner):
@@ -93,15 +161,74 @@ def harvestKicadSymbolImages(owner):
         if filterDir in symbol[1]:
             print(symbol)
             captureKicadSymbol(symbol,owner)
+
+
 #open new PCB    
-def harvestEagleFootprint(libraryFile,libraryName, owner):
-    filterDir = "Connector_PinHeader_2.54mm"
+def harvestEagleFootprint(libraryFile,libraryName, owner, overwrite=False, footprint=True, files=True):
     footprints = getEagleFootprintNames(libraryFile,libraryName)
     numFootprints = len(footprints)
     print("Found " + str(numFootprints) + " footprints")
+    #delay(1)    
     for footprint in footprints:
-        captureEagleFootprint(footprint,owner)
+        if footprint:
+            captureEagleFootprint(footprint,owner,overwrite=overwrite,libraryName=libraryName)
+        if files:
+            copyEagleSourceFile(footprint,owner,libraryFile,overwrite=overwrite)
+            makeEagleOompFile(footprint,owner,overwrite=overwrite)
+    
 
+def eagleResetLibrary():
+    shortDelay=2
+    ##focus window
+    oomMouseClick(pos=kicadActive)
+    oomDelay(shortDelay)    
+    oomSendAltKey("l")
+    delay(shortDelay)
+    oomSend("m")
+    oomDelay(shortDelay)
+    oomSendRight(1)
+    oomDelay(shortDelay)
+    oomSendTab(2)
+    oomDelay(shortDelay)
+    oomSendControl("a")
+    oomDelay(1)
+    oomSendEnter()
+    oomDelay(3)
+    ## for long delays
+    oomDelay(120)
+    oomSendEsc()
+
+currentLibrary = ""
+
+def eagleSetLibrary(libraryName):
+    shortDelay=2
+    ##focus window
+    oomMouseClick(pos=kicadActive)
+    oomDelay(shortDelay)    
+    
+    oomSendAltKey("l")
+    delay(shortDelay)
+    oomSend("m")
+    delay(shortDelay)
+    ###Select Available     
+    oomSendRight(2)
+    delay(shortDelay)
+    oomSendRight(2)
+    delay(shortDelay)
+    #library search box
+    oomSendTab(4)
+    delay(shortDelay)
+    #sendlibraryName
+    oomSend(libraryName,delay=3)
+    oomSendEnter(delay=3)
+    #back to library window
+    oomMouseClick(pos=kicadLibraryTop)
+    oomDelay(shortDelay)    
+    oomSendEnter(delay=3)
+    ### for large libraries
+    oomSendEnter(delay=120)
+    oomSendEsc()
+    delay(5)
 
 
 ######  KICAD
@@ -125,24 +252,60 @@ def makeKicadOompFile(footprint, owner):
             stripped_line = line.strip()
             if '(descr "' in line:
                 #print("    Adding description")
-                f.write(OOMP.getAddTagLine("kicadDesc",line.replace('(descr "',"").replace('")',"").strip()))
+                f.write(OOMP.getAddTagLine("description",line.replace('(descr "',"").replace('")',"").strip()))
             testLine = '(tags "'
             if testLine in line:           
                 #print("    Adding tags")
-                f.write(OOMP.getAddTagLine("kicadTags",line.replace(testLine,"").replace('")',"").strip()))            
+                f.write(OOMP.getAddTagLine("tags",line.replace(testLine,"").replace('")',"").strip()))            
             if '(attr ' in line:
                 #print("    Adding attr")
-                f.write(OOMP.getAddTagLine("kicadAttr",line.replace('(attr ',"").replace(')',"").strip())) 
+                f.write(OOMP.getAddTagLine("attribute",line.replace('(attr ',"").replace(')',"").strip())) 
             testLine = '(model "'                 
             if testLine in line:
                 #print("    Adding attr")
-                f.write(OOMP.getAddTagLine("kicad3DModel",line.replace(testLine,"").replace('"',"").strip()))    
+                f.write(OOMP.getAddTagLine("3dmodel",line.replace(testLine,"").replace('"',"").strip()))    
                 
     
 
     f.write("\n")
     f.write(OOMP.getFileEnding())
     f.close()
+    
+def makeEagleOompFile(footprint, owner, overwrite=False):
+    
+    filename = getEagleFootprintFolder(footprint,owner) + "details.py"
+    if not os.path.isfile(filename) or overwrite:
+        print("OOMP file for " + footprint[0])    
+        f = open(filename,"w")
+        hexID=""
+        type="FOOTPRINT"
+        size="eagle"
+        color=owner
+        desc=footprint[1].replace(".pretty","")
+        index=footprint[0]
+        name = owner + "/" + footprint[1].replace(".pretty","") + "/" + footprint[0]
+        f.write(OOMP.getFileOpening(hexID,type,size,color,desc,index,name))
+        ###### Get details from kicad_mod file
+        
+        footprintFileName = getEagleFootprintFolder(footprint,owner) + "eagleFootprint.xml"
+        with open(footprintFileName, "r") as a_file:
+            content = a_file.read()
+            xmlType = 'description'
+            tagType = 'description'
+            line = stringBetweenLines(content,"<"+xmlType+">","</"+xmlType+">")
+            line = line.replace('"',"&quot;")
+            if line != "":           
+                f.write(OOMP.getAddTagLine(tagType,line,quotes="triple").encode("ascii", "ignore").decode())            
+
+        variablesLine = ",hexID='" + hexID + "',oompType='" + type + "',oompSize='" + size + "',oompColor='" + color + "',oompDesc='" + desc + "',oompIndex='" + index + "'"
+        oompID = type +"-" + size + "-" + color + "-" + desc + "-" + index
+        line = '\nnewPart = OOMPtags.addTags(newPart,"' + oompID + '"' + variablesLine + ')\n'
+
+        f.write(line)
+
+        f.write("\n")
+        f.write(OOMP.getFileEnding())
+        f.close()
     
 
 def copyKicadSourceFile(footprint, owner):
@@ -156,10 +319,46 @@ def copyKicadSourceFile(footprint, owner):
     
     shutil.copyfile(sourceFile, destFile)
 
+def copyEagleSourceFile(footprint, owner,libraryFile,overwrite=False):
+    destFile = getEagleFootprintFolder(footprint,owner) + "eagleFootprint.xml"
+    Path(getEagleFootprintFolder(footprint,owner)).mkdir(parents=True, exist_ok=True)    
+
+    if not os.path.isfile(destFile) or overwrite:
+        f = open(libraryFile, encoding='utf-8',mode="r")
+        fileContents = f.read()
+        f.close()
+
+        start= '<package name="' + footprint[0] 
+        end = "</package>"
+
+        print("Start: " + start)
+
+        fp =  start + stringBetweenLines(fileContents,start,end) + end + "\n"
+
+        
+
+        print("Destination: " + destFile)
+        f = open(destFile,"w")
+        xmlStart = """<?xml version="1.0" encoding="utf-8"?>
+    <!DOCTYPE eagle SYSTEM "eagle.dtd">
+    <eagle version="6.6.0">
+    <library>
+    <packages>"""
+        xmlEnd = """</packages>
+        </library>
+        </xml>"""
+        #f.write(xmlStart)
+        f.write(fp)
+        #f.write(xmlEnd)
+        f.close()
+
 
 
 def getKicadFootprintFolder(footprint,owner):
     return"oomlout_OOMP_eda/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-") + "/"
+
+def getEagleFootprintFolder(footprint,owner):
+    return"oomlout_OOMP_eda/footprints/eagle/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-").replace(":","-") + "/"
 
 def captureKicadFootprint(footprint, owner, overwrite = False):
     oompDirectory = OOMP.getDir("eda") + "/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/" 
@@ -227,7 +426,7 @@ def captureKicadFootprint(footprint, owner, overwrite = False):
 
         oomDelay(5)
 
-    def captureKicadSymbol(footprint, owner, overwrite = False):
+def captureKicadSymbol(footprint, owner, overwrite = False):
         oompDirectory = "oomlout_OOMP_eda/symbols/kicad/" + owner + "/"  +  footprint[1] + "/" 
         oompFileName = oompDirectory + footprint[0] + ".png"
         if overwrite or not os.path.isfile(oompFileName) :
@@ -274,7 +473,7 @@ def captureKicadFootprint(footprint, owner, overwrite = False):
 
 ## needs grid set to finest
 ## Add locally (if doing a default one then need to switch name tab to 9 from 8)
-def captureEagleFootprint(footprint, owner, overwrite=False):
+def captureEagleFootprint(footprint, owner, overwrite=False,libraryName=""):
     oompDirectory = "oomlout_OOMP_eda/footprints/eagle/" + owner + "/"  +  footprint[1] + "/" 
     oompFileNameZ1 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ1.png"
     oompFileNameZ2 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ2.png"
@@ -292,6 +491,13 @@ def captureEagleFootprint(footprint, owner, overwrite=False):
 
 
     if overwrite or not os.path.isfile(oompFileName) :
+        print("making :" + str(footprint))
+        global currentLibrary
+        if currentLibrary != libraryName:
+            eagleResetLibrary()
+            eagleSetLibrary(libraryName)
+            currentLibrary = libraryName
+    
         shortDelay = 1
         longDelay = 3
         footprintName = footprint[0]
@@ -312,6 +518,8 @@ def captureEagleFootprint(footprint, owner, overwrite=False):
         oomSend("     ")
         oomDelay(shortDelay)
         oomSendEnter()
+        oomDelay(longDelay)
+        oomDelay(longDelay)
         oomDelay(longDelay)
         ######  Issue when more than one component in search so click is required
         oomMouseClick(pos=eagleFootprintFirstResult)

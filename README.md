@@ -55,6 +55,7 @@ A tag consists of a name and a value. Some tags are further defined in a sperate
 	* diagIDEN.py (generated)  --  A diagram for adding a part to a PCB with details.
 	* diagSCHEM.py (generated)  --  A diagram for adding a part to a schematic.
 	* diagSIMP.py (generated)  --  A diagram with only the parts outline, and link.
+	* working.cdr  --  A file for working on the component drawing in Corel Draw format
 
 * Datasheets
 	* datasheet.pdf  --  Datasheet for the part.

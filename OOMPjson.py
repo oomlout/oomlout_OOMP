@@ -5,6 +5,8 @@ import json
 def generateJson(item,overwrite):
     oompID = item.getTag("oompID").value
     name = item.getTag("name").value
+    index = item.getTag("index").value
+    item.removeTag("index") 
     item.addTag("oompID", oompID)
     item.addTag("name", name)
     jsonFile = item.getFolder() + "json.json"
@@ -14,5 +16,6 @@ def generateJson(item,overwrite):
         f.write(jsonText)
         f.close()
 
+    item.addTag("index", index)
     item.removeTag("oompID")    
     item.removeTag("name")    

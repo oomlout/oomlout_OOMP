@@ -40,6 +40,7 @@ def generateReadme(item,overwrite=False):
 def generateReadmeFootprint(item,overwrite=False):  
     oompID = item.getTag("oompID").value
     name = item.getTag("name").value
+    description = item.getTag("description").value
     baseDir = item.getFolder()
     Path(baseDir).mkdir(parents=True, exist_ok=True)
     filename = baseDir + "Readme.md" 
@@ -54,6 +55,8 @@ def generateReadmeFootprint(item,overwrite=False):
         summary = []
         summary.append("ID: " + oompID)
         summary.append("Name: " + name) 
+        summary.append("Description: " + name) 
+        mdFile.new_list(summary)
         ###### Tags
         mdFile.new_header(level=2, title='Tags')
         tags = []    

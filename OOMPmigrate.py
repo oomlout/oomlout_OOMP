@@ -84,10 +84,27 @@ def migrateFile(subdir,file):
     tagList = list(dict.fromkeys(tagList))
     tags = ""
 
+    hexID = ""
+    type = ""
+    size = ""
+    color = ""
+    desc = ""
+    index = ""
+
     for tag in tagList:
         if not "/" in tag:
             values = stringsBetween(contents,"<" + tag + ">","\</" + tag + ">")
             for value in values:
+                if value == "oompType":
+                    type = value
+                if value == "oompSize":
+                    size = value
+                if value == "oompColor":
+                    color = value
+                if value == "oompDesc":
+                    desc = value
+                if value == "oompIndex":
+                    index = value
                 line = "newPart.addTag('" + tag + "','" + value.replace("'","&#39") + "')"
                 tags = tags + line + "\n"
 
@@ -101,7 +118,7 @@ def migrateFile(subdir,file):
         id[4] = "01"
     oompID = id[0] + "-" +id[1].zfill(2) + "-" +id[2] + "-" +id[3] + "-" + id[4].zfill(2)
 
-
+    variablesLine = variablesLine + ",hexID=" + hexID + ",oompType=" + type + ",oompSize=" + size + ",oompColor=" + color + ",oompDesc=" + desc + ",oompIndex=" + index
     partLine = 'newPart = OOMPtags.addTags(newPart,"' + oompID + '"' + variablesLine + ')\n'
 
 

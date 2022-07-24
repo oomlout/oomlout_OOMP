@@ -1,7 +1,7 @@
 import OOMP
 import os
 
-def addTags(newPart,filter,pins=0,pitch=0):
+def addTags(newPart,filter,pins=0,pitch=0,hexID=None,oompType=None,oompSize=None,oompColor=None,oompDesc=None,oompIndex=None):
     if(filter == ""):
         x=0
     elif("RESE-0603" in filter):

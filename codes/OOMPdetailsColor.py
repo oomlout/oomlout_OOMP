@@ -20,3 +20,10 @@ OOMP.oompAddDetail(category="color",code="U",name="")
 OOMP.oompAddDetail(category="color",code="T",name="")
 OOMP.oompAddDetail(category="color",code="M",name="Metal")
 OOMP.oompAddDetail(category="color",code="I9",name="IR (940 nm)")
+
+###### Board names for projects
+OOMP.oompAddDetail(category="color",code="NANO",name="Nano")
+OOMP.oompAddDetail(category="color",code="PICO",name="Pico")
+OOMP.oompAddDetail(category="color",code="SHEN",name="Shennie")
+
+
