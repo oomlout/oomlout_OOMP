@@ -35,7 +35,7 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 OOMPeda.harvestKicadLibraries()
 
 owner = "kicad-footprints"
-OOMPedaharvestKicadFootprintFiles(owner)
+OOMPeda.harvestKicadFootprintFiles(owner)
 
 
 #library="C:/EAGLE 9.6.2/cache/lbr/pinhead.lbr"
