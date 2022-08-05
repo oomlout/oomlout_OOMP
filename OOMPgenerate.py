@@ -15,48 +15,82 @@ from PIL import Image
 import os.path
 
 
-def generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True,json=False,overwrite=False):
+def generateAll(filter="all",labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True,json=False,overwrite=False):
 
     print("Generating for " + str(len(OOMP.parts)) + " items")
   
 
     if labels:
         print("     Generating Labels:")
-        for item in OOMP.getItems("parts"):
-            OOMPlabels.generateLabel(item,overwrite)
+        if filter == "all" or filter == "parts":
+            for item in OOMP.getItems("parts"):
+                OOMPlabels.generateLabel(item,overwrite)
 
-    if scads:
-        print("     Generating SCADs:")
-        for item in OOMP.getItems("parts"):
-            OOMPscad.generateScad(item,renders,overwrite)
-        for item in OOMP.getItems("projectss"):
-            OOMPscad.generateScad(item,renders,overwrite)
+    if scads:        
+        if filter == "all" or filter == "parts":
+            print("     Generating SCADs: Parts")
+            for item in OOMP.getItems("parts"):
+                OOMPscad.generateScad(item,renders,overwrite)
+        if filter == "all" or filter == "projects":                
+            print("     Generating SCADs: Projects")
+            for item in OOMP.getItems("projects"):
+                OOMPscad.generateScad(item,renders,overwrite)
 
     if readmes:
         print("     Generating Readmes:")
-        OOMPsummaries.generateReadmeIndex()
-        for item in OOMP.getItems():
-            OOMPsummaries.generateReadme(item,overwrite)
-    
+        
+        if filter == "all":
+            OOMPsummaries.generateReadmeIndex()
+            for item in OOMP.getItems():
+                OOMPsummaries.generateReadme(item,overwrite)
+        if filter == "parts":
+            OOMPsummaries.generateReadmeIndex()
+            for item in OOMP.getItems("parts"):
+                OOMPsummaries.generateReadme(item,overwrite)
+        if filter == "projects":
+            for item in OOMP.getItems("projects"):
+                OOMPsummaries.generateReadme(item,overwrite)
+        if filter == "footprints":
+            for item in OOMP.getItems("footprints"):
+                OOMPsummaries.generateReadme(item,overwrite)
     if json:
         print("     Generating jsons:")
-        for item in OOMP.getItems("footprints"):
-            OOMPjson.generateJson(item,overwrite)
-        for item in OOMP.getItems("parts"):
-            OOMPjson.generateJson(item,overwrite)
-        for item in OOMP.getItems("projects"):
-            OOMPjson.generateJson(item,overwrite)
+        if filter == "all" or filter == "footprints":
+            for item in OOMP.getItems("footprints"):
+                OOMPjson.generateJson(item,overwrite)
+        if filter == "all" or filter == "parts":        
+            for item in OOMP.getItems("parts"):
+                OOMPjson.generateJson(item,overwrite)
+        if filter == "all" or filter == "projects":        
+            for item in OOMP.getItems("projects"):
+                OOMPjson.generateJson(item,overwrite)
 
     if diagrams or diagRenders:
-        print("     Generating Diagrams:")
-        for item in OOMP.getItems("parts"):
-            OOMPdiagrams.generateDiagrams(item, diagrams=diagrams, renders=diagRenders,overwrite=overwrite)
-        OOMPdiagrams.genAllDiagramsFile()
+        
+        if filter == "all" or filter == "parts":
+            print("     Generating Diagrams: " + filter)
+            for item in OOMP.getItems("parts"):
+                OOMPdiagrams.generateDiagrams(item, diagrams=diagrams, renders=diagRenders,overwrite=overwrite)
+            OOMPdiagrams.genAllDiagramsFile()
 
     if images:
-        print("     Generating Image Resolutions:")
-        for item in OOMP.getItems():
-            generateResolutions(item,overwrite)
+        
+        if filter == "all":
+            print("     Generating Image Resolutions: All")
+            for item in OOMP.getItems():
+                generateResolutions(item,overwrite)
+        if filter == "parts":        
+            print("     Generating Image Resolutions: Parts")
+            for item in OOMP.getItems("parts"):
+                generateResolutions(item,overwrite)
+        if filter == "projects":        
+            print("     Generating Image Resolutions: Projects")
+            for item in OOMP.getItems("projects"):
+                generateResolutions(item,overwrite)
+        if filter == "footprints":        
+            print("     Generating Image Resolutions: Footprints")
+            for item in OOMP.getItems("footprints"):
+                generateResolutions(item,overwrite)
 
 def generateItem(item, labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True,json=False,overwrite=False):
 

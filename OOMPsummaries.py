@@ -76,9 +76,26 @@ def generateReadmeProject(item,overwrite=False):
     baseDir = item.getFolder()
     filename = baseDir + "Readme.md" 
 
+
+
     if not os.path.isfile(filename) or overwrite:
         title = oompID + ">" + name
-        mdFile = MdUtils(file_name=filename,title=title)        
+        mdFile = MdUtils(file_name=filename,title=title)  
+        mdFile.new_header(level=1, title=title)              
+        ###### Tags
+        mdFile.new_header(level=2, title='Tags')
+        tags = []    
+        #print(item.fullString())
+        for tag in item.tags:
+            if tag.name != "index":
+                tags.append(str(tag.name) + ": " + str(tag.value))
+        mdFile.new_list(tags)        
+        mdFile.new_table_of_contents(table_title='Contents', depth=2)
+            
+        #print("Writing readme: " + filename)    
+        mdFile.create_md_file()
+
+
         mdFile.new_table_of_contents(table_title='Contents', depth=2)
         mdFile.create_md_file()
 

@@ -1,6 +1,5 @@
 import OOMP
 import OOMPgenerate
-import OOMPproject
 import OOMPinkscapeGenerate
 import OOMPeda
 from oomBase import *
@@ -18,67 +17,12 @@ print("Number of Parts: "+ str(len(OOMP.getItems("parts"))))
 print("Number of Projects: "+ str(len(OOMP.getItems("projects"))))
 
 #OOMP.printParts()
-OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
-
-######  Projects
-
-OOMPproject.harvestProjectsSparkfun()
-#OOMPproject.harvestProjectsAdafruit()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-############ OLD
-
-#for part in OOMP.parts:
-    #print(part)
-#print(OOMP.getPartByHex("H03R"))
-
-
-
-
-
-## Generate
-
-#OOMPgenerate.generateAll(labels=True,scads=False,renders=False,readmes=True,json=True,diagrams=False,diagRenders=False,images=True,overwrite=False)
-
-
-#OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=True,json=True,diagrams=False,diagRenders=False,images=False,overwrite=True)
-
-
-#OOMPgenerate.generateAll(labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True,overwrite=False)
-
-#item = OOMP.parts[28250]
-#OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=True,json=True,diagrams=False,diagRenders=False,images=False,overwrite=True)
-
-#print(item)
-
-#OOMPinkscapeGenerate.generateDiagram(item)
-
-#OOMPinkscapeGenerate.generateDiagrams()
-
+OOMP.setBaseDir("C:/GH/oomlout_OOMP/"
+)
         
-######  KICAD AND EAGLE THINGS
-
+######  Harvest Project Files
 #oomDelay(5)
+OOMPeda.harvestProjectFiles()
 
 ### ### Single is for doing default libraries
 #OOMPeda.harvestEagleLibraries(footprint=True,files=True,single=False, overwrite=False)

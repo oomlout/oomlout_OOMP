@@ -95,19 +95,29 @@ def harvestEagleLibraries(footprint=True,files=True, single=False, overwrite=Fal
 
     ######  Sparkfun
     owner = "SparkFun-Eagle-Libraries"
-    libraryName="Sparkfun-Connectors"     
-    library="C:/GH/oomlout_OOMP/sourceFiles/SparkFun-Eagle-Libraries/" + libraryName +".lbr"    
-    if not single:
-        c=0
-        harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
+    directory="C:/GH/oomlout_OOMP/sourceFiles/" + owner + "/"
+    if single:
+        for subdir, dirs, files in os.walk(directory):
+                for file in files:
+                        print("testing Library: " + file)
+                        if ".lbr" in file:
+                            for filter in filters or all:
+                                if filter in file:
+                                #if filter + ".lbr" == file:
+                                    libraryName = file.replace(".lbr","")   
+                                    library="C:/GH/oomlout_OOMP/sourceFiles/SparkFun-Eagle-Libraries/" + libraryName +".lbr"                                        
+                                    c=0                
+                                    #if not single:
+                                    harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
+
 
     ######  Adafruit
     owner = "Adafruit-Eagle-Library"
     libraryName="adafruit"     
     library="C:/GH/oomlout_OOMP/sourceFiles/" + owner + "/"  + libraryName +".lbr"       
-    if not single:
+    if single:
         c=0
-    #    harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
+        harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
 
 
 
@@ -276,7 +286,7 @@ def makeEagleOompFile(footprint, owner, overwrite=False):
     filename = getEagleFootprintFolder(footprint,owner) + "details.py"
     if not os.path.isfile(filename) or overwrite:
         print("OOMP file for " + footprint[0])    
-        f = open(filename,"w")
+        f = open(filename,"w", encoding="utf-8")
         hexID=""
         type="FOOTPRINT"
         size="eagle"
@@ -288,7 +298,7 @@ def makeEagleOompFile(footprint, owner, overwrite=False):
         ###### Get details from kicad_mod file
         
         footprintFileName = getEagleFootprintFolder(footprint,owner) + "eagleFootprint.xml"
-        with open(footprintFileName, "r") as a_file:
+        with open(footprintFileName, "r", encoding="utf-8") as a_file:
             content = a_file.read()
             xmlType = 'description'
             tagType = 'description'
@@ -338,7 +348,7 @@ def copyEagleSourceFile(footprint, owner,libraryFile,overwrite=False):
         
 
         print("Destination: " + destFile)
-        f = open(destFile,"w")
+        f = open(destFile,"w", encoding="utf-8")
         xmlStart = """<?xml version="1.0" encoding="utf-8"?>
     <!DOCTYPE eagle SYSTEM "eagle.dtd">
     <eagle version="6.6.0">
@@ -658,3 +668,82 @@ def getEagleFootprintNames(libraryFile,libraryName):
             footprint = stringBetween(line,'<package name="','"').replace('"',"")
             footprints.append([footprint,libraryName])
     return footprints
+
+
+    ##################
+    ######  Projects Harvesting Stuff
+
+def harvestProjectFiles():
+    directory = "oomlout_OOMP_Projects/"
+    files = os.listdir(directory)
+    for file in files:
+        if os.path.isdir(directory + file):
+            harvestProject(directory + file)
+
+def harvestProject(directory,overwrite=False):
+    baseDir = "oomlout_OOMP_Projects/"                
+    oompID = directory.replace(baseDir,"")
+    files = os.listdir(directory)
+    for file in files:
+        if file.lower() == "boardeagle.brd":
+            harvestEagleBoardFile(directory + "/" + file,directory + "/",overwrite=overwrite)
+
+def harvestEagleBoardFile(file,directory,overwrite=False):
+    dxfFile = OOMP.baseDir + directory + "eagleImage.dxf"
+    if overwrite or not os.path.exists(dxfFile):
+        oomMouseClick(pos=kicadActive,delay=5)            
+        oomSendControl("o",delay=5)
+        fullFile = OOMP.baseDir + file
+        oomSend(fullFile.replace("/","\\"),delay=3)
+        oomSendEnter(2)
+        oomSend("n",10)
+        ###### Part List
+        filename = OOMP.baseDir + directory + "eagleParts.txt"
+        eagleExport(filename,1,overwrite=overwrite)
+        ###### Net List
+        filename = OOMP.baseDir + directory + "eagleNetlist.txt"
+        eagleExport(filename,0,overwrite=overwrite)
+        ###### Pin List
+        filename = OOMP.baseDir + directory + "eaglePinlist.txt"
+        eagleExport(filename,2,overwrite=overwrite)
+        ###### image
+        ###### set export to 1200
+        filename = OOMP.baseDir + directory + "eagleImage.png"
+        eagleExport(filename,3,overwrite=overwrite)
+        ######  CAM files
+        testFile = directory + "eagleGerber/CAMOutputs/GerberFiles/copper_bottom.gbr"
+        if overwrite or not os.path.exists(testFile):
+            camDir = OOMP.baseDir + directory + "eagleGerber/"
+            oomMakeDir(camDir)
+            oomSendAltKey("f",2)
+            oomSend("m",2)
+            oomSendTab(16)
+            oomDelay(2)
+            oomSendEnter(2)
+            oomSend(camDir.replace("/","\\"),2)
+            oomSendEnter(2)
+            oomSendEnter(2)
+            oomSend("y",2)
+            oomSendEnter(2)
+            oomSendEsc()
+            oomDelay(2)
+
+        ###### dxf
+        filename = dxfFile
+        eagleExport(filename,4,overwrite=overwrite)
+
+def eagleExport(filename,downs,overwrite=False):
+    if overwrite or not os.path.exists(filename):
+        oomSendAltKey("f",2)
+        oomSend("e",2)
+        oomSendDown(downs,2)
+        oomSendEnter(5)
+        oomSend(filename.replace("/","\\"),2)
+        oomSendEnter(5)
+        oomSend("y",5)
+
+
+
+
+
+

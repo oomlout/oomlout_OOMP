@@ -635,7 +635,18 @@ OOMP.oompAddDetail(category="size",code="DB25",name="DB25")
 OOMP.oompAddDetail(category="size",code="ACUS",name="American Style (120v)")
 OOMP.oompAddDetail(category="size",code="SMA",name="SMA")
 
-
+######  LWH
+"""
+maxL = 200
+maxW = 150
+maxH = 20
+for l in range(maxL):
+    for w in range(maxW):
+        for h in range(makH):
+            #OOMP.oompAddDetail(category="size",code="L" + str(l) + "W" + str(w) + "H" + str(h),name="Length " + str(l) + "mm Width " + str(w) + "mm Height " + str(h) + " mm")
+            OOMP.oompAddDetail(category="size",code="L" + str(l) + "W" + str(w) + "H" + str(h),name="" + str(l) + "mm x " + str(w) + "mm xt " + str(h) + " mm")
+"""
+OOMP.oompAddDetail(category="size",code="L169W130H18",name="169 mm x 130 mm x 18 mm")
 
 ######  Companies for projects
 OOMP.oompAddDetail(category="size",code="ADAF",name="Adafruit")
