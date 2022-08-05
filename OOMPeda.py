@@ -93,9 +93,24 @@ def harvestEagleLibraries(footprint=True,files=True, single=False, overwrite=Fal
                                     #if not single:
                                     harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
 
-    ######  Sparkfun
-    owner = "SparkFun-Eagle-Libraries"
-    directory="C:/GH/oomlout_OOMP/sourceFiles/" + owner + "/"
+
+    sourceDir = "C:/GH/oomlout_OOMP/oomlout_OOMP_eda/sourceFiles/"
+
+    ######  Adafruit
+    owner = "Adafruit-Eagle-Library"
+    libraryName="adafruit"     
+    library=sourceDir + owner + "/"  + libraryName +".lbr"       
+    harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
+    
+    ######  Dangerous Prototypes
+    owner = "DangerousPrototypes-Eagle-Library"
+    libraryName="dp_devices.v6.lbr"     
+    library=sourceDir + owner + "/"  + libraryName +".lbr"       
+    harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
+
+    ######  SEEED OPL
+    owner = "OPL_Eagle_Library"
+    directory=sourceDir + owner + "/Seeed_Fusion_PCBA_OPL_Component_Library_for_Eagle/"
     if single:
         for subdir, dirs, files in os.walk(directory):
                 for file in files:
@@ -105,19 +120,63 @@ def harvestEagleLibraries(footprint=True,files=True, single=False, overwrite=Fal
                                 if filter in file:
                                 #if filter + ".lbr" == file:
                                     libraryName = file.replace(".lbr","")   
-                                    library="C:/GH/oomlout_OOMP/sourceFiles/SparkFun-Eagle-Libraries/" + libraryName +".lbr"                                        
+                                    library=sourceDir + owner + "/" + libraryName +".lbr"                                        
+                                    c=0                
+                                    #if not single:
+                                    harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
+
+    ######  Pimoroni
+    owner = "Pimoroni-Eagle-Library"
+    directory=sourceDir + owner + "/lbr/"
+    if single:
+        for subdir, dirs, files in os.walk(directory):
+                for file in files:
+                        print("testing Library: " + file)
+                        if ".lbr" in file:
+                            for filter in filters or all:
+                                if filter in file:
+                                #if filter + ".lbr" == file:
+                                    libraryName = file.replace(".lbr","")   
+                                    library=sourceDir + owner + "/" + libraryName +".lbr"                                        
                                     c=0                
                                     #if not single:
                                     harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
 
 
-    ######  Adafruit
-    owner = "Adafruit-Eagle-Library"
-    libraryName="adafruit"     
-    library="C:/GH/oomlout_OOMP/sourceFiles/" + owner + "/"  + libraryName +".lbr"       
+    ######  Sparkfun
+    owner = "SparkFun-Eagle-Libraries"
+    directory=sourceDir + owner + "/"
     if single:
-        c=0
-        harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
+        for subdir, dirs, files in os.walk(directory):
+                for file in files:
+                        print("testing Library: " + file)
+                        if ".lbr" in file:
+                            for filter in filters or all:
+                                if filter in file:
+                                #if filter + ".lbr" == file:
+                                    libraryName = file.replace(".lbr","")   
+                                    library=sourceDir + owner + "/" + libraryName +".lbr"                                        
+                                    c=0                
+                                    #if not single:
+                                    harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
+
+
+    ######  Watterot
+    owner = "Watterot-Eagle-Libraries"
+    directory=sourceDir + owner + "/"
+    if single:
+        for subdir, dirs, files in os.walk(directory):
+                for file in files:
+                        print("testing Library: " + file)
+                        if ".lbr" in file:
+                            for filter in filters or all:
+                                if filter in file:
+                                #if filter + ".lbr" == file:
+                                    libraryName = file.replace(".lbr","")   
+                                    library=sourceDir + owner + "/" + libraryName +".lbr"                                        
+                                    c=0                
+                                    #if not single:
+                                    harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
 
 
 
