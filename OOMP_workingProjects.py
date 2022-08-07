@@ -2,6 +2,7 @@ import OOMP
 import OOMPgenerate
 import OOMPinkscapeGenerate
 import OOMPeda
+import OOMPproject
 from oomBase import *
 import json
 
@@ -22,7 +23,7 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/"
         
 ######  Harvest Project Files
 #oomDelay(5)
-OOMPeda.harvestProjectFiles()
+OOMPproject.harvestProjectFiles()
 
 ### ### Single is for doing default libraries
 #OOMPeda.harvestEagleLibraries(footprint=True,files=True,single=False, overwrite=False)
