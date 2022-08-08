@@ -23,6 +23,7 @@ eagleFootprintFirstResult = [130,90]
 eagleFootprintAddOk = [828,720]
 eagleFootprintMiddle = [970,600]
 eagleFootprintMiddlePlus = [eagleFootprintMiddle[0]+5,eagleFootprintMiddle[1]+5] 
+eagleCloseText = [1100,260]
 #eagleCrop = [820,180,800,800]
 eagleCrop = [555,200,800,800]
 
