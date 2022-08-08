@@ -55,7 +55,8 @@ def harvestEagleLibraries(footprint=True,files=True, single=False, overwrite=Fal
     directory="C:/EAGLE 9.6.2/cache/lbr/"
     owner = "eagle-default"
     
-    if single:
+    if False:
+    #if True:
         all = True
         filters= [""]
         ## Connectors
@@ -97,6 +98,8 @@ def harvestEagleLibraries(footprint=True,files=True, single=False, overwrite=Fal
 
     sourceDir = "C:/GH/oomlout_OOMP/oomlout_OOMP_eda/sourceFiles/"
 
+    filters= [""]
+
     ######  Adafruit
     owner = "Adafruit-Eagle-Library"
     libraryName="adafruit"     
@@ -105,9 +108,9 @@ def harvestEagleLibraries(footprint=True,files=True, single=False, overwrite=Fal
     
     ######  Dangerous Prototypes
     owner = "DangerousPrototypes-Eagle-Library"
-    libraryName="dp_devices.v6.lbr"     
+    libraryName="dp_devices.v6"     
     library=sourceDir + owner + "/"  + libraryName +".lbr"       
-    harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
+    #harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
 
     ######  SEEED OPL
     owner = "OPL_Eagle_Library"
@@ -121,7 +124,7 @@ def harvestEagleLibraries(footprint=True,files=True, single=False, overwrite=Fal
                                 if filter in file:
                                 #if filter + ".lbr" == file:
                                     libraryName = file.replace(".lbr","")   
-                                    library=sourceDir + owner + "/" + libraryName +".lbr"                                        
+                                    library= directory + "/" + libraryName +".lbr"                                        
                                     c=0                
                                     #if not single:
                                     harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
@@ -138,7 +141,7 @@ def harvestEagleLibraries(footprint=True,files=True, single=False, overwrite=Fal
                                 if filter in file:
                                 #if filter + ".lbr" == file:
                                     libraryName = file.replace(".lbr","")   
-                                    library=sourceDir + owner + "/" + libraryName +".lbr"                                        
+                                    library=directory + "/" + libraryName +".lbr"                                        
                                     c=0                
                                     #if not single:
                                     harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
@@ -156,7 +159,7 @@ def harvestEagleLibraries(footprint=True,files=True, single=False, overwrite=Fal
                                 if filter in file:
                                 #if filter + ".lbr" == file:
                                     libraryName = file.replace(".lbr","")   
-                                    library=sourceDir + owner + "/" + libraryName +".lbr"                                        
+                                    library=directory + "/" + libraryName +".lbr"                                        
                                     c=0                
                                     #if not single:
                                     harvestEagleFootprint(library,libraryName, owner, footprint=footprint, files=files, overwrite=overwrite)    
@@ -240,11 +243,13 @@ def harvestEagleFootprint(libraryFile,libraryName, owner, overwrite=False, footp
     print("Found " + str(numFootprints) + " footprints")
     #delay(1)    
     for footprint in footprints:
-        if footprint:
-            captureEagleFootprint(footprint,owner,overwrite=overwrite,libraryName=libraryName)
-        if files:
-            copyEagleSourceFile(footprint,owner,libraryFile,overwrite=overwrite)
-            makeEagleOompFile(footprint,owner,overwrite=overwrite)
+        #skip asterisk files for the time being
+        if not "*" in footprint[0]:  
+            if footprint:
+                captureEagleFootprint(footprint,owner,overwrite=overwrite,libraryName=libraryName)
+            if files:
+                copyEagleSourceFile(footprint,owner,libraryFile,overwrite=overwrite)
+                makeEagleOompFile(footprint,owner,overwrite=overwrite)
     
 
 def eagleResetLibrary():
@@ -255,7 +260,7 @@ def eagleResetLibrary():
     oomSendAltKey("l")
     delay(shortDelay)
     oomSend("m")
-    oomDelay(shortDelay)
+    oomDelay(60)
     oomSendRight(1)
     oomDelay(shortDelay)
     oomSendTab(2)
@@ -264,7 +269,7 @@ def eagleResetLibrary():
     oomDelay(1)
     oomSendEnter()
     oomDelay(3)
-    ## for long delays
+    ## for long delays    
     oomDelay(120)
     oomSendEsc()
 
@@ -282,11 +287,12 @@ def eagleSetLibrary(libraryName):
     delay(shortDelay)
     ###Select Available     
     oomSendRight(2)
-    delay(shortDelay)
+    delay(120)
     oomSendRight(2)
     delay(shortDelay)
     #library search box
-    oomSendTab(4)
+    #oomSendTab(4)
+    oomSendTab(3)
     delay(shortDelay)
     #sendlibraryName
     oomSend(libraryName,delay=3)
@@ -544,130 +550,131 @@ def captureKicadSymbol(footprint, owner, overwrite = False):
 ## needs grid set to finest
 ## Add locally (if doing a default one then need to switch name tab to 9 from 8)
 def captureEagleFootprint(footprint, owner, overwrite=False,libraryName=""):
-    oompDirectory = "oomlout_OOMP_eda/footprints/eagle/" + owner + "/"  +  footprint[1] + "/" 
-    oompFileNameZ1 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ1.png"
-    oompFileNameZ2 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ2.png"
-    oompFileNameZ3 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ3.png"
-    oompFileNameZ4 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ4.png"
+    if True: 
+        oompDirectory = "oomlout_OOMP_eda/footprints/eagle/" + owner + "/"  +  footprint[1] + "/" 
+        oompFileNameZ1 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ1.png"
+        oompFileNameZ2 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ2.png"
+        oompFileNameZ3 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ3.png"
+        oompFileNameZ4 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ4.png"
 
-    oompFileName = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/image.png"
-
-
-    partDirectory = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";")
-
-    oomMakeDir(oompDirectory)   
-    oomMakeDir(partDirectory)   
-    oomMakeDir(partDirectory + "/zoom/")   
+        oompFileName = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/image.png"
 
 
-    if overwrite or not os.path.isfile(oompFileName) :
-        print("making :" + str(footprint))
-        global currentLibrary
-        if currentLibrary != libraryName:
-            eagleResetLibrary()
-            eagleSetLibrary(libraryName)
-            currentLibrary = libraryName
-    
-        shortDelay = 1
-        longDelay = 3
-        footprintName = footprint[0]
-        footprintDir = footprint[1]
-        print("Capturing Symbol:" + str(footprint))
-        ##focus window
-        oomMouseClick(pos=kicadActive)
-        oomDelay(shortDelay)
-        ## add component window
-        oomSendControlShiftKey("a")
-        oomDelay(shortDelay)
-        oomMouseClick(pos=eagleFootprintFilter)
-        oomDelay(shortDelay)
-        oomSendControl("a")
-        oomDelay(shortDelay)
-        oomSend(footprintName)
-        oomDelay(shortDelay)
-        oomSend("     ")
-        oomDelay(shortDelay)
-        oomSendEnter()
-        oomDelay(longDelay)
-        oomDelay(longDelay)
-        oomDelay(longDelay)
-        ######  Issue when more than one component in search so click is required
-        oomMouseClick(pos=eagleFootprintFirstResult)
-        oomDelay(shortDelay)
-        oomSendShiftTab(3)
-        oomDelay(shortDelay)
-        oomSendEnter()
-        oomDelay(longDelay)
+        partDirectory = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";")
+
+        oomMakeDir(oompDirectory)   
+        oomMakeDir(partDirectory)   
+        oomMakeDir(partDirectory + "/zoom/")   
+
+
+        if overwrite or not os.path.isfile(oompFileName) :
+            print("making :" + str(footprint))
+            global currentLibrary
+            if currentLibrary != libraryName:
+                eagleResetLibrary()
+                eagleSetLibrary(libraryName)
+                currentLibrary = libraryName
         
-        #oomMouseMove(pos=eagleFootprintAddOk)
-        #oomDelay(shortDelay)
-        #oomMouseClick()
-        #oomDelay(shortDelay)
-        ## Click component down
-        oomMouseMove(pos=eagleFootprintMiddle)
-        oomDelay(shortDelay)
-        oomMouseMove(pos=eagleFootprintMiddlePlus)
-        oomDelay(shortDelay)        
-        oomMouseClick(pos=eagleFootprintMiddle)
-        oomDelay(shortDelay)
-        oomSendEsc()
-        oomDelay(shortDelay)
-        oomSendEsc()
-        oomDelay(shortDelay)
-        ## Set name and value
-        oomMouseMove(pos=eagleFootprintMiddlePlus)
-        oomDelay(shortDelay)
-        oomMouseMove(pos=eagleFootprintMiddle)
-        oomDelay(shortDelay)
-        oomMouseRight()
-        oomDelay(shortDelay)
-        oomSendUp()
-        oomDelay(shortDelay)
-        oomSendEnter()
-        oomDelay(shortDelay)
-        oomSendTab(3)
-        oomDelay(shortDelay)
-        oomSend("NAME")
-        oomDelay(shortDelay)
-        oomSendTab(8)
-        #oomSendTab(9)
-        oomDelay(shortDelay)
-        oomSend("VALUE")
-        oomDelay(shortDelay)
-        oomSendEnter()
-        oomDelay(shortDelay)
-        ## Set Zoom
+            shortDelay = 1
+            longDelay = 3
+            footprintName = footprint[0]
+            footprintDir = footprint[1]
+            print("Capturing Symbol:" + str(footprint))
+            ##focus window
+            oomMouseClick(pos=kicadActive)
+            oomDelay(shortDelay)
+            ## add component window
+            oomSendControlShiftKey("a")
+            oomDelay(shortDelay)
+            oomMouseClick(pos=eagleFootprintFilter)
+            oomDelay(shortDelay)
+            oomSendControl("a")
+            oomDelay(shortDelay)
+            oomSend(footprintName)
+            oomDelay(shortDelay)
+            oomSend("     ")
+            oomDelay(shortDelay)
+            oomSendEnter()
+            oomDelay(longDelay)
+            oomDelay(longDelay)
+            oomDelay(longDelay)
+            ######  Issue when more than one component in search so click is required
+            oomMouseClick(pos=eagleFootprintFirstResult)
+            oomDelay(shortDelay)
+            oomSendShiftTab(3)
+            oomDelay(shortDelay)
+            oomSendEnter()
+            oomDelay(longDelay)
+            
+            #oomMouseMove(pos=eagleFootprintAddOk)
+            #oomDelay(shortDelay)
+            #oomMouseClick()
+            #oomDelay(shortDelay)
+            ## Click component down
+            oomMouseMove(pos=eagleFootprintMiddle)
+            oomDelay(shortDelay)
+            oomMouseMove(pos=eagleFootprintMiddlePlus)
+            oomDelay(shortDelay)        
+            oomMouseClick(pos=eagleFootprintMiddle)
+            oomDelay(shortDelay)
+            oomSendEsc()
+            oomDelay(shortDelay)
+            oomSendEsc()
+            oomDelay(shortDelay)
+            ## Set name and value
+            oomMouseMove(pos=eagleFootprintMiddlePlus)
+            oomDelay(shortDelay)
+            oomMouseMove(pos=eagleFootprintMiddle)
+            oomDelay(shortDelay)
+            oomMouseRight()
+            oomDelay(shortDelay)
+            oomSendUp()
+            oomDelay(shortDelay)
+            oomSendEnter()
+            oomDelay(shortDelay)
+            oomSendTab(3)
+            oomDelay(shortDelay)
+            oomSend("NAME")
+            oomDelay(shortDelay)
+            oomSendTab(8)
+            #oomSendTab(9)
+            oomDelay(shortDelay)
+            oomSend("VALUE")
+            oomDelay(shortDelay)
+            oomSendEnter()
+            oomDelay(shortDelay)
+            ## Set Zoom
 
-        oomSendAltKey("f2")
-        oomDelay(shortDelay)
-        oomSendAltKey("f2")
-        oomDelay(shortDelay)
-        oomMakeDir(oompDirectory)
-        oomScreenCapture(oompFileNameZ1,crop=eagleCrop)
-        oomSend("{F4}")
-        oomDelay(shortDelay)
-        oomMakeDir(oompDirectory)
-        oomScreenCapture(oompFileNameZ2,crop=eagleCrop)        
-        oomMakeDir(oompDirectory)
-        oomScreenCapture(oompFileName,crop=eagleCrop)
-        oomSend("{F4}")
-        oomDelay(shortDelay)
-        oomMakeDir(oompDirectory)
-        oomScreenCapture(oompFileNameZ3,crop=eagleCrop)        
-        oomSend("{F4}")
-        oomDelay(shortDelay)
-        oomMakeDir(oompDirectory)
-        oomScreenCapture(oompFileNameZ4,crop=eagleCrop)        
-        oomDelay(shortDelay)
-        ## Delete everything
-        oomSendControl("a")
-        oomDelay(shortDelay)    
-        oomSendDelete()
-        oomDelay(shortDelay)
-        oomSend("{F4}")
+            oomSendAltKey("f2")
+            oomDelay(shortDelay)
+            oomSendAltKey("f2")
+            oomDelay(shortDelay)
+            oomMakeDir(oompDirectory)
+            oomScreenCapture(oompFileNameZ1,crop=eagleCrop)
+            oomSend("{F4}")
+            oomDelay(shortDelay)
+            oomMakeDir(oompDirectory)
+            oomScreenCapture(oompFileNameZ2,crop=eagleCrop)        
+            oomMakeDir(oompDirectory)
+            oomScreenCapture(oompFileName,crop=eagleCrop)
+            oomSend("{F4}")
+            oomDelay(shortDelay)
+            oomMakeDir(oompDirectory)
+            oomScreenCapture(oompFileNameZ3,crop=eagleCrop)        
+            oomSend("{F4}")
+            oomDelay(shortDelay)
+            oomMakeDir(oompDirectory)
+            oomScreenCapture(oompFileNameZ4,crop=eagleCrop)        
+            oomDelay(shortDelay)
+            ## Delete everything
+            oomSendControl("a")
+            oomDelay(shortDelay)    
+            oomSendDelete()
+            oomDelay(shortDelay)
+            oomSend("{F4}")
 
-        
-        oomDelay(longDelay)
+            
+            oomDelay(longDelay)
 
 
 
