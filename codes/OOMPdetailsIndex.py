@@ -49,3 +49,5 @@ OOMP.oompAddDetail(category="index",code="TH",name="(Through Hole)")
 OOMP.oompAddDetail(category="index",code="LW",name="(Lead Wire)")
 OOMP.oompAddDetail(category="index",code="WS2811",name="(WS2811)")
 OOMP.oompAddDetail(category="index",code="TC3590",name="(3590)")
+
+###### Project ones

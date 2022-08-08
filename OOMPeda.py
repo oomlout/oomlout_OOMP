@@ -15,6 +15,10 @@ kicadFootprintTopLeft = [365,86]
 kicadSymbolMiddle = [1105,555] 
 kicadSymbolMiddlePlus = [1110,560] 
 
+kicadFile = [80,35]
+kicad3dView = [145,35]
+
+
 kicadLibraryTop = [210,115]
 
 

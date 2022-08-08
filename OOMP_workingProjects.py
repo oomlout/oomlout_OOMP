@@ -7,6 +7,7 @@ from oomBase import *
 import json
 
 
+
 #OOMP.loadParts("all")
 #OOMP.exportPickle()
 
@@ -14,13 +15,30 @@ OOMP.loadParts("pickle")
 
 print("Number of Items: "+ str(len(OOMP.getItems("all"))))
 print("Number of Footprints: "+ str(len(OOMP.getItems("footprints"))))
-print("Number of Parts: "+ str(len(OOMP.getItems("parts"))))
+print("Number of Parts: "+ 
+str(len(OOMP.getItems("parts"))))
 print("Number of Projects: "+ str(len(OOMP.getItems("projects"))))
 
 #OOMP.printParts()
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/"
 )
-        
+
+
+######  Download and harvest arduino files
+
+#
+# O
+# O
+# M
+# P
+# p
+# r
+# o
+# j
+# e
+# c
+# t.harvestProjectsArduino() 
+
 ######  Harvest Project Files
 #oomDelay(5)
 OOMPproject.harvestProjectFiles()

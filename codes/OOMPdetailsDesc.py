@@ -3029,3 +3029,5 @@ OOMP.oompAddDetail(category="desc",code="HINGE",name="Hinged")
 ######  Differentiators for projects
 OOMP.oompAddDetail(category="desc",code="EVERY",name="Every")
 OOMP.oompAddDetail(category="desc",code="2040",name="2040")
+OOMP.oompAddDetail(category="desc",code="2560",name="2560")
+OOMP.oompAddDetail(category="desc",code="REV3",name="Rev3")
