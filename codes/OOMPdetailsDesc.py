@@ -2942,7 +2942,7 @@ OOMP.oompAddDetail(category="desc",code="20",name="x 20 mm")
 OOMP.oompAddDetail(category="desc",code="25",name="x 25 mm")
 OOMP.oompAddDetail(category="desc",code="30",name="x 30 mm")
 OOMP.oompAddDetail(category="desc",code="K222",name="2222A")
-OOMP.oompAddDetail(category="desc",code="K8050",name="8050")
+
 OOMP.oompAddDetail(category="desc",code="K328",name="AtMega328P")
 OOMP.oompAddDetail(category="desc",code="K125",name="Quad Buffer")
 OOMP.oompAddDetail(category="desc",code="K232",name="FTDI USB-Serial")
@@ -3024,7 +3024,25 @@ OOMP.oompAddDetail(category="desc",code="K9250",name="9-Axis Inertial Measuremen
 OOMP.oompAddDetail(category="desc",code="K36",name="Temperature (TMP36)")
 OOMP.oompAddDetail(category="desc",code="K7660",name="3-Axis Accelerometer (MMA7660FCR1)")
 
+
+
+######  Transistors
+OOMP.oompAddDetail(category="desc",code="KS8050",name="S8050")
+OOMP.oompAddDetail(category="desc",code="KBC337",name="BC337")
+OOMP.oompAddDetail(category="desc",code="K222",name="2222A")
+OOMP.oompAddDetail(category="desc",code="K2N2222",name="2N2222")
+OOMP.oompAddDetail(category="desc",code="K2N2907",name="2N2907")
+OOMP.oompAddDetail(category="desc",code="K2N3904",name="2N3904")
+OOMP.oompAddDetail(category="desc",code="K2N3906",name="2N3906")
+OOMP.oompAddDetail(category="desc",code="KS8550",name="S8550")
+OOMP.oompAddDetail(category="desc",code="KA1015",name="A1015")
+OOMP.oompAddDetail(category="desc",code="KC1815",name="C1815")
+
+OOMP.oompAddDetail(category="desc",code="K5053",name="SGPT5053C")
+
+
 OOMP.oompAddDetail(category="desc",code="HINGE",name="Hinged")
+OOMP.oompAddDetail(category="desc",code="FLAT",name="Flat")
 
 ######  Differentiators for projects
 OOMP.oompAddDetail(category="desc",code="EVERY",name="Every")
