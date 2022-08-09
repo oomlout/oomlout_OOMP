@@ -264,17 +264,16 @@ def eagleResetLibrary():
     oomSendAltKey("l")
     delay(shortDelay)
     oomSend("m")
-    oomDelay(60)
     oomSendRight(1)
-    oomDelay(shortDelay)
     oomSendTab(2)
+#    oomDelay(60)    
     oomDelay(shortDelay)
     oomSendControl("a")
     oomDelay(1)
     oomSendEnter()
-    oomDelay(3)
+    oomDelay(20)
     ## for long delays    
-    oomDelay(120)
+    #oomDelay(60)
     oomSendEsc()
 
 currentLibrary = ""
@@ -291,7 +290,7 @@ def eagleSetLibrary(libraryName):
     delay(shortDelay)
     ###Select Available     
     oomSendRight(2)
-    delay(120)
+    delay(60)
     oomSendRight(2)
     delay(shortDelay)
     #library search box
@@ -303,10 +302,11 @@ def eagleSetLibrary(libraryName):
     oomSendEnter(delay=3)
     #back to library window
     oomMouseClick(pos=kicadLibraryTop)
-    oomDelay(shortDelay)    
+    oomDelay(shortDelay)   
+    oomSendDown(delay=2) 
     oomSendEnter(delay=3)
     ### for large libraries
-    oomSendEnter(delay=120)
+    oomSendEnter(delay=60)
     oomSendEsc()
     delay(5)
 
