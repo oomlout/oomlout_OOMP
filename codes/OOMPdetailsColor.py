@@ -24,10 +24,11 @@ OOMP.oompAddDetail(category="color",code="I9",name="IR (940 nm)")
 ###### Board names for projects
 OOMP.oompAddDetail(category="color",code="DUE",name="DUE")
 OOMP.oompAddDetail(category="color",code="MEGA",name="Mega")
-OOMP.oompAddDetail(category="color",code="Micro",name="Micro")
+OOMP.oompAddDetail(category="color",code="MICRO",name="Micro")
 OOMP.oompAddDetail(category="color",code="NANO",name="Nano")
 OOMP.oompAddDetail(category="color",code="PICO",name="Pico")
 OOMP.oompAddDetail(category="color",code="SHEN",name="Shennie")
+OOMP.oompAddDetail(category="color",code="HQBS",name="HQB Special")
 OOMP.oompAddDetail(category="color",code="UNO",name="Uno")
 OOMP.oompAddDetail(category="color",code="LEO",name="Leonardo")
 

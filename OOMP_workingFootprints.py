@@ -69,7 +69,7 @@ OOMPeda.harvestEagleLibraries(footprint=True,files=True,single=True, overwrite=F
 #OOMPeda.harvestEagleFootprint(library,libraryName)
 
 # search
-## image.png -imageZ1 -imageZ2 -imageZ3 -imagez4 -imagez5 -imagez6 -imagez7 -imagez8 -imagez9
+## image.png -imageZ1 -imageZ2 -imageZ3 -imagez4 -imagez5 -imagez6 -imagez7 -imagez8 -imagez9 -_140 -_450 -_600
 #OOMPeda.harvestEagleLibraries()
 
 #oomDelay(2)

@@ -3029,6 +3029,7 @@ OOMP.oompAddDetail(category="desc",code="K7660",name="3-Axis Accelerometer (MMA7
 ######  Transistors
 OOMP.oompAddDetail(category="desc",code="KS8050",name="S8050")
 OOMP.oompAddDetail(category="desc",code="KBC337",name="BC337")
+OOMP.oompAddDetail(category="desc",code="KBC327",name="BC327")
 OOMP.oompAddDetail(category="desc",code="K222",name="2222A")
 OOMP.oompAddDetail(category="desc",code="K2N2222",name="2N2222")
 OOMP.oompAddDetail(category="desc",code="K2N2907",name="2N2907")
@@ -3049,3 +3050,5 @@ OOMP.oompAddDetail(category="desc",code="EVERY",name="Every")
 OOMP.oompAddDetail(category="desc",code="2040",name="2040")
 OOMP.oompAddDetail(category="desc",code="2560",name="2560")
 OOMP.oompAddDetail(category="desc",code="REV3",name="Rev3")
+OOMP.oompAddDetail(category="desc",code="LG32",name="(LGT8F328P)")
+OOMP.oompAddDetail(category="desc",code="AT32",name="(Atmel328)")

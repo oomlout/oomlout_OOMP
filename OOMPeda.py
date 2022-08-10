@@ -562,6 +562,7 @@ def captureEagleFootprint(footprint, owner, overwrite=False,libraryName=""):
         oompFileNameZ4 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ4.png"
 
         oompFileName = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/image.png"
+        oompBoardFile = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/boardEagle.brd"
 
 
         partDirectory = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";")
@@ -640,15 +641,22 @@ def captureEagleFootprint(footprint, owner, overwrite=False,libraryName=""):
             oomDelay(shortDelay)
             oomSend("NAME")
             oomDelay(shortDelay)
-            oomSendTab(8)
+            oomSendTab(1)
+            oomSend("2500")
+            oomSendTab(1)
+            oomSend("2500")
+            oomSendTab(6)
             #oomSendTab(9)
             oomDelay(shortDelay)
             oomSend("VALUE")
             oomDelay(shortDelay)
             oomSendEnter()
             oomDelay(shortDelay)
+            oomSendEsc()
+            oomDelay(shortDelay)
+            oomSendEsc()
+            oomDelay(shortDelay)
             ## Set Zoom
-
             oomSendAltKey("f2")
             oomDelay(shortDelay)
             oomSendAltKey("f2")
@@ -670,15 +678,21 @@ def captureEagleFootprint(footprint, owner, overwrite=False,libraryName=""):
             oomMakeDir(oompDirectory)
             oomScreenCapture(oompFileNameZ4,crop=eagleCrop)        
             oomDelay(shortDelay)
+            ## Save brd
+            oomSendAltKey("f",2)
+            oomSend("a",2)
+            oomSend((OOMP.baseDir + oompBoardFile).replace("/","\\"), 2)
+            oomSendEnter(5)
+            oomSend("y",10)
+            oomDelay(20)
+            oomMouseClick(pos=eagleFootprintMiddle)
+            oomDelay(20)
             ## Delete everything
-            oomSendControl("a")
-            oomDelay(shortDelay)    
-            oomSendDelete()
-            oomDelay(shortDelay)
-            oomSend("{F4}")
-
-            
-            oomDelay(longDelay)
+            oomSendControl("a",2)
+            oomSendDelete(delay=2)
+            oomSendControl("a",2)
+            oomSendDelete(delay=2)
+            oomSend("{F4}",10)
 
 
 
