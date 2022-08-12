@@ -41,7 +41,12 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/"
 
 ######  Harvest Project Files
 #oomDelay(5)
-OOMPproject.harvestProjectFiles()
+#OOMPproject.harvestProjectFiles()
+
+
+######  Footprint things
+#OOMPproject.harvestFootprintsToKicad()
+OOMPproject.harvestFootprintsKicadBoardExport()
 
 ### ### Single is for doing default libraries
 #OOMPeda.harvestEagleLibraries(footprint=True,files=True,single=False, overwrite=False)

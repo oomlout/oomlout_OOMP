@@ -201,6 +201,8 @@ class oompItem:
 ##                        rv = rv + "        " + str(y) + "\n"
         return rv
     
+    def getDir(self):  
+        return self.getFolder()
 
     def getFolder(self):        
         rv = ""
@@ -218,6 +220,22 @@ class oompItem:
             rv = "oomlout_OOMP_parts/"  + oompID + "/" 
 
         return rv
+
+    def getFilename(self,filename):
+        baseDir = self.getFolder()
+        fileExtra = filename
+        ######  Eagle Files
+        if filename.lower() == "boardeagle":
+            fileExtra = "boardEagle.brd"
+
+        ######  Kicad files
+        if filename.lower() == "boardkicad":
+            fileExtra = "kicad/boardKicad.kicad_pcb"
+        if filename.lower() == "dirkicad":
+            fileExtra = "kicad/"
+
+
+        return baseDir + fileExtra
 
     ##No longer used    
     def indexMd(self):

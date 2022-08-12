@@ -374,15 +374,42 @@ def harvestProjectFiles():
         if os.path.isdir(directory + file):
             harvestProject(directory + file)
 
+def harvestFootprintsToKicad(overwrite=False):
+    directory = "oomlout_OOMP_Projects/"
+    files = os.listdir(directory)
+    parts = OOMP.getItems("FOOTPRINTS")
+    for part in parts:
+        directory = part.getFolder()
+        filename = part.getFilename("boardEagle.brd")
+        if os.path.isfile(filename):
+            harvestEagleBoardToKicad(filename,directory + "/",overwrite=overwrite)
+
+def harvestFootprintsKicadBoardExport(overwrite=False):
+    directory = "oomlout_OOMP_Projects/"
+    files = os.listdir(directory)
+    parts = OOMP.getItems("FOOTPRINTS")
+    for part in parts:
+        harvestKicadBoardFile(part=part,overwrite=overwrite)
+
+
+def harvestProjectFiles():
+    directory = "oomlout_OOMP_Projects/"
+    files = os.listdir(directory)
+    for file in files:
+        if os.path.isdir(directory + file):
+            harvestProject(directory + file)
+
+
 def harvestProject(directory,overwrite=False):
     baseDir = "oomlout_OOMP_Projects/"                
     oompID = directory.replace(baseDir,"")
     files = os.listdir(directory)
     for file in files:
         if file.lower() == "boardeagle.brd":
-            #harvestKicadBoardFile(directory + "/" + file,directory + "/",overwrite=overwrite)
-            harvestEagleBoardToKicad(directory + "/" + file,directory + "/",overwrite=overwrite)
+            harvestKicadBoardFile(directory + "/" + file,directory + "/",overwrite=overwrite)
+            #harvestEagleBoardToKicad(directory + "/" + file,directory + "/",overwrite=overwrite)
             #harvestEagleBoardFile(directory + "/" + file,directory + "/",overwrite=overwrite)
+
 
 def harvestEagleBoardToKicad(file,directory,overwrite=False):
     ######  open kicad launch window and place in topleft corner 
@@ -411,7 +438,7 @@ def harvestEagleBoardToKicad(file,directory,overwrite=False):
         oomSend(filename,5)
         oomSendEnter(10)
         ######  set temp folder
-        tempDir = OOMP.baseDir + "oomlout_OOMP_projects/sourceFiles/tempR/"
+        tempDir = OOMP.baseDir + "oomlout_OOMP_projects/sourceFiles/tempT/"
         
         oomDeleteDirectory(tempDir + "boardEagle.pretty/", safety=False)
         oomDeleteDirectory(tempDir + "boardEagle-backups/", safety=False)        
@@ -425,12 +452,16 @@ def harvestEagleBoardToKicad(file,directory,overwrite=False):
         oomSendEnter(2)
         oomSendTab(1,2)
         oomSendEnter(10)
-        oomMouseMove(pos=kicadFootprintMiddle,delay=2)
+        oomSendEsc(2)
+        oomSendEsc(2)
+        oomSendEsc(2)
+        oomDelay(15)
+        oomMouseClick(pos=kicadFootprintMiddle,delay=2)
         ######  save board
         oomSendAltKey("f",2)
         oomSendDown(1,delay=2)
         oomSendEnter(delay=5)
-        oomSend(boardKicad.replace("/","\\"),2)
+        oomSend(boardKicad.replace("/","\\").replace("\\\\","\\"),2)
         oomSendEnter(delay=10)
         oomSendEnter(delay=2)
         ###### close project
@@ -445,9 +476,16 @@ def kicadClosePcb(noSave=True):
     oomSendEnter(delay=20)
 
 
-def harvestKicadBoardFile(file,directory,overwrite=False):
-    dirKicad =   OOMP.baseDir + directory + "kicad/"
-    boardKicad = dirKicad + "boardKicad.kicad_pcb"
+def harvestKicadBoardFile(file="",directory="",part="",overwrite=False):
+    boardKicad = ""
+    dirKicad = ""
+    if part != "":
+        boardKicad = part.getFilename("boardKicad")
+        dirKicad = part.getFilename("dirKicad")
+        directory = part.getDir()
+    else:
+        dirKicad =   OOMP.baseDir + directory + "kicad/"
+        boardKicad = dirKicad + "boardKicad.kicad_pcb"
     if os.path.isfile(boardKicad) and (overwrite or True):
         if overwrite or not os.path.isfile(directory + "kicadPcb3d.png"):
             oomLaunchPopen("pcbnew.exe " + boardKicad,10)
