@@ -20,9 +20,24 @@ print("Number of Projects: "+ str(len(OOMP.getItems("projects"))))
 #OOMP.printParts()
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
+######  Readmes
+item = OOMP.parts[28250]
+item = OOMP.getPartByID("FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-C0402")
+#https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/eagle/Adafruit-Eagle-Library/adafruit/C0402
+#C:\GH\oomlout_OOMP\oomlout_OOMP_eda\footprints\eagle\Adafruit-Eagle-Library\adafruit\C0402
+
+#item = OOMP.getPartByID("RESE-0603-X-O103-01")
+#https://github.com/oomlout/oomlout_OOMP_parts/tree/main/RESE-0603-X-O103-01
+#C:\GH\oomlout_OOMP\oomlout_OOMP_parts\RESE-0603-X-O103-01
+
+print(item)
+OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=True,json=True,diagrams=False,diagRenders=False,images=False,overwrite=True)
+
+
+
 ######  Projects
 
-OOMPproject.harvestProjectsSparkfun()
+#OOMPproject.harvestProjectsSparkfun()
 #OOMPproject.harvestProjectsAdafruit()
 
 

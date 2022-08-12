@@ -221,9 +221,33 @@ class oompItem:
 
         return rv
 
-    def getFilename(self,filename):
-        baseDir = self.getFolder()
+    def getFilename(self,filename,relative="",resolution="600",extension=""):
+        if relative == "": ## relative to oomlout_OOMP
+            baseDir = self.getFolder()
+        elif relative.lower() == "flat": ## relative to directory
+            baseDir = ""
+        else: ## relative to c
+            baseDir = OOMP.baseDir + self.getFolder()
         fileExtra = filename
+        ######  Datasheet
+        if filename.lower() == "datasheet":
+            fileExtra = "datasheet.pdf"
+        ######  Image files
+        if filename.lower() == "image":
+            type = self.getTag("oompType")
+            if type.value.upper() == "FOOTPRINT":
+                fileExtra = "image_" + str(resolution) + ".png"  
+            else :
+                fileExtra = "image_" + str(resolution) + ".jpg"  
+        imageTypePng = ["kicadPcb3d","kicadPcb3dFront","kicadPcb3dBack"]        
+        for imageType in imageTypePng:
+            if filename.lower() == imageType.lower():
+                fileExtra = imageType + "_" + str(resolution) + ".png"  
+        imageTypeJpg = ["image_RE","image_TOP","image_BOTTOM"]        
+        for imageType in imageTypeJpg:
+            if filename.lower() == imageType.lower():
+                fileExtra = imageType + "_" + str(resolution) + ".jpg"  
+                
         ######  Eagle Files
         if filename.lower() == "boardeagle":
             fileExtra = "boardEagle.brd"
@@ -234,6 +258,16 @@ class oompItem:
         if filename.lower() == "dirkicad":
             fileExtra = "kicad/"
 
+        ######  Label Files
+        labels = ["label-front","label-inventory","label-spec"]
+        for label in labels:
+            if filename.lower() == label:
+                if extension == "png":
+                    fileExtra = label + ".png"  
+                elif extension == "svg":
+                    fileExtra = label + ".svg"    
+                else:
+                    fileExtra = label + ".pdf"    
 
         return baseDir + fileExtra
 
@@ -287,8 +321,19 @@ class oompItem:
             rv = rv + "" + x.getMD() + ""
         return rv
     
-    def addTag(self,name,value):
-        self.tags.append(oompTag(name,value))
+    def addTag(self,name,value,singleValue=False):
+        singleValueTags = ["hexID"]
+        for singleValueTag in singleValueTags:
+            if name == singleValueTag:
+                singleValue = True
+        if singleValue:
+            workingTag = self.getTag(name)
+            if workingTag.name == name:
+                workingTag.value = value
+            else:  ## if not already there add a new one
+                self.tags.append(oompTag(name,value))
+        else:
+            self.tags.append(oompTag(name,value))
 
     def addTagSupplied(self,name,value,tag):
         tag.append(oompTag(name,value))

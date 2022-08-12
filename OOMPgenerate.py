@@ -116,41 +116,33 @@ def generateItem(item, labels=True,scads=True,renders=True,readmes=True,diagrams
 def generateResolutions(item,overwrite=False):
     oompID = item.getTag("oompID").value
     if("FOOTPRINT" in oompID):
-        images = ["image"]
+        images = ["image","kicadPcb3d","kicadPcb3dBack","kicadPcb3dFront","image_RE","image_TOP","image_BOTTOM"]
         res = [140,450,600]        
         for image in images:
             for r in res:
                 folder = item.getTag("footprintFolder").value
-                fileName = folder +  image + ".png"
-                outFile = folder + image + "_" + str(r) + ".png"
+                fileNamePng = folder +  image + ".png"
+                outFilePng = folder + image + "_" + str(r) + ".png"
+                fileNameJpg = folder +  image + ".jpg"
+                outFileJpg = folder + image + "_" + str(r) + ".jpg"
                 basewidth = r
                 #print("OUTFILE: " + outFile + "    " + str(os.path.isfile(outFile)) + "      " + str(overwrite))
-                if not os.path.isfile(outFile) or overwrite:  
-                    if os.path.isfile(fileName):  
-                        print("Generating resolutions for (eda pngs): " + oompID) 
-                        img = Image.open(fileName)
+                if not os.path.isfile(outFilePng) or overwrite:                      
+                    if os.path.isfile(fileNamePng):  
+                        print("        Generating: " + outFilePng)
+                        img = Image.open(fileNamePng)
                         wpercent = (basewidth / float(img.size[0]))
                         hsize = int((float(img.size[1]) * float(wpercent)))
                         img = img.resize((basewidth, hsize), Image.ANTIALIAS)
-                        img.save(outFile)
-
-    else:    
-        images = ["image","image_RE","image_TOP","image_BOTTOM",]
-        res = [140,450,600]
-        
-        for image in images:
-            for r in res:
-                fileName = OOMP.getDir("parts") + oompID + "\\" + image + ".jpg"
-                outFile = OOMP.getDir("parts") + oompID + "\\" + image + "_" + str(r) + ".jpg"
-                basewidth = r
-                if not os.path.isfile(outFile) or overwrite:                      
-                    if os.path.isfile(fileName):            
-                        print("Generating resolutions for (parts jpg): " + oompID)
-                        img = Image.open(fileName)
+                        img.save(outFilePng)
+                if not os.path.isfile(outFileJpg) or overwrite:  
+                    if os.path.isfile(fileNameJpg):  
+                        print("        Generating: " + outFileJpg)
+                        img = Image.open(fileNameJpg)
                         wpercent = (basewidth / float(img.size[0]))
                         hsize = int((float(img.size[1]) * float(wpercent)))
                         img = img.resize((basewidth, hsize), Image.ANTIALIAS)
-                        img.save(outFile)
-
+                        img.save(outFileJpg)
+    
 
 

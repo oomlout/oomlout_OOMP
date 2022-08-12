@@ -18,7 +18,7 @@ print("Number of Projects: "+ str(len(OOMP.getItems("projects"))))
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 filter = "all"
-filter="projects"
+#filter="projects"
 
 ######  Images
 OOMPgenerate.generateAll(filter =filter,labels=False,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=True,overwrite=False)

@@ -39,24 +39,41 @@ def generateReadme(item,overwrite=False):
 
 def generateReadmeFootprint(item,overwrite=False):  
     oompID = item.getTag("oompID").value
+    hexID = item.getTag("hexID").value
     name = item.getTag("name").value
+    oompName = item.getTag("oompName").value
     description = item.getTag("description").value
     baseDir = item.getFolder()
     Path(baseDir).mkdir(parents=True, exist_ok=True)
     filename = baseDir + "Readme.md" 
     if not os.path.isfile(filename) or overwrite:
-        title = name
-        mdFile = MdUtils(file_name=filename,title='')
-        mainImage="image.png"
-        if(os.path.isfile(baseDir + mainImage)):
+        title = hexID + ">" + oompName
+        mdFile = MdUtils(file_name=filename,title='')      
+        ######  Image work  
+        mainImageTree=["image","kicadPcb3dFront","kicadPcb3dBack","kicadPcb3d"]
+        imageList = []
+        mainImage = ""
+        ###### see which images exist
+        for image in mainImageTree:
+            imagePath = item.getFilename(image,resolution="450", relative="")
+            if(os.path.isfile(imagePath)):
+                mainImage = item.getFilename(image,resolution="450", relative="flat")
+                imageList.append(image)
+        ## Add main image
+        if mainImage != "":        
             mdFile.new_line(mdFile.new_reference_image(text='', path=mainImage, reference_tag='im'))
         ###### Summary
         mdFile.new_header(level=1, title=title)
         summary = []
         summary.append("ID: " + oompID)
+        summary.append("Hex ID: " + hexID)
         summary.append("Name: " + name) 
         summary.append("Description: " + name) 
         mdFile.new_list(summary)
+        ###### Images   
+        images = imageList
+        title='Images'
+        addOompTable(mdFile,images,title=title,version=2,item=item)
         ###### Tags
         mdFile.new_header(level=2, title='Tags')
         tags = []    
@@ -110,6 +127,18 @@ def generateReadmePart(item,overwrite=False):
     if not os.path.isfile(filename) or overwrite:
         title = oompID + ">" + name
         mdFile = MdUtils(file_name=filename,title='')
+        ######  Image work  
+        mainImageTree=["image","image_RE","image_TOP","image_BOTTOM"]
+        imageList = []
+        mainImage = ""
+        ###### see which images exist
+        for image in mainImageTree:
+            imagePath = item.getFilename(image,resolution="450", relative="")
+            if(os.path.isfile(imagePath)):
+                mainImage = item.getFilename(image,resolution="450", relative="flat")
+                imageList.append(image)
+
+
         mainImage="image_600.jpg"
         if(os.path.isfile(baseDir + mainImage)):
             mdFile.new_line(mdFile.new_reference_image(text='', path=mainImage, reference_tag='im'))
@@ -120,12 +149,9 @@ def generateReadmePart(item,overwrite=False):
         summary.append("Name: " + oompID)        
         mdFile.new_list(summary)
         ###### Images   
-        images = ['','_RE','_TOP','_BOTTOM']
-        imageName = ['Main','Reference','Top','Bottom']
-        extension = ".jpg"
-        baseName = "image"
+        images = imageList
         title='Images'
-        addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir)
+        addOompTable(mdFile,images,title=title,version=2,item=item)
         ###### Diagram        
         images = ['BBLS','DIAG','IDEN','SCHEM','SIMP']
         imageName = ['Breadboard Layout','Diagram','Identifier','Schematic','Simple']
@@ -134,10 +160,11 @@ def generateReadmePart(item,overwrite=False):
         title='Diagrams'
         addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir)
         ###### Datasheet
-        mdFile.new_header(level=2, title="Datasheets")
-        summary = []
-        summary.append("Datasheet: " + "[datasheet.pdf](datasheet.pdf)")
-        mdFile.new_list(summary)        
+        if os.path.isfile(item.getFilename("datasheet")):
+            mdFile.new_header(level=2, title="Datasheets")
+            summary = []
+            summary.append("Datasheet: " + "[datasheet.pdf](datasheet.pdf)")
+            mdFile.new_list(summary)        
         ###### 3D Model
         images = ['']
         imageName = ['3D Model Ortho']
@@ -146,12 +173,9 @@ def generateReadmePart(item,overwrite=False):
         title='3D Models'
         addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir)        
         ###### Labels
-        images = ['-front','-inventory','-spec']
-        imageName = ['Front', "Inventory", "Specifications"]        
-        extension = ".png"
-        baseName = "label"
+        images = ["label-front","label-inventory","label-spec"]
         title='Labels'
-        addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir)        
+        addOompTable(mdFile,images,title=title,version=2,item=item)     
         ###### EDA
         mdFile.new_header(level=2, title="EDA")
         ######  Footprints
@@ -228,7 +252,37 @@ def addDisplayTable(mdFile,cells,width):
     #print("Table Test: " + str(len(cells)) + "    rows: " + str(rows)  + "    Cols: " + str(width))
     mdFile.new_table(columns=width, rows=rows, text=cells, text_align='center')                           
 
-def addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir):
+
+def addOompTable(mdFile,images,imageName="",baseName="",extension="",title="",baseDir="",version=1,item=""):
+    if version == 1:
+        addOompTableV1(mdFile,images,imageName,baseName,extension,title,baseDir)
+    elif version == 2: 
+        addOompTableV2(mdFile,images,title,item)
+
+def addOompTableV2(mdFile,images,title,item):
+        line1 = []
+        line2 = []
+        index = 0
+        numImages = 0
+        for image in images:            
+            #print("Test File: " + baseDir  + baseName +   image.replace("/eda","eda")  +  extension)
+            line1.append(image)
+            line2.append("[!["  + image + "](" + item.getFilename(image,relative="flat",resolution=140,extension="png") + ")](" + item.getFilename(image,relative="flat",resolution=600,extension="png") + ")")
+        if len(line1) > 0:
+            mdFile.new_header(level=2, title=title)
+            mdFile.new_line()
+            #print(line1)
+            tableText = line1
+            tableText.extend(line2)
+            #print("Images " + oompID)
+            #print(tableText)
+            #print(line2)
+            #print(len(line2))
+            #print(len(tableText))
+            mdFile.new_line()
+            mdFile.new_table(columns=len(line2), rows=2, text=tableText, text_align='center')                       
+
+def addOompTableV1(mdFile,images,imageName,baseName,extension,title,baseDir):
         line1 = []
         line2 = []
         index = 0
