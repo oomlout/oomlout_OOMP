@@ -59,7 +59,7 @@ def harvestEagleLibraries(footprint=True,files=True, single=False, overwrite=Fal
     directory="C:/EAGLE 9.6.2/cache/lbr/"
     owner = "eagle-default"
     
-    if False:
+    if True:
     #if True:
         all = True
         filters= [""]
@@ -222,7 +222,7 @@ def harvestKicadFootprintImages(owner):
 
     for footprint in footprints:
         if filterDir in footprint[1]:
-            captureKicadFootprint(footprint,owner)
+            #captureKicadFootprint(footprint,owner)
             copyKicadSourceFile(footprint,owner)
             makeKicadOompFile(footprint,owner)
 
@@ -250,6 +250,7 @@ def harvestEagleFootprint(libraryFile,libraryName, owner, overwrite=False, footp
         #skip asterisk files for the time being
         if not "*" in footprint[0]:  
             if footprint:
+                c=0
                 captureEagleFootprint(footprint,owner,overwrite=overwrite,libraryName=libraryName)
             if files:
                 copyEagleSourceFile(footprint,owner,libraryFile,overwrite=overwrite)
@@ -348,6 +349,10 @@ def makeKicadOompFile(footprint, owner):
     
 
     f.write("\n")
+    variablesLine = ",hexID='" + hexID + "',oompType='" + type + "',oompSize='" + size + "',oompColor='" + color + "',oompDesc='" + desc + "',oompIndex='" + index + "'"
+    oompID = type +"-" + size + "-" + color + "-" + desc + "-" + index
+    line = '\nnewPart = OOMPtags.addTags(newPart,"' + oompID + '"' + variablesLine + ')\n'
+    f.write(line + "\n")
     f.write(OOMP.getFileEnding())
     f.close()
     
@@ -389,7 +394,7 @@ def makeEagleOompFile(footprint, owner, overwrite=False):
     
 
 def copyKicadSourceFile(footprint, owner):
-    sourceFile = "sourceFiles/" + owner + "/" + footprint[1] + "/" +footprint[0] + ".kicad_mod"
+    sourceFile = "oomlout_OOMP_eda/sourceFiles/" + owner + "/" + footprint[1] + "/" +footprint[0] + ".kicad_mod"
     destFile = getKicadFootprintFolder(footprint,owner) + "footprint.kicad_mod"
     Path(getKicadFootprintFolder(footprint,owner)).mkdir(parents=True, exist_ok=True)    
 
@@ -708,7 +713,7 @@ def captureEagleFootprint(footprint, owner, overwrite=False,libraryName=""):
            
 
 def getKicadFootprintNames(owner):
-    directory = "C:/GH/oomlout_OOMP/sourceFiles/" + owner + "/"
+    directory = "C:/GH/oomlout_OOMP/oomlout_OOMP_eda/sourceFiles/" + owner + "/"
     footprints = []
     for subdir, dirs, files in os.walk(directory):
         for file in files:

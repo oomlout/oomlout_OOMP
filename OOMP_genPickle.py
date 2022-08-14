@@ -1,4 +1,5 @@
 import OOMP
+import OOMPtags
 import OOMPgenerate
 import OOMPinkscapeGenerate
 import OOMPeda
@@ -25,3 +26,4 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 ######  Readmes
 #OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=True,json=True,diagrams=True,diagRenders=False,images=False,overwrite=True)
 
+OOMPtags.genReport(filename,tags)
