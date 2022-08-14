@@ -393,6 +393,7 @@ def getFootprintHex(filter):
     replaceList.append(["-",""])
     replaceList.append(["_",""])
     replaceList.append(["0",""])
+    replaceList.append([":",""])
     replaceList.append([".",""])
     ###### MM
     for x in range(9):
