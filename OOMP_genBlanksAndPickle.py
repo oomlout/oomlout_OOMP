@@ -23,4 +23,5 @@ OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=False,di
 OOMPgenerate.generateAll(labels=False,scads=True,renders=True,readmes=True,diagrams=False,diagRenders=True,images=True,overwrite=False)
 ######  Labels
 OOMPgenerate.generateAll(labels=True,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=False,overwrite=False,json=True)
-
+######  Readmes
+OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=True,json=True,diagrams=True,diagRenders=False,images=False,overwrite=True)
