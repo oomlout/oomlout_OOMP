@@ -2,7 +2,9 @@ md sourceFiles
 cd sourceFiles
 
 git clone https://github.com/openscopeproject/InteractiveHtmlBom
+cd InteractiveHtmlBom
 git pull
+cd..
 git clone https://github.com/sparkfun/SparkFun-Eagle-Libraries
 cd SparkFun-Eagle-Libraries
 git pull
