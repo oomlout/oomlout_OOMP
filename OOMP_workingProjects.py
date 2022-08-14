@@ -20,8 +20,7 @@ str(len(OOMP.getItems("parts"))))
 print("Number of Projects: "+ str(len(OOMP.getItems("projects"))))
 
 #OOMP.printParts()
-OOMP.setBaseDir("C:/GH/oomlout_OOMP/"
-)
+OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 
 ######  Download and harvest arduino files
@@ -43,10 +42,9 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/"
 #oomDelay(5)
 #OOMPproject.harvestProjectFiles()
 
-
-######  Footprint things
 #OOMPproject.harvestFootprintsToKicad()
-OOMPproject.harvestFootprintsKicadBoardExport()
+#OOMPproject.harvestFootprintsKicadBoardExport
+OOMPproject.harvestInteractiveHtmlBoms()
 
 ### ### Single is for doing default libraries
 #OOMPeda.harvestEagleLibraries(footprint=True,files=True,single=False, overwrite=False)

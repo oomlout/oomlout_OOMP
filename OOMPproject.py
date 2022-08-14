@@ -3,6 +3,7 @@ from OOMPeda import *
 import OOMP
 import os
 import shutil
+import subprocess
 
 ##################
 ######  Adafruit Section
@@ -476,6 +477,9 @@ def kicadClosePcb(noSave=True):
     oomSendEnter(delay=20)
 
 
+
+
+#### 285 seconds per (12 an hour) (1000 in 80 hours) (33 days for 10000)
 def harvestKicadBoardFile(file="",directory="",part="",overwrite=False):
     boardKicad = ""
     dirKicad = ""
@@ -694,7 +698,22 @@ def eagleExport(filename,downs,overwrite=False):
 
 
 
+def harvestInteractiveHtmlBoms(overwrite=False):
+    projects = OOMP.getItems("projects")
+    for project in projects:
+        makeInteractiveHtmlBom(project,overwrite)
 
-
-
-                                
+def makeInteractiveHtmlBom(project,overwrite=False):
+    kicadPython = "C:/Program Files/KiCad/6.0/bin/python.exe"
+    interactiveBom = '"C:/GH/oomlout_OOMP/sourceFiles/InteractiveHtmlBom/InteractiveHtmlBom/generate_interactive_bom.py" --no-browser'
+    projectFile = project.getFilename("boardkicad",relative = "full")
+    bomFile = project.getFilename("bomInteractive",relative="full")
+    if os.path.isfile(projectFile): 
+        if overwrite or not os.path.isfile(bomFile):
+            launchString = '"' + kicadPython + '" ' + interactiveBom + ' "' + projectFile + '"'
+            launchString = launchString.replace("/","\\")
+            print("Generating Interactive BOM: " + projectFile)
+            process = subprocess.Popen(launchString, shell=True, stdout=subprocess.PIPE)
+            process.wait()
+            print("    Result: " + str(process.returncode))
+                                    

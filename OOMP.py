@@ -222,13 +222,21 @@ class oompItem:
         return rv
 
     def getFilename(self,filename,relative="",resolution="600",extension=""):
+        base = ""
         if relative == "": ## relative to oomlout_OOMP
-            baseDir = self.getFolder()
+            base = self.getFolder()
         elif relative.lower() == "flat": ## relative to directory
-            baseDir = ""
-        else: ## relative to c
-            baseDir = OOMP.baseDir + self.getFolder()
+            base = ""
+        elif relative.lower() == "full": ## relative to c
+            base = baseDir + self.getFolder()
         fileExtra = filename
+        
+        ######  Bom Files
+        if filename.lower() == "bominteractive":
+            fileExtra = "kicad/bom/ibom.html"
+        
+        
+        
         ######  Datasheet
         if filename.lower() == "datasheet":
             fileExtra = "datasheet.pdf"
@@ -258,6 +266,8 @@ class oompItem:
         if filename.lower() == "dirkicad":
             fileExtra = "kicad/"
 
+        
+
         ######  Label Files
         labels = ["label-front","label-inventory","label-spec"]
         for label in labels:
@@ -269,7 +279,7 @@ class oompItem:
                 else:
                     fileExtra = label + ".pdf"    
 
-        return baseDir + fileExtra
+        return base + fileExtra
 
     ##No longer used    
     def indexMd(self):
