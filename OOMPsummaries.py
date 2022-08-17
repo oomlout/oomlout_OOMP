@@ -40,6 +40,7 @@ def generateRedirect(item,overwrite=False):
 
 #https://github.com/didix21/mdutils
 def generateReadme(item,overwrite=False):
+    print("    Readme for: " + item.getTag("oompID").value)
     oompID = item.getTag("oompID").value
     if "FOOTPRINT" in oompID:
         generateReadmeFootprint(item,overwrite)

@@ -4,6 +4,7 @@ OOMP.oompAddDetail(category="desc",code="ADJU",name="Adjustable")
 OOMP.oompAddDetail(category="desc",code="BUCA",name="Adjustable Buck")
 OOMP.oompAddDetail(category="desc",code="BOSA",name="Adjustable Boost")
 OOMP.oompAddDetail(category="desc",code="BOS5",name="5v Boost")
+OOMP.oompAddDetail(category="desc",code="CREE",name="Cree")
 OOMP.oompAddDetail(category="desc",code="FROS",name="Frosted")
 OOMP.oompAddDetail(category="desc",code="TINT",name="Tinted")
 OOMP.oompAddDetail(category="desc",code="TEHU",name="Temperature and Humidity")
@@ -3038,6 +3039,8 @@ OOMP.oompAddDetail(category="desc",code="K2N3906",name="2N3906")
 OOMP.oompAddDetail(category="desc",code="KS8550",name="S8550")
 OOMP.oompAddDetail(category="desc",code="KA1015",name="A1015")
 OOMP.oompAddDetail(category="desc",code="KC1815",name="C1815")
+
+OOMP.oompAddDetail(category="desc",code="K4184",name="MNAOD4184A")
 
 OOMP.oompAddDetail(category="desc",code="K5053",name="SGPT5053C")
 

@@ -648,6 +648,10 @@ for l in range(maxL):
 """
 OOMP.oompAddDetail(category="size",code="L169W130H18",name="169 mm x 130 mm x 18 mm")
 
+
+######  More recent Additions
+OOMP.oompAddDetail(category="size",code="XHP70",name="XHP 70")
+
 ######  Companies for projects
 OOMP.oompAddDetail(category="size",code="ADAF",name="Adafruit")
 OOMP.oompAddDetail(category="size",code="ARDC",name="Compatible Arduino")
