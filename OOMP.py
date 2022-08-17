@@ -204,7 +204,7 @@ class oompItem:
     def getDir(self):  
         return self.getFolder()
 
-    def getFolder(self):        
+    def getFolder(self,style=""):        
         rv = ""
         oompType = self.getTag("oompType").value
         oompSize = self.getTag("oompSize").value
@@ -212,12 +212,21 @@ class oompItem:
         oompDesc = self.getTag("oompDesc").value
         oompIndex = self.getTag("oompIndex").value
         oompID = self.getTag("oompID").value
-        if oompType == "FOOTPRINT":
-            rv = "oomlout_OOMP_eda/footprints/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
-        elif oompType == "PROJ":
-            rv = "oomlout_OOMP_projects/"  + oompID + "/" 
-        else:
-            rv = "oomlout_OOMP_parts/"  + oompID + "/" 
+        if style == "":
+            if oompType == "FOOTPRINT":
+                rv = "oomlout_OOMP_eda/footprints/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
+            elif oompType == "PROJ":
+                rv = "oomlout_OOMP_projects/"  + oompID + "/" 
+            else:
+                rv = "oomlout_OOMP_parts/"  + oompID + "/" 
+        elif style == "github":
+
+            if oompType == "FOOTPRINT":
+                rv = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
+            elif oompType == "PROJ":
+                rv = "https://github.com/oomlout/oomlout_OOMP_projects/tree/main/"  + oompID + "/" 
+            else:
+                rv = "https://github.com/oomlout/oomlout_OOMP_parts/tree/main/"  + oompID + "/" 
 
         return rv
 
@@ -247,7 +256,7 @@ class oompItem:
                 fileExtra = "image_" + str(resolution) + ".png"  
             else :
                 fileExtra = "image_" + str(resolution) + ".jpg"  
-        imageTypePng = ["kicadPcb3d","kicadPcb3dFront","kicadPcb3dBack"]        
+        imageTypePng = ["kicadPcb3d","kicadPcb3dFront","kicadPcb3dBack","eagleImage"]        
         for imageType in imageTypePng:
             if filename.lower() == imageType.lower():
                 fileExtra = imageType + "_" + str(resolution) + ".png"  
@@ -278,6 +287,15 @@ class oompItem:
                     fileExtra = label + ".svg"    
                 else:
                     fileExtra = label + ".pdf"    
+
+
+        ######  Redirect
+        if filename.lower() == "redirect":
+            base = base.replace(self.getFolder(),"")            
+            fileExtra = "redirects/" + self.getTag("oompID").value.replace("/","-").replace(":","-") + "/index.html"
+        if filename.lower() == "redirecthex":
+            base = base.replace(self.getFolder(),"")            
+            fileExtra = "redirects/" + self.getTag("hexID").value + "/index.html"
 
         return base + fileExtra
 
@@ -477,14 +495,19 @@ def loadParts(type):
         if type == "all" or type == "eda":
             directory = "oomlout_OOMP_eda\\"
             loadDirectory(directory)
+            loadDirectory(directory,fileFilter="details2.py")
         if type == "all" or type == "parts":        
             directory = "oomlout_OOMP_parts\\"
             loadDirectory(directory)
-        directory = "oomlout_OOMP_projects\\"
-        loadDirectory(directory)
-
-        directory = "templates\\diag\\"
-        loadDirectory(directory, fileFilter = ".py")
+            loadDirectory(directory,fileFilter="details2.py")
+        if type == "all" or type == "projects":            
+            directory = "oomlout_OOMP_projects\\"
+            loadDirectory(directory)
+            loadDirectory(directory,fileFilter="details2.py")
+        if type == "all" or type == "templates":        
+            directory = "templates\\diag\\"
+            loadDirectory(directory, fileFilter = ".py")
+            loadDirectory(directory,fileFilter="details2.py")
     else:
         picklePartsFile = "sourceFiles/picklePartsOOMP.pickle"
         pickleTagsFile = "sourceFiles/pickleTagsOOMP.pickle"

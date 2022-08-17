@@ -23,13 +23,15 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 ######  Readmes
 item = OOMP.parts[28250]
-#item = OOMP.getPartByID("FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-C0402")
+item = OOMP.getPartByID("FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-C0402")
 #https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/eagle/Adafruit-Eagle-Library/adafruit/C0402
 #C:\GH\oomlout_OOMP\oomlout_OOMP_eda\footprints\eagle\Adafruit-Eagle-Library\adafruit\C0402
 
-#item = OOMP.getPartByID("RESE-0603-X-O103-01")
+item = OOMP.getPartByID("RESE-0603-X-O103-01")
 #https://github.com/oomlout/oomlout_OOMP_parts/tree/main/RESE-0603-X-O103-01
 #C:\GH\oomlout_OOMP\oomlout_OOMP_parts\RESE-0603-X-O103-01
+
+item = OOMP.getPartByID("PROJ-ADAF-1032-STAN-01")
 
 ######  Reports
 tags = ["name","hexID"]
@@ -38,7 +40,9 @@ filename = "sourceFiles/reports/tagReport.csv"
 
 
 print(item)
-#OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=True,json=True,diagrams=False,diagRenders=False,images=False,overwrite=True)
+OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=True,json=True,diagrams=False,diagRenders=False,images=False,overwrite=True)
+
+#OOMPgenerate.generateAll(redirects=True)
 
 
 
@@ -120,7 +124,7 @@ print(item)
 #libraryName="pinhead"
 #OOMPeda.harvestEagleFootprint(library,libraryName,footprint=False,files=True)
 
-OOMPeda.harvestEagleLibraries(footprint=False,files=True)
+#OOMPeda.harvestEagleLibraries(footprint=False,files=True)
 
 # search
 ## image.png -imageZ1 -imageZ2 -imageZ3 -imagez4 -imagez5 -imagez6 -imagez7 -imagez8 -imagez9

@@ -25,5 +25,6 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 ######  Readmes
 #OOMPgenerate.generateAll(labels=False,scads=False,renders=False,readmes=True,json=True,diagrams=True,diagRenders=False,images=False,overwrite=True)
-
+tags = ["name","hexID"]
+filename = "sourceFiles/reports/tagReport.csv"
 OOMPtags.genReport(filename,tags)

@@ -4,6 +4,7 @@ from mdutils.mdutils import MdUtils
 import os
 from pathlib import Path
 import math
+from oomBase import *
 
 def generateReadmeIndex():    
     filename = OOMP.getDir("parts") + "\\Readme.md"
@@ -26,6 +27,16 @@ def generateReadmeIndex():
     mdFile.new_table_of_contents(table_title='Contents', depth=2)
     mdFile.create_md_file()     
     
+
+def generateRedirect(item,overwrite=False):
+    replaceString = "%%ID%%"
+    redirect = item.getFolder("github")
+    templateFile = "templates/OOMP_redirect.tmpl.html"
+    redirectFile = item.getFilename("redirect")
+    redirectFileHex = item.getFilename("redirectHex")
+    if overwrite or not os.path.isfile(redirectFile):
+        oomFileSearchAndReplace(templateFile,redirectFile,replaceString,redirect)
+        oomFileSearchAndReplace(templateFile,redirectFileHex,replaceString,redirect)
 
 #https://github.com/didix21/mdutils
 def generateReadme(item,overwrite=False):
@@ -89,16 +100,48 @@ def generateReadmeFootprint(item,overwrite=False):
 
 def generateReadmeProject(item,overwrite=False):
     oompID = item.getTag("oompID").value
+    hexID = item.getTag("hexID").value
     name = item.getTag("name").value
+    oompName = item.getTag("oompName").value
+    description = item.getTag("description").value
     baseDir = item.getFolder()
+    Path(baseDir).mkdir(parents=True, exist_ok=True)
     filename = baseDir + "Readme.md" 
-
-
-
     if not os.path.isfile(filename) or overwrite:
-        title = oompID + ">" + name
-        mdFile = MdUtils(file_name=filename,title=title)  
-        mdFile.new_header(level=1, title=title)              
+        title = oompID + ">" + oompName
+        mdFile = MdUtils(file_name=filename,title='')      
+        ######  Image work  
+        mainImageTree=["eagleImage","image","kicadPcb3dFront","kicadPcb3dBack","kicadPcb3d"]
+        imageList = []
+        mainImage = ""
+        ###### see which images exist
+        for image in mainImageTree:
+            imagePath = item.getFilename(image,resolution="450", relative="")
+            if(os.path.isfile(imagePath)):
+                mainImage = item.getFilename(image,resolution="450", relative="flat")
+                imageList.append(image)
+        ## Add main image
+        if mainImage != "":        
+            mdFile.new_line(mdFile.new_reference_image(text='', path=mainImage, reference_tag='im'))
+        ###### Summary
+        mdFile.new_header(level=1, title=title)
+        summary = []
+        summary.append("ID: " + oompID)
+        summary.append("Hex ID: " + hexID)
+        summary.append("Name: " + oompName) 
+        summary.append("Description: " + description) 
+        mdFile.new_list(summary)
+        ###### Images   
+        images = imageList
+        title='Images'
+        addOompTable(mdFile,images,title=title,version=2,item=item)
+        ###### Interactive BOM
+        bomFilename = item.getFilename("bomInteractive")
+        if os.path.isfile(bomFilename ):
+            mdFile.new_header(level=2, title="Interactive BOM")
+            summary = []
+            summary.append("Interactive BOM page: " + "[ibom.html](" + item.getFilename("bomInteractive",relative="flat") + ")")
+            mdFile.new_list(summary)  
         ###### Tags
         mdFile.new_header(level=2, title='Tags')
         tags = []    
@@ -112,9 +155,6 @@ def generateReadmeProject(item,overwrite=False):
         #print("Writing readme: " + filename)    
         mdFile.create_md_file()
 
-
-        mdFile.new_table_of_contents(table_title='Contents', depth=2)
-        mdFile.create_md_file()
 
 def generateReadmePart(item,overwrite=False):    
     oompID = item.getTag("oompID").value

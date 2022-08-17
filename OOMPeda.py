@@ -254,6 +254,7 @@ def harvestEagleFootprint(libraryFile,libraryName, owner, overwrite=False, footp
                 captureEagleFootprint(footprint,owner,overwrite=overwrite,libraryName=libraryName)
             if files:
                 copyEagleSourceFile(footprint,owner,libraryFile,overwrite=overwrite)
+                #overwrite = True
                 makeEagleOompFile(footprint,owner,overwrite=overwrite)
     
 
@@ -357,7 +358,7 @@ def makeKicadOompFile(footprint, owner):
     f.close()
     
 def makeEagleOompFile(footprint, owner, overwrite=False):
-    
+    footprint[0] = footprint[0].replace("'","")
     filename = getEagleFootprintFolder(footprint,owner) + "details.py"
     if not os.path.isfile(filename) or overwrite:
         print("OOMP file for " + footprint[0])    
@@ -367,30 +368,33 @@ def makeEagleOompFile(footprint, owner, overwrite=False):
         size="eagle"
         color=owner
         desc=footprint[1].replace(".pretty","")
-        index=footprint[0]
+        index=footprint[0].replace("'","")
         name = owner + "/" + footprint[1].replace(".pretty","") + "/" + footprint[0]
         f.write(OOMP.getFileOpening(hexID,type,size,color,desc,index,name))
         ###### Get details from kicad_mod file
         
         footprintFileName = getEagleFootprintFolder(footprint,owner) + "eagleFootprint.xml"
         with open(footprintFileName, "r", encoding="utf-8") as a_file:
-            content = a_file.read()
-            xmlType = 'description'
-            tagType = 'description'
-            line = stringBetweenLines(content,"<"+xmlType+">","</"+xmlType+">")
-            line = line.replace('"',"&quot;")
-            if line != "":           
-                f.write(OOMP.getAddTagLine(tagType,line,quotes="triple").encode("ascii", "ignore").decode())            
+            try:
+                content = a_file.read()
+                xmlType = 'description'
+                tagType = 'description'
+                line = stringBetweenLines(content,"<"+xmlType+">","</"+xmlType+">")
+                line = line.replace('"',"&quot;")
+                if line != "":           
+                    f.write(OOMP.getAddTagLine(tagType,line,quotes="triple").encode("ascii", "ignore").decode())            
 
-        variablesLine = ",hexID='" + hexID + "',oompType='" + type + "',oompSize='" + size + "',oompColor='" + color + "',oompDesc='" + desc + "',oompIndex='" + index + "'"
-        oompID = type +"-" + size + "-" + color + "-" + desc + "-" + index
-        line = '\nnewPart = OOMPtags.addTags(newPart,"' + oompID + '"' + variablesLine + ')\n'
+                variablesLine = ",hexID='" + hexID + "',oompType='" + type + "',oompSize='" + size + "',oompColor='" + color + "',oompDesc='" + desc + "',oompIndex='" + index + "'"
+                oompID = type +"-" + size + "-" + color + "-" + desc + "-" + index
+                line = '\nnewPart = OOMPtags.addTags(newPart,"' + oompID + '"' + variablesLine + ')\n'
 
-        f.write(line)
+                f.write(line)
 
-        f.write("\n")
-        f.write(OOMP.getFileEnding())
-        f.close()
+                f.write("\n")
+                f.write(OOMP.getFileEnding())
+                f.close()
+            except:
+                print("        Error with " + footprintFileName)
     
 
 def copyKicadSourceFile(footprint, owner):

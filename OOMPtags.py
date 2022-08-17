@@ -94,37 +94,65 @@ def getFootprintHex(filter):
     replaceList.append(["FOOTPRINT-","FZ"])
     ### adafruit ones
     ######  Library
+    replaceList.append(["",""])
     replaceList.append(["eagle-Adafruit-Eagle-Library-adafruit-".upper(),"A"])
     ######  additions
+    replaceList.append(["",""])
     replaceList.append(["-0.7MM","07"])
     replaceList.append(["-0.5MM","05"])
     replaceList.append(["-3.5MM","35"])
     replaceList.append(["ADAFRUIT","ADA"])
     replaceList.append(["ARDUINO","ARD"])
     replaceList.append(["-BIG","B"])
+    replaceList.append(["CLUEFRUIT","BF"])
     replaceList.append(["-BIGPOGO","BP"])
     replaceList.append(["-CLEANBIG","CB"])
     replaceList.append(["-CLEAN","C"])
     replaceList.append(["-CB","CB"])
     replaceList.append(["_DIM","D"])
     replaceList.append(["-DIM","D"])
+    replaceList.append(["EDGELAUNCH","EL"])
     replaceList.append(["FEATHERWING","FW"])
     
+    replaceList.append(["INLINE","I"])
+    replaceList.append(["JACK","J"])
+    replaceList.append(["EAGLEBONE","EB"])
     replaceList.append(["MINI_MELF","MM"])
     replaceList.append(["MOLEX","MX"])
+    
+    replaceList.append(["NARROW","N"])
+    replaceList.append(["NOIOREF","NI"])
+    replaceList.append(["-NOTEXT","NT"])
     replaceList.append(["-NODIM","ND"])
     replaceList.append(["-NOHOLE","NH"])
     replaceList.append(["-OSHWLOGO","OL"])
     replaceList.append(["-PANASONIC","P"])
     replaceList.append(["PUSHBUTTON","PB"])
-    replaceList.append(["-ROUND","R"])
+    
+    replaceList.append(["PWRONLY",""])
+    replaceList.append(["PTH","P"])
+    
+    replaceList.append(["REVERSE","R"])
+    replaceList.append(["-ROUND","R"])    
+    replaceList.append(["SEGMENT","S"])
     replaceList.append(["-SIDE","SD"])
+    replaceList.append(["SKINNYPADS","SP"])
+    replaceList.append(["SMA","S"])
+    replaceList.append(["SMD","SM"])
+    replaceList.append(["SKINNIER","SK"])
     replaceList.append(["-SMALLS","S"])
     replaceList.append(["-SMT","S"])
     replaceList.append(["_SMT","S"])
+    
+    replaceList.append(["THM","T"])
     replaceList.append(["-LOCK","L"])
     
-
+    replaceList.append(["WHEEL","W"])
+    
+    ### Dangerous Prototypes ones
+    ######  Library
+    replaceList.append(["",""])
+    replaceList.append(["DangerousPrototypes-Eagle-Library-dp_devices.v6-".upper(),"DP"])
    ### eagle ones    
     replaceList.append(["",""])
     replaceList.append(["eagle-eagle-default-".upper(),"E"])
@@ -387,7 +415,12 @@ def getFootprintHex(filter):
     replaceList.append(["SHIELD","SH"])    
     replaceList.append(["TRANSFORMER","TR"])
     
-    replaceList.append(["USB","U"])
+
+    replaceList.append(["SOP","S"])
+
+    replaceList.append(["MIL","M"])
+    replaceList.append(["USB","U"])    
+    replaceList.append(["MINI","M"])
 
     replaceList.append(["/",""])
     replaceList.append(["-",""])
@@ -395,6 +428,7 @@ def getFootprintHex(filter):
     replaceList.append(["0",""])
     replaceList.append([":",""])
     replaceList.append([".",""])
+    replaceList.append([",",""])
     ###### MM
     for x in range(9):
         xs = str(x)
