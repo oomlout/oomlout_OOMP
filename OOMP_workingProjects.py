@@ -7,11 +7,12 @@ from oomBase import *
 import json
 
 
-
 #OOMP.loadParts("all")
+OOMP.loadParts("projects")
 #OOMP.exportPickle()
 
-OOMP.loadParts("pickle")
+#OOMP.loadParts("pickle")
+
 
 print("Number of Items: "+ str(len(OOMP.getItems("all"))))
 print("Number of Footprints: "+ str(len(OOMP.getItems("footprints"))))
@@ -23,60 +24,26 @@ print("Number of Projects: "+ str(len(OOMP.getItems("projects"))))
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 
+#OOMPproject.doTasks("proje
+# cts")
+overwrite=True
+kicadProcess = False        #kicad launcher open
+eagleToKicad = False        #kicad launcher open
+eagleProcess= False          #eagle pcb open
+interactiveBom = False
+partsHarvest = True
+#filter="footprints"
+filter="projects"
+OOMPproject.doTasks(overwrite=overwrite,filter=filter,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,partsHarvest=partsHarvest)
+
+
+
+overwrite=True
+project =OOMP.getPartByID("PROJ-ADAF-2019-STAN-01")
+#OOMPproject.doTask(project=project,overwrite=overwrite,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,partsHarvest=partsHarvest)
+print(project.fullString())
+
 ######  Download and harvest arduino files
-
 #
-# O
-# O
-# M
-# P
-# p
-# r
-# o
-# j
-# e
-# c
-# t.harvestProjectsArduino() 
+# OOMPprojectHarvest.harvestProjectsArduino() 
 
-######  Harvest Project Files
-#oomDelay(5)
-#OOMPproject.harvestProjectFiles()
-
-#OOMPproject.harvestFootprintsToKicad()
-#OOMPproject.harvestFootprintsKicadBoardExport
-OOMPproject.harvestInteractiveHtmlBoms()
-
-### ### Single is for doing default libraries
-#OOMPeda.harvestEagleLibraries(footprint=True,files=True,single=False, overwrite=False)
-#OOMPeda.harvestEagleLibraries(footprint=True,files=True,single=True, overwrite=False)
-
-
-#OOMPeda.eagleSetLibrary("19inch")
-#OOMPeda.eagleResetLibrary()
-
-#import OOMP_genPickle
-
-#OOMPeda.harvestKicadLibraries()
-
-#owner = "kicad-footprints"
-#OOMPEDA.harvestKicadFootprintImages(owner)
-#library="C:/EAGLE 9.6.2/cache/lbr/pinhead.lbr"
-#libraryName="pinhead"
-#OOMPeda.harvestEagleFootprint(library,libraryName)
-
-# search
-## image.png -imageZ1 -imageZ2 -imageZ3 -imagez4 -imagez5 -imagez6 -imagez7 -imagez8 -imagez9
-#OOMPeda.harvestEagleLibraries()
-
-#oomDelay(2)
-#oomMouseScrollWheel(movement=-50)
-
-
-#oomScreenCapture("temp1.png",crop=[560,105,900,900])
-
-
-#json testing
-#item = OOMP.parts[517]
-
-#print(json.dumps(item,default=lambda o: o.__dict__, sort_keys=True, indent=4))
-#print(item.__dict__)

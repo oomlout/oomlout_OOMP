@@ -268,6 +268,8 @@ class oompItem:
         ######  Eagle Files
         if filename.lower() == "boardeagle":
             fileExtra = "boardEagle.brd"
+        if filename.lower() == "eagleparts":
+            fileExtra = "eagleparts.txt"
 
         ######  Kicad files
         if filename.lower() == "boardkicad":
@@ -288,6 +290,11 @@ class oompItem:
                 else:
                     fileExtra = label + ".pdf"    
 
+        ######  Python Files
+        if filename.lower() == "details":
+            fileExtra = "details.py"        
+        if filename.lower() == "pythonparts":
+            fileExtra = "pythonParts.py"    
 
         ######  Redirect
         if filename.lower() == "redirect":
@@ -504,6 +511,7 @@ def loadParts(type):
             directory = "oomlout_OOMP_projects\\"
             loadDirectory(directory)
             loadDirectory(directory,fileFilter="details2.py")
+            loadDirectory(directory,fileFilter="pythonParts.py")
         if type == "all" or type == "templates":        
             directory = "templates\\diag\\"
             loadDirectory(directory, fileFilter = ".py")
