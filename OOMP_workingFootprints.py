@@ -4,9 +4,7 @@ import OOMPinkscapeGenerate
 import OOMPeda
 from oomBase import *
 import json
-
-
-
+        
 #OOMP.loadParts("all")
 #OOMP.exportPickle()
 
