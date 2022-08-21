@@ -139,7 +139,11 @@ def harvestKicadBoardFile(file="",directory="",part="",overwrite=False):
 
 def harvestEagleBoardFile(file,directory,overwrite=False):
     dxfFile = OOMP.baseDir + directory + "eagleImage.dxf"
-    if overwrite or not os.path.exists(dxfFile):
+    pngFile = OOMP.baseDir + directory + "eagleImage.png"
+    partFile = OOMP.baseDir + directory + "eagleParts.txt"
+    #if overwrite or not os.path.exists(dxfFile):
+    #if overwrite or not os.path.exists(pngFile):
+    if overwrite or not os.path.exists(partFile):
         oomMouseClick(pos=kicadActive,delay=5)            
         oomSendControl("o",delay=5)
         fullFile = OOMP.baseDir + file
@@ -163,6 +167,7 @@ def harvestEagleBoardFile(file,directory,overwrite=False):
         ###### set export to 1200
         filename = OOMP.baseDir + directory + "eagleImage.png"
         eagleExport(filename,3,overwrite=overwrite)
+"""        
         ######  CAM files
         testFile = directory + "eagleGerber/CAMOutputs/GerberFiles/copper_bottom.gbr"
         if overwrite or not os.path.exists(testFile):
@@ -170,6 +175,7 @@ def harvestEagleBoardFile(file,directory,overwrite=False):
             oomMakeDir(camDir)
             oomSendAltKey("f",2)
             oomSend("m",2)
+            
             oomSendTab(16)
             oomDelay(2)
             oomSendEnter(2)
@@ -179,12 +185,12 @@ def harvestEagleBoardFile(file,directory,overwrite=False):
             oomSend("y",2)
             oomSendEnter(2)
             oomSendEsc()
-            oomDelay(2)
+            oomDelay(15)
 
         ###### dxf
         filename = dxfFile
         eagleExport(filename,4,overwrite=overwrite)
-
+"""
 def kicadExport(filename,type,overwrite=False):
     if type.lower() == "bom":
         bomFile = filename + "boardKicadBom.csv"

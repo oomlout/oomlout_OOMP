@@ -8,10 +8,10 @@ import json
 
 
 #OOMP.loadParts("all")
-OOMP.loadParts("projects")
+#OOMP.loadParts("projects")
 #OOMP.exportPickle()
 
-#OOMP.loadParts("pickle")
+OOMP.loadParts("pickle")
 
 
 print("Number of Items: "+ str(len(OOMP.getItems("all"))))
@@ -26,12 +26,12 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 #OOMPproject.doTasks("proje
 # cts")
-overwrite=True
-kicadProcess = False        #kicad launcher open
+overwrite=False
+kicadProcess = True        #kicad launcher open
 eagleToKicad = False        #kicad launcher open
 eagleProcess= False          #eagle pcb open
 interactiveBom = False
-partsHarvest = True
+partsHarvest = False
 #filter="footprints"
 filter="projects"
 OOMPproject.doTasks(overwrite=overwrite,filter=filter,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,partsHarvest=partsHarvest)
