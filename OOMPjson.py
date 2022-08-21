@@ -3,6 +3,7 @@ import os
 import json
 
 def generateJson(item,overwrite):
+    print("        JSON for: " + item.getTag("oompID").value)
     oompID = item.getTag("oompID").value
     name = item.getTag("name").value
     index = item.getTag("index").value
@@ -10,7 +11,7 @@ def generateJson(item,overwrite):
     item.addTag("oompID", oompID)
     item.addTag("name", name)
     jsonFile = item.getFolder() + "json.json"
-    if not os.path.isfile(jsonFile) or overwrite:
+    if not "TEMPLATE" in oompID and (not os.path.isfile(jsonFile) or overwrite):
         jsonText = json.dumps(item,default=lambda o: o.__dict__, sort_keys=True, indent=4)
         f = open(jsonFile,"w")
         f.write(jsonText)

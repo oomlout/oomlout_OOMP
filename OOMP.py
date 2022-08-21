@@ -50,6 +50,15 @@ def getItems(type=""):
                 c = "SKIP"
             else:
                 rv.append(part)
+    if type.upper() == "NOFOOTPRINTS":
+        rv = []
+        for part in parts:
+            t = part.getTag("oompType")
+            if not t.value == "FOOTPRINT" and not t.value == "TEMPLATE":
+                rv.append(part)
+            else:
+                c = "SKIP"
+                
     if type.upper() == "PROJECTS":
         rv = []
         for part in parts:
