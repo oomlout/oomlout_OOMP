@@ -69,7 +69,7 @@ def harvestEagleBoardToKicad(file,directory,overwrite=False):
         oomSend(filename,5)
         oomSendEnter(10)
         ######  set temp folder
-        tempDir = OOMP.baseDir + "oomlout_OOMP_projects/sourceFiles/tempU/"
+        tempDir = OOMP.baseDir + "oomlout_OOMP_projects/sourceFiles/tempV/"
         
         oomDeleteDirectory(tempDir + "boardEagle.pretty/", safety=False)
         oomDeleteDirectory(tempDir + "boardEagle-backups/", safety=False)        
@@ -88,6 +88,8 @@ def harvestEagleBoardToKicad(file,directory,overwrite=False):
         oomSendEsc(2)
         oomDelay(15)
         oomMouseClick(pos=kicadFootprintMiddle,delay=2)
+        #fill zones
+        oomSend("b",15)
         ######  save board
         oomSendAltKey("f",2)
         oomSendDown(1,delay=2)
@@ -124,6 +126,8 @@ def harvestKicadBoardFile(file="",directory="",part="",overwrite=False):
     if os.path.isfile(boardKicad) and (overwrite or True):
         if overwrite or not os.path.isfile(directory + "kicadPcb3d.png"):
             oomLaunchPopen("pcbnew.exe " + boardKicad,10)
+            oomMouseMove(pos=kicadFootprintMiddle,delay=2)
+            oomSend("b",10)
             oomMouseClick(pos=kicadActive,delay=5)    
             filename = OOMP.baseDir + directory + "kicad/"
             kicadExport(filename,"bom",overwrite=overwrite)
@@ -141,9 +145,14 @@ def harvestEagleBoardFile(file,directory,overwrite=False):
     dxfFile = OOMP.baseDir + directory + "eagleImage.dxf"
     pngFile = OOMP.baseDir + directory + "eagleImage.png"
     partFile = OOMP.baseDir + directory + "eagleParts.txt"
+    netFile = OOMP.baseDir + directory + "eagleNetlist.txt"
+    pinFile = OOMP.baseDir + directory + "eaglePinlist.txt"
+    imageFile = OOMP.baseDir + directory + "eagleImage.png"
     #if overwrite or not os.path.exists(dxfFile):
     #if overwrite or not os.path.exists(pngFile):
-    if overwrite or not os.path.exists(partFile):
+    print("Harvesting Eagle Board: " + file)
+    if overwrite or not (os.path.exists(partFile) or os.path.exists(netFile) or os.path.exists(pinFile) or os.path.exists(imageFile)):
+        print("    Missing Files")
         oomMouseClick(pos=kicadActive,delay=5)            
         oomSendControl("o",delay=5)
         fullFile = OOMP.baseDir + file
@@ -156,17 +165,26 @@ def harvestEagleBoardFile(file,directory,overwrite=False):
 
         ###### Part List
         filename = OOMP.baseDir + directory + "eagleParts.txt"
-        eagleExport(filename,1,overwrite=overwrite)
+        if overwrite or not os.path.exists(filename):
+            print("        " + filename)
+            eagleExport(filename,1,overwrite=overwrite)
         ###### Net List
         filename = OOMP.baseDir + directory + "eagleNetlist.txt"
-        eagleExport(filename,0,overwrite=overwrite)
+        if overwrite or not os.path.exists(filename):
+            print("        " + filename)
+            eagleExport(filename,0,overwrite=overwrite)
         ###### Pin List
         filename = OOMP.baseDir + directory + "eaglePinlist.txt"
-        eagleExport(filename,2,overwrite=overwrite)
+        if overwrite or not os.path.exists(filename):
+            print("        " + filename)
+            eagleExport(filename,2,overwrite=overwrite)
         ###### image
         ###### set export to 1200
         filename = OOMP.baseDir + directory + "eagleImage.png"
-        eagleExport(filename,3,overwrite=overwrite)
+        
+        if overwrite or not os.path.exists(filename):
+            print("        " + filename)
+            eagleExport(filename,3,overwrite=overwrite)
 """        
         ######  CAM files
         testFile = directory + "eagleGerber/CAMOutputs/GerberFiles/copper_bottom.gbr"

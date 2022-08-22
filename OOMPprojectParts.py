@@ -13,10 +13,11 @@ def harvestParts(item,overwrite = False):
         oompParts = []
         multiplier = 1
         for line in lines:
-            line = line.replace("µ","u").replace("�","").replace('"',"").replace("'","")
+            line = line.replace("µ","u").replace("�","").replace('"',"").replace("'","").replace("±","+/-").replace("�","")
             ######  skip"'" until getting to part line
             if process:
-                parts.append(line.split())
+                if line != "":
+                    parts.append(line.split())
             if "Part " in line:
                 process = True  
                 if "(inch)" in line:
@@ -26,9 +27,10 @@ def harvestParts(item,overwrite = False):
             if len(part) == 6:
                 part = [part[0],"",part[1],part[2],part[3],part[4],part[5]]
             if len(part) > 4:
-                try:
+
                     ##### oompID, part, x, y, rotation
-                    oompID = matchPart(item,part)
+                oompID = matchPart(item,part)
+                try:                    
                     partName = part[0]
                     x = part[4].replace("(","")
                     y = part[5].replace(")","")
@@ -36,6 +38,7 @@ def harvestParts(item,overwrite = False):
 
                     oompParts.append([oompID,partName,float(x)*multiplier,float(y)*multiplier,rotation])
                 except:
+                    print("harvest parts error " + str(part))
                     oompParts.append(["ERROR",part[0] + " " + part[1] + " " + part[2],0,0,0])
 
 
@@ -60,10 +63,9 @@ def makePartsFile(item,oompParts,rawParts):
         contents = contents + 'newPart.addTag("oompPart","' +partString + '")' + "\n"
 
     for part in rawParts:
-        if partString != "":
-            partString = str(part).replace("[","",).replace("]","",).replace("'","",)
+        partString = str(part).replace("[","",).replace("]","",).replace("'","",)
 
-            contents = contents + 'newPart.addTag("rawPart","' + partString + '")' + "\n"
+        contents = contents + 'newPart.addTag("rawPart","' + partString + '")' + "\n"
 
 
     oomWriteToFile(partsFile,contents,utf=False)
@@ -92,11 +94,16 @@ def matchPart(project,part):
     packageLetter = "".join([i for i in part[PACKAGE] if not i.isdigit()]).replace("-","")
     packageNumber = "".join([i for i in part[PACKAGE] if not i.isalpha()]).replace("-","")
 
+    valueNumber = valueNumber.replace("+","")
+
     ###### TYPE
 
     if partLetter == "C":
-        if float(valueNumber) < 20:
-            oompType = "CAPC"
+        try:
+            if float(valueNumber) < 20:
+                oompType = "CAPC"
+        except:
+            c=0
         else:
             oompType = "CAPE"
     if partLetter == "R":
@@ -110,58 +117,134 @@ def matchPart(project,part):
 
     ######  SIZE
 
-    if packageNumber == "0805":
-        oompSize = "0805"
-    if packageNumber == "0402":
-        oompSize = "0402"
-    if packageNumber == "0603":
-        oompSize = "0603"
+    sizeList = [
+        ["0805","0805"],
+        ["805","0805"], 
+        ["0805-","0805"],
+        ["_0805","0805"],
+        ["0603","0603"],
+        ["603","0603"], 
+        ["0603-","0603"],
+        ["_0603","0603"],
+        ["0402","0402"],
+        ["402","0402"], 
+        ["0402-","0402"],
+        ["_0402","0402"],
+        ["1210","1210"]
+    ]
 
-
+    for swap in sizeList:
+        if part[PACKAGE].lower() == swap[0]:
+            oompSize = swap[1]
+        if packageNumber.lower() == swap[0]:
+            oompSize = swap[1]    
     ###### common capacitor values
-    if part[VALUE] == "0.01uF":
-        oompDesc = "NF10"
-    if part[VALUE] == "0.1uF":
-        oompDesc = "NF100"
-    if part[VALUE] == "100nF":
-        oompDesc = "NF100"
-    if part[VALUE] == "10uF":
-        oompDesc = "UF10"
-    if part[VALUE] == "22pF":
-        oompDesc = "PF22"
-    if part[VALUE] == "100pF":
-        oompDesc = "PF100"
-    if part[VALUE] == "10pF":
-        oompDesc = "PF10"
+
+    descList = [["0.01uf","NF10" ],
+                ["2.2pf","PF22D" ],
+                ["1000pf","NF1" ],
+                ["2.2nf","NF22D" ],
+                ["2200pf","NF22D" ],
+                [".47uf","NF470" ],
+                [".01uf","NF10" ],
+                [".01uf","NF10" ],
+                ["0.01uf","NF10" ],
+                ["0.1uf","NF100" ],
+                ["0.1u","NF100" ],
+                ["0.22uf","NF220" ],
+                [".22uf","NF220" ],
+                ["0.33uf","NF330" ],
+                [".33uf","NF330" ],
+                ["0.39uf","NF390" ],
+                [".39uf","NF390" ],
+                ["0.47uf","NF470" ],
+                [".47uf","NF470" ],
+                ["0.5uf","NF500" ],
+                [".5uf","NF500" ],
+                ["0.68uf","NF680" ],
+                [".68uf","NF680" ],
+                ["0.75uf","NF750" ],
+                [".75uf","NF750" ],
+                ["0.8uf","NF800" ],
+                [".8uf","NF800" ],
+                ["2.2uf","UF22D" ],
+                ["1000uf","UF1000"],
+                ["100/6vuf","UF100"],
+    ]
+
+    values  = ["p","n","u"]
+    steps = 999
+    for value in values:
+        for step in range(steps):
+            descList.append([str(step) + value,value.upper() + "F" + str(step) ])
+            descList.append([str(step) + "f" + value,value.upper() + "F" + str(step) ])
+            descList.append([str(round(step,1)) + "f" + value,value.upper() + "F" + str(step) ])
+
+
+
+    for swap in descList:
+        if part[VALUE].replace("+","").replace("/10V","").replace("/16V","").replace("-25V","").replace("/50V","").replace("/2kV","").lower() == swap[0]:
+            oompDesc = swap[1]
 
 
     oompID = oompType + "-" + oompSize + "-" + oompColor + "-" + oompDesc + "-" + oompIndex
 
     if oompType == "CAPC" and oompDesc == "NF100":
         oompIndex = "V50"
+    ###### default to v50 for small 0603 value caps    
+    if oompType == "CAPC" and oompSize == "0603" and ("NF" in oompDesc or "PF" in oompDesc)  :
+        oompIndex = "V50"        
     if oompType == "CAPC" and oompDesc == "UF10":
         oompIndex = "V25"
 
 
     ###### common resistor values
-    if part[VALUE] == "10K":
-        oompDesc = "O103"
-    if part[VALUE] == "1K":
-        oompDesc = "O102"
-    if part[VALUE] == "100K":
-        oompDesc = "O104"
-    if part[VALUE] == "22K":
-        oompDesc = "O223"
-    if part[VALUE] == "2.2K":
-        oompDesc = "O222"
-    if part[VALUE] == "1M":
-        oompDesc = "O105"
-    if part[VALUE] == "220":
-        oompDesc = "O221"
-    if part[VALUE] == "330":
-        oompDesc = "O331"
+    if oompType == "RESE":
+        descList = [
+            ["10K","O103"],
+            ["1K","O102"],
+            ["2K","O202"],
+            ["3K","O302"],
+            ["4K","O402"],
+            ["5K","O502"],
+            ["6K","O602"],
+            ["7K","O702"],
+            ["8K","O802"],            
+            ["9K","O902"],
+            ["100K","O104"],
+            ["22K","O223"],
+            ["2.2K","O222"],
+            ["1M","O105"],
+            ["2M","O205"],
+            ["3M","O305"],
+            ["4M","O405"],
+            ["5M","O505"],
+            ["6M","O605"],
+            ["7M","O705"],
+            ["8M","O805"],
+            ["9M","O905"],
+            ["220","O221"],
+            ["330","O331"]
+        ]
 
+        first = 99
+        zeros=6
+        for zero in range(3,zeros):
+            for num in range(10,first):
+                if zero < 2:
+                    test = num * pow(10,zero)
+                elif zero < 5:
+                    test = str(round(num * pow(10,zero-3),1)) + "k"
+                else:
+                    test = str(round(num * pow(10,zero-6),1)) + "M"   
+                result = "O" + str(num) + str(zero)
+                descList.append([test , result])
 
+        for swap in descList:
+            if part[VALUE].replace("+","").replace("/10V","").replace("/16V","").replace("-25V","").replace("/50V","").replace("/2kV","").lower() == swap[0]:
+                oompDesc = swap[1]
+            if valueNumber == swap[0]:
+                oompDesc = swap[1]
 
     rv = oompType + "-" + oompSize + "-" + oompColor + "-" + oompDesc + "-" + oompIndex
     return rv
