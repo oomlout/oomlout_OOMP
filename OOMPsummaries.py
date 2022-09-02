@@ -46,6 +46,8 @@ def generateReadme(item,overwrite=False):
         generateReadmeFootprint(item,overwrite)
     elif "PROJ" in oompID:
         generateReadmeProject(item,overwrite)
+    elif "SYMBOL" in oompID:
+        generateReadmeSymbol(item,overwrite)
     elif not "TEMPLATE" in oompID:
         generateReadmePart(item,overwrite)
 
@@ -142,7 +144,64 @@ def generateReadmeProject(item,overwrite=False):
             mdFile.new_header(level=2, title="Interactive BOM")
             summary = []
             summary.append("Interactive BOM page: " + "[ibom.html](" + item.getFilename("bomInteractive",relative="flat") + ")")
-            mdFile.new_list(summary)  
+            mdFile.new_list(summary)          
+        ###### OOMP Parts   
+        partsTags = item.getTags("oompPart")
+        
+        if len(partsTags) > 0:
+            title='OOMP Parts'
+            mdFile.new_header(level=2, title=title)
+            addOompPartTable(mdFile,item)
+        ###### Tags
+        mdFile.new_header(level=2, title='Tags')
+        tags = []    
+        #print(item.fullString())
+        for tag in item.tags:
+            if tag.name != "index":
+                tags.append(str(tag.name) + ": " + str(tag.value))
+        mdFile.new_list(tags)        
+        mdFile.new_table_of_contents(table_title='Contents', depth=2)
+            
+        #print("Writing readme: " + filename)    
+        mdFile.create_md_file()
+
+def generateReadmeSymbol(item,overwrite=False):
+    oompID = item.getTag("oompID").value
+    hexID = item.getTag("hexID").value
+    name = item.getTag("name").value
+    oompName = item.getTag("oompName").value
+    description = item.getTag("description").value
+    baseDir = item.getFolder()
+    Path(baseDir).mkdir(parents=True, exist_ok=True)
+    filename = baseDir + "Readme.md" 
+    if not os.path.isfile(filename) or overwrite:
+        title = oompID + ">" + oompName
+        mdFile = MdUtils(file_name=filename,title='')      
+        ######  Image work  
+        mainImageTree=["image"]
+        imageList = []
+        mainImage = ""
+        ###### see which images exist
+        for image in mainImageTree:
+            imagePath = item.getFilename(image,resolution="450", relative="",extension="png")
+            if(os.path.isfile(imagePath)):
+                mainImage = item.getFilename(image,resolution="450", relative="flat",extension="png")
+                imageList.append(image)
+        ## Add main image
+        if mainImage != "":        
+            mdFile.new_line(mdFile.new_reference_image(text='', path=mainImage, reference_tag='im'))
+        ###### Summary
+        mdFile.new_header(level=1, title=title)
+        summary = []
+        summary.append("ID: " + oompID)
+        summary.append("Hex ID: " + hexID)
+        summary.append("Name: " + oompName) 
+        summary.append("Description: " + description) 
+        mdFile.new_list(summary)
+        ###### Images   
+        images = imageList
+        title='Images'
+        addOompTable(mdFile,images,title=title,version=2,item=item)
         ###### Tags
         mdFile.new_header(level=2, title='Tags')
         tags = []    
@@ -280,6 +339,43 @@ def generateReadmePart(item,overwrite=False):
         except:
             c=0
 
+def addOompPartTable(mdFile,item):
+    mdFile.new_line()
+
+    partsTags = item.getTags("oompPart")
+    rawTags = item.getTags("rawPart")
+    parts = ["OOMP Parts"]
+    for c in range(len(partsTags)):
+        value = getOompPartLine(str(partsTags[c].value) + "," + str(rawTags[c].value))
+        #value = getOompPartLine(str(partsTags[c].value))
+        if value != "":
+            parts.append(value)
+
+    columns = 1
+    rows = len(parts)    
+    cells = parts
+
+    mdFile.new_table(columns=columns, rows=rows, text=cells, text_align='center')                           
+
+def getOompPartLine(value):
+    rv = ""
+    values = value.split(",")
+    #print("Values: " + str(values))
+    oompID = values[0] 
+    if "SKIP" in oompID:
+        rv = ""
+    else:
+        rv = oompID
+        part = OOMP.getPartByID(oompID)
+        name = part.getTag("name").value
+        if name != "":
+            rv = part.mdLine(value)
+        else:
+            rv = value
+
+    return rv
+
+
 def addDisplayTable(mdFile,cells,width):
     mdFile.new_line()
 
@@ -308,7 +404,7 @@ def addOompTableV2(mdFile,images,title,item):
         for image in images:            
             #print("Test File: " + baseDir  + baseName +   image.replace("/eda","eda")  +  extension)
             line1.append(image)
-            line2.append("[!["  + image + "](" + item.getFilename(image,relative="flat",resolution=140,extension="png") + ")](" + item.getFilename(image,relative="flat",resolution=600,extension="png") + ")")
+            line2.append("[!["  + image + "](" + item.getFilename(image,relative="flat",resolution=140,extension="png") + ")](" + item.getFilename(image,relative="flat",extension="png") + ")")
         if len(line1) > 0:
             mdFile.new_header(level=2, title=title)
             mdFile.new_line()

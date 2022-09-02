@@ -7,6 +7,12 @@ import pickle
 
 details = list()
 parts = list()
+partsFootprints = list()
+partsSymbols = list()
+partsParts = list()
+partsNoFootprints = list()
+partsProjects = list()
+partsTemplates = list()
 
 baseDir = ""
 
@@ -34,43 +40,77 @@ def getDetailsCategory(category=""):
 def getParts():
     return parts
 
-def getItems(type=""):
-    rv = parts
-    if type.upper() == "FOOTPRINTS":
-        rv = []
-        for part in parts:
-            t = part.getTag("oompType")
-            if t.value == "FOOTPRINT":
-                rv.append(part)
-    if type.upper() == "PARTS":
-        rv = []
-        for part in parts:
-            t = part.getTag("oompType")
-            if t.value == "TEMPLATE" or t.value == "FOOTPRINT" or t.value == "PROJ"  :
-                c = "SKIP"
-            else:
-                rv.append(part)
-    if type.upper() == "NOFOOTPRINTS":
-        rv = []
-        for part in parts:
-            t = part.getTag("oompType")
-            if not t.value == "FOOTPRINT" and not t.value == "TEMPLATE":
-                rv.append(part)
-            else:
-                c = "SKIP"
-                
-    if type.upper() == "PROJECTS":
-        rv = []
-        for part in parts:
-            t = part.getTag("oompType")
-            if t.value == "PROJ":
-                rv.append(part)
-    if type.upper() == "TEMPLATES":
-        rv = []
-        for part in parts:
-            t.value = part.getTag("oompType")
-            if t == "TEMPLATE":
-                rv.append(part)                
+def getItems(type="",cache=False):
+    global parts, partsFootprints, partsParts, partsNoFootprints, partsProjects, partsTemplates, partsSymbols
+    if type == "load":
+        getItems("footprints",cache=False)
+        getItems("symbols",cache=False)
+        getItems("parts",cache=False)
+        getItems("nofootprints",cache=False)
+        getItems("projects",cache=False)
+        getItems("templates",cache=False)        
+    if not cache:
+        rv = parts
+        if type.upper() == "FOOTPRINTS":
+            rv = []
+            for part in parts:
+                t = part.getTag("oompType")
+                if t.value == "FOOTPRINT":
+                    rv.append(part)
+            partsFootprints = rv
+        if type.upper() == "SYMBOLS":
+            rv = []
+            for part in parts:
+                t = part.getTag("oompType")
+                if t.value == "SYMBOL":
+                    rv.append(part)
+            partsSymbols = rv
+        if type.upper() == "PARTS":
+            rv = []
+            for part in parts:
+                t = part.getTag("oompType")
+                if t.value == "TEMPLATE" or t.value == "FOOTPRINT" or t.value == "SYMBOL" or t.value == "PROJ"  :
+                    c = "SKIP"
+                else:
+                    rv.append(part)
+            partsParts = rv
+        if type.upper() == "NOFOOTPRINTS":
+            rv = []
+            for part in parts:
+                t = part.getTag("oompType")
+                if not t.value == "FOOTPRINT" and not t.value == "TEMPLATE":
+                    rv.append(part)
+                else:
+                    c = "SKIP"
+            partsNoFootprints = rv        
+        if type.upper() == "PROJECTS":
+            rv = []
+            for part in parts:
+                t = part.getTag("oompType")
+                if t.value == "PROJ":
+                    rv.append(part)
+            partsProjects = rv
+        if type.upper() == "TEMPLATES":
+            rv = []
+            for part in parts:
+                t = part.getTag("oompType")
+                if t == "TEMPLATE":
+                    rv.append(part)                
+            partsTemplates = rv
+    else:
+        rv = parts
+        if type.upper() == "FOOTPRINTS":
+            rv = partsFootprints
+        if type.upper() == "SYMBOLS":
+            rv = partsSymbols
+        if type.upper() == "PARTS":
+            rv = partsParts
+        if type.upper() == "NOFOOTPRINTS":
+            rv = partsNoFootprints
+        if type.upper() == "PROJECTS":
+            rv = partsProjects
+        if type.upper() == "TEMPLATES":
+            rv = partsTemplates
     return rv
 
 def getPartByID(part):
@@ -224,6 +264,8 @@ class oompItem:
         if style == "":
             if oompType == "FOOTPRINT":
                 rv = "oomlout_OOMP_eda/footprints/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
+            if oompType == "SYMBOL":
+                rv = "oomlout_OOMP_eda/symbols/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
             elif oompType == "PROJ":
                 rv = "oomlout_OOMP_projects/"  + oompID + "/" 
             else:
@@ -237,15 +279,33 @@ class oompItem:
             else:
                 rv = "https://github.com/oomlout/oomlout_OOMP_parts/tree/main/"  + oompID + "/" 
 
-        return rv
+        return rv.replace(":","-")
 
-    def getFilename(self,filename,relative="",resolution="600",extension=""):
+    def getFilename(self,filename,relative="",resolution="",extension=""):
         base = ""
         if relative == "": ## relative to oomlout_OOMP
             base = self.getFolder()
         elif relative.lower() == "flat": ## relative to directory
             base = ""
         elif relative.lower() == "full": ## relative to c
+            base = baseDir + self.getFolder()
+        elif relative.lower() == "github": ## relative to c
+            oompID = self.getTag("oompID").value
+            if "FOOTPRINT" in oompID:
+                base = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/" + oompID + "/"
+            elif "PROJECT" in oompID:
+                base = "https://github.com/oomlout/oomlout_OOMP_projects/tree/main/" + oompID + "/"
+            else:    
+                base = "https://github.com/oomlout/oomlout_OOMP_parts/tree/main/" + oompID + "/"
+        elif relative.lower() == "githubraw": ## relative to c
+            oompID = self.getTag("oompID").value
+            if "FOOTPRINT" in oompID:
+                base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/footprints/" + oompID + "/"
+            elif "PROJECT" in oompID:
+                base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_projects/main/" + oompID + "/"
+            else:    
+                base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_parts/main/" + oompID + "/"
+        else:
             base = baseDir + self.getFolder()
         fileExtra = filename
         
@@ -261,10 +321,19 @@ class oompItem:
         ######  Image files
         if filename.lower() == "image":
             type = self.getTag("oompType")
-            if type.value.upper() == "FOOTPRINT":
-                fileExtra = "image_" + str(resolution) + ".png"  
-            else :
-                fileExtra = "image_" + str(resolution) + ".jpg"  
+            if resolution != "":
+                if type.value.upper() == "FOOTPRINT":
+                    fileExtra = "image_" + str(resolution) + ".png"  
+                else :
+                    if extension =="":
+                        fileExtra = "image_" + str(resolution) + ".jpg"  
+                    else:
+                        fileExtra = "image_" + str(resolution) + "." + extension  
+            else:
+                if extension =="":
+                    fileExtra = "image.jpg"  
+                else:
+                    fileExtra = "image." + extension  
         imageTypePng = ["kicadPcb3d","kicadPcb3dFront","kicadPcb3dBack","eagleImage"]        
         for imageType in imageTypePng:
             if filename.lower() == imageType.lower():
@@ -285,6 +354,10 @@ class oompItem:
             fileExtra = "kicad/boardKicad.kicad_pcb"
         if filename.lower() == "dirkicad":
             fileExtra = "kicad/"
+        if filename.lower() == "dirkicad":
+            fileExtra = "kicad/"
+        if filename.lower() == "symbolkicad":
+            fileExtra = "symbol.kicad_sym"
 
         
 
@@ -331,6 +404,28 @@ class oompItem:
             hex = "[" + hexID + "](" + oompID + "/)"
         rv = rv + image + "<br>" + text + "<br>" + hex
         return rv
+
+    def mdLine(self, value):
+        values = value.split(",")
+        identifier = values[1]
+        gitLink = self.getFilename("",resolution="140",relative="github")
+        gitImage = self.getFilename("image",resolution="140",relative="githubRaw")
+        oompID = self.getTag("oompID").value
+        hexID = self.getTag("hexID").value
+        name = self.getTag("name").value
+        rv = "<table><tr>"
+
+        rv = rv + "<td>![" + oompID + "](" + gitImage + ")</td>"
+        rv = rv + "<td>" + identifier + "</td>"
+        rv = rv + "<td>[" + oompID + "<br>" + name + "](" + gitLink + ")</td>"
+        rv = rv + "<td>[" + hexID + "](" + gitLink + ")</td>"
+        
+
+        rv = rv + "</tr></table>"
+        return rv
+
+
+
 
     ##No longer used
     def mdPage(self,file):
@@ -391,8 +486,16 @@ class oompItem:
 
     def getTag(self,name):
         if name == "oompID":
-            id = self.getTag("oompType").value + "-" +  self.getTag("oompSize").value + "-" +  self.getTag("oompColor").value + "-" +  self.getTag("oompDesc").value + "-" +  self.getTag("oompIndex").value
-            return(oompTag("oompID", id))
+            id = ""
+            for x in self.tags:
+                if x.name == "oompID":
+                    id = x
+                if id != "":
+                    return id
+            else:
+                id = self.getTag("oompType").value + "-" +  self.getTag("oompSize").value + "-" +  self.getTag("oompColor").value + "-" +  self.getTag("oompDesc").value + "-" +  self.getTag("oompIndex").value
+                self.addTag("oompID",id)
+                return(oompTag("oompID", id))
         elif name == "taxaID":
             id = self.getTag("taxaDomain").value.upper() + "-" + self.getTag("taxaKingdom").value.upper() + "-" + self.getTag("taxaDivision").value.upper() + "-" + self.getTag("taxaClass").value.upper() + "-" + self.getTag("taxaOrder").value.upper() + "-" + self.getTag("taxaFamily").value.upper() + "-" + self.getTag("taxaGenus").value.upper() + "-" + self.getTag("taxaSpecies").value.upper()
             return(oompTag("oompID", id))
@@ -435,6 +538,9 @@ class oompItem:
         elif name == "footprintFolder":
             folder = getDir("eda") + "footprints/" + self.getTag("oompSize").value + "/" +  self.getTag("oompColor").value + "/" + self.getTag("oompDesc").value +"/" + self.getTag("oompIndex").value + "/"
             return(oompTag("footprintFolder",folder))
+            
+
+
         else:
             if name == "namename":
                 name = "name"
@@ -445,9 +551,15 @@ class oompItem:
 
     def getTags(self,tagName):
         rv = []
-        for tag in self.tags:
-            if tag.name == tagName:
-                rv.append(tag)
+        if tagName == "allParts":
+            oompParts = self.getTags("oompPart")
+            rawParts = self.getTags("rawPart")
+            for c in range(len(oompParts)):
+                rv.append(oompTag("allParts",oompParts[c].value + "," + rawParts[c].value))
+        else:
+            for tag in self.tags:
+                if tag.name == tagName:
+                    rv.append(tag)
         return rv
 
     def getName(self):
@@ -507,24 +619,38 @@ def loadParts(type):
         import codes.OOMPdetailsSize
         import codes.OOMPdetailsColor
         import codes.OOMPdetailsDesc
-        import codes.OOMPdetailsIndex      
-        if type == "all" or type == "eda":
-            directory = "oomlout_OOMP_eda\\"
-            loadDirectory(directory)
-            loadDirectory(directory,fileFilter="details2.py")
-        if type == "all" or type == "parts":        
+        import codes.OOMPdetailsIndex              
+        if type == "all" or type == "parts" or type == "nofootprints":        
+            print("    Loading:    Parts")
             directory = "oomlout_OOMP_parts\\"
             loadDirectory(directory)
+            print("    done Details.py")
             loadDirectory(directory,fileFilter="details2.py")
-        if type == "all" or type == "projects":            
+            print("    done Details2.py")
+        if type == "all" or type == "projects" or type == "nofootprints":  
+            print("    Loading:    Projects")          
             directory = "oomlout_OOMP_projects\\"
             loadDirectory(directory)
+            print("    done Details.py")
             loadDirectory(directory,fileFilter="details2.py")
+            print("    done Details2.py")
             loadDirectory(directory,fileFilter="pythonParts.py")
-        if type == "all" or type == "templates":        
+            print("    done pythonParts.py")
+        if type == "all" or type == "templates" or type == "nofootprints":        
+            print("    Loading:    Templates")
             directory = "templates\\diag\\"
             loadDirectory(directory, fileFilter = ".py")
+            print("    done Details.py")
             loadDirectory(directory,fileFilter="details2.py")
+            print("    done Details2.py")
+        if type == "all" or type == "eda":
+            print("    Loading:    EDA")
+            directory = "oomlout_OOMP_eda\\"            
+            loadDirectory(directory)
+            print("    done Details.py")
+            loadDirectory(directory,fileFilter="details2.py")
+            print("    done Details2.py")
+                    
     else:
         picklePartsFile = "sourceFiles/picklePartsOOMP.pickle"
         pickleTagsFile = "sourceFiles/pickleTagsOOMP.pickle"

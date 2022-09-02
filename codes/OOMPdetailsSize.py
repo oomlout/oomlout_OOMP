@@ -649,6 +649,8 @@ for l in range(maxL):
 OOMP.oompAddDetail(category="size",code="L169W130H18",name="169 mm x 130 mm x 18 mm")
 
 
+OOMP.oompAddDetail(category="size",code="SZ130",name="130 Size")
+
 ######  More recent Additions
 OOMP.oompAddDetail(category="size",code="XHP70",name="XHP 70")
 

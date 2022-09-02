@@ -14,8 +14,10 @@ print("Number of Projects: "+ str(len(OOMP.getItems("projects"))))
 
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
+OOMP.getItems("load",cache=False)
+
 filter = "all"
-filter = "projects"
+#filter = "projects"
 filter = "nofootprints"
-######  Readmes
+######  Readmesm
 OOMPgenerate.generateAll(readmes=True,json=True,overwrite=True,filter=filter)

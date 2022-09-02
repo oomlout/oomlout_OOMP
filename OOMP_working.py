@@ -22,25 +22,33 @@ print("Number of Projects: "+ str(len(OOMP.getItems("projects"))))
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 ######  Readmes
-item = OOMP.parts[28250]
+#item = OOMP.parts[28250]
 item = OOMP.getPartByID("FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-C0402")
+print(item.fullString())
 #https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/eagle/Adafruit-Eagle-Library/adafruit/C0402
 #C:\GH\oomlout_OOMP\oomlout_OOMP_eda\footprints\eagle\Adafruit-Eagle-Library\adafruit\C0402
 
 item = OOMP.getPartByID("RESE-0603-X-O103-01")
+print(item.fullString())
 #https://github.com/oomlout/oomlout_OOMP_parts/tree/main/RESE-0603-X-O103-01
 #C:\GH\oomlout_OOMP\oomlout_OOMP_parts\RESE-0603-X-O103-01
 
 item = OOMP.getPartByID("PROJ-ADAF-1032-STAN-01")
+print(item.fullString())
+#https://github.com/oomlout/oomlout_OOMP_projects/tree/main/PROJ-ADAF-1032-STAN-01
+#C:\GH\oomlout_OOMP\oomlout_OOMP_projects\PROJ-ADAF-1032-STAN-01
 
 ######  Reports
 tags = ["name","hexID"]
 filename = "sourceFiles/reports/tagReport.csv"
 #OOMPtags.genReport(filename,tags)
+tags = ["allParts"]
+filename = "sourceFiles/reports/footprintReport.csv"
+OOMPtags.genReport(filename,tags,multi=True,filter="projects")
 
 
-print(item)
-OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=True,json=True,diagrams=False,diagRenders=False,images=False,overwrite=True)
+print(item.fullString())
+#OOMPgenerate.generateItem(item, labels=False,scads=False,renders=False,readmes=True,json=True,diagrams=False,diagRenders=False,images=False,overwrite=True)
 
 #OOMPgenerate.generateAll(redirects=True)
 

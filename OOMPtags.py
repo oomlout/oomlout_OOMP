@@ -66,32 +66,51 @@ def addTags(newPart,filter,pins=0,pitch=0,hexID=None,oompType=None,oompSize=None
 
 
 
-def genReport(filename,tags):
+def genReport(filename,tags,multi=False,filter="all"):
     outputString = ""
-    items = OOMP.getItems()
+    items = OOMP.getItems(filter)
     count = 0
     numDots = int(len(items)/500)
     for c in range(numDots):
         print(">",end="")
     print()    
     
-    for item in items:
-        string = ""
-        string = string + item.getTag("oompID").value + "\t"
-        for tag in tags:
-            string = string + item.getTag(tag).value + "\t"
-        string = string + "\n"    
-        count = count + 1
-        if count % 500 == 0:
-            print(".",end="")
-        outputString = outputString + string + ""
+
+    if not multi:
+        for item in items:
+            string = ""
+            string = string + item.getTag("oompID").value + "\t"
+            for tag in tags:
+                string = string + item.getTag(tag).value + "\t"
+            string = string + "\n"    
+            count = count + 1
+            if count % 500 == 0:
+                print(".",end="")
+            outputString = outputString + string + ""
+    else:
+        for item in items:
+            string = ""
+            oompID = item.getTag("oompID").value
+            
+            tag = tags[0]
+            partTags = item.getTags(tag)
+            for partTag in partTags:
+                string = string + oompID + "\t" + partTag.value + "\n"
+                count = count + 1
+            if count % 500 == 0:
+                print(".",end="")
+            outputString = outputString + string + ""
 
     oomWriteToFile(filename,outputString,utf=False)
+
+def getSymbolHex(filter):
+    return getFootprintHex(filter)
 
 def getFootprintHex(filter):
     filter = filter.upper()
     replaceList = []
     replaceList.append(["FOOTPRINT-","FZ"])
+    replaceList.append(["SYMBOL-","SZ"])
     ### adafruit ones
     ######  Library
     replaceList.append(["",""])

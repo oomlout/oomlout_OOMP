@@ -23,41 +23,41 @@ def generateAll(filter="all",labels=False,scads=False,renders=False,readmes=Fals
     if labels:
         print("     Generating Labels:")
         if filter == "all" or filter == "parts":
-            for item in OOMP.getItems("parts"):
+            for item in OOMP.getItems("parts",cache=True):
                 OOMPlabels.generateLabel(item,overwrite)
 
     if scads:        
         print("     Generating SCADs: Parts")
-        for item in OOMP.getItems(filter):
+        for item in OOMP.getItems(filter,cache=True):
             OOMPscad.generateScad(item,renders,overwrite)
 
     if redirects:
-        for item in OOMP.getItems():
+        for item in OOMP.getItems(cache=True):
             OOMPsummaries.generateRedirect(item,overwrite) 
 
 
     if readmes:
         print("     Generating Readmes:")
         OOMPsummaries.generateReadmeIndex()
-        for item in OOMP.getItems(filter):
+        for item in OOMP.getItems(filter,cache=True):
             OOMPsummaries.generateReadme(item,overwrite)
 
     if json:
         print("     Generating jsons:")
-        for item in OOMP.getItems(filter):
+        for item in OOMP.getItems(filter,cache=True):
                 OOMPjson.generateJson(item,overwrite)
 
     if diagrams or diagRenders:
         
         if filter == "all" or filter == "parts":
             print("     Generating Diagrams: " + filter)
-            for item in OOMP.getItems("parts"):
+            for item in OOMP.getItems("parts",cache=True):
                 OOMPdiagrams.generateDiagrams(item, diagrams=diagrams, renders=diagRenders,overwrite=overwrite)
             OOMPdiagrams.genAllDiagramsFile()
 
     if images:
         print("     Generating Image Resolutions: All")
-        for item in OOMP.getItems(filter):
+        for item in OOMP.getItems(filter,cache=True):
             generateResolutions(item,overwrite)
 
 def generateItem(item, labels=True,scads=True,renders=True,readmes=True,diagrams=True,diagRenders=True,images=True,json=False,overwrite=False):

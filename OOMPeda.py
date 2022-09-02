@@ -1,6 +1,7 @@
 from oomBase import *
 import OOMP
 import os
+import OOMPtags
 import shutil
 
 ###### kicad mousepoints
@@ -32,8 +33,19 @@ eagleCloseText = [1100,260]
 eagleCrop = [555,200,800,800]
 
 
+def doTasks(overwrite=False,filter="symbols",harvestKicadSymbolsImages=False,harvestKicadSymbolsFiles=False,harvestEagleLibraries=False):
+    if harvestKicadSymbolsImages:
+        for item in OOMP.getItems(filter,cache=True):
+            captureKicadSymbol(item=item,overwrite=overwrite)
+        #harvestKicadSymbols(overwrite=overwrite)
+    if harvestKicadSymbolsFiles:
+        harvestKicadSymbols(overwrite=overwrite)        
+    if harvestEagleLibraries:
+        harvestEagleLibrariesRoutine(footprint=True,files=True,single=True, overwrite=False)
+
+
 ###### need to remove to avoid name coNAMEnflicts
-def harvestEagleLibraries(footprint=True,files=True, single=False, overwrite=False):
+def harvestEagleLibrariesRoutine(footprint=True,files=True, single=False, overwrite=False):
  
 
 
@@ -303,9 +315,11 @@ def eagleSetLibrary(libraryName):
     oomSend(libraryName,delay=3)
     oomSendEnter(delay=3)
     #back to library window
-    oomMouseClick(pos=kicadLibraryTop)
-    oomDelay(shortDelay)   
-    oomSendDown(delay=2) 
+    oomMouseClick(pos=kicadLibraryTop, delay=2)
+    oomSendControlKey("c",delay=2)
+    clip = oomGetClipboard()
+    if not libraryName == clip:
+        oomSendDown(delay=2) 
     oomSendEnter(delay=3)
     ### for large libraries
     oomSendEnter(delay=60)
@@ -350,6 +364,54 @@ def makeKicadOompFile(footprint, owner):
     
 
     f.write("\n")
+    variablesLine = ",hexID='" + hexID + "',oompType='" + type + "',oompSize='" + size + "',oompColor='" + color + "',oompDesc='" + desc + "',oompIndex='" + index + "'"
+    oompID = type +"-" + size + "-" + color + "-" + desc + "-" + index
+    line = '\nnewPart = OOMPtags.addTags(newPart,"' + oompID + '"' + variablesLine + ')\n'
+    f.write(line + "\n")
+    f.write(OOMP.getFileEnding())
+    f.close()
+
+def makeKicadSymbolOompFile(footprint, owner):
+    print("    Making OOMP file for:" + footprint[1] + "-" + footprint[0]) 
+    directory = getKicadSymbolFolder(footprint,owner)
+    fileName = directory + "details.py"
+    oomMakeDir(directory)
+    f = open(fileName,"w")
+    
+    type="SYMBOL"
+    size="kicad"
+    color=owner
+    desc=footprint[1].replace(".pretty","")
+    index=footprint[0]
+    oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+    hexID=OOMPtags.getSymbolHex(oompID)
+    name = owner + "/" + footprint[1].replace(".pretty","") + "/" + footprint[0]
+    f.write(OOMP.getFileOpening(hexID,type,size,color,desc,index,name))
+    ###### Get details from kicad_mod file
+    """
+    footprintFileName = getKicadFootprintFolder(footprint,owner) + "footprint.kicad_mod"
+    with open(footprintFileName, "r") as a_file:
+        for line in a_file:
+            stripped_line = line.strip()
+            if '(descr "' in line:
+                #print("    Adding description")
+                f.write(OOMP.getAddTagLine("description",line.replace('(descr "',"").replace('")',"").strip()))
+            testLine = '(tags "'
+            if testLine in line:           
+                #print("    Adding tags")
+                f.write(OOMP.getAddTagLine("tags",line.replace(testLine,"").replace('")',"").strip()))            
+            if '(attr ' in line:
+                #print("    Adding attr")
+                f.write(OOMP.getAddTagLine("attribute",line.replace('(attr ',"").replace(')',"").strip())) 
+            testLine = '(model "'                 
+            if testLine in line:
+                #print("    Adding attr")
+                f.write(OOMP.getAddTagLine("3dmodel",line.replace(testLine,"").replace('"',"").strip()))    
+                
+    
+    """
+    f.write("\n")
+
     variablesLine = ",hexID='" + hexID + "',oompType='" + type + "',oompSize='" + size + "',oompColor='" + color + "',oompDesc='" + desc + "',oompIndex='" + index + "'"
     oompID = type +"-" + size + "-" + color + "-" + desc + "-" + index
     line = '\nnewPart = OOMPtags.addTags(newPart,"' + oompID + '"' + variablesLine + ')\n'
@@ -444,7 +506,10 @@ def copyEagleSourceFile(footprint, owner,libraryFile,overwrite=False):
 
 
 def getKicadFootprintFolder(footprint,owner):
-    return"oomlout_OOMP_eda/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-") + "/"
+    return "oomlout_OOMP_eda/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-") + "/"
+
+def getKicadSymbolFolder(footprint,owner):
+    return "oomlout_OOMP_eda/symbols/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-") + "/"
 
 def getEagleFootprintFolder(footprint,owner):
     return"oomlout_OOMP_eda/footprints/eagle/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-").replace(":","-") + "/"
@@ -515,50 +580,53 @@ def captureKicadFootprint(footprint, owner, overwrite = False):
 
         oomDelay(5)
 
-def captureKicadSymbol(footprint, owner, overwrite = False):
-        oompDirectory = "oomlout_OOMP_eda/symbols/kicad/" + owner + "/"  +  footprint[1] + "/" 
-        oompFileName = oompDirectory + footprint[0] + ".png"
-        if overwrite or not os.path.isfile(oompFileName) :
-            shortDelay = 1
-            longDelay = 3
-            footprintName = footprint[0]
-            footprintDir = footprint[1]
-            print("Capturing Symbol:" + str(footprint))
-            oomMouseClick(pos=kicadActive)
-            oomDelay(shortDelay)
-            ##apply filter
-            oomMouseClick(pos=kicadFootprintFilter)
-            oomDelay(shortDelay)
+def captureKicadSymbol(item, overwrite = False):
+        name = item.getTag("oompIndex").value
+        file = item.getTag("oompDesc").value
+        oompDirectory = item.getFolder()
+        pngFileName = item.getFilename("image",extension="png",relative="full")
+        svgFileName = item.getFilename("image",extension="svg",relative="full")
+        symbolFileName = item.getFilename("symbolKicad",relative="full")
+        
+        if overwrite or not os.path.isfile(symbolFileName) and name != "":
+            oomMouseClick(pos=kicadActive, delay=5)        
+            oomMouseClick(pos=kicadFootprintFilter, delay=5)
             oomSendCtrl("a")
-            oomDelay(shortDelay)
-            oomSend(footprintName + " " + footprintDir)
-            oomDelay(longDelay)
-            oomMouseDoubleClick(pos=kicadFootprintFirstResult)
-            oomDelay(longDelay)
-            #### Discard Changes
-            oomSendRight()
-            oomDelay(shortDelay)
-            oomSendEnter()
-            oomDelay(longDelay)
-            ##zoomback a little
-            oomMouseMove(pos=kicadSymbolMiddle)
-            oomDelay(shortDelay) 
-            oomMouseMove(pos=kicadSymbolMiddlePlus)
-            oomDelay(shortDelay)   
-            oomMouseScrollWheel(movement=-50)
-            oomDelay(shortDelay)   
-            oomMouseScrollWheel(movement=-50)
-            oomDelay(longDelay)    
-            ###### Saving
-            kicadDir = "sourceFiles/kicad-symbols/" + footprint[1] + "/"
-            kicadFileName = kicadDir + footprint[0] + ".png"
-            #oompDirectory = "eda/footprint/kicad/" +  footprint[1].replace(".pretty","") + "/" 
-            #oompFileName = oompDirectory + footprint[0] + ".png"
-            oomMakeDir(oompDirectory)
-            oomMakeDir(kicadDir)
-            oomScreenCapture(kicadFileName,crop=[560,105,900,900])
-            oomScreenCapture(oompFileName,crop=[560,105,900,900])
+            oomDelay(1)
+            oomSendDelete(delay=1)
+            oomSend(name + " " + file,delay=2)
+            oomSendEnter(delay=3)
+            oomMouseClick(pos=kicadFootprintFirstResult, delay=0.1)
+            oomMouseClick(pos=kicadFootprintFirstResult, delay=5)
+
+            exportKicadSymbol(pngFileName,"png")
+            exportKicadSymbol(svgFileName,"svg")
+            exportKicadSymbol(symbolFileName,"kicad_sym")
             oomDelay(5)
+
+def exportKicadSymbol(filename,type):
+    
+    oomSendAltKey("f",delay=2)
+    oomSend("e",delay=2)
+    down = 0
+    if type == "png":
+        down = 1
+    if type == "svg":
+        down = 2
+    oomSendDown(times=down,delay=2)
+    oomSendEnter(delay=2)
+    oomSend(filename.replace("/","\\"), delay=2)
+    oomSendEnter(delay=2)
+    if type == "kicad_sym":
+        oomSendEnter(delay=2)
+    oomSend("y",delay=2)
+    oomSendEnter(delay=2)
+
+
+
+
+
+
 
 ## needs grid set to finest
 ## Add locally (if doing a default one then need to switch name tab to 9 from 8)
@@ -728,8 +796,24 @@ def getKicadFootprintNames(owner):
     return footprints
     
 
+def harvestKicadSymbols(overwrite=False):
+    owners = []
+    owners.append("kicad-symbols")
+
+    
+    #print(symbols)
+    for owner in owners:
+        symbols = getKicadSymbolNames(owner)
+        for symbol in symbols:
+            makeKicadSymbolOompFile(symbol,owner)
+            
+
+
+
 def getKicadSymbolNames(owner):
-    directory = "C:/GH/oomlout_OOMP/sourceFiles/" + owner + "/"
+    directory = "C:/GH/oomlout_OOMP/oomlout_OOMP_eda/sourceFiles/" + owner + "/"
+
+    
     symbols = []
     for subdir, dirs, files in os.walk(directory):
         for file in files:
@@ -749,6 +833,7 @@ def getKicadSymbolNames(owner):
 
                     #fileName = file.replace(".kicad_mod","")
                     #footprints.append([fileName,subdir.replace(directory,"")])
+    print("Found Symbols: " + str(len(symbols)))
     return symbols
 
 def runKicadSymbol(line):
