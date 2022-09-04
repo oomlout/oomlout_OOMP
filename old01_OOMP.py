@@ -5,8 +5,14 @@ import time
 from wsgiref.handlers import BaseCGIHandler
 import pickle 
 
-
-
+details = list()
+parts = list()
+partsFootprints = list()
+partsSymbols = list()
+partsParts = list()
+partsNoFootprints = list()
+partsProjects = list()
+partsTemplates = list()
 
 baseDir = ""
 
@@ -16,18 +22,11 @@ def oompAddDetail(category,code,name,sort="",extra1="",extra2=""):
     details.append(oompDetail(category,code,name,sort,extra1="",extra2=""))
 
 def getDetailFromCode(category,code):
-    """
     for x in details:
         if x.category == category:
             if x.code == code:
                 return x
     return oompDetail("","","","")
-    """
-    try:
-        rv = details[category + "-" + code]
-    except KeyError:
-        rv = oompDetail("","","","")
-    return rv
 
 def getDetailsCategory(category=""):
     rv = []
@@ -116,11 +115,10 @@ def getItems(type="",cache=False):
 
 def getPartByID(part):
 ##    print("     Get Part By ID: " + part)
-    try:
-        rv = parts[part]
-    except KeyError:
-        rv = oompItem()
-    return rv
+    for x in parts:
+        if x.getTag("oompID").value == part:
+            return x     
+    return oompItem("")
 
 def getPartByHex(hexid):
 ##    print("     Get Part By ID: " + part)
@@ -214,142 +212,6 @@ def getFileOpening(hexID="",type="",size="",color="",desc="",index=None,name=Non
 
 def getFileEnding():
     return 'OOMP.parts.append(newPart)' 
-
-
-class oompDict(dict):
-    def __init__(self,index=None):
-        self.__dict__ = {}
-    
-    def append(self,newPart):
-        oompID = newPart.getTag("oompID").value
-        self.__dict__[oompID] = newPart
-
-    def __setitem__(self, key, item):
-        self.__dict__[key] = item
-
-    def __getitem__(self, key):
-        return self.__dict__[key]
-
-    def __iter__(self):
-        return iter(self.values())
-
-    def __repr__(self):
-        return repr(self.__dict__)
-
-    def __len__(self):
-        return len(self.__dict__)
-
-    def __delitem__(self, key):
-        del self.__dict__[key]
-
-    def clear(self):
-        return self.__dict__.clear()
-
-    def copy(self):
-        return self.__dict__.copy()
-
-    def has_key(self, k):
-        return k in self.__dict__
-
-    def update(self, *args, **kwargs):
-        return self.__dict__.update(*args, **kwargs)
-
-    def keys(self):
-        return self.__dict__.keys()
-
-    def values(self):
-        return self.__dict__.values()        
-     
-
-class oompDetailDict(dict):
-    def __init__(self,index=None):
-        self.__dict__ = {}
-
-    def append(self,newDetail):
-        detailID = newDetail.category + "-" + newDetail.code
-        self.__dict__[detailID] = newDetail
-
-
-    def __setitem__(self, key, item):
-        self.__dict__[key] = item
-
-    def __getitem__(self, key):
-        return self.__dict__[key]
-
-    def __iter__(self):
-        return iter(self.values())
-
-    def __repr__(self):
-        return repr(self.__dict__)
-
-    def __len__(self):
-        return len(self.__dict__)
-
-    def __delitem__(self, key):
-        del self.__dict__[key]
-
-    def clear(self):
-        return self.__dict__.clear()
-
-    def copy(self):
-        return self.__dict__.copy()
-
-    def has_key(self, k):
-        return k in self.__dict__
-
-    def update(self, *args, **kwargs):
-        return self.__dict__.update(*args, **kwargs)
-
-    def keys(self):
-        return self.__dict__.keys()
-
-    def values(self):
-        return self.__dict__.values()
-
-class oompItemDict(dict):
-    def __init__(self,index=None):
-        self.__dict__ = {}
-
-    def append(self,item):
-        detailID = item.name
-        self.__dict__[detailID] = newDetail
-
-
-    def __setitem__(self, key, item):
-        self.__dict__[key] = item
-
-    def __getitem__(self, key):
-        return self.__dict__[key]
-
-    def __iter__(self):
-        return iter(self.values())
-
-    def __repr__(self):
-        return repr(self.__dict__)
-
-    def __len__(self):
-        return len(self.__dict__)
-
-    def __delitem__(self, key):
-        del self.__dict__[key]
-
-    def clear(self):
-        return self.__dict__.clear()
-
-    def copy(self):
-        return self.__dict__.copy()
-
-    def has_key(self, k):
-        return k in self.__dict__
-
-    def update(self, *args, **kwargs):
-        return self.__dict__.update(*args, **kwargs)
-
-    def keys(self):
-        return self.__dict__.keys()
-
-    def values(self):
-        return self.__dict__.values()
 
 
 class oompItem:
@@ -840,14 +702,4 @@ def loadDirectory(directory,fileFilter="details.py"):
 
 #### import parts
 
-partsFootprints = oompDict()
-partsSymbols = oompDict()
-partsParts = oompDict()
-partsNoFootprints = oompDict()
-partsProjects = oompDict()
-partsTemplates = oompDict()
-
-details = oompDetailDict()
-
-parts = oompDict()
-pass
+        

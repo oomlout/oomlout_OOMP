@@ -8,8 +8,9 @@ from oomBase import *
 import json
 
 
-#OOMP.loadParts("all")
+#OOMP.loadParts("parts")
 #OOMP.exportPickle()
+
 
 OOMP.loadParts("pickle")
 
@@ -23,18 +24,21 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 ######  Readmes
 #item = OOMP.parts[28250]
-item = OOMP.getPartByID("FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-C0402")
-print(item.fullString())
+#item = OOMP.getPartByID("FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-C0402")
+#print(item.fullString())
 #https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/eagle/Adafruit-Eagle-Library/adafruit/C0402
 #C:\GH\oomlout_OOMP\oomlout_OOMP_eda\footprints\eagle\Adafruit-Eagle-Library\adafruit\C0402
 
-item = OOMP.getPartByID("RESE-0603-X-O103-01")
+#item = OOMP.getPartByID("RESE-0603-X-O103-01")
+#item = OOMP.getPartByID("BREB-P400-C-STAN-01")
+print(OOMP.parts.__dict__)
+item = OOMP.parts["BREB-P400-C-STAN-01"]
 print(item.fullString())
 #https://github.com/oomlout/oomlout_OOMP_parts/tree/main/RESE-0603-X-O103-01
 #C:\GH\oomlout_OOMP\oomlout_OOMP_parts\RESE-0603-X-O103-01
 
-item = OOMP.getPartByID("PROJ-ADAF-1032-STAN-01")
-print(item.fullString())
+#item = OOMP.getPartByID("PROJ-ADAF-1032-STAN-01")
+#print(item.fullString())
 #https://github.com/oomlout/oomlout_OOMP_projects/tree/main/PROJ-ADAF-1032-STAN-01
 #C:\GH\oomlout_OOMP\oomlout_OOMP_projects\PROJ-ADAF-1032-STAN-01
 
@@ -44,7 +48,8 @@ filename = "sourceFiles/reports/tagReport.csv"
 #OOMPtags.genReport(filename,tags)
 tags = ["allParts"]
 filename = "sourceFiles/reports/footprintReport.csv"
-OOMPtags.genReport(filename,tags,multi=True,filter="projects")
+OOMPtags.genReport(filename,tags,multi=True,filter="parts")
+#OOMPtags.genReport(filename,tags,multi=True,filter="projects")
 
 
 print(item.fullString())
