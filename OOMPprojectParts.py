@@ -30,7 +30,7 @@ def harvestParts(item,overwrite=False):
                 pass #skip title line
             else:
                 value = part
-                item.addTag("rawParts",value.replace("'","").replace(";",",")) ##switch from semi colons to commas and remove apostrophes
+                item.addTag("rawParts",value.replace("'","").replace(";",",").replace('"','')) ##switch from semi colons to commas and remove apostrophes
     item.exportTags("detailspartsRaw",["rawParts"])
 
 
@@ -79,7 +79,7 @@ def matchParts(project):
 def matchPart(project,part):
     global PART, VALUE, DEVICE, PACAKGE, DESC, BOM
     for x in range(0,len(part)):
-        part[x] = part[x].replace('""','')
+        part[x] = part[x].replace('"','')
 
 
     oompType = matchType(project,part)
@@ -119,7 +119,8 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
 
 
 
-    if part[BOM] == "EXCLUDE":
+    ###### SKIP
+    if 'EXCLUDE' in part[BOM] or 'FIDUCIAL' in part[VALUE]:
         rv = "SKIP"
 
     
