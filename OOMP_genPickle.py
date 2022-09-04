@@ -9,11 +9,10 @@ import json
 
 
 
-OOMP.parts = []
-OOMP.details = []
 print("Generating Pickle Files:")
 OOMP.loadParts("all")
 #OOMP.loadParts("nofootprints")
+#OOMP.loadParts("parts")
 
 print("Number of Items: "+ str(len(OOMP.getItems("all"))))
 print("Number of Footprints: "+ str(len(OOMP.getItems("footprints"))))
