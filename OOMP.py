@@ -4,6 +4,7 @@ import shutil
 import time
 from wsgiref.handlers import BaseCGIHandler
 import pickle 
+from oomBase import *
 
 
 
@@ -166,6 +167,14 @@ def getAddTagLine(tagName,value,quotes="single"):
         return 'newPart.addTag("' + tagName + '", """' + value + '""")\n'
 
 
+def getReport():
+    rv = ""   
+    rv = rv + "Number of Items: "+ str(len(getItems("all"))) + "\n"
+    rv = rv + "Number of Footprints: "+ str(len(getItems("footprints"))) + "\n"
+    rv = rv + "Number of Parts: "+ str(len(getItems("parts"))) + "\n"
+    rv = rv + "Number of Projects: "+ str(len(getItems("projects"))) + "\n"
+    return rv
+
 ######  Directory routines
 
 def setBaseDir(base):
@@ -214,6 +223,10 @@ def getFileOpening(hexID="",type="",size="",color="",desc="",index=None,name=Non
 
 def getFileEnding():
     return 'OOMP.parts.append(newPart)' 
+
+
+
+
 
 
 class oompDict(dict):
@@ -419,6 +432,12 @@ class oompItem:
 
         return rv.replace(":","-")
 
+
+    def ifFileExists(self,filename,relative="",resolution="",extension=""):
+        file= self.getFilename(filename,relative=relative,resolution=resolution,extension=extension)
+        rv = os.path.isfile(file)
+        return rv
+
     def getFilename(self,filename,relative="",resolution="",extension=""):
         base = ""
         if relative == "": ## relative to oomlout_OOMP
@@ -486,6 +505,8 @@ class oompItem:
             fileExtra = "boardEagle.brd"
         if filename.lower() == "eagleparts":
             fileExtra = "eagleparts.txt"
+        if filename.lower() == "eaglebom":
+            fileExtra = "eagleBOM.csv"
 
         ######  Kicad files
         if filename.lower() == "boardkicad":
@@ -514,7 +535,12 @@ class oompItem:
         if filename.lower() == "details":
             fileExtra = "details.py"        
         if filename.lower() == "pythonparts":
-            fileExtra = "pythonParts.py"    
+            fileExtra = "pythonParts.py"   
+        if filename.lower() == "detailspartsraw":
+            fileExtra = "detailsPartsRaw.py"   
+        if filename.lower() == "detailspartsoomp":
+            fileExtra = "detailsPartsOomp.py"   
+             
 
         ######  Redirect
         if filename.lower() == "redirect":
@@ -525,6 +551,24 @@ class oompItem:
             fileExtra = "redirects/" + self.getTag("hexID").value + "/index.html"
 
         return base + fileExtra
+
+
+    def exportTags(self,filetype,tags):
+        
+        filename = self.getFilename(filetype)
+        oompID = self.getTag("oompID").value
+
+        print("    Exporting tags to: " + filename)
+
+        contents = "import OOMP" + "\n"
+        contents = contents + 'newPart = OOMP.getPartByID("' + oompID + '")' + "\n"
+        contents = contents  + '' + '\n'
+        for tag in tags:
+            values = self.getTags(tag)
+            for value in values:
+                contents = contents + value.getPythonLine() + '\n'
+        oomWriteToFile(filename,contents,utf2=True)
+
 
     ##No longer used    
     def indexMd(self):
@@ -621,6 +665,7 @@ class oompItem:
         for x in self.tags:
             if x.name == name:
                 self.tags.remove(x)
+        pass
 
     def getTag(self,name):
         if name == "oompID":
@@ -733,6 +778,9 @@ class oompTag:
             return "" + str(self.name) + " : " + str(self.value)+ "  \n"
             
 
+    def getPythonLine(self):
+        return "newPart.addTag('" + self.name + "','" + self.value + "')" 
+
     def getValue(self):
         return self.value
 
@@ -757,38 +805,32 @@ def loadParts(type):
         import codes.OOMPdetailsSize
         import codes.OOMPdetailsColor
         import codes.OOMPdetailsDesc
-        import codes.OOMPdetailsIndex              
+        import codes.OOMPdetailsIndex
+        ###### delete previous load file 
+        filename = "sourceFiles/oompLoad.py"
+        if os.path.isfile(filename):
+            os.remove(filename)             
+        defaultFilter = ["details.py","details2.py","details3.py"]
+        projectFilter = ["details.py","details2.py","details3.py","detailsPartsOomp.py","detailsPartsRaw.py"]
         if type == "all" or type == "parts" or type == "nofootprints":        
             print("    Loading:    Parts")
             directory = "oomlout_OOMP_parts\\"
-            loadDirectory(directory)
-            print("    done Details.py")
-            loadDirectory(directory,fileFilter="details2.py")
-            print("    done Details2.py")
+            loadDirectory(directory,fileFilter=defaultFilter)
         if type == "all" or type == "projects" or type == "nofootprints":  
             print("    Loading:    Projects")          
             directory = "oomlout_OOMP_projects\\"
-            loadDirectory(directory)
-            print("    done Details.py")
-            loadDirectory(directory,fileFilter="details2.py")
-            print("    done Details2.py")
-            loadDirectory(directory,fileFilter="pythonParts.py")
-            print("    done pythonParts.py")
+            loadDirectory(directory,fileFilter=projectFilter)
         if type == "all" or type == "templates" or type == "nofootprints":        
             print("    Loading:    Templates")
             directory = "templates\\diag\\"
-            loadDirectory(directory, fileFilter = ".py")
-            print("    done Details.py")
-            loadDirectory(directory,fileFilter="details2.py")
-            print("    done Details2.py")
+            loadDirectory(directory,fileFilter=defaultFilter)
         if type == "all" or type == "eda":
             print("    Loading:    EDA")
             directory = "oomlout_OOMP_eda\\"            
-            loadDirectory(directory)
-            print("    done Details.py")
-            loadDirectory(directory,fileFilter="details2.py")
-            print("    done Details2.py")
-                    
+            loadDirectory(directory,fileFilter=defaultFilter)         
+        print("Loading: sourceFiles.oompLoad")
+        __import__("sourceFiles.oompLoad")  
+        exportPickle()         
     else:
         picklePartsFile = "sourceFiles/picklePartsOOMP.pickle"
         pickleTagsFile = "sourceFiles/pickleTagsOOMP.pickle"
@@ -804,7 +846,39 @@ def exportPickle():
     pickle.dump(details, open(pickleTagsFile,"wb"))
 
 
-def loadDirectory(directory,fileFilter="details.py"):
+def loadDirectory(directory,fileFilter=["details.py"]):
+    filename = "sourceFiles/oompLoad.py"
+    f = open(filename, "a+")
+    testing = 1000000000000000000
+    for filter in fileFilter:
+        files = glob.glob(directory + "**/" + filter,recursive=True)
+        for file in files:
+            string = oomReadFileToString(file)
+            f.write(string + "\n")
+    f.close()
+    
+
+def loadDirectoryOld02(directory,fileFilter=["details.py"]):
+    testing = 1000000000000000000
+    for filter in fileFilter:
+        files = glob.glob(directory + "**/" + filter,recursive=True)
+        for file in files:
+            moduleName = file.replace(".py","").replace("\\",".")
+            #moduleName = subdir.replace("\\",".") + "." + moduleName
+            try:
+                __import__(moduleName)    
+            except:
+                ###### For dealing with folders with a full stop
+                sourceFile =  file
+                destFile = "sourceFiles/temp/" + str(random.randint(0,999999999)) + ".py"
+                moduleName = destFile.replace("\\",".").replace("/",".").replace(".py","")
+                shutil.copyfile(sourceFile,destFile)
+                time.sleep(0.01)
+                __import__(moduleName)   
+                os.remove(destFile) 
+
+
+def loadDirectoryOld(directory,fileFilter="details.py"):
     testing = 1000000000000000000
     #testing = 10000
     #testing = 7000

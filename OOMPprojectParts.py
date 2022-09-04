@@ -1,51 +1,40 @@
 from oomBase import *
 import OOMP
+import re
 
-def harvestParts(item,overwrite = False):
-    eagleParts = item.getFilename("eagleParts")
-    partsPython = item.getFilename("pythonParts")
-    if overwrite or not os.path.exists(partsPython): 
-        print("Harvesting Parts For: " + str(item))
-        parts = oomReadFileToString(eagleParts)
-        lines = parts.splitlines()    
-        process = False
-        parts = []
-        oompParts = []
-        multiplier = 1
-        for line in lines:
-            line = line.replace("µ","u").replace("�","").replace('"',"").replace("'","").replace("±","+/-").replace("�","")
-            ######  skip"'" until getting to part line
-            if process:
-                if line != "":
-                    parts.append(line.split())
-            if "Part " in line:
-                process = True  
-                if "(inch)" in line:
-                    multiplier = 25.4              
+
+
+
+def replaceOddChars(line):
+    rv = line
+    rv = rv.replace("µ","u")
+    rv = rv.replace("±","+/-")
+    rv = rv.replace("Ω","ohm")
+    rv = rv.replace("Ω","ohm") ##ohm
+    rv = rv.replace(";",",")
+    rv = rv.replace("'","")
+    return rv
+
+def harvestParts(item,overwrite=False):
+    oompFile = "eagleBOM"
+    if item.ifFileExists(oompFile):
+        parts = oomReadFileToString(item.getFilename(oompFile))
+        parts = parts.split("\n")
+
+        ###### remove tags before starting
+        for c in range(0,10):
+            item.removeTag("rawParts")
+
         for part in parts:
-            ######missing value
-            if len(part) == 6:
-                part = [part[0],"",part[1],part[2],part[3],part[4],part[5]]
-            if len(part) > 4:
-
-                    ##### oompID, part, x, y, rotation
-                oompID = matchPart(item,part)
-                try:                    
-                    partName = part[0]
-                    x = part[4].replace("(","")
-                    y = part[5].replace(")","")
-                    rotation = part[6].replace("R","")
-
-                    oompParts.append([oompID,partName,float(x)*multiplier,float(y)*multiplier,rotation])
-                except:
-                    print("harvest parts error " + str(part))
-                    oompParts.append(["ERROR",part[0] + " " + part[1] + " " + part[2],0,0,0])
+            if '"Part";"Value"' in part or part == '':
+                pass #skip title line
+            else:
+                value = part
+                item.addTag("rawParts",value.replace("'","").replace(";",",")) ##switch from semi colons to commas and remove apostrophes
+    item.exportTags("detailspartsRaw",["rawParts"])
 
 
-        if len(oompParts) > 0:
-            makePartsFile(item,oompParts,parts)
 
-        #oomDelay(30)        
 
 def makePartsFile(item,oompParts,rawParts):
     partsFile = item.getFilename("pythonParts")
@@ -70,7 +59,126 @@ def makePartsFile(item,oompParts,rawParts):
 
     oomWriteToFile(partsFile,contents,utf=False)
 
+
+def matchParts(project):
+    global PART, VALUE, DEVICE, PACAKGE, DESC, BOM
+    ###### remove tags before starting
+    for c in range(0,10):
+        project.removeTag("oompParts")
+    parts = project.getTags("rawParts")
+    for part in parts:
+        part = part.value.split(",")
+        oompPart = matchPart(project,part)
+        if not "SKIP-" in oompPart:
+            project.addTag("oompParts", part[PART] + "," + oompPart)
+
+    project.exportTags("detailsPartsOomp",["oompParts"])    
+
+
+
 def matchPart(project,part):
+    global PART, VALUE, DEVICE, PACAKGE, DESC, BOM
+    for x in range(0,len(part)):
+        part[x] = part[x].replace('""','')
+
+
+    oompType = matchType(project,part)
+    oompSize = matchSize(project,part,oompType=oompType)
+    oompColor = matchColor(project,part,oompType=oompType,oompSize=oompSize)
+    oompDesc = matchDesc(project,part,oompType=oompType,oompSize=oompSize,oompColor=oompColor)
+    oompIndex = matchIndex(project,part,oompType=oompType,oompSize=oompSize,oompColor=oompColor,oompDesc=oompDesc)  
+
+
+    rv = oompType + "-" + oompSize + "-" + oompColor + "-" + oompDesc + "-" + oompIndex
+    return rv
+
+PART = 0
+VALUE = 1
+DEVICE = 2
+PACKAGE = 3
+DESC = 4
+BOM = 5
+
+
+
+def getUseful(part,name):
+    global PART, VALUE, DEVICE, PACAKGE, DESC, BOM
+    rv = ""
+    if name == "partLetter":
+        rv = re.sub(r'\d+', '', part[PART])
+
+    return rv
+
+def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oompIndex=""):
+    global PART, VALUE, DEVICE, PACAKGE, DESC, BOM
+    rv= "UNMATCHED"
+
+    ###### Getting useful items
+    partLetter = getUseful(part,"partLetter")
+    #partNumber = re.sub(r'\d+', '', part[PART])
+
+
+
+    if part[BOM] == "EXCLUDE":
+        rv = "SKIP"
+
+    
+
+    return rv
+
+def matchSize(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oompIndex=""):
+    global PART, VALUE, DEVICE, PACAKGE, DESC, BOM    
+    rv= "UNMATCHED"
+
+    return rv
+
+def matchColor(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oompIndex=""):
+    global PART, VALUE, DEVICE, PACAKGE, DESC, BOM    
+    rv= "UNMATCHED"
+
+    return rv
+
+def matchDesc(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oompIndex=""):
+    global PART, VALUE, DEVICE, PACAKGE, DESC, BOM    
+    rv= "UNMATCHED"
+
+    return rv
+
+def matchIndex(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oompIndex=""):
+    global PART, VALUE, DEVICE, PACAKGE, DESC, BOM    
+    rv= "UNMATCHED"
+
+
+
+    return rv        
+
+
+
+
+
+
+
+
+
+
+
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
+
+def matchPartOld(project,part):
 
     PART = 0
     VALUE = 1
@@ -322,3 +430,54 @@ def matchPart(project,part):
     return rv
 
 
+def harvestPartsOld(item,overwrite = False):
+    print("#############################################################")
+    print("#############################################################")
+    print("#############################################################")
+    print("#############################################################")
+    print("######  SHOULDN'T BE BEING USED ANYMORE  #######")
+    print("######  harvestPartsOld(item,overwrite = False):  #######")
+    eagleParts = item.getFilename("eagleParts")
+    partsPython = item.getFilename("pythonParts")
+    if overwrite or not os.path.exists(partsPython): 
+        print("Harvesting Parts For: " + str(item))
+        parts = oomReadFileToString(eagleParts)
+        lines = parts.splitlines()    
+        process = False
+        parts = []
+        oompParts = []
+        multiplier = 1
+        for line in lines:
+            line = line.replace("µ","u").replace("�","").replace('"',"").replace("'","").replace("±","+/-").replace("�","")
+            ######  skip"'" until getting to part line
+            if process:
+                if line != "":
+                    parts.append(line.split())
+            if "Part " in line:
+                process = True  
+                if "(inch)" in line:
+                    multiplier = 25.4              
+        for part in parts:
+            ######missing value
+            if len(part) == 6:
+                part = [part[0],"",part[1],part[2],part[3],part[4],part[5]]
+            if len(part) > 4:
+
+                    ##### oompID, part, x, y, rotation
+                oompID = matchPart(item,part)
+                try:                    
+                    partName = part[0]
+                    x = part[4].replace("(","")
+                    y = part[5].replace(")","")
+                    rotation = part[6].replace("R","")
+
+                    oompParts.append([oompID,partName,float(x)*multiplier,float(y)*multiplier,rotation])
+                except:
+                    print("harvest parts error " + str(part))
+                    oompParts.append(["ERROR",part[0] + " " + part[1] + " " + part[2],0,0,0])
+
+
+        if len(oompParts) > 0:
+            makePartsFile(item,oompParts,parts)
+
+        #oomDelay(30)        
