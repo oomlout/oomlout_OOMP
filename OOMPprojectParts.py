@@ -102,18 +102,37 @@ def matchPart(project,part):
         try:
             if float(valueNumber) < 20:
                 oompType = "CAPC"
+            else:
+                oompType = "CAPE"    
         except:
             c=0
-        else:
-            oompType = "CAPE"
+
     if partLetter == "R":
         oompType = "RESE"
 
-    if partLetter == "FID":
-        oompType = "SKIP"
-    if partLetter == "U$":
-        oompType = "SKIP"
+    ####### skip test
 
+    skipList = [
+        ["fid","SKIP"],
+        ["mountinghole","SKIP"],
+        ["fiducial","SKIP"],
+        ["gator","SKIP"],
+        ["wpj","SKIP"],
+        ["test","SKIP"],
+        ["solder","SKIP"],
+        ["pad-jumper","SKIP"],
+        ["sewtap","SKIP"],
+        ["sewingtap","SKIP"],
+        ["tp","SKIP"],
+        ["sj","SKIP"]
+    ]
+
+    for skip in skipList:
+        if skip[0] in part[PART].lower() :
+            oompType = skip[1]
+        if skip[0] in part[PACKAGE].lower() :
+            oompType = skip[1]
+    
 
     ######  SIZE
 
@@ -138,6 +157,59 @@ def matchPart(project,part):
             oompSize = swap[1]
         if packageNumber.lower() == swap[0]:
             oompSize = swap[1]    
+
+    ###### headerss
+
+    headIncludeList =[["1x","HEAD" ]
+    ]
+
+    headExcludeList =["mm","jst", "fiducial", "mil", "screw"]
+
+
+    package = part[PACKAGE].lower()
+    value = part[VALUE].lower()
+    name = part[PART].lower()
+
+
+    if "jp" in name:
+        for swap in headIncludeList:
+            if swap[0] in package or swap[0] in name:
+                include = True
+                for skip in headExcludeList:
+                    if skip in package or skip in name:
+                        include =False
+                    if include:
+                        oompType = "HEAD"
+                        oompSize = "I01"
+                        packageSan = packageNumber.replace("_76","").replace("_70","").replace("-","").replace("_","")
+                        oompDesc = "PI" + packageSan.zfill(2)[1:]
+
+
+    ###### LEDs
+
+    ledList =[["led","LEDS" ]
+            ]
+    if part[PART].lower() == "l":
+        oompType = "LEDS"
+
+    for swap in ledList:
+
+        if part[PART].lower() == swap[0]:
+            oompType = swap[1]
+            if "2812" in part[PACKAGE] or "APA" in part[PACKAGE] or  "2811" in part[PACKAGE] or  "RGB" in part[PACKAGE]:
+                oompColor = "RGB"
+            elif "red" in part[VALUE].lower():
+                oompColor = "R"
+            elif "green" in part[VALUE].lower():
+                oompColor = "G"
+            elif "blue" in part[VALUE].lower():
+                oompColor = "L"
+            elif "white" in part[VALUE].lower():
+                oompColor = "W"
+            elif "yellow" in part[VALUE].lower():
+                oompColor = "Y"
+            else:
+                oompColor = "G"
     ###### common capacitor values
 
     descList = [["0.01uf","NF10" ],

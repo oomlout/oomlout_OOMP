@@ -26,12 +26,14 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 #OOMPproject.doTasks("proje
 # cts")
-overwrite=True
-eagleProcess= False          #eagle pcb open
+overwrite=False
+eagleProcess= True          #eagle pcb open
 eagleToKicad = False        #kicad launcher open
 kicadProcess = False        #kicad launcher open
 interactiveBom = False
-partsHarvest = True
+partsHarvest = False
+
+
 
 #filter="footprints"
 filter="projects"

@@ -12,7 +12,7 @@ import subprocess
 
 def doTasks(overwrite =False,filter="projects",eagleToKicad=False,kicadProcess=False,eagleProcess=False,interactiveBom=False,partsHarvest=False):
     for project in OOMP.getItems(filter):
-        doTask(project,overwrite,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,partsHarvest=partsHarvest)
+        doTask(project,overwrite,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,partsHarvest=partsHarvest,filter=filter)
 """
     overwrite = overwrite
     kicadProcess = False        #kicad launcher open
@@ -20,20 +20,21 @@ def doTasks(overwrite =False,filter="projects",eagleToKicad=False,kicadProcess=F
     eagleProcess= False          #eagle pcb open
     interactiveBom = False
 """
-def doTask(project,overwrite=False,eagleToKicad=False,kicadProcess=False,eagleProcess=False,interactiveBom=False,partsHarvest=False):
+def doTask(project,overwrite=False,eagleToKicad=False,kicadProcess=False,eagleProcess=False,interactiveBom=False,partsHarvest=False,filter="projects"):
     projectDir = project.getFolder()
     eagleBoardFile = project.getFilename("boardeagle")
     kicadBoardFile = project.getFilename("boardkicad")
 
     if kicadProcess: #open board in kicad and export things like 3d render and bom
         if os.path.isfile(kicadBoardFile):
-            harvestKicadBoardFile(kicadBoardFile,projectDir,overwrite=overwrite)
+            harvestKicadBoardFile(kicadBoardFile,projectDir,overwrite=overwrite,filter=filter)
     if eagleToKicad: #open board in kicad and export things like 3d render and bom
         if os.path.isfile(eagleBoardFile):
             harvestEagleBoardToKicad(eagleBoardFile,projectDir,overwrite=overwrite)
     if eagleProcess: #open board in kicad and export things like 3d render and bom
         if os.path.isfile(eagleBoardFile):
             harvestEagleBoardFile(eagleBoardFile,projectDir,overwrite=overwrite)
+            harvestEagleSchematicFile(eagleBoardFile.replace("boardEagle.brd","schematicEagle.sch"),projectDir,overwrite=overwrite)
 
     if interactiveBom:
         makeInteractiveHtmlBom(project,overwrite)
@@ -63,21 +64,23 @@ def harvestEagleBoardToKicad(file,directory,overwrite=False):
         oomSendDown(8,delay=2)
         oomSendRight(1,delay=2)
         oomSendDown(1,delay=2)
-        oomSendEnter(delay=2)
-        ###### filedialog box o-pen
+        oomSendEnter(delay=5)
+        ###### filedialog box open
         filename = (OOMP.baseDir + file).replace("/","\\")
         oomSend(filename,5)
         oomSendEnter(10)
         ######  set temp folder
-        tempDir = OOMP.baseDir + "oomlout_OOMP_projects/sourceFiles/tempV/"
+        tempDir = OOMP.baseDir + "oomlout_OOMP_projects/sourceFiles/tempA/"
+        
         
         oomDeleteDirectory(tempDir + "boardEagle.pretty/", safety=False)
         oomDeleteDirectory(tempDir + "boardEagle-backups/", safety=False)        
-        oomDeleteDirectory(tempDir, safety=False)
+        #oomDeleteDirectory(tempDir, safety=False)
         oomMakeDir(tempDir)
         oomSend(tempDir.replace("/","\\"),2)
-        oomSendEnter(2)
+        oomSendEnter(5)        
         oomSendEnter(10)
+        oomSend("y",10)
         ######  match layers dialog
         oomSendTab(6,5)
         oomSendEnter(2)
@@ -113,7 +116,7 @@ def kicadClosePcb(noSave=True):
 
 
 #### 285 seconds per (12 an hour) (1000 in 80 hours) (33 days for 10000)
-def harvestKicadBoardFile(file="",directory="",part="",overwrite=False):
+def harvestKicadBoardFile(file="",directory="",part="",overwrite=False,filter="projects"):
     boardKicad = ""
     dirKicad = ""
     if part != "":
@@ -130,9 +133,11 @@ def harvestKicadBoardFile(file="",directory="",part="",overwrite=False):
             oomSend("b",10)
             oomMouseClick(pos=kicadActive,delay=5)    
             filename = OOMP.baseDir + directory + "kicad/"
-            kicadExport(filename,"bom",overwrite=overwrite)
-            kicadExport(filename,"pos",overwrite=overwrite)
-            kicadExport(filename,"svg",overwrite=overwrite)
+            if filter == "projects":
+                kicadExport(filename,"bom",overwrite=overwrite)
+            if filter == "projects":    
+                kicadExport(filename,"pos",overwrite=overwrite)                
+            kicadExport(filename,"svg",overwrite=overwrite)            
             kicadExport(filename,"wrl",overwrite=overwrite)
             kicadExport(filename,"step",overwrite=overwrite)
             filename = OOMP.baseDir + directory
@@ -140,6 +145,38 @@ def harvestKicadBoardFile(file="",directory="",part="",overwrite=False):
         
 
             kicadClosePcb()
+
+def harvestEagleSchematicFile(file,directory,overwrite=False):
+    dxfFile = OOMP.baseDir + directory + "eagleImage.dxf"
+    imageFile = OOMP.baseDir + directory + "eagleSchemImage.png"
+    partFile = OOMP.baseDir + directory + "eagleBOM.csv"
+    #if overwrite or not os.path.exists(dxfFile):
+    #if overwrite or not os.path.exists(pngFile):
+    print("Harvesting Eagle Schematic: " + file)
+    if overwrite or  (not os.path.exists(partFile) or not os.path.exists(imageFile)):
+        print("    Missing Files")
+        oomMouseClick(pos=kicadActive,delay=5)            
+        oomSendControl("o",delay=5)
+        fullFile = OOMP.baseDir + file
+        oomSend(fullFile.replace("/","\\"),delay=3)
+        oomSendEnter(2)
+        oomSendEnter(2)
+        oomSend("n",10)
+        #maybe close warning window
+        oomMouseClick(pos=eagleCloseText,delay=5)            
+        
+
+        ###### BOM
+        filename = partFile
+        if overwrite or not os.path.exists(filename):
+            print("        " + filename)
+            eagleExport(filename,6,overwrite=overwrite)
+        ###### Image
+        filename = imageFile
+        if overwrite or not os.path.exists(filename):
+            print("        " + filename)
+            eagleExport(filename,5,overwrite=overwrite)
+        
 
 def harvestEagleBoardFile(file,directory,overwrite=False):
     dxfFile = OOMP.baseDir + directory + "eagleImage.dxf"
@@ -185,30 +222,9 @@ def harvestEagleBoardFile(file,directory,overwrite=False):
         if overwrite or not os.path.exists(filename):
             print("        " + filename)
             eagleExport(filename,3,overwrite=overwrite)
-"""        
-        ######  CAM files
-        testFile = directory + "eagleGerber/CAMOutputs/GerberFiles/copper_bottom.gbr"
-        if overwrite or not os.path.exists(testFile):
-            camDir = OOMP.baseDir + directory + "eagleGerber/"
-            oomMakeDir(camDir)
-            oomSendAltKey("f",2)
-            oomSend("m",2)
-            
-            oomSendTab(16)
-            oomDelay(2)
-            oomSendEnter(2)
-            oomSend(camDir.replace("/","\\"),2)
-            oomSendEnter(2)
-            oomSendEnter(2)
-            oomSend("y",2)
-            oomSendEnter(2)
-            oomSendEsc()
-            oomDelay(15)
 
-        ###### dxf
-        filename = dxfFile
-        eagleExport(filename,4,overwrite=overwrite)
-"""
+
+
 def kicadExport(filename,type,overwrite=False):
     if type.lower() == "bom":
         bomFile = filename + "boardKicadBom.csv"
@@ -272,7 +288,7 @@ def kicadExport(filename,type,overwrite=False):
             oomMouseMove(pos=kicadFootprintMiddle,delay=2)
             oomSendAltKey("3",5)
             ###### zoom
-            oomMouseClick(pos=kicad3dView,delay=0.5)
+            oomMouseClick(pos=kicad3dView,delay=1)
             oomSend("z")
             oomSendEnter(delay=1)
             ######  front
@@ -292,7 +308,7 @@ def kicadExport(filename,type,overwrite=False):
 
             
             ###### zoom
-            oomMouseClick(pos=kicad3dView,delay=0.5)
+            oomMouseClick(pos=kicad3dView,delay=1)
             oomSend("z")
             oomSendEnter(delay=1)
             oomMouseClick(pos=kicadFile,delay=5) 
@@ -307,19 +323,19 @@ def kicadExport(filename,type,overwrite=False):
             oomSend("v",0.5)
             oomSendEnter(2)
             ###### zoom
-            oomMouseClick(pos=kicad3dView,delay=0.5)
+            oomMouseClick(pos=kicad3dView,delay=1)
             oomSend("z")
             oomSendEnter(delay=1)            
             #yaxis
             times = 3
             for x in range(times):
-                oomMouseClick(pos=kicad3dView,delay=0.5)
+                oomMouseClick(pos=kicad3dView,delay=1)
                 oomSend("rr")
                 oomSendEnter(delay=1)
             #zaxis    
             times = 2
             for x in range(times):
-                oomMouseClick(pos=kicad3dView,delay=0.5)
+                oomMouseClick(pos=kicad3dView,delay=1)
                 oomSend("rrrrrrr")
                 oomSendEnter(delay=1)
 
@@ -343,12 +359,20 @@ def eagleExport(filename,downs,overwrite=False):
         oomSend("e",2)
         oomSendDown(downs,2)
         oomSendEnter(5)
+        if "BOM" in filename:
+            oomSendTab(3,1)
+            oomSendDown(times=2,delay=1)            
+            oomSendTab(1,1)
+            oomSendRight(times=1,delay=1)                        
+            oomSendSpace()
+            oomDelay(2)
         oomSend(filename.replace("/","\\"),2)
         oomSendEnter(5)
+        if "BOM" in filename:
+            oomSendEsc(2)
         if ".dxf" in filename:
             oomSendRight()
             oomDelay(2)
-            oomSendEnter(delay=5)
         oomSend("y",5)
 
 def makeInteractiveHtmlBom(project,overwrite=False):
