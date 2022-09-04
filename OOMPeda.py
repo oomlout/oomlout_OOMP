@@ -35,7 +35,8 @@ eagleCrop = [555,200,800,800]
 
 def doTasks(overwrite=False,filter="symbols",harvestKicadSymbolsImages=False,harvestKicadSymbolsFiles=False,harvestEagleLibraries=False):
     if harvestKicadSymbolsImages:
-        for item in OOMP.getItems(filter,cache=True):
+        items = OOMP.getItems(filter,cache=False)
+        for item in items:
             captureKicadSymbol(item=item,overwrite=overwrite)
         #harvestKicadSymbols(overwrite=overwrite)
     if harvestKicadSymbolsFiles:
