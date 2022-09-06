@@ -5,9 +5,10 @@ import OOMPeda
 from oomBase import *
 
 
-OOMP.loadParts("all")
+#OOMP.loadParts("all")
 
-#OOMP.loadParts("pickle")
+OOMP.loadParts("pickle")
+
 
 print(OOMP.getReport())
 

@@ -7,16 +7,14 @@ from oomBase import *
 
 
 ######  Choose part load method
-#import OOMP_genPickle
 OOMP.loadParts("pickle")
 
-print("Number of Items: "+ str(len(OOMP.getItems("all"))))
-print("Number of Symbols: "+ str(len(OOMP.getItems("symbols"))))
-print("Number of Footprints: "+ str(len(OOMP.getItems("footprints"))))
-print("Number of Parts: "+ str(len(OOMP.getItems("parts"))))
-print("Number of Projects: "+ str(len(OOMP.getItems("projects"))))
+
+print(OOMP.getReport())
 
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
+
+OOMP.getItems("load",cache=False)
 
 
 
