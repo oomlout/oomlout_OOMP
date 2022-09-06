@@ -439,6 +439,13 @@ class oompItem:
         return rv
 
     def getFilename(self,filename,relative="",resolution="",extension=""):
+
+
+        allNames = []
+        allImagesNames = []
+
+        ################################# Define Base
+
         base = ""
         if relative == "": ## relative to oomlout_OOMP
             base = self.getFolder()
@@ -466,17 +473,28 @@ class oompItem:
             base = baseDir + self.getFolder()
         fileExtra = filename
         
-        ######  Bom Files
-        if filename.lower() == "bominteractive":
+
+        ###########################  Define File
+
+
+        ######  Bom Files      
+        name =   "bominteractive"
+        allNames.append(name)
+        if filename.lower() == name:            
             fileExtra = "kicad/bom/ibom.html"
         
         
         
         ######  Datasheet
-        if filename.lower() == "datasheet":
+        name = "datasheet"
+        allNames.append(name)
+        if filename.lower() == name:
             fileExtra = "datasheet.pdf"
         ######  Image files
-        if filename.lower() == "image":
+        name = "image"
+        allNames.append(name)
+        allImagesNames.append(name)
+        if filename.lower() == name:
             type = self.getTag("oompType")
             if resolution != "":
                 if type.value.upper() == "FOOTPRINT":
@@ -491,31 +509,56 @@ class oompItem:
                     fileExtra = "image.jpg"  
                 else:
                     fileExtra = "image." + extension  
-        imageTypePng = ["kicadPcb3d","kicadPcb3dFront","kicadPcb3dBack","eagleImage"]        
-        for imageType in imageTypePng:
+        
+        imageTypePng = ["kicadPcb3d","kicadPcb3dFront","kicadPcb3dBack","eagleImage","eagleSchemImage"]        
+        for imageType in imageTypePng:            
+            name = imageType
+            allNames.append(name)
+            allImagesNames.append(name)
             if filename.lower() == imageType.lower():
-                fileExtra = imageType + "_" + str(resolution) + ".png"  
+                if resolution != "":
+                    fileExtra = imageType + "_" + str(resolution) + ".png"  
+                else:
+                    fileExtra = imageType + ".png"
         imageTypeJpg = ["image_RE","image_TOP","image_BOTTOM"]        
-        for imageType in imageTypeJpg:
+        for imageType in imageTypeJpg: 
+            name = imageType
+            allNames.append(name)
+            allImagesNames.append(name)
             if filename.lower() == imageType.lower():
-                fileExtra = imageType + "_" + str(resolution) + ".jpg"  
+                if resolution != "":
+                    fileExtra = imageType + "_" + str(resolution) + ".jpg"  
+                else:
+                    fileExtra = imageType + ".jpg"      
                 
-        ######  Eagle Files
-        if filename.lower() == "boardeagle":
+        ######  Eagle Files         
+        name = "boardeagle"
+        allNames.append(name)
+        if filename.lower() == name:
             fileExtra = "boardEagle.brd"
-        if filename.lower() == "eagleparts":
+        name = "eagleparts"
+        allNames.append(name)
+        if filename.lower() == name:        
             fileExtra = "eagleparts.txt"
-        if filename.lower() == "eaglebom":
+        name = "eaglebom"
+        allNames.append(name)
+        if filename.lower() == name:        
             fileExtra = "eagleBOM.csv"
 
         ######  Kicad files
-        if filename.lower() == "boardkicad":
+        
+        name = "boardkicad"
+        allNames.append(name)
+        if filename.lower() == name:        
             fileExtra = "kicad/boardKicad.kicad_pcb"
         if filename.lower() == "dirkicad":
             fileExtra = "kicad/"
         if filename.lower() == "dirkicad":
             fileExtra = "kicad/"
-        if filename.lower() == "symbolkicad":
+        
+        name = "symbolkicad"
+        allNames.append(name)
+        if filename.lower() == name:        
             fileExtra = "symbol.kicad_sym"
 
         
@@ -523,7 +566,10 @@ class oompItem:
         ######  Label Files
         labels = ["label-front","label-inventory","label-spec"]
         for label in labels:
-            if filename.lower() == label:
+                
+            name = label
+            allNames.append(name)
+            if filename.lower() == name:        
                 if extension == "png":
                     fileExtra = label + ".png"  
                 elif extension == "svg":
@@ -532,23 +578,50 @@ class oompItem:
                     fileExtra = label + ".pdf"    
 
         ######  Python Files
-        if filename.lower() == "details":
-            fileExtra = "details.py"        
-        if filename.lower() == "pythonparts":
-            fileExtra = "pythonParts.py"   
-        if filename.lower() == "detailspartsraw":
-            fileExtra = "detailsPartsRaw.py"   
-        if filename.lower() == "detailspartsoomp":
+        name = "details"
+        allNames.append(name)
+        if filename.lower() == name:        
+            fileExtra = "details.py"                
+        name = "detailspartsraw"
+        allNames.append(name)
+        if filename.lower() == name:        
+            fileExtra = "detailsPartsRaw.py"
+        name = "detailspartsoomp"
+        allNames.append(name)
+        if filename.lower() == name:        
             fileExtra = "detailsPartsOomp.py"   
              
 
         ######  Redirect
-        if filename.lower() == "redirect":
+        name = "redirect"
+        allNames.append(name)
+        if filename.lower() == name:        
             base = base.replace(self.getFolder(),"")            
             fileExtra = "redirects/" + self.getTag("oompID").value.replace("/","-").replace(":","-") + "/index.html"
-        if filename.lower() == "redirecthex":
+        name = "redirecthex"
+        allNames.append(name)
+        if filename.lower() == name:        
             base = base.replace(self.getFolder(),"")            
             fileExtra = "redirects/" + self.getTag("hexID").value + "/index.html"
+
+        if filename.lower() == "all":
+            all = []
+            for item in allNames:
+                all.append(self.getFilename(item,relative=relative,resolution=resolution,extension=extension))
+            return all
+        if filename.lower() == "allimages":
+            all = []
+            for item in allImagesNames:
+                all.append(self.getFilename(item,relative=relative,resolution=resolution,extension=extension))
+            return all
+        if filename.lower() == "allimagesnames":
+            all = []
+            for item in allImagesNames:
+                all.append(item)
+            return all
+
+
+
 
         return base + fileExtra
 
