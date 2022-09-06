@@ -413,9 +413,9 @@ class oompItem:
         oompIndex = self.getTag("oompIndex").value
         oompID = self.getTag("oompID").value
         if style == "":
-            if oompType == "FOOTPRINT":
+            if oompType == 'FOOTPRINT':
                 rv = "oomlout_OOMP_eda/footprints/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
-            if oompType == "SYMBOL":
+            elif oompType == "SYMBOL":
                 rv = "oomlout_OOMP_eda/symbols/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
             elif oompType == "PROJ":
                 rv = "oomlout_OOMP_projects/"  + oompID + "/" 

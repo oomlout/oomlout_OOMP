@@ -16,6 +16,7 @@ def harvestEagleBoardToKicad(file,directory,overwrite=False):
     dirKicad =   OOMP.baseDir + directory + "kicad/"
     oomMakeDir(dirKicad)
     boardKicad = dirKicad + "boardKicad.kicad_pcb"
+    print(    "HarvestEagleBoardToKicad: " + file)
     if overwrite or not os.path.exists(boardKicad):
         oomMouseClick(pos=kicadActive,delay=5)       
         oomMouseClick(pos=kicadFile,delay=5)       
@@ -70,6 +71,8 @@ def harvestEagleBoardToKicad(file,directory,overwrite=False):
         oomSendEnter(delay=2)
         ###### close project
         kicadClosePcb(False)
+    else:
+        print("        SKIPPING")
 
 def kicadClosePcb(noSave=True):
     oomSendAltKey("f",2)
