@@ -6,6 +6,20 @@ from pathlib import Path
 import math
 from oomBase import *
 
+"""
+def generateReadme(item,overwrite=False):
+    print("    Readme for: " + item.getTag("oompID").value)
+    oompID = item.getTag("oompID").value
+    if "FOOTPRINT" in oompID:
+        generateReadmeFootprint(item,overwrite)
+    elif "PROJ" in oompID:
+        generateReadmeProject(item,overwrite)
+    elif "SYMBOL" in oompID:
+        generateReadmeSymbol(item,overwrite)
+    elif not "TEMPLATE" in oompID:
+        generateReadmePart(item,overwrite)
+"""
+
 def generateReadmeIndex():    
     filename = OOMP.getDir("parts") + "\\Readme.md"
     
@@ -39,131 +53,183 @@ def generateRedirect(item,overwrite=False):
         oomFileSearchAndReplace(templateFile,redirectFileHex,replaceString,redirect)
 
 #https://github.com/didix21/mdutils
-def generateReadme(item,overwrite=False):
-    print("    Readme for: " + item.getTag("oompID").value)
-    oompID = item.getTag("oompID").value
-    if "FOOTPRINT" in oompID:
-        generateReadmeFootprint(item,overwrite)
-    elif "PROJ" in oompID:
-        generateReadmeProject(item,overwrite)
-    elif "SYMBOL" in oompID:
-        generateReadmeSymbol(item,overwrite)
-    elif not "TEMPLATE" in oompID:
-        generateReadmePart(item,overwrite)
 
-def generateReadmeFootprint(item,overwrite=False):  
-    oompID = item.getTag("oompID").value
-    hexID = item.getTag("hexID").value
-    name = item.getTag("name").value
-    oompName = item.getTag("oompName").value
-    description = item.getTag("description").value
-    baseDir = item.getFolder()
-    Path(baseDir).mkdir(parents=True, exist_ok=True)
-    filename = baseDir + "Readme.md" 
-    if not os.path.isfile(filename) or overwrite:
-        title = hexID + ">" + oompName
-        mdFile = MdUtils(file_name=filename,title='')      
-        ######  Image work  
+def addMainImage(item,mdFile):
+    ######  Image work  
         mainImageTree=["image","kicadPcb3dFront","kicadPcb3dBack","kicadPcb3d"]
         imageList = []
         mainImage = ""
         ###### see which images exist
         for image in mainImageTree:
-            imagePath = item.getFilename(image,resolution="450", relative="")
-            if(os.path.isfile(imagePath)):
+            if(item.ifFileExists(image,resolution="450", relative="")):
                 mainImage = item.getFilename(image,resolution="450", relative="flat")
                 imageList.append(image)
-        ## Add main image
         if mainImage != "":        
             mdFile.new_line(mdFile.new_reference_image(text='', path=mainImage, reference_tag='im'))
-        ###### Summary
-        mdFile.new_header(level=1, title=title)
-        summary = []
-        summary.append("ID: " + oompID)
-        summary.append("Hex ID: " + hexID)
-        summary.append("Name: " + name) 
-        summary.append("Description: " + name) 
-        mdFile.new_list(summary)
-        ###### Images   
-        images = imageList
-        title='Images'
-        addOompTable(mdFile,images,title=title,version=2,item=item)
-        ###### Tags
-        mdFile.new_header(level=2, title='Tags')
-        tags = []    
-        #print(item.fullString())
-        for tag in item.tags:
-            if tag.name != "index":
-                tags.append(str(tag.name) + ": " + str(tag.value))
-        mdFile.new_list(tags)        
-        mdFile.new_table_of_contents(table_title='Contents', depth=2)
-            
-        #print("Writing readme: " + filename)    
-        mdFile.create_md_file()
-
-def generateReadmeProject(item,overwrite=False):
+        
+def addSummary(item,mdFile):
+    type = item.getTag("oompType").value
     oompID = item.getTag("oompID").value
     hexID = item.getTag("hexID").value
     name = item.getTag("name").value
     oompName = item.getTag("oompName").value
-    description = item.getTag("description").value
+    title = hexID + " > " + name
+    if type == "FOOTPRINT":
+        title = hexID +  " > " + oompName
+    mdFile.new_header(level=1, title=title)
+    summary = []
+    summary.append("ID: " + oompID)
+    summary.append("Hex ID: " + hexID)
+    summary.append("Name: " + name) 
+    summary.append("Description: " + name) 
+    mdFile.new_list(summary)
+
+def addImages(item, mdFile):
+    images = item.getFilename("allImagesNames")
+    title='Images'
+    addOompTable(mdFile,images,title=title,version=2,item=item)
+
+def addTags(item,mdFile):
+    mdFile.new_header(level=2, title='Tags')
+    tags = []    
+    #print(item.fullString())
+    for tag in item.tags:
+        if tag.name != "index":
+            tags.append(str(tag.name) + ": " + str(tag.value))
+    mdFile.new_list(tags)        
+    mdFile.new_table_of_contents(table_title='Contents', depth=2)
+        
+
+def generateReadme(item,overwrite=False):  
+
     baseDir = item.getFolder()
-    Path(baseDir).mkdir(parents=True, exist_ok=True)
-    filename = baseDir + "Readme.md" 
-    if not os.path.isfile(filename) or overwrite:
-        title = oompID + ">" + oompName
+    oomMakeDir(baseDir)
+    filename = item.getFilename("readme")
+    if not os.path.isfile(filename) or overwrite:       
         mdFile = MdUtils(file_name=filename,title='')      
-        ######  Image work  
-        mainImageTree=["eagleImage","image","kicadPcb3dFront","kicadPcb3dBack","kicadPcb3d"]
-        imageList = []
-        mainImage = ""
-        ###### see which images exist
-        for image in mainImageTree:
-            imagePath = item.getFilename(image,resolution="450", relative="")
-            if(os.path.isfile(imagePath)):
-                mainImage = item.getFilename(image,resolution="450", relative="flat")
-                imageList.append(image)
         ## Add main image
-        if mainImage != "":        
-            mdFile.new_line(mdFile.new_reference_image(text='', path=mainImage, reference_tag='im'))
+        addMainImage(item,mdFile)
         ###### Summary
-        mdFile.new_header(level=1, title=title)
-        summary = []
-        summary.append("ID: " + oompID)
-        summary.append("Hex ID: " + hexID)
-        summary.append("Name: " + oompName) 
-        summary.append("Description: " + description) 
-        mdFile.new_list(summary)
-        ###### Images   
-        images = imageList
-        title='Images'
-        addOompTable(mdFile,images,title=title,version=2,item=item)
+        addSummary(item,mdFile)
+        ######  Specific items
+        type = item.getType()
+        if type== "FOOTPRINT":
+            generateReadmeFootprint(item, mdFile)
+        elif type== "PROJ":
+            generateReadmeProject(item, mdFile)
+        elif type== "SYMBOL":
+            generateReadmeProject(item, mdFile)
+        else:
+            generateReadmePart(item, mdFile)                
+        ###### Images  
+        addImages(item,mdFile)             
+        ###### Tags
+        addTags(item,mdFile)
+
+        print("Writing Readme: " + item.getID())
+        mdFile.create_md_file()
+
+def generateReadmeFootprint(item,mdFile):  
+    pass
+
+def generateReadmeProject(item,mdFile):  
+        ###### Schematic
+        file = "schemEagle"
+        filename = item.getFilename(file,extension="png",relative="flat")
+        if item.ifFileExists(file):
+            
+            mdFile.new_header(level=2, title='Schematic')
+            mdFile.new_line(mdFile.new_reference_image(text='', path=filename, reference_tag='schem'))
         ###### Interactive BOM
         bomFilename = item.getFilename("bomInteractive")
         if os.path.isfile(bomFilename ):
             mdFile.new_header(level=2, title="Interactive BOM")
             summary = []
-            summary.append("Interactive BOM page: " + "[ibom.html](" + item.getFilename("bomInteractive",relative="flat") + ")")
+            summary.append("Interactive BOM page: " + "[ibom.html](" + item.getFilename("bomInteractive",relative="githubWeb") + ")")
             mdFile.new_list(summary)          
+        ###### 
         ###### OOMP Parts   
-        partsTags = item.getTags("oompPart")
+        partsTags = item.getTags("oompParts")
         
         if len(partsTags) > 0:
             title='OOMP Parts'
             mdFile.new_header(level=2, title=title)
             addOompPartTable(mdFile,item)
-        ###### Tags
-        mdFile.new_header(level=2, title='Tags')
-        tags = []    
-        #print(item.fullString())
-        for tag in item.tags:
-            if tag.name != "index":
-                tags.append(str(tag.name) + ": " + str(tag.value))
-        mdFile.new_list(tags)        
-        mdFile.new_table_of_contents(table_title='Contents', depth=2)
-            
-        #print("Writing readme: " + filename)    
-        mdFile.create_md_file()
+
+
+def generateReadmeSymbol(item,mdFile):  
+    pass
+
+def generateReadmePart(item,mdFile):  
+    baseDir = OOMP.baseDir
+    ###### Diagram        
+    images = ['diagBBLS','diagDIAG','diagIDEN','diagSCHEM','diagSIMP']
+    title='Diagrams'
+    #addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir)
+    addOompTable(mdFile,images,title=title,version=2,item=item)
+    ###### Datasheet
+    if os.path.isfile(item.getFilename("datasheet")):
+        mdFile.new_header(level=2, title="Datasheets")
+        summary = []
+        summary.append("Datasheet: " + "[datasheet.pdf](datasheet.pdf)")
+        mdFile.new_list(summary)        
+    ###### 3D Model
+    images = ['']
+    imageName = ['3D Model Ortho']
+    extension = ".png"
+    baseName = "3dmodel"
+    title='3D Models'
+    addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir)        
+    ###### Labels
+    images = ["label-front","label-inventory","label-spec"]
+    title='Labels'
+    addOompTable(mdFile,images,title=title,version=2,item=item)     
+    ###### EDA
+    mdFile.new_header(level=2, title="EDA")
+    ######  Footprints
+    
+    images = []
+    imageName = []
+    footprintTags = [['footprintKicad',"kicad"],['footprintEagle','eagle']]        
+    for type in footprintTags:
+        tags = item.getTags(type[0])   
+        footprints = []    
+        for tag in tags:
+            footprint = tag.value            
+            if footprint != "":                    
+                #print("Footprint:" + footprint)
+                linkPath = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/"+ type[1] + "/" + footprint + "/"
+                #https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/footprints/kicad/kicad-footprints/Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical/image.png
+                imagePath="https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/footprints/"+ type[1] + "/" + footprint + "/image_140.png"
+                name = type[1] + "/" + footprint
+                footprints.append(mdGetImage(image=imagePath,alt=name) + "<br> " + mdGetLink(text=name,link=linkPath))
+                #mdFile.new_line(mdFile.new_inline_link(text=footprint,link=linkPath))
+                #mdFile.new_line(mdFile.new_inline_image(text=footprint,path=imagePath))
+    if len(footprints) > 0:
+        mdFile.new_header(level=3, title="Footprints")
+        addDisplayTable(mdFile,footprints,4)            
+    #extension = ".png"
+    #baseName = ""
+    #title='Footprints'
+    #addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir="")   
+    ######  Symbols      
+    mdFile.new_header(level=3, title="Symbols")
+    images = []
+    imageName = []
+    footprintTags = ['kicadSymbol','eagleSymbol','sparkfunSymbol','adafruitSymbol']        
+    for tag in footprintTags:
+        footprint = item.getTag(tag).value            
+        if footprint != "":
+            #print("Footprint:" + footprint)
+            images.append("/eda/symbols/" + tag.replace("Symbol","") + "/" + footprint)
+            imageName.append(tag + " " + footprint)
+    extension = ".png"
+    baseName = ""
+    title='Footprints'
+    addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir="")   
+
+
+"""
 
 def generateReadmeSymbol(item,overwrite=False):
     oompID = item.getTag("oompID").value
@@ -216,134 +282,13 @@ def generateReadmeSymbol(item,overwrite=False):
         mdFile.create_md_file()
 
 
-def generateReadmePart(item,overwrite=False):    
-    oompID = item.getTag("oompID").value
-    name = item.getTag("name").value
-    baseDir = item.getFolder()
-    filename = baseDir + "Readme.md" 
-    print(oompID)
-    if oompID == "RESE-0603-X--67":
-        c=0
-    if not os.path.isfile(filename) or overwrite:
-        title = oompID + ">" + name
-        mdFile = MdUtils(file_name=filename,title='')
-        ######  Image work  
-        mainImageTree=["image","image_RE","image_TOP","image_BOTTOM"]
-        imageList = []
-        mainImage = ""
-        ###### see which images exist
-        for image in mainImageTree:
-            imagePath = item.getFilename(image,resolution="450", relative="")
-            if(os.path.isfile(imagePath)):
-                mainImage = item.getFilename(image,resolution="450", relative="flat")
-                imageList.append(image)
 
-
-        mainImage="image_600.jpg"
-        if(os.path.isfile(baseDir + mainImage)):
-            mdFile.new_line(mdFile.new_reference_image(text='', path=mainImage, reference_tag='im'))
-        ###### Summary
-        mdFile.new_header(level=1, title=title)
-        summary = []
-        summary.append("ID: " + oompID)
-        summary.append("Name: " + oompID)        
-        mdFile.new_list(summary)
-        ###### Images   
-        images = imageList
-        title='Images'
-        addOompTable(mdFile,images,title=title,version=2,item=item)
-        ###### Diagram        
-        images = ['BBLS','DIAG','IDEN','SCHEM','SIMP']
-        imageName = ['Breadboard Layout','Diagram','Identifier','Schematic','Simple']
-        extension = ".png"
-        baseName = "diag"
-        title='Diagrams'
-        addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir)
-        ###### Datasheet
-        if os.path.isfile(item.getFilename("datasheet")):
-            mdFile.new_header(level=2, title="Datasheets")
-            summary = []
-            summary.append("Datasheet: " + "[datasheet.pdf](datasheet.pdf)")
-            mdFile.new_list(summary)        
-        ###### 3D Model
-        images = ['']
-        imageName = ['3D Model Ortho']
-        extension = ".png"
-        baseName = "3dmodel"
-        title='3D Models'
-        addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir)        
-        ###### Labels
-        images = ["label-front","label-inventory","label-spec"]
-        title='Labels'
-        addOompTable(mdFile,images,title=title,version=2,item=item)     
-        ###### EDA
-        mdFile.new_header(level=2, title="EDA")
-        ######  Footprints
-        
-        images = []
-        imageName = []
-        footprintTags = [['footprintKicad',"kicad"],['footprintEagle','eagle']]        
-        for type in footprintTags:
-            tags = item.getTags(type[0])   
-            footprints = []    
-            for tag in tags:
-                footprint = tag.value            
-                if footprint != "":                    
-                    #print("Footprint:" + footprint)
-                    linkPath = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/"+ type[1] + "/" + footprint + "/"
-                    #https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/footprints/kicad/kicad-footprints/Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical/image.png
-                    imagePath="https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/footprints/"+ type[1] + "/" + footprint + "/image_140.png"
-                    name = type[1] + "/" + footprint
-                    footprints.append(mdGetImage(image=imagePath,alt=name) + "<br> " + mdGetLink(text=name,link=linkPath))
-                    #mdFile.new_line(mdFile.new_inline_link(text=footprint,link=linkPath))
-                    #mdFile.new_line(mdFile.new_inline_image(text=footprint,path=imagePath))
-        if len(footprints) > 0:
-            mdFile.new_header(level=3, title="Footprints")
-            addDisplayTable(mdFile,footprints,4)            
-        #extension = ".png"
-        #baseName = ""
-        #title='Footprints'
-        #addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir="")   
-        ######  Symbols      
-        mdFile.new_header(level=3, title="Symbols")
-        images = []
-        imageName = []
-        footprintTags = ['kicadSymbol','eagleSymbol','sparkfunSymbol','adafruitSymbol']        
-        for tag in footprintTags:
-            footprint = item.getTag(tag).value            
-            if footprint != "":
-                #print("Footprint:" + footprint)
-                images.append("/eda/symbols/" + tag.replace("Symbol","") + "/" + footprint)
-                imageName.append(tag + " " + footprint)
-        extension = ".png"
-        baseName = ""
-        title='Footprints'
-        addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir="")   
-        ###### Tags
-        mdFile.new_header(level=2, title='Tags')
-        tags = []
-        
-        #print(item.fullString())
-        for tag in item.tags:
-            
-            if tag.name != "index":
-                tags.append(str(tag.name) + ": " + str(tag.value))
-        mdFile.new_list(tags)
-
-
-
-
-        mdFile.new_table_of_contents(table_title='Contents', depth=3)
-        try:
-            mdFile.create_md_file()
-        except:
-            c=0
-
+"""
 def addOompPartTable(mdFile,item):
     mdFile.new_line()
 
-    partsTags = item.getTags("oompPart")
-    rawTags = item.getTags("rawPart")
+    partsTags = item.getTags("oompParts")
+    rawTags = item.getTags("rawParts")
     parts = ["OOMP Parts"]
     for c in range(len(partsTags)):
         value = getOompPartLine(str(partsTags[c].value) + "," + str(rawTags[c].value))
@@ -401,10 +346,12 @@ def addOompTableV2(mdFile,images,title,item):
         line2 = []
         index = 0
         numImages = 0
-        for image in images:            
-            #print("Test File: " + baseDir  + baseName +   image.replace("/eda","eda")  +  extension)
-            line1.append(image)
-            line2.append("[!["  + image + "](" + item.getFilename(image,relative="flat",resolution=140,extension="png") + ")](" + item.getFilename(image,relative="flat",extension="png") + ")")
+        for image in images:  
+            testFile =  item.getFilename(image,resolution=140)
+            if item.ifFileExists(image,resolution=140) :
+                #print("Test File: " + baseDir  + baseName +   image.replace("/eda","eda")  +  extension)
+                line1.append(image)
+                line2.append("[!["  + image + "](" + item.getFilename(image,relative="flat",resolution=140) + ")](" + item.getFilename(image,relative="flat") + ")")
         if len(line1) > 0:
             mdFile.new_header(level=2, title=title)
             mdFile.new_line()

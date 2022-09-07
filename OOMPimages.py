@@ -10,8 +10,10 @@ def generateResolutions(item,overwrite=False):
         res = [140,450,600]        
         images = item.getFilename("allImagesNames")
         for image in images:
-            if item.ifFileExists(image):
-                inFile=item.getFilename(image)                    
+            if item.ifFileExists(image) or item.ifFileExists(image, extension = "png"):
+                inFile=item.getFilename(image)
+                if not "jpg" in inFile and not "png" in inFile:
+                    inFile=item.getFilename(image, extension="png")                                        
                 for r in res:    
                     basewidth=r            
                     outFile = item.getFilename(image, resolution = r)                    

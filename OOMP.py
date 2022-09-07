@@ -383,6 +383,11 @@ class oompItem:
         #    rv = rv + "    " + str(x)
         return rv
 
+    def getID(self):
+        return self.getTag("oompID").value
+    def getType(self):
+        return self.getTag("oompType").value
+
     def fullString(self):
         rv = ""
         rv = rv + self.getName() + "\n"
@@ -444,6 +449,11 @@ class oompItem:
         allNames = []
         allImagesNames = []
 
+        ################################# Resolution String
+        resolutionString = ""
+        if resolution != "":
+            resolutionString = "_" + str(resolution)
+
         ################################# Define Base
 
         base = ""
@@ -457,15 +467,23 @@ class oompItem:
             oompID = self.getTag("oompID").value
             if "FOOTPRINT" in oompID:
                 base = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/" + oompID + "/"
-            elif "PROJECT" in oompID:
+            elif "PROJ" in oompID:
                 base = "https://github.com/oomlout/oomlout_OOMP_projects/tree/main/" + oompID + "/"
             else:    
                 base = "https://github.com/oomlout/oomlout_OOMP_parts/tree/main/" + oompID + "/"
+        elif relative.lower() == "githubweb": ## relative to c
+            oompID = self.getTag("oompID").value
+            if "FOOTPRINT" in oompID:
+                base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_eda/blob/main/footprints/" + oompID + "/"
+            elif "PROJ" in oompID:
+                base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_projects/blob/main/" + oompID + "/"
+            else:    
+                base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_parts/blob/main/" + oompID + "/"
         elif relative.lower() == "githubraw": ## relative to c
             oompID = self.getTag("oompID").value
             if "FOOTPRINT" in oompID:
                 base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/footprints/" + oompID + "/"
-            elif "PROJECT" in oompID:
+            elif "PROJ" in oompID:
                 base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_projects/main/" + oompID + "/"
             else:    
                 base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_parts/main/" + oompID + "/"
@@ -477,6 +495,12 @@ class oompItem:
         ###########################  Define File
 
 
+        ######  Basic
+        name =   "readme"
+        allNames.append(name)
+        if filename.lower() == name:            
+            fileExtra = "Readme.md"
+        
         ######  Bom Files      
         name =   "bominteractive"
         allNames.append(name)
@@ -496,19 +520,17 @@ class oompItem:
         allImagesNames.append(name)
         if filename.lower() == name:
             type = self.getTag("oompType")
-            if resolution != "":
-                if type.value.upper() == "FOOTPRINT":
-                    fileExtra = "image_" + str(resolution) + ".png"  
-                else :
-                    if extension =="":
-                        fileExtra = "image_" + str(resolution) + ".jpg"  
-                    else:
-                        fileExtra = "image_" + str(resolution) + "." + extension  
-            else:
-                if extension =="":
-                    fileExtra = "image.jpg"  
+            if type.value.upper() == "FOOTPRINT" or type.value.upper() == "SYMBOL":
+                if extension != "":
+                    fileExtra = "image" + resolutionString + "." + extension 
+                else:    
+                    fileExtra = "image" + resolutionString + "." + "png"  
+            else :
+                if extension != "":
+                    fileExtra = "image" + resolutionString + "." + extension 
                 else:
-                    fileExtra = "image." + extension  
+                    fileExtra = "image" + resolutionString + ".jpg"  
+            
         
         imageTypePng = ["kicadPcb3d","kicadPcb3dFront","kicadPcb3dBack","eagleImage","eagleSchemImage"]        
         for imageType in imageTypePng:            
@@ -516,26 +538,43 @@ class oompItem:
             allNames.append(name)
             allImagesNames.append(name)
             if filename.lower() == imageType.lower():
-                if resolution != "":
-                    fileExtra = imageType + "_" + str(resolution) + ".png"  
-                else:
-                    fileExtra = imageType + ".png"
+                fileExtra = imageType + resolutionString + ".png"  
+
         imageTypeJpg = ["image_RE","image_TOP","image_BOTTOM"]        
         for imageType in imageTypeJpg: 
             name = imageType
             allNames.append(name)
             allImagesNames.append(name)
             if filename.lower() == imageType.lower():
-                if resolution != "":
-                    fileExtra = imageType + "_" + str(resolution) + ".jpg"  
-                else:
-                    fileExtra = imageType + ".jpg"      
-                
+                fileExtra = imageType + resolutionString + ".jpg"  
+
+        ###### Diagram files
+        diagTypes = ['diagBBLS','diagDIAG','diagIDEN','diagSCHEM','diagSIMP'] 
+        for type in diagTypes:
+            allNames.append(type)
+            allImagesNames.append(type)
+            if filename.lower() == type.lower():
+                if extension == "":
+                    extension = "png"
+                fileExtra = type + resolutionString + "." + extension
+           
+
+
+
         ######  Eagle Files         
         name = "boardeagle"
         allNames.append(name)
         if filename.lower() == name:
             fileExtra = "boardEagle.brd"
+        name = "schemeagle"
+        allNames.append(name)
+        if filename.lower() == name:
+            
+            if extension == "":
+                fileExtra = "schematicEagle.sch"
+            elif extension == "png":
+                fileExtra = "eagleSchemImage" + resolutionString + "." + extension
+            
         name = "eagleparts"
         allNames.append(name)
         if filename.lower() == name:        
@@ -569,9 +608,10 @@ class oompItem:
                 
             name = label
             allNames.append(name)
+            allImagesNames.append(name)
             if filename.lower() == name:        
-                if extension == "png":
-                    fileExtra = label + ".png"  
+                if extension == "png" or resolution != "":
+                    fileExtra = label + resolutionString + ".png"  
                 elif extension == "svg":
                     fileExtra = label + ".svg"    
                 else:

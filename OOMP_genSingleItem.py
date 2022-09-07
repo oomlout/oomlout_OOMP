@@ -1,3 +1,4 @@
+from xmlrpc.client import FastMarshaller
 import OOMP
 import OOMPgenerate
 import OOMPinkscapeGenerate
@@ -26,18 +27,24 @@ filter = "all"
 
 OOMP.getItems("load",cache=False)
 
+OOMP.parts 
 
-item = OOMP.getPartByID("PROJ-ADAF-1430-STAN-01")
+item = OOMP.getPartByID("HEAD-I01-X-PI18-01")
+#C:\GH\oomlout_OOMP\oomlout_OOMP_parts\HEAD-I01-X-PI18-01
+item = OOMP.getPartByID("PROJ-ADAF-1032-STAN-01")
+#C:\GH\oomlout_OOMP\oomlout_OOMP_projects\PROJ-ADAF-1032-STAN-01
+#item = OOMP.getPartByID("FOOTPRINT-eagle-eagle-default-atmel-SO24W")
+#C:\GH\oomlout_OOMP\oomlout_OOMP_eda\footprints\eagle\eagle-default\atmel\SO24W
 
-overwrite=False
+overwrite=True
 
 labels=False
 scads=False
 renders=False
-readmes=False
+readmes=True
 diagrams=False
 diagRenders=False
-images=True
+images=False
 json=False
 
 OOMPgenerate.generateItem(item, labels=labels,scads=scads,renders=renders,readmes=readmes,diagrams=diagrams,diagRenders=diagRenders,images=images,json=json,overwrite=overwrite)

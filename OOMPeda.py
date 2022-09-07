@@ -581,7 +581,7 @@ def captureKicadFootprint(footprint, owner, overwrite = False):
 
         oomDelay(5)
 
-def captureKicadSymbol(item, overwrite = False):
+def captureKicadSymbol(item, overwrite = False):        
         name = item.getTag("oompIndex").value
         file = item.getTag("oompDesc").value
         oompDirectory = item.getFolder()
@@ -589,7 +589,10 @@ def captureKicadSymbol(item, overwrite = False):
         svgFileName = item.getFilename("image",extension="svg",relative="full")
         symbolFileName = item.getFilename("symbolKicad",relative="full")
         
-        if overwrite or not os.path.isfile(symbolFileName) and name != "":
+        print("Testing Kicad Symbol for: " + item.getID())
+
+        if overwrite or not os.path.isfile(symbolFileName)  or not os.path.isfile(svgFileName)  or not os.path.isfile(pngFileName) and name != "":
+            print("    Generating")
             oomMouseClick(pos=kicadActive, delay=5)        
             oomMouseClick(pos=kicadFootprintFilter, delay=5)
             oomSendCtrl("a")
