@@ -411,12 +411,12 @@ class oompItem:
 
     def getFolder(self,style=""):        
         rv = ""
-        oompType = self.getTag("oompType").value
-        oompSize = self.getTag("oompSize").value
-        oompColor = self.getTag("oompColor").value
-        oompDesc = self.getTag("oompDesc").value
-        oompIndex = self.getTag("oompIndex").value
-        oompID = self.getTag("oompID").value
+        oompType = self.getTag("oompType").value.replace(":","-")
+        oompSize = self.getTag("oompSize").value.replace(":","-")
+        oompColor = self.getTag("oompColor").value.replace(":","-")
+        oompDesc = self.getTag("oompDesc").value.replace(":","-")
+        oompIndex = self.getTag("oompIndex").value.replace(":","-")
+        oompID = self.getTag("oompID").value.replace(":","-")
         if style == "":
             if oompType == 'FOOTPRINT':
                 rv = "oomlout_OOMP_eda/footprints/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
@@ -427,15 +427,16 @@ class oompItem:
             else:
                 rv = "oomlout_OOMP_parts/"  + oompID + "/" 
         elif style == "github":
-
             if oompType == "FOOTPRINT":
                 rv = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
+            elif oompType == "SYMBOL":
+                rv = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/symbols/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
             elif oompType == "PROJ":
                 rv = "https://github.com/oomlout/oomlout_OOMP_projects/tree/main/"  + oompID + "/" 
             else:
                 rv = "https://github.com/oomlout/oomlout_OOMP_parts/tree/main/"  + oompID + "/" 
 
-        return rv.replace(":","-")
+        return rv
 
 
     def ifFileExists(self,filename,relative="",resolution="",extension=""):
@@ -637,12 +638,12 @@ class oompItem:
         allNames.append(name)
         if filename.lower() == name:        
             base = base.replace(self.getFolder(),"")            
-            fileExtra = "redirects/" + self.getTag("oompID").value.replace("/","-").replace(":","-") + "/index.html"
+            fileExtra = "sourceFiles/redirects/" + self.getTag("oompID").value.replace("/","-").replace(":","-") + "/index.html"
         name = "redirecthex"
         allNames.append(name)
         if filename.lower() == name:        
             base = base.replace(self.getFolder(),"")            
-            fileExtra = "redirects/" + self.getTag("hexID").value + "/index.html"
+            fileExtra = "sourceFiles/redirects/" + self.getTag("hexID").value + "/index.html"
 
         if filename.lower() == "all":
             all = []

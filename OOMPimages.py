@@ -1,5 +1,8 @@
 import os
+import PIL
 from PIL import Image
+PIL.Image.MAX_IMAGE_PIXELS = 933120000
+                             
 
 def generateResolutions(item,overwrite=False):
     oompID = item.getTag("oompID").value

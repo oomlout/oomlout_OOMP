@@ -57,7 +57,7 @@ def generateAll(filter="all",labels=False,scads=False,renders=False,readmes=Fals
         for item in OOMP.getItems(filter,cache=True):
             OOMPimages.generateResolutions(item,overwrite)
 
-def generateItem(item, labels=False,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=False,json=False,overwrite=False):
+def generateItem(item, labels=False,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=False,json=False,redirects=False,overwrite=False):
 
     if labels:
         OOMPlabels.generateLabel(item,overwrite=overwrite)
@@ -77,6 +77,7 @@ def generateItem(item, labels=False,scads=False,renders=False,readmes=False,diag
     if images:
         OOMPimages.generateResolutions(item,overwrite=overwrite)
 
-
+    if redirects:
+        OOMPsummaries.generateRedirect(item,overwrite) 
 
 

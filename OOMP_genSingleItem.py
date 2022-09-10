@@ -39,13 +39,15 @@ item = OOMP.getPartByID("PROJ-ADAF-1032-STAN-01")
 overwrite=True
 
 labels=False
+
 scads=False
 renders=False
 readmes=True
 diagrams=False
+redirects=False
 diagRenders=False
 images=False
 json=False
 
-OOMPgenerate.generateItem(item, labels=labels,scads=scads,renders=renders,readmes=readmes,diagrams=diagrams,diagRenders=diagRenders,images=images,json=json,overwrite=overwrite)
+OOMPgenerate.generateItem(item, labels=labels,scads=scads,renders=renders,readmes=readmes,diagrams=diagrams,diagRenders=diagRenders,images=images,json=json,redirects=redirects,overwrite=overwrite)
 

@@ -623,8 +623,12 @@ def exportKicadSymbol(filename,type):
     oomSendEnter(delay=2)
     if type == "kicad_sym":
         oomSendEnter(delay=2)
+
     oomSend("y",delay=2)
     oomSendEnter(delay=2)
+    if type == "kicad_sym":
+        oomSendEnter(delay=2)
+        
 
 
 
