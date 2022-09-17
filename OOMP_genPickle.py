@@ -6,3 +6,5 @@ OOMP.loadParts("all")
 #OOMP.loadParts("parts")
 
 print(OOMP.getReport())
+
+import OOMP_genBlanks

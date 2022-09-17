@@ -29,8 +29,9 @@ def generateAll(filter="all",labels=False,scads=False,renders=False,readmes=Fals
             OOMPscad.generateScad(item,renders,overwrite)
 
     if redirects:
-        for item in OOMP.getItems(cache=True):
-            OOMPsummaries.generateRedirect(item,overwrite) 
+        #for item in OOMP.getItems(cache=True):
+        #    OOMPsummaries.generateRedirect(item,overwrite) 
+        OOMPsummaries.generateRedirect() 
 
 
     if readmes:

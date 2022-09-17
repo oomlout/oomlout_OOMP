@@ -126,8 +126,8 @@ def getPartByID(part):
 def getPartByHex(hexid):
 ##    print("     Get Part By ID: " + part)
     for x in parts:
-        x.getTag("hexID").value
-        if x.getTag("hexID").value == hexid:
+        valueTest = x.getTag("hexID").value
+        if valueTest == hexid:
             return x     
     return oompItem("")
 
@@ -235,6 +235,8 @@ class oompDict(dict):
     
     def append(self,newPart):
         oompID = newPart.getTag("oompID").value
+        if oompID == "----":
+            oompID = newPart.getTag("taxaID").value
         self.__dict__[oompID] = newPart
 
     def __setitem__(self, key, item):
@@ -387,6 +389,8 @@ class oompItem:
         return self.getTag("oompID").value
     def getType(self):
         return self.getTag("oompType").value
+    def getHex(self):
+        return self.getTag("hexID").value
 
     def fullString(self):
         rv = ""
@@ -782,10 +786,10 @@ class oompItem:
         pass
 
     def getTag(self,name):
-        if name == "oompID":
+        if name.lower() == "oompid":
             id = ""
             for x in self.tags:
-                if x.name == "oompID":
+                if x.name.lower() == "oompid":
                     id = x
                 if id != "":
                     return id
@@ -842,7 +846,7 @@ class oompItem:
             if name == "namename":
                 name = "name"
             for x in self.tags:
-                if x.name == name:
+                if x.name.lower() == name.lower():
                     return x
             return oompTag("","")
 

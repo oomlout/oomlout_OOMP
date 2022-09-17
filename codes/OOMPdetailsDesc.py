@@ -3044,6 +3044,9 @@ OOMP.oompAddDetail(category="desc",code="K4184",name="MNAOD4184A")
 
 OOMP.oompAddDetail(category="desc",code="K5053",name="SGPT5053C")
 
+######  Sensors
+OOMP.oompAddDetail(category="desc",code="K18B20",name="DS18B20 (1-Wire Digital Thermometer)")
+
 
 OOMP.oompAddDetail(category="desc",code="HINGE",name="Hinged")
 OOMP.oompAddDetail(category="desc",code="FLAT",name="Flat")

@@ -1,5 +1,6 @@
 import OOMP
 import OOMPgenerate
+import OOMPsummaries
 import OOMPtags
 import OOMPproject
 import OOMPinkscapeGenerate
@@ -14,13 +15,13 @@ import json
 
 OOMP.loadParts("pickle")
 
-print("Number of Items: "+ str(len(OOMP.getItems("all"))))
-print("Number of Footprints: "+ str(len(OOMP.getItems("footprints"))))
-print("Number of Parts: "+ str(len(OOMP.getItems("parts"))))
-print("Number of Projects: "+ str(len(OOMP.getItems("projects"))))
+print(OOMP.getReport())
 
 #OOMP.printParts()
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
+
+###### Redirtects
+OOMPsummaries.generateRedirect()
 
 ######  Readmes
 #item = OOMP.parts[28250]
@@ -42,13 +43,15 @@ print(item.fullString())
 #https://github.com/oomlout/oomlout_OOMP_projects/tree/main/PROJ-ADAF-1032-STAN-01
 #C:\GH\oomlout_OOMP\oomlout_OOMP_projects\PROJ-ADAF-1032-STAN-01
 
+
+
 ######  Reports
 tags = ["name","hexID"]
 filename = "sourceFiles/reports/tagReport.csv"
 #OOMPtags.genReport(filename,tags)
 tags = ["allParts"]
 filename = "sourceFiles/reports/footprintReport.csv"
-OOMPtags.genReport(filename,tags,multi=True,filter="parts")
+#OOMPtags.genReport(filename,tags,multi=True,filter="parts")
 #OOMPtags.genReport(filename,tags,multi=True,filter="projects")
 
 

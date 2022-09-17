@@ -21,4 +21,3 @@ overwrite=False
 filter="all"
 filter="symbols"
 OOMPeda.doTasks(overwrite=overwrite,harvestKicadSymbolsFiles=harvestKicadSymbolsFiles, harvestKicadSymbolsImages=harvestKicadSymbolsImages,harvestEagleLibraries=harvestEagleLibraries)
-

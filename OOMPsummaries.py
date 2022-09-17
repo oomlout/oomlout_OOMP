@@ -29,7 +29,35 @@ def generateReadmeIndex():
     mdFile.create_md_file()     
     
 
-def generateRedirect(item,overwrite=False):
+def generateRedirect():
+    redirectLimit = 10000
+    print("Generating redirect file")
+    fileNum = 1
+    filename = "sourceFiles/redirects"
+    f = open(filename + str(fileNum) + ".csv","w+")
+    x = 0
+    
+    for item in OOMP.parts:
+        oompID = item.getID()
+        hexID = item.getHex()
+        longLink = item.getFolder("github")
+        try:
+            if oompID != "":     
+                f.write(longLink + "," + oompID.lower() + "\n")
+            if hexID != "":            
+                f.write(longLink + "," + hexID.lower() + "\n")
+        except:
+            print("ERROR" + str(item))
+        x = x + 1
+        if x % redirectLimit == 0:
+            f.close()
+            fileNum = fileNum + 1
+            f = open(filename + str(fileNum) + ".csv","w+")
+            print(".",end="")
+    
+
+
+def generateRedirectOld(item,overwrite=False):
     print("Generating redirect for: " +item.getID())
     replaceString = "%%ID%%"
     redirect = item.getFolder("github")
@@ -208,7 +236,7 @@ def addSummary(item,mdFile):
     summary.append("Name: " + name) 
     summary.append("Description: " + name) 
     summary.append("Long Link: " + addLink("http://oom.lt/" + oompID, "http://oom.lt/" + oompID))
-    summary.append("Long Link: " + addLink("http://oom.lt/" + oompID, "http://oom.lt/" + oompID))
+    summary.append("Short Link: " + addLink("http://oom.lt/" + hexID, "http://oom.lt/" + hexID))
     mdFile.new_list(summary)
 
 def addLink(text,link):
