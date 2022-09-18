@@ -19,7 +19,10 @@ def doTask(project,overwrite=False,eagleToKicad=False,kicadProcess=False,eaglePr
     eagleBoardFile = project.getFilename("boardeagle")
     kicadBoardFile = project.getFilename("boardkicad")
 
+
+
     if kicadProcess: #open board in kicad and export things like 3d render and bom
+        OOMPproject.oomMouseClick(pos=kicadActive,delay=5)       
         if os.path.isfile(kicadBoardFile):
             harvestKicadBoardFile(kicadBoardFile,projectDir,overwrite=overwrite,filter=filter)
     if eagleToKicad: #open board in kicad and export things like 3d render and bom

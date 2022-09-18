@@ -38,7 +38,7 @@ def harvestEagleBoardToKicad(file,directory,overwrite=False):
         oomSend(filename,5)
         oomSendEnter(10)
         ######  set temp folder
-        tempDir = OOMP.baseDir + "oomlout_OOMP_projects/sourceFiles/tempA/"
+        tempDir = OOMP.baseDir + "oomlout_OOMP_projects/sourceFiles/tempB/"
         
         
         oomDeleteDirectory(tempDir + "boardEagle.pretty/", safety=False)
@@ -344,6 +344,8 @@ def eagleExport(filename,downs,overwrite=False):
             oomSendRight()
             oomDelay(2)
         oomSend("y",5)
+        if downs == 5:
+            oomDelay(10)
 
 def makeInteractiveHtmlBom(project,overwrite=False):
     kicadPython = "C:/Program Files/KiCad/6.0/bin/python.exe"

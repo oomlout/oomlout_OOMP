@@ -12,8 +12,8 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 #OOMPprojectLaunch.doTasks("projects")
 overwrite= False
 eagleProcess= False          #eagle pcb open
-eagleToKicad = True        #kicad launcher open
-kicadProcess = False        #kicad launcher open
+eagleToKicad = False        #kicad launcher open
+kicadProcess = True        #kicad launcher open
 interactiveBom = False
 partsHarvest = False
 matchParts = False
