@@ -108,6 +108,13 @@ def generateReadmeProject(item,mdFile):
         if item.ifFileExists(file):
             addTitle(mdFile,title='Schematic',level=2)                   
             addImage(mdFile,filename,"schem",link)
+        ###### PCB
+        file = "eagleImage"
+        filename = item.getFilename(file,extension="png", resolution="600",relative="flat")
+        link = filename = item.getFilename(file,extension="png",relative="flat")
+        if item.ifFileExists(file):
+            addTitle(mdFile,title='PCB',level=2)                   
+            addImage(mdFile,filename,"pcb",link)
         ###### Interactive BOM
         bomFilename = item.getFilename("bomInteractive")
         if os.path.isfile(bomFilename ):
@@ -227,7 +234,7 @@ def addSummary(item,mdFile):
     name = item.getTag("name").value
     oompName = item.getTag("oompName").value
     title = hexID + " > " + name
-    if type == "FOOTPRINT":
+    if type == "FOOTPRINT" or  type == "PROJ":
         title = hexID +  " > " + oompName
     mdFile.new_header(level=1, title=title)
     summary = []
@@ -278,11 +285,22 @@ def addOompPartTable(mdFile,item):
     partsTags = item.getTags("oompParts")
     rawTags = item.getTags("rawParts")
     parts = ["OOMP Parts"]
-    for c in range(len(partsTags)):
-        value = getOompPartLine(str(partsTags[c].value) + "," + str(rawTags[c].value))
+    for partTag in partsTags:
+        p = partTag.value.split(",")[1]
+        partIdentifier = partTag.value.split(",")[0]
+        part = OOMP.getPartByID(p)
+        id = part.getID()
+        if id == "----":
+            v = partIdentifier + " " + partTag.value
+        else:
+            name = part.getName()
+            #text = mdGetImage(part.getFilename("image",extension="png", resolution="140",relative="githubweb"),alt=id) + " " + id + " " + name
+            text = partIdentifier + " " + name
+            link = part.getFilename("",relative="github")
+            v = mdGetLink(text,link)
         #value = getOompPartLine(str(partsTags[c].value))
-        if value != "":
-            parts.append(value)
+        if v != "":
+            parts.append(v)
 
     columns = 1
     rows = len(parts)    

@@ -101,6 +101,7 @@ def genReport(filename,tags,multi=False,filter="all"):
                 print(".",end="")
             outputString = outputString + string + ""
 
+
     oomWriteToFile(filename,outputString,utf=False)
 
 def getSymbolHex(filter):

@@ -35,3 +35,4 @@ OOMPgenerate.generateAll(filter =filter,labels=True)
 ######  Overwrite Readme and JSON
 OOMPgenerate.generateAll(filter =filter,readmes=True,json=True,overwrite=True)
 
+input("ALL DONE")

@@ -10,20 +10,23 @@ print(OOMP.getReport())
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 #OOMPprojectLaunch.doTasks("projects")
-overwrite= False
+overwrite= True
 eagleProcess= False          #eagle pcb open
 eagleToKicad = False        #kicad launcher open
-kicadProcess = True        #kicad launcher open
+kicadProcess = False        #kicad launcher open
 interactiveBom = False
 partsHarvest = False
-matchParts = False
+matchParts = True
 
-filter="footprints"
+filter="projects"
 #filter="projects"
 OOMPprojectLaunch.doTasks(overwrite=overwrite,filter=filter,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,partsHarvest=partsHarvest,matchParts=matchParts)
 
 overwrite=True
 project =OOMP.getPartByID("PROJ-ADAF-1032-STAN-01")
+project =OOMP.getPartByID("PROJ-ADAF-3382-STAN-01")
+#project =OOMP.getPartByID("PROJ-SPAR-10103-STAN-01")
+#project =OOMP.getPartByID("PROJ-SPAR-10616-STAN-01")
 #OOMPprojectLaunch.doTask(project=project,overwrite=overwrite,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,partsHarvest=partsHarvest,matchParts=matchParts)
 
 #print(project.fullString())

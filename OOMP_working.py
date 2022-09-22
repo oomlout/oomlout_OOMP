@@ -21,7 +21,7 @@ print(OOMP.getReport())
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 ###### Redirtects
-OOMPsummaries.generateRedirect()
+#OOMPsummaries.generateRedirect()
 
 ######  Readmes
 #item = OOMP.parts[28250]
@@ -38,11 +38,11 @@ print(item.fullString())
 #https://github.com/oomlout/oomlout_OOMP_parts/tree/main/RESE-0603-X-O103-01
 #C:\GH\oomlout_OOMP\oomlout_OOMP_parts\RESE-0603-X-O103-01
 
-#item = OOMP.getPartByID("PROJ-ADAF-1032-STAN-01")
+
 #print(item.fullString())
 #https://github.com/oomlout/oomlout_OOMP_projects/tree/main/PROJ-ADAF-1032-STAN-01
 #C:\GH\oomlout_OOMP\oomlout_OOMP_projects\PROJ-ADAF-1032-STAN-01
-
+item = OOMP.getPartByID("PROJ-ADAF-1032-STAN-01")
 
 
 ######  Reports
@@ -51,7 +51,7 @@ filename = "sourceFiles/reports/tagReport.csv"
 #OOMPtags.genReport(filename,tags)
 tags = ["allParts"]
 filename = "sourceFiles/reports/footprintReport.csv"
-#OOMPtags.genReport(filename,tags,multi=True,filter="parts")
+OOMPtags.genReport(filename,tags,multi=True,filter="projects")
 #OOMPtags.genReport(filename,tags,multi=True,filter="projects")
 
 

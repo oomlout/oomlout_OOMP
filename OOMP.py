@@ -853,10 +853,14 @@ class oompItem:
     def getTags(self,tagName):
         rv = []
         if tagName == "allParts":
-            oompParts = self.getTags("oompPart")
-            rawParts = self.getTags("rawPart")
-            for c in range(len(oompParts)):
-                rv.append(oompTag("allParts",oompParts[c].value + "," + rawParts[c].value))
+            oompParts = self.getTags("oompParts")
+            rawParts = self.getTags("rawParts")
+            for part in oompParts:
+                id = part.value.split(",")[0]
+                for rpart in rawParts:
+                    testid = rpart.value.split(",")[0]
+                    if testid == id:
+                        rv.append(oompTag("allParts",part.value + "," + rpart.value))
         else:
             for tag in self.tags:
                 if tag.name == tagName:
@@ -864,7 +868,7 @@ class oompItem:
         return rv
 
     def getName(self):
-        return "OOMP Item:    " + self.getTag("oompID").value + " " + self.getTag("name").value
+        return self.getTag("oompID").value + " " + self.getTag("name").value
 
     
 class oompTag:

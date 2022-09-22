@@ -3040,9 +3040,25 @@ OOMP.oompAddDetail(category="desc",code="KS8550",name="S8550")
 OOMP.oompAddDetail(category="desc",code="KA1015",name="A1015")
 OOMP.oompAddDetail(category="desc",code="KC1815",name="C1815")
 
+###### MOSFETS
+OOMP.oompAddDetail(category="desc",code="KBSS138",name="BSS138")
+OOMP.oompAddDetail(category="desc",code="K6401",name="IRLML6401")
+
+###### VOLTAGE REGULATORS
+OOMP.oompAddDetail(category="desc",code="KMIC5225",name="MIC5225")
+OOMP.oompAddDetail(category="desc",code="KMIC5205",name="MIC5205")
+OOMP.oompAddDetail(category="desc",code="KLP298XS",name="LP298XS")
+OOMP.oompAddDetail(category="desc",code="KAP2112K",name="AP2112K")
+
+###### DIODES
 OOMP.oompAddDetail(category="desc",code="K4184",name="MNAOD4184A")
+OOMP.oompAddDetail(category="desc",code="KMBR120",name="MBR120")
 
 OOMP.oompAddDetail(category="desc",code="K5053",name="SGPT5053C")
+
+######  LEDs
+OOMP.oompAddDetail(category="desc",code="COCA",name="Common Cathode")
+OOMP.oompAddDetail(category="desc",code="COAN",name="Common Anode")
 
 ######  Sensors
 OOMP.oompAddDetail(category="desc",code="K18B20",name="DS18B20 (1-Wire Digital Thermometer)")
@@ -3058,3 +3074,6 @@ OOMP.oompAddDetail(category="desc",code="2560",name="2560")
 OOMP.oompAddDetail(category="desc",code="REV3",name="Rev3")
 OOMP.oompAddDetail(category="desc",code="LG32",name="(LGT8F328P)")
 OOMP.oompAddDetail(category="desc",code="AT32",name="(Atmel328)")
+
+######  Plugs
+OOMP.oompAddDetail(category="desc",code="INLI",name="(Inline)")
