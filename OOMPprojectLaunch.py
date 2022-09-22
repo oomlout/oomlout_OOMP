@@ -4,10 +4,23 @@ from OOMPprojectHarvest import *
 from OOMPprojectParts import *
 import OOMP
 
-def doTasks(overwrite =False,filter="projects",eagleToKicad=False,kicadProcess=False,eagleProcess=False,interactiveBom=False,interactiveBomImages=False,partsHarvest=False,matchParts=False):
-    oomMouseClick(pos=kicadActive,delay=5)
+def doTasks(overwrite =False,filter="projects",eagleToKicad=False,kicadProcess=False,eagleProcess=False,interactiveBom=False,interactiveBomImages=False,partsHarvest=False,matchParts=False,loadInstances=False):
+    oomMouseClick(pos=kicadActive,delay=1)
+
+    if loadInstances:
+        ###### remove all instances
+        for part in OOMP.getItems("parts"):
+            for x in range(0,10):
+                part.removeTag("oompInstances")
+
+
     for project in OOMP.getItems(filter):
-        doTask(project,overwrite,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,interactiveBomImages=interactiveBomImages,partsHarvest=partsHarvest,matchParts=matchParts,filter=filter)
+        doTask(project,overwrite,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,interactiveBomImages=interactiveBomImages,partsHarvest=partsHarvest,matchParts=matchParts,loadInstances=loadInstances,filter=filter)
+
+    if loadInstances:
+        for part in OOMP.getItems("parts"):
+            part.exportTags("detailsInstancesOomp",["oompInstances"])  
+
 """
     overwrite = overwrite
     kicadProcess = False        #kicad launcher open
@@ -15,7 +28,7 @@ def doTasks(overwrite =False,filter="projects",eagleToKicad=False,kicadProcess=F
     eagleProcess= False          #eagle pcb open
     interactiveBom = False
 """
-def doTask(project,overwrite=False,eagleToKicad=False,kicadProcess=False,eagleProcess=False,interactiveBom=False,interactiveBomImages=False,partsHarvest=False,matchParts=False,filter="projects"):
+def doTask(project,overwrite=False,eagleToKicad=False,kicadProcess=False,eagleProcess=False,interactiveBom=False,interactiveBomImages=False,partsHarvest=False,matchParts=False,loadInstances=False,filter="projects"):
     projectDir = project.getFolder()
     eagleBoardFile = project.getFilename("boardeagle")
     kicadBoardFile = project.getFilename("boardkicad")
@@ -46,4 +59,7 @@ def doTask(project,overwrite=False,eagleToKicad=False,kicadProcess=False,eaglePr
     if matchParts:
         if overwrite or project.ifFileExists("detailsPartsOomp"):
             OOMPprojectParts.matchParts(project)
+
+    if loadInstances:
+        OOMPprojectParts.loadInstances(project)
 

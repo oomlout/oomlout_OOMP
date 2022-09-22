@@ -164,14 +164,14 @@ def generateReadmePart(item,mdFile):
     addOompTable(mdFile,images,title=title,version=2,item=item)     
     ###### EDA
     mdFile.new_header(level=2, title="EDA")
-    ######  Footprints
-    
+    ######  Footprints    
     images = []
     imageName = []
+    footprints = []    
     footprintTags = [['footprintKicad',"kicad"],['footprintEagle','eagle']]        
     for type in footprintTags:
         tags = item.getTags(type[0])   
-        footprints = []    
+        
         for tag in tags:
             footprint = tag.value            
             if footprint != "":                    
@@ -186,6 +186,14 @@ def generateReadmePart(item,mdFile):
     if len(footprints) > 0:
         mdFile.new_header(level=3, title="Footprints")
         addDisplayTable(mdFile,footprints,4)            
+    ###### Instances
+    instances = item.getTags("oompInstances")
+    if len(instances) > 1:
+
+        mdFile.new_header(level=3, title="Instances")
+        addOompInstanceTable(mdFile,item)
+
+
     #extension = ".png"
     #baseName = ""
     #title='Footprints'
@@ -279,23 +287,89 @@ def addTags(item,mdFile):
     mdFile.new_table_of_contents(table_title='Contents', depth=2)
 
 
+def addOompInstanceTable(mdFile,item):
+    mdFile.new_line()
+
+
+    tags = item.getTags("oompInstances")
+    ####### Stats
+    statLine = ""
+    count = len(tags)
+    total = OOMP.getInstanceCount()
+    statLine = statLine + "Used " + str(count) + " times.  \n"
+    statLine = statLine + "Prevalance: (" + str(count) + "\\" + str(total) + ") " + str(round((count/total)* 100,4)) + "%  \n"
+    mdFile.new_line(statLine)
+
+    parts = ["OOMP Instances"]
+    unique = []
+    for tag in tags:
+        if tag.value["PROJECT"] not in unique:
+            unique.append(tag.value["PROJECT"])
+
+    for tag in unique:
+        p = tag
+        identifier = ""
+        count = 0
+        for t in tags:
+            if t.value["PROJECT"] == tag:
+                count = count + 1
+                identifier = identifier + t.value["ID"] + ", "
+        identifier = identifier[0:len(identifier)-2]
+        project = OOMP.getPartByID(p)
+        id = project.getID()
+        if id == "----":
+            v = "ERROR " + p + " " + identifier
+        else:
+            name = project.getTag("oompName").value
+            if name == "":
+                name = project.getTag("name").value
+            #text = mdGetImage(part.getFilename("image",extension="png", resolution="140",relative="githubweb"),alt=id) + " " + id + " " + name
+            if count > 0:
+                plural = "s"
+            text = p + "<br> " + name + " <br>" + "Used " + str(count) + " time" + plural + ".<br>" + identifier
+            link = project.getFilename("",relative="github")
+            v = mdGetLink(text,link)
+        #value = getOompPartLine(str(partsTags[c].value))
+        if v != "":
+            parts.append(v)
+
+    columns = 1
+    rows = len(parts)    
+    cells = parts
+
+    mdFile.new_table(columns=columns, rows=rows, text=cells, text_align='center')                           
+
+
 def addOompPartTable(mdFile,item):
     mdFile.new_line()
 
-    partsTags = item.getTags("oompParts")
+    tags = item.getTags("oompParts")
     rawTags = item.getTags("rawParts")
     parts = ["OOMP Parts"]
-    for partTag in partsTags:
-        p = partTag.value.split(",")[1]
-        partIdentifier = partTag.value.split(",")[0]
+
+    unique = []    
+    for tag in tags:
+        t = tag.value.split(",")
+        if t[1] not in unique:
+            unique.append(t[1])
+
+
+    for u in unique:
+        identifier = ""            
+        for tag in tags:
+            t = tag.value.split(",")
+            if t[1] == u:
+                identifier = identifier + t[0] + ", "
+        identifier = identifier[0:len(identifier)-2]
+        p = u
         part = OOMP.getPartByID(p)
         id = part.getID()
         if id == "----":
-            v = partIdentifier + " " + partTag.value
+            v = u + "<BR>" + identifier
         else:
-            name = part.getName()
+            name = part.getTag("name").value
             #text = mdGetImage(part.getFilename("image",extension="png", resolution="140",relative="githubweb"),alt=id) + " " + id + " " + name
-            text = partIdentifier + " " + name
+            text = u + "<br> " + name + "<br> " + identifier
             link = part.getFilename("",relative="github")
             v = mdGetLink(text,link)
         #value = getOompPartLine(str(partsTags[c].value))

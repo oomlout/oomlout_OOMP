@@ -14,7 +14,8 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 #oomDelay(5)
 
 harvestKicadSymbolsFiles = False
-harvestKicadSymbolsImages = True
+harvestKicadSymbolsImages = False
+harvestKicadFootprintImages = True
 harvestEagleLibraries = False
 overwrite=True
 overwrite=False

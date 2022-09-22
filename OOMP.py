@@ -225,8 +225,15 @@ def getFileEnding():
     return 'OOMP.parts.append(newPart)' 
 
 
+instanceCount = 0
 
-
+def getInstanceCount(calc=False):
+    global instanceCount
+    if instanceCount == 0 or calc:
+        instanceCount = 0
+        for part in getItems("PARTS"):
+            instanceCount = instanceCount + len(part.getTags("oompInstances"))
+    return instanceCount
 
 
 class oompDict(dict):
@@ -649,6 +656,10 @@ class oompItem:
         allNames.append(name)
         if filename.lower() == name:        
             fileExtra = "detailsPartsOomp.py"   
+        name = "detailsinstancesoomp"
+        allNames.append(name)
+        if filename.lower() == name:        
+            fileExtra = "detailsInstancesOomp.py"   
              
 
         ######  Redirect
@@ -690,16 +701,19 @@ class oompItem:
         filename = self.getFilename(filetype)
         oompID = self.getTag("oompID").value
 
-        print("    Exporting tags to: " + filename)
+        
 
         contents = "import OOMP" + "\n"
         contents = contents + 'newPart = OOMP.getPartByID("' + oompID + '")' + "\n"
         contents = contents  + '' + '\n'
+        contents2 = ""
         for tag in tags:
             values = self.getTags(tag)
             for value in values:
-                contents = contents + value.getPythonLine() + '\n'
-        oomWriteToFile(filename,contents,utf2=True)
+                contents2 = contents2 + value.getPythonLine() + '\n'
+        if contents2 != "":
+            print("    Exporting tags to: " + filename)
+            oomWriteToFile(filename,contents+contents2,utf2=True)
 
 
     ##No longer used    
@@ -798,6 +812,7 @@ class oompItem:
             if x.name == name:
                 self.tags.remove(x)
         pass
+    
 
     def getTag(self,name):
         if name.lower() == "oompid":
@@ -915,7 +930,11 @@ class oompTag:
             
 
     def getPythonLine(self):
-        return "newPart.addTag('" + self.name + "','" + self.value + "')" 
+        v = self.value
+        if isinstance(v,dict):
+            return "newPart.addTag('" + self.name + "'," + str(self.value) + ")" 
+        else:
+            return "newPart.addTag('" + self.name + "','" + str(self.value) + "')" 
 
     def getValue(self):
         return self.value
@@ -948,10 +967,11 @@ def loadParts(type):
             os.remove(filename)             
         defaultFilter = ["details.py","details2.py","details3.py"]
         projectFilter = ["details.py","details2.py","details3.py","detailsPartsOomp.py","detailsPartsRaw.py"]
+        partsFilter = ["details.py","details2.py","detailsInstancesOomp.py"]
         if type == "all" or type == "parts" or type == "nofootprints":        
             print("    Loading:    Parts")
             directory = "oomlout_OOMP_parts\\"
-            loadDirectory(directory,fileFilter=defaultFilter)
+            loadDirectory(directory,fileFilter=partsFilter)
         if type == "all" or type == "projects" or type == "nofootprints":  
             print("    Loading:    Projects")          
             directory = "oomlout_OOMP_projects\\"
