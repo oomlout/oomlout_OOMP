@@ -511,6 +511,20 @@ class oompItem:
         allNames.append(name)
         if filename.lower() == name:            
             fileExtra = "kicad/bom/ibom.html"
+        name =   "bominteractivefront"
+        allNames.append(name)        
+        allImagesNames.append(name)
+        if filename.lower() == name:            
+            fileExtra = "bomFront.png"
+        name =   "bominteractiveback"
+        allNames.append(name)
+        allImagesNames.append(name)
+        if filename.lower() == name:            
+            fileExtra = "bomBack.png"
+        name =   "bominteractivecsv"
+        allNames.append(name)
+        if filename.lower() == name:            
+            fileExtra = "kicad/bom/parts.csv"
         
         
         

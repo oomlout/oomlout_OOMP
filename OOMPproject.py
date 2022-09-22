@@ -360,4 +360,35 @@ def makeInteractiveHtmlBom(project,overwrite=False):
             process = subprocess.Popen(launchString, shell=True, stdout=subprocess.PIPE)
             process.wait()
             print("    Result: " + str(process.returncode))
-                                    
+
+def makeInteractiveHtmlBomImages(project,overwrite=False):                   
+    print("Harvesting Bom Image for: " + project.getID())                 
+    filename = project.getFilename("bomInteractive",relative="full")
+    frontimage = project.getFilename("bomInteractiveFront")
+    backimage = project.getFilename("bomInteractiveBack")
+    bom = project.getFilename("bomInteractiveCSV")
+    bomDownload = "C:/Users/aaron/Downloads/boardKicad.txt" 
+    frontimageDownload = "C:/Users/aaron/Downloads/boardKicad.F.png" 
+    backimageDownload = "C:/Users/aaron/Downloads/boardKicad.B.png" 
+    if os.path.exists(filename):
+        if not os.path.exists(frontimage) or not os.path.exists(backimage) or not os.path.exists(bom) or overwrite:
+            oomLaunchWebsite(filename)
+            oomDelay(10)
+            menuButton = [1160,120]
+            frontimagePos = [950,250]
+            backimagePos = [1100,250]
+            bomPos = [955,410]
+            oomDeleteFile(frontimageDownload)
+            oomDeleteFile(backimageDownload)
+            oomMouseClick(pos=menuButton,delay=1)
+            oomMouseClick(pos=frontimagePos,delay=3)
+            oomMouseClick(pos=backimagePos,delay=3)
+            oomMouseClick(pos=bomPos,delay=3)
+            oomCopyFile(frontimageDownload,frontimage)
+            oomCopyFile(backimageDownload,backimage)
+            oomCopyFile(bomDownload,bom)
+            oomSendControl("w")
+        else:
+            print("        SKIPPING")
+    else:
+        print("        SKIPPING NO BOM")
