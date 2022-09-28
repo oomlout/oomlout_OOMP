@@ -87,6 +87,7 @@ def kicadClosePcb(noSave=True):
 
 #### 285 seconds per (12 an hour) (1000 in 80 hours) (33 days for 10000)
 def harvestKicadBoardFile(file="",directory="",part="",overwrite=False,filter="projects"):
+    
     boardKicad = ""
     dirKicad = ""
     if part != "":
@@ -96,6 +97,7 @@ def harvestKicadBoardFile(file="",directory="",part="",overwrite=False,filter="p
     else:
         dirKicad =   OOMP.baseDir + directory + "kicad/"
         boardKicad = dirKicad + "boardKicad.kicad_pcb"
+    print("Harvesting Kicad Board File: " + boardKicad)
     if os.path.isfile(boardKicad) and (overwrite or True):
         if overwrite or not os.path.isfile(directory + "kicadPcb3d.png"):
             oomLaunchPopen("pcbnew.exe " + boardKicad,10)
@@ -196,7 +198,7 @@ def harvestEagleBoardFile(file,directory,overwrite=False):
 
 
 def kicadExport(filename,type,overwrite=False):
-    if type.lower() == "bom":
+    if type.lower() == "bom":        
         bomFile = filename + "boardKicadBom.csv"
         if overwrite or not os.path.isfile(bomFile):
             print("    Making bom file")
@@ -392,3 +394,44 @@ def makeInteractiveHtmlBomImages(project,overwrite=False):
             print("        SKIPPING")
     else:
         print("        SKIPPING NO BOM")
+
+
+
+#PCBDRAW
+####### kicad command prompt
+####### pip install pyvirtualdisplay
+####### pip install PcbDraw
+####### C:\Program Files\KiCad\6.0\bin\kicad-cmd.bat
+####### pcbdraw plot "C:/GH/oomlout_OOMP/oomlout_OOMP_projects/PROJ-ADAF-1032-STAN-01/kicad/boardKicad.kicad_pcb test.svg"
+####### start cmd /C ""C:\Program Files\KiCad\6.0\bin\kicad-cmd.bat"&pcbDraw plot "C:\GH\oomlout_OOMP\oomlout_OOMP_projects\PROJ-ADAF-1032-STAN-01\kicad\boardKicad.kicad_pcb" "C:\GH\oomlout_OOMP\oomlout_OOMP_projects\PROJ-ADAF-1032-STAN-01\pcbdraw.svg""
+####### -l Eagle-export
+####### --remap "C:\\GH\\oomlout_OOMP\\pcbDrawRemap.json"
+def renderPcbDraw(project,overwrite):
+    oompID = project.getID()
+    print("Making PCB Draw for: "  + oompID  )
+    filename = project.getFilename("boardKicad",relative="full").replace("/","\\")
+    pcbDrawFile = project.getFilename("pcbdraw",relative="full").replace("/","\\")
+    pcbDrawBackFile = project.getFilename("pcbdrawback",relative="full").replace("/","\\")
+    pcbDrawFilePng = project.getFilename("pcbdraw",relative="full",extension = "png").replace("/","\\")
+    pcbDrawBackFilePng = project.getFilename("pcbdrawback",relative="full",extension = "png").replace("/","\\")
+    if os.path.exists(filename):
+        if overwrite or not os.path.exists(pcbDrawFile):
+            kicadCmd = '"C:\\Program Files\\KiCad\\6.0\\bin\\kicad-cmd.bat"'
+            pcbString = 'pcbDraw plot "' + filename + '" "' + pcbDrawFile + '"'
+            pcbStringBack = 'pcbDraw plot --side back "' + filename + '" "' + pcbDrawBackFile + '"'
+            launchString = 'start cmd /C "' + kicadCmd + "&" + pcbString + '"'
+            print("       Launch String: " + launchString)
+            launchStringBack = 'start cmd /C "' + kicadCmd + "&" + pcbStringBack + '"'
+            print("       Launch String Back: " + launchStringBack)            
+            #subprocess.Popen(launchString,shell=True)
+            os.system(launchString)
+            oomDelay(20)
+            os.system(launchStringBack)
+            oomDelay(20)
+            oomMakePNG(pcbDrawFile,pcbDrawFilePng)
+            oomMakePNG(pcbDrawBackFile,pcbDrawBackFilePng)
+
+        else:
+            print("    SKIPPING")
+    else:
+        print("      No PCB File")

@@ -590,7 +590,10 @@ def captureKicadFootprint(footprint, owner, overwrite = False):
         oomSendDown(times=2,delay=1)
         oomSendEnter(delay=5)
         oomSendWindowsKey("up")
-        oomDelay(3)
+        ##### raytracing
+        oomSendAltKey("p",1)
+        oomSendEnter(2)
+        oomDelay(10)
         #### front
         oomSendAltKey("f",2)
         oomSendEnter(delay=1)
@@ -600,6 +603,7 @@ def captureKicadFootprint(footprint, owner, overwrite = False):
         oomSend("r",2)       
         #### back
         oomMouseClick(pos=[595,60],delay=5)
+        oomDelay(10)
         oomSendAltKey("f",2)
         oomSendEnter(delay=1)
         oomSend(oompFileName3Dback.replace("/","\\"),3)
@@ -607,15 +611,19 @@ def captureKicadFootprint(footprint, owner, overwrite = False):
         oomSend("y",2)        
         oomSend("r",2)       
         #### ortho
-        #oomMouseClick(pos=[595,60],delay=5)   
-        for b in range(0,4):
-            oomSendAltKey("v",delay=0.5)
-            oomSendDown(4,delay=1)  
-            oomSendEnter(delay=1)   
-        for b in range(0,2):
-            oomSendAltKey("v",delay=0.5)
-            oomSendDown(9,delay=1)  
-            oomSendEnter(delay=1)      
+        #oomMouseClick(pos=[595,60],delay=5)  
+        # Needs hotkey setting rotate x clockwise to a, z counter clockwise to d 
+        oomSend("aaaa",2)
+        # for b in range(0,4):
+        #     oomSendAltKey("v",delay=0.5)
+        #     oomSendDown(4,delay=1)  
+        #     oomSendEnter(delay=1)   
+        oomSend("dd",2)
+        oomDelay(10)
+        # for b in range(0,2):
+        #     oomSendAltKey("v",delay=0.5)
+        #     oomSendDown(9,delay=1)  
+        #     oomSendEnter(delay=1)      
         oomSendAltKey("f",2)
         oomSendEnter(delay=1)
         oomSend(oompFileName3D.replace("/","\\"),3)

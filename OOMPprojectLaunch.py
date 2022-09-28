@@ -4,7 +4,7 @@ from OOMPprojectHarvest import *
 from OOMPprojectParts import *
 import OOMP
 
-def doTasks(overwrite =False,filter="projects",eagleToKicad=False,kicadProcess=False,eagleProcess=False,interactiveBom=False,interactiveBomImages=False,partsHarvest=False,matchParts=False,loadInstances=False):
+def doTasks(overwrite =False,filter="projects",eagleToKicad=False,kicadProcess=False,eagleProcess=False,interactiveBom=False,interactiveBomImages=False,partsHarvest=False,matchParts=False,loadInstances=False,pcbDraw=False,matchFootprints=False):
     oomMouseClick(pos=kicadActive,delay=1)
 
     if loadInstances:
@@ -15,11 +15,18 @@ def doTasks(overwrite =False,filter="projects",eagleToKicad=False,kicadProcess=F
 
 
     for project in OOMP.getItems(filter):
-        doTask(project,overwrite,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,interactiveBomImages=interactiveBomImages,partsHarvest=partsHarvest,matchParts=matchParts,loadInstances=loadInstances,filter=filter)
+        doTask(project,overwrite,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,interactiveBomImages=interactiveBomImages,partsHarvest=partsHarvest,matchParts=matchParts,loadInstances=loadInstances,filter=filter,pcbDraw=pcbDraw,matchFootprints=matchFootprints)
 
     if loadInstances:
         for part in OOMP.getItems("parts"):
-            part.exportTags("detailsInstancesOomp",["oompInstances"])  
+            part.exportTags("detailsInstancesOomp",["oompInstances"]) 
+
+
+    if matchFootprints:
+        for part in OOMP.getItems("parts"):
+            OOMPprojectParts.matchFootprint(part)
+            part.exportTags("detailsFootprintsOomp",["footprintEagle","footprintKicad"]) 
+
 
 """
     overwrite = overwrite
@@ -28,7 +35,7 @@ def doTasks(overwrite =False,filter="projects",eagleToKicad=False,kicadProcess=F
     eagleProcess= False          #eagle pcb open
     interactiveBom = False
 """
-def doTask(project,overwrite=False,eagleToKicad=False,kicadProcess=False,eagleProcess=False,interactiveBom=False,interactiveBomImages=False,partsHarvest=False,matchParts=False,loadInstances=False,filter="projects"):
+def doTask(project,overwrite=False,eagleToKicad=False,kicadProcess=False,eagleProcess=False,interactiveBom=False,interactiveBomImages=False,partsHarvest=False,matchParts=False,loadInstances=False,pcbDraw=False,matchFootprints=False,filter="projects"):
     projectDir = project.getFolder()
     eagleBoardFile = project.getFilename("boardeagle")
     kicadBoardFile = project.getFilename("boardkicad")
@@ -62,4 +69,11 @@ def doTask(project,overwrite=False,eagleToKicad=False,kicadProcess=False,eaglePr
 
     if loadInstances:
         OOMPprojectParts.loadInstances(project)
+
+    if pcbDraw:
+        renderPcbDraw(project,overwrite=overwrite)
+        
+    if matchFootprints:
+        pass
+        #matchFootprintsR(project,overwrite=overwrite)
 

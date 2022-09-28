@@ -522,12 +522,12 @@ class oompItem:
         allNames.append(name)        
         allImagesNames.append(name)
         if filename.lower() == name:            
-            fileExtra = "bomFront.png"
+            fileExtra = "bomFront"  + resolutionString + ".png"
         name =   "bominteractiveback"
         allNames.append(name)
         allImagesNames.append(name)
         if filename.lower() == name:            
-            fileExtra = "bomBack.png"
+            fileExtra = "bomBack"  + resolutionString + ".png"
         name =   "bominteractivecsv"
         allNames.append(name)
         if filename.lower() == name:            
@@ -620,13 +620,33 @@ class oompItem:
             fileExtra = "kicad/"
         if filename.lower() == "dirkicad":
             fileExtra = "kicad/"
+
+
         
         name = "symbolkicad"
         allNames.append(name)
         if filename.lower() == name:        
             fileExtra = "symbol.kicad_sym"
 
-        
+        ###### pcb draw files
+        name = "pcbdraw"
+        allNames.append(name)
+        allImagesNames.append(name)
+        if filename.lower() == name:
+            if extension == "":        
+                fileExtra = "pcbdraw.svg"
+            else:
+                fileExtra = "pcbdraw"  + resolutionString + "." + extension
+
+        name = "pcbdrawback"
+        allNames.append(name)
+        allImagesNames.append(name)
+        if filename.lower() == name:
+            if extension == "":        
+                fileExtra = "pcbdrawBack.svg"
+            else:
+                fileExtra = "pcbdrawBack"  + resolutionString + "." + extension
+
 
         ######  Label Files
         labels = ["label-front","label-inventory","label-spec"]
@@ -659,7 +679,11 @@ class oompItem:
         name = "detailsinstancesoomp"
         allNames.append(name)
         if filename.lower() == name:        
-            fileExtra = "detailsInstancesOomp.py"   
+            fileExtra = "detailsInstancesOomp.py"  
+        name = "detailsfootprintsoomp"
+        allNames.append(name)
+        if filename.lower() == name:        
+            fileExtra = "detailsFootprintsOomp.py"   
              
 
         ######  Redirect
@@ -682,7 +706,10 @@ class oompItem:
         if filename.lower() == "allimages":
             all = []
             for item in allImagesNames:
-                all.append(self.getFilename(item,relative=relative,resolution=resolution,extension=extension))
+                if item == "image":
+                    all.append(self.getFilename(item,relative=relative,resolution=resolution,extension=""))
+                else:                    
+                    all.append(self.getFilename(item,relative=relative,resolution=resolution,extension="png"))
             return all
         if filename.lower() == "allimagesnames":
             all = []
@@ -788,19 +815,26 @@ class oompItem:
             rv = rv + "" + x.getMD() + ""
         return rv
     
-    def addTag(self,name,value,singleValue=False):
-        singleValueTags = ["hexID"]
-        for singleValueTag in singleValueTags:
-            if name == singleValueTag:
-                singleValue = True
-        if singleValue:
-            workingTag = self.getTag(name)
-            if workingTag.name == name:
-                workingTag.value = value
-            else:  ## if not already there add a new one
+    def addTag(self,name,value,singleValue=False,noDuplicate=False):
+        skip = False
+        if noDuplicate:
+            tests = self.getTags(name)
+            for test in tests:
+                if value == test.value:
+                    skip = True
+        if not skip:        
+            singleValueTags = ["hexID"]
+            for singleValueTag in singleValueTags:
+                if name == singleValueTag:
+                    singleValue = True
+            if singleValue:
+                workingTag = self.getTag(name)
+                if workingTag.name == name:
+                    workingTag.value = value
+                else:  ## if not already there add a new one
+                    self.tags.append(oompTag(name,value))
+            else:
                 self.tags.append(oompTag(name,value))
-        else:
-            self.tags.append(oompTag(name,value))
 
     def addTagSupplied(self,name,value,tag):
         tag.append(oompTag(name,value))
@@ -967,7 +1001,7 @@ def loadParts(type):
             os.remove(filename)             
         defaultFilter = ["details.py","details2.py","details3.py"]
         projectFilter = ["details.py","details2.py","details3.py","detailsPartsOomp.py","detailsPartsRaw.py"]
-        partsFilter = ["details.py","details2.py","detailsInstancesOomp.py"]
+        partsFilter = ["details.py","details2.py","detailsInstancesOomp.py","detailsFootprintsOomp.py"]
         if type == "all" or type == "parts" or type == "nofootprints":        
             print("    Loading:    Parts")
             directory = "oomlout_OOMP_parts\\"

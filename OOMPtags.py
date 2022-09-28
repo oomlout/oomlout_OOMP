@@ -48,7 +48,7 @@ def addTags(newPart,filter,pins=0,pitch=0,hexID=None,oompType=None,oompSize=None
         newPart.addTag("ooDesignator","J1")
         newPart.addTag("schematicSymbol","HEAD-XX-X-PI" + pinss + "-XX")
         newPart.addTag("pcbFootprint","HEAD-I01-X-PI" + pinss + "-01")
-
+        """
         ###### FOOTPRINTS
         newPart.addTag("kicadSymbol","Connector/Conn_01x" + pinss + "_Male")
         ##newPart.addTag("kicadFootprint","Connector_PinHeader_2.54mm/PinHeader_1x" + pinss + "_P2.54mm_Vertical")
@@ -61,7 +61,7 @@ def addTags(newPart,filter,pins=0,pitch=0,hexID=None,oompType=None,oompSize=None
                 newPart.addTag("footprintEagle","SparkFun-Eagle-Libraries/Sparkfun-Connectors/1X" + pinss + style)
         
         newPart.addTag("footprintKicad","kicad-footprints/Connector_PinHeader_2.54mm/PinHeader_1x" + pinss + "_P2.54mm_Vertical")
-        
+        """
     return newPart
 
 

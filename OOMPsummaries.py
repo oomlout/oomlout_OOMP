@@ -224,6 +224,8 @@ def generateReadmePart(item,mdFile):
 
 def addMainImage(item,mdFile):
     ######  Image work  
+        oompType = item.getTag("oompType").value
+        
         mainImageTree=["image","kicadPcb3dFront","kicadPcb3dBack","kicadPcb3d"]
         imageList = []
         mainImage = ""
@@ -431,7 +433,11 @@ def addOompTableV2(mdFile,images,title,item):
             if item.ifFileExists(image,resolution=140) :
                 #print("Test File: " + baseDir  + baseName +   image.replace("/eda","eda")  +  extension)
                 line1.append(image)
-                line2.append("[!["  + image + "](" + item.getFilename(image,relative="flat",resolution=140) + ")](" + item.getFilename(image,relative="flat") + ")")
+                if image == "image":
+                    line2.append("[!["  + image + "](" + item.getFilename(image,relative="flat",resolution=140) + ")](" + item.getFilename(image,relative="flat") + ")")
+                else:
+                    line2.append("[!["  + image + "](" + item.getFilename(image,relative="flat",resolution=140,extension = "png") + ")](" + item.getFilename(image,relative="flat",extension = "png") + ")")
+
         if len(line1) > 0:
             mdFile.new_header(level=2, title=title)
             mdFile.new_line()

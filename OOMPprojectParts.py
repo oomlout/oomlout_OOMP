@@ -78,6 +78,120 @@ def loadInstances(project):
                     print("SKIPPING: " + deets[1])
 
 
+def matchFootprintsR(project,overwrite=False):
+    global PART, VALUE, DEVICE, PACAKGE, DESC, BOM
+    ###### remove tags before starting
+    for c in range(0,100):
+        project.removeTag("footprintEagle")
+    parts = project.getTags("allParts")
+    for part in parts:
+        p = part.value.split(",")
+        dict = {
+            "IDENTIFIER" : p[0],
+            "OOMPID" : p[1],
+            "VALUE" : p[3],
+            "DESC" : p[4],
+            "PACKAGE" : p[5],
+            "INFO" : p[6],
+            "OWNER" : project.getTag("oompSize").value
+        }        
+        oompPart = OOMP.getPartByID(dict["OOMPID"])
+        matchFootprint(project,oompPart,dict)
+
+def matchFootprint(part):
+    dict = {}
+    #projectID = project.getID()
+    oompID = part.getID()
+    oompSize = part.getTag("oompSize").value
+    print("Matching Footprint for: " + "  " + oompID)
+    if oompID != "----":
+        if "HEAD-I01" in oompID:
+            addHEAD01(part,dict)
+        if oompSize == "0805":
+            add0805(part,dict)
+
+    else:
+        "    SKIPPING"
+
+#part.addTag("footprintEagle", "")
+#part.addTag("footprintKicad", "")
+def add(part,dict):
+    oompType = part.getTag("oompType").value
+    tags = []
+    tags.append(["footprintEagle", ""])
+    for tag in tags:
+        part.addTag(tag[0],tag[1],noDuplicate=True)
+    tags = []
+    tags.append(["footprintKicad", ""])
+    for tag in tags:
+        part.addTag(tag[0],tag[1],noDuplicate=True)
+
+
+
+def add0805(part,dict):
+    oompType = part.getTag("oompType").value
+    tags = []
+    tags.append(["footprintEagle", "FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-085CS_1W"])
+    tags.append(["footprintEagle", "FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-085CS_1R"])
+    tags.append(["footprintEagle", "FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-085CS_1AW"])
+    tags.append(["footprintEagle", "FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-085CS_1AR"])
+    if "RES" in oompType:
+        tags.append(["footprintEagle", "FOOTPRINT-eagle-SparkFun-Eagle-Libraries-SparkFun-Resistors-0805"])
+        tags.append(["footprintEagle", "FOOTPRINT-eagle-SparkFun-Eagle-Libraries-SparkFun-Resistors-0805-ARV"])
+        tags.append(["footprintEagle", "FOOTPRINT-eagle-SparkFun-Eagle-Libraries-SparkFun-Resistors-0805"])
+    if "CAP" in oompType:
+        tags.append(["footprintEagle", "FOOTPRINT-eagle-SparkFun-Eagle-Libraries-SparkFun-Capacitors-0805"])
+    tags.append(["footprintEagle", "FOOTPRINT-eagle-Pimoroni-Eagle-Library-pimoroni-rc-0805_SENSE"])
+    tags.append(["footprintEagle", "FOOTPRINT-eagle-Pimoroni-Eagle-Library-pimoroni-rc-0805"])
+    for tag in tags:
+        part.addTag(tag[0],tag[1],noDuplicate=True)
+    tags = []
+    tags.append(["footprintKicad", "FOOTPRINT-kicad-kicad-footprints-Capacitor_SMD-C_0805_2012Metric"])
+    tags.append(["footprintKicad", "FOOTPRINT-kicad-kicad-footprints-Capacitor_SMD-C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"])
+    for tag in tags:
+        part.addTag(tag[0],tag[1],noDuplicate=True)
+
+
+def addHEAD01(part,dict):
+    oompDesc = part.getTag("oompDesc").value
+    pinss = oompDesc.replace("PI","")
+    newPart = part
+    if pinss.isnumeric():
+        ###### FOOTPRINTS
+        newPart.addTag("kicadSymbol","SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + pinss + "_Male")
+        ##newPart.addTag("kicadFootprint","Connector_PinHeader_2.54mm/PinHeader_1x" + pinss + "_P2.54mm_Vertical")
+        ######  Sparkfun footprints
+        sparkfunStyles = ["", "_BIG", "_LOCK", "_LOCK_LONGPADS", "_NO_SILK", "_PP_HOLES_ONLY"]
+        for style in sparkfunStyles: 
+            imageFile = "oomlout_OOMP_eda/footprints/eagle/SparkFun-Eagle-Libraries/Sparkfun-Connectors/1X" + pinss + style + "/image.png"
+            #print("Image File: " + imageFile)
+            if os.path.isfile(imageFile):
+                newPart.addTag("footprintEagle","SparkFun-Eagle-Libraries-Sparkfun-Connectors-1X" + pinss + style)
+        
+        
+        adafruitStyles = ["", "-CLEANBIG", "-BIGLOCK", "-CLEAN", "-LOCK", "-CB"]
+        for style in adafruitStyles: 
+            imageFile = "oomlout_OOMP_eda/footprints/eagle/Adafruit-Eagle-Library/adafruit/1X" + pinss + style + "/image.png"
+            #print("Image File: " + imageFile)
+            if os.path.isfile(imageFile):
+                newPart.addTag("footprintEagle","FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-1X" + pinss + style)
+        
+        
+        pimoroniStyles = ["","-0.1&quot;-CASTELLATED-BCREAM", "-0.1&quot;-CASTELLATED-BIGGER-ROUNDED", "-0.1&quot;-CASTELLATED-BIGGER", "-0.1&quot;-CASTELLATED", "-LOCK-MALE", "-CB","_LONGPADS"]
+        for style in pimoroniStyles: 
+            imageFile = "oomlout_OOMP_eda/footprints/eagle/Pimoroni-Eagle-Library/pimoroni-headers/1X" + pinss.replace("0","") + style + "/image.png"
+            #print("Image File: " + imageFile)
+            if os.path.isfile(imageFile):
+                newPart.addTag("footprintEagle","FOOTPRINT-eagle-Pimoroni-Eagle-Library-pimoroni-headers-1" + pinss + style)
+        
+        newPart.addTag("footprintKicad","kicad-footprints/Connector_PinHeader_2.54mm/PinHeader_1x" + pinss + "_P2.54mm_Vertical")
+        
+
+
+
+
+##################################################################################
+##########################  Parts
 
 def matchParts(project):
     global PART, VALUE, DEVICE, PACAKGE, DESC, BOM
@@ -93,6 +207,7 @@ def matchParts(project):
 
 
     project.exportTags("detailsPartsOomp",["oompParts"])    
+
 
 
 
@@ -464,19 +579,17 @@ def matchDesc(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
         ######  Capacitors
         if "UF" in partDict["VALUE"].upper() or partDict["VALUE"].upper().endswith("U"):
             ###### full uf
-            for x in range(1,99):
+            for x in range(11,99):
                 test = str(x/10)
                 if test == partDict["VALUENUMBER"]:
-                    if x == 10:
-                        return "UF" + str(int(x/10))            
                     return "UF" + str(x) + "D"            
             for x in range(1,999):
                 test = str(x)
                 if test == partDict["VALUENUMBER"]:
                     return "UF" + str(x)
         if "PF" in partDict["VALUE"].upper():
-            ###### full uf
-            for x in range(1,99):
+            ###### full PF
+            for x in range(11,99):
                 test = str(x/10)
                 if test == partDict["VALUENUMBER"]:
                     return "PF" + str(x) + "D"
@@ -485,11 +598,11 @@ def matchDesc(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
                 if test == partDict["VALUENUMBER"]:
                     return "PF" + str(x)
         if "NF" in partDict["VALUE"].upper():
-            for x in range(1,99):
+            for x in range(11,99):
                 test = str(x/10)
                 if test == partDict["VALUENUMBER"]:
                     return "PF" + str(x) + "D"        
-            ###### full uf
+            ###### full NF
             for x in range(1,999):
                 test = str(x)
                 if test == partDict["VALUENUMBER"]:
