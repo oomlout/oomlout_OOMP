@@ -672,7 +672,7 @@ def captureKicadSymbol(item, overwrite = False):
             oomDelay(5)
 
 def exportKicadSymbol(filename,type):
-    
+    oomMouseClick(pos=kicadFootprintFirstResult, delay=5)    
     oomSendAltKey("f",delay=2)
     oomSend("e",delay=2)
     down = 0
