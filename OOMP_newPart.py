@@ -3,12 +3,12 @@ from oomBase import *
 
 
 
-type = "VREG"
-size = "SO235"
+type = "SERV"
+size = "ST"
 color = "X"
-desc = "KMIC5205"
-index = "V5"
-hexID = "V235MIC52055"
+desc = "STAN"
+index = "01"
+hexID = "SV"
 
 oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
 

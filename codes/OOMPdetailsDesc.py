@@ -3049,6 +3049,7 @@ OOMP.oompAddDetail(category="desc",code="KMIC5225",name="MIC5225")
 OOMP.oompAddDetail(category="desc",code="KMIC5205",name="MIC5205")
 OOMP.oompAddDetail(category="desc",code="KLP298XS",name="LP298XS")
 OOMP.oompAddDetail(category="desc",code="KAP2112K",name="AP2112K")
+OOMP.oompAddDetail(category="desc",code="KXC6206",name="XC6206")
 
 ###### DIODES
 OOMP.oompAddDetail(category="desc",code="K4184",name="MNAOD4184A")
