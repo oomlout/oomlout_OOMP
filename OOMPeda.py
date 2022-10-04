@@ -661,7 +661,7 @@ def captureKicadSymbol(item, overwrite = False):
             oomSendCtrl("a")
             oomDelay(1)
             oomSendDelete(delay=1)
-            oomSend(name.replace("+","{+}") + " " + file,delay=2)
+            oomSend(name + " " + file,delay=2)
             oomSendEnter(delay=3)
             oomMouseClick(pos=kicadFootprintFirstResult, delay=0.1)
             oomMouseClick(pos=kicadFootprintFirstResult, delay=5)
@@ -682,7 +682,7 @@ def exportKicadSymbol(filename,type):
         down = 2
     oomSendDown(times=down,delay=2)
     oomSendEnter(delay=2)
-    oomSend(filename.replace("/","\\").replace("+","{+}"), delay=2)
+    oomSend(filename.replace("/","\\"), delay=2)
     oomSendEnter(delay=2)
     if type == "kicad_sym":
         oomSendEnter(delay=2)
