@@ -432,7 +432,7 @@ class oompItem:
             if oompType == 'FOOTPRINT':
                 rv = "oomlout_OOMP_eda/" + oompType + "/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
             elif oompType == "SYMBOL":
-                rv = "oomlout_OOMP_eda/" + oompType + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
+                rv = "oomlout_OOMP_eda/" + oompType + "/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
             elif oompType == "PROJ":
                 rv = "oomlout_OOMP_projects/"  + oompID + "/" 
             else:
