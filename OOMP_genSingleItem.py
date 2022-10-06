@@ -33,7 +33,7 @@ item = OOMP.getPartByID("HEAD-I01-X-PI02-01")
 #item = OOMP.getPartByID("BUTA-06-X-STAN-01")
 #C:\GH\oomlout_OOMP\oomlout_OOMP_parts\HEAD-I01-X-PI18-01
 #item = OOMP.getPartByID("CAPC-0603-X-NF100-V50")
-#item = OOMP.getPartByID("PROJ-ADAF-4711-STAN-01")
+item = OOMP.getPartByID("PROJ-ADAF-1231-STAN-01")
 #C:\GH\oomlout_OOMP\oomlout_OOMP_projects\PROJ-ADAF-1032-STAN-01
 #item = OOMP.getPartByID("FOOTPRINT-eagle-eagle-default-atmel-SO24W")
 #C:\GH\oomlout_OOMP\oomlout_OOMP_eda\footprints\eagle\eagle-default\atmel\SO24W

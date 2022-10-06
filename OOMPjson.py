@@ -7,9 +7,12 @@ def generateJson(item,overwrite):
     oompID = item.getTag("oompID").value
     name = item.getTag("name").value
     index = item.getTag("index").value
-    item.removeTag("index") 
+
     item.addTag("oompID", oompID)
     item.addTag("name", name)
+    removes = ["index","oompIDslashes"]
+    for remove in removes:
+        item.removeTag(remove) 
     jsonFile = item.getFolder() + "json.json"
     if not "TEMPLATE" in oompID and (not os.path.isfile(jsonFile) or overwrite):
         jsonText = json.dumps(item,default=lambda o: o.__dict__, sort_keys=True, indent=4)
