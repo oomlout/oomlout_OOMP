@@ -360,11 +360,14 @@ def addOompPartTable(mdFile,item):
         p = u
         part = OOMP.getPartByID(p)
         id = part.getID()
+        if "VREG-" in u:
+            pass
         if id == "----":
             v = u + "<BR>" + identifier
         else:
             name = part.getTag("name").value
             #text = mdGetImage(part.getFilename("image",extension="png", resolution="140",relative="githubweb"),alt=id) + " " + id + " " + name
+
             text = u + "<br> " + name + "<br> " + identifier
             link = part.getFilename("",relative="github")
             v = mdGetLink(text,link)
