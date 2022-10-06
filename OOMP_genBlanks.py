@@ -19,6 +19,7 @@ OOMP.getItems("load",cache=False)
 
 
 filter = "all"
+
 #filter = "nofootprints"
 #filter = "footprints"
 #filter = "symbols"

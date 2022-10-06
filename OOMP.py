@@ -430,18 +430,18 @@ class oompItem:
         oompID = self.getTag("oompID").value.replace(":","-")
         if style == "":
             if oompType == 'FOOTPRINT':
-                rv = "oomlout_OOMP_eda/footprints/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
+                rv = "oomlout_OOMP_eda/" + oompType + "/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
             elif oompType == "SYMBOL":
-                rv = "oomlout_OOMP_eda/symbols/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
+                rv = "oomlout_OOMP_eda/" + oompType + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
             elif oompType == "PROJ":
                 rv = "oomlout_OOMP_projects/"  + oompID + "/" 
             else:
                 rv = "oomlout_OOMP_parts/"  + oompID + "/" 
         elif style == "github":
             if oompType == "FOOTPRINT":
-                rv = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
+                rv = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/" + oompType + "/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
             elif oompType == "SYMBOL":
-                rv = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/symbols/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
+                rv = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/" + oompType + "/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
             elif oompType == "PROJ":
                 rv = "https://github.com/oomlout/oomlout_OOMP_projects/tree/main/"  + oompID + "/" 
             else:
@@ -477,24 +477,27 @@ class oompItem:
             base = baseDir + self.getFolder()
         elif relative.lower() == "github": ## relative to c
             oompID = self.getTag("oompID").value
-            if "FOOTPRINT" in oompID:
-                base = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/" + oompID + "/"
+            if "FOOTPRINT" in oompID or "SYMBOL" in oompID:
+                oompID = self.getTag("oompIDslashes").value
+                base = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/" + oompID + "/"
             elif "PROJ" in oompID:
                 base = "https://github.com/oomlout/oomlout_OOMP_projects/tree/main/" + oompID + "/"
             else:    
                 base = "https://github.com/oomlout/oomlout_OOMP_parts/tree/main/" + oompID + "/"
         elif relative.lower() == "githubweb": ## relative to c
             oompID = self.getTag("oompID").value
-            if "FOOTPRINT" in oompID:
-                base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_eda/blob/main/footprints/" + oompID + "/"
+            if "FOOTPRINT" in oompID  or "SYMBOL" in oompID:
+                oompID = self.getTag("oompIDslashes").value
+                base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_eda/blob/main/" + oompID + "/"
             elif "PROJ" in oompID:
                 base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_projects/blob/main/" + oompID + "/"
             else:    
                 base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_parts/blob/main/" + oompID + "/"
         elif relative.lower() == "githubraw": ## relative to c
             oompID = self.getTag("oompID").value
-            if "FOOTPRINT" in oompID:
-                base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/footprints/" + oompID + "/"
+            if "FOOTPRINT" in oompID or "SYMBOL" in oompID:
+                oompID = self.getTag("oompIDslashes").value
+                base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/" + oompID + "/"
             elif "PROJ" in oompID:
                 base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_projects/main/" + oompID + "/"
             else:    
@@ -860,6 +863,17 @@ class oompItem:
                 id = self.getTag("oompType").value + "-" +  self.getTag("oompSize").value + "-" +  self.getTag("oompColor").value + "-" +  self.getTag("oompDesc").value + "-" +  self.getTag("oompIndex").value
                 self.addTag("oompID",id)
                 return(oompTag("oompID", id))
+        if name.lower() == "oompidslashes":
+            id = ""
+            for x in self.tags:
+                if x.name.lower() == "oompidslashes":
+                    id = x
+                if id != "":
+                    return id
+            else:
+                id = self.getTag("oompType").value + "/" +  self.getTag("oompSize").value + "/" +  self.getTag("oompColor").value + "/" +  self.getTag("oompDesc").value + "/" +  self.getTag("oompIndex").value
+                self.addTag("oompIDslashes",id)
+                return(oompTag("oompIDslashes", id))
         elif name == "taxaID":
             id = self.getTag("taxaDomain").value.upper() + "-" + self.getTag("taxaKingdom").value.upper() + "-" + self.getTag("taxaDivision").value.upper() + "-" + self.getTag("taxaClass").value.upper() + "-" + self.getTag("taxaOrder").value.upper() + "-" + self.getTag("taxaFamily").value.upper() + "-" + self.getTag("taxaGenus").value.upper() + "-" + self.getTag("taxaSpecies").value.upper()
             return(oompTag("oompID", id))
@@ -900,7 +914,7 @@ class oompItem:
             else:
                 return self.getTag("namename")
         elif name == "footprintFolder":
-            folder = getDir("eda") + "footprints/" + self.getTag("oompSize").value + "/" +  self.getTag("oompColor").value + "/" + self.getTag("oompDesc").value +"/" + self.getTag("oompIndex").value + "/"
+            folder = getDir("eda") + self.getTag("oompSize").value + "/" + self.getTag("oompSize").value + "/" +  self.getTag("oompColor").value + "/" + self.getTag("oompDesc").value +"/" + self.getTag("oompIndex").value + "/"
             return(oompTag("footprintFolder",folder))
             
 

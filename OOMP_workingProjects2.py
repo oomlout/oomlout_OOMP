@@ -20,8 +20,8 @@ interactiveBomImages = False
 partsHarvest = False
 matchParts = False
 loadInstances = False
-pcbDraw = True
-matchFootprints = False
+pcbDraw = False
+matchFootprints = True
 
 filter="projects"
 #filter="projects"
@@ -32,7 +32,8 @@ project =OOMP.getPartByID("PROJ-ADAF-1032-STAN-01")
 #project =OOMP.getPartByID("PROJ-ADAF-3382-STAN-01")
 #project =OOMP.getPartByID("PROJ-SPAR-10103-STAN-01")
 #project =OOMP.getPartByID("PROJ-SPAR-10616-STAN-01")
-#OOMPprojectLaunch.doTask(project=project,overwrite=overwrite,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,interactiveBomImages=interactiveBomImages,partsHarvest=partsHarvest,matchParts=matchParts,loadInstances=loadInstances,pcbDraw=pcbDraw,matchFootprints=matchFootprints)
+
+OOMPprojectLaunch.doTask(project=project,overwrite=overwrite,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,interactiveBomImages=interactiveBomImages,partsHarvest=partsHarvest,matchParts=matchParts,loadInstances=loadInstances,pcbDraw=pcbDraw,matchFootprints=matchFootprints)
 
 
 

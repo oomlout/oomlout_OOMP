@@ -25,7 +25,7 @@ def doTasks(overwrite =False,filter="projects",eagleToKicad=False,kicadProcess=F
     if matchFootprints:
         for part in OOMP.getItems("parts"):
             OOMPprojectParts.matchFootprint(part)
-            part.exportTags("detailsFootprintsOomp",["footprintEagle","footprintKicad"]) 
+            part.exportTags("detailsFootprintsOomp",["footprintEagle","footprintKicad","symbolKicad"]) 
 
 
 """

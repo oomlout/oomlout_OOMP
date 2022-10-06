@@ -9,9 +9,10 @@ def addTags(newPart,filter,pins=0,pitch=0,hexID=None,oompType=None,oompSize=None
         footprintHex = getFootprintHex(filter)    
         newPart.addTag("hexID",footprintHex)  
     elif("RESE-0603" in filter):
-        newPart.addTag("footprintEagle","Adafruit-Eagle-Library/adafruit/R0603")  
-        newPart.addTag("footprintKicad","kicad-footprints/Resistor_SMD/R_0603_1608Metric_Pad0.98x0.95mm_HandSolder")  
-        newPart.addTag("footprintKicad","kicad-footprints/Resistor_SMD/R_0603_1608Metric")  
+        pass
+        #newPart.addTag("footprintEagle","Adafruit-Eagle-Library/adafruit/R0603")  
+        #newPart.addTag("footprintKicad","kicad-footprints/Resistor_SMD/R_0603_1608Metric_Pad0.98x0.95mm_HandSolder")  
+        #newPart.addTag("footprintKicad","kicad-footprints/Resistor_SMD/R_0603_1608Metric")  
     elif(filter == "HEAD-I01-X-X-X"):
         pinss = "{:02d}".format(pins)
         newPart.addTag("oompType", "HEAD")
@@ -43,11 +44,11 @@ def addTags(newPart,filter,pins=0,pitch=0,hexID=None,oompType=None,oompSize=None
         newPart.addTag("oompSimp","variable;pins;" + str(pins) )
         newPart.addTag("oompSimp","template;XXXX-I01-X-XX-01-simp")
         newPart.addTag("ooNumPins",str(pins))
-        newPart.addTag("ooFootprint","OOMP-HEAD-I01-X-PI" + pinss + "-01")
+        #newPart.addTag("ooFootprint","OOMP-HEAD-I01-X-PI" + pinss + "-01")
 
         newPart.addTag("ooDesignator","J1")
         newPart.addTag("schematicSymbol","HEAD-XX-X-PI" + pinss + "-XX")
-        newPart.addTag("pcbFootprint","HEAD-I01-X-PI" + pinss + "-01")
+        #newPart.addTag("pcbFootprint","HEAD-I01-X-PI" + pinss + "-01")
         """
         ###### FOOTPRINTS
         newPart.addTag("kicadSymbol","Connector/Conn_01x" + pinss + "_Male")

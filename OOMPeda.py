@@ -515,16 +515,16 @@ def copyEagleSourceFile(footprint, owner,libraryFile,overwrite=False):
 
 
 def getKicadFootprintFolder(footprint,owner):
-    return "oomlout_OOMP_eda/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-") + "/"
+    return "oomlout_OOMP_eda/FOOTPRINT/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-") + "/"
 
 def getKicadSymbolFolder(footprint,owner):
-    return "oomlout_OOMP_eda/symbols/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-") + "/"
+    return "oomlout_OOMP_eda/SYMBOL/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-") + "/"
 
 def getEagleFootprintFolder(footprint,owner):
-    return"oomlout_OOMP_eda/footprints/eagle/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-").replace(":","-") + "/"
+    return"oomlout_OOMP_eda/FOOTPRINT/eagle/" + owner + "/" +  footprint[1].replace(".pretty","") + "/"  + footprint[0].replace("/","-").replace(":","-") + "/"
 
 def captureKicadFootprint(footprint, owner, overwrite = False):
-    oompDirectory = OOMP.getDir("eda",base=True,) + "/footprints/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/" 
+    oompDirectory = OOMP.getDir("eda",base=True,) + "/FOOTPRINT/kicad/" + owner + "/" +  footprint[1].replace(".pretty","") + "/" 
     oompDirectory=oompDirectory.replace("//","/")
     oompDirectoryZ = oompDirectory + "zoom/"
 
@@ -703,7 +703,7 @@ def exportKicadSymbol(filename,type):
 ## Add locally (if doing a default one then need to switch name tab to 9 from 8)
 def captureEagleFootprint(footprint, owner, overwrite=False,libraryName=""):
     if True: 
-        oompDirectory = "oomlout_OOMP_eda/footprints/eagle/" + owner + "/"  +  footprint[1] + "/" 
+        oompDirectory = "oomlout_OOMP_eda/FOOTPRINT/eagle/" + owner + "/"  +  footprint[1] + "/" 
         oompFileNameZ1 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ1.png"
         oompFileNameZ2 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ2.png"
         oompFileNameZ3 = oompDirectory + "" + footprint[0].replace("/","-").replace(":",";") + "/zoom/imageZ3.png"

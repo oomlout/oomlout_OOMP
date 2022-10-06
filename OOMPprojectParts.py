@@ -83,6 +83,9 @@ def matchFootprintsR(project,overwrite=False):
     ###### remove tags before starting
     for c in range(0,100):
         project.removeTag("footprintEagle")
+        project.removeTag("footprintKicad")        
+        project.removeTag("symbolKicad")        
+        project.removeTag("symbolEagle")
     parts = project.getTags("allParts")
     for part in parts:
         p = part.value.split(",")
@@ -99,16 +102,35 @@ def matchFootprintsR(project,overwrite=False):
         matchFootprint(project,oompPart,dict)
 
 def matchFootprint(part):
+    for c in range(0,100):
+        part.removeTag("footprintEagle")
+        part.removeTag("footprintKicad")        
+        part.removeTag("symbolKicad")        
+        part.removeTag("symbolEagle")
     dict = {}
     #projectID = project.getID()
     oompID = part.getID()
+    oompType = part.getTag("oompType").value
     oompSize = part.getTag("oompSize").value
+    oompColor = part.getTag("oompColor").value
+    oompDesc = part.getTag("oompDesc").value
+    oompIndex = part.getTag("oompIndex").value
     print("Matching Footprint for: " + "  " + oompID)
     if oompID != "----":
-        if "HEAD-I01" in oompID:
+        if oompType == "HEAD":
+            addHEADSymbols(part,dict)        
+        if "HEAD-I01" in oompID and oompIndex == "01":
             addHEAD01(part,dict)
+        if "HEAD-I01" in oompID and oompIndex =="SHRO":
+            addHEAD01SHRO(part,dict)
+        if "HEAD-JSTXH" in oompID and oompIndex == "01":
+            addHEADJSTXH(part,dict)
         if oompSize == "0805":
             add0805(part,dict)
+        if oompType == "TERS":
+            addTERSSymbols(part,dict)
+        if "TERS-35D-" in oompID:
+            addTERS35D(part,dict)
 
     else:
         "    SKIPPING"
@@ -152,26 +174,52 @@ def add0805(part,dict):
         part.addTag(tag[0],tag[1],noDuplicate=True)
 
 
+
+def addHEADSymbols(part,dict):
+    newPart = part
+    oompDesc = part.getTag("oompDesc").value
+    pinss = oompDesc.replace("PI2X","")
+    pinss = pinss.replace("PI","")
+    if pinss.isnumeric():
+        if "PI2X" in oompDesc:
+                ###### FOOTPRINTS
+                symbols = []
+                symbols.append("SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + pinss*2 + "_Male")
+                symbols.append("SYMBOL-kicad-kicad-symbols-Connector-DIN41612_02x" + pinss + "_AB")
+                base = "SYMBOL-kicad-kicad-symbols-Connector-Conn_02x" + pinss
+                symbols.append(base  + "_Row_Letter_First")
+                symbols.append(base  + "_Row_Letter_Last")
+                symbols.append(base  + "_Counter_Clockwise")
+                symbols.append(base  + "_Odd_Even")
+                symbols.append(base  + "_Top_Bottom")
+                for symbol in symbols:
+                    ###### TODO add a check for existance
+                    newPart.addTag("symbolKicad",symbol)
+        else:
+            newPart.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + pinss + "_Male")
+            newPart.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Connector_Generic-Conn_01x" + pinss + "")
+
+
+
 def addHEAD01(part,dict):
     oompDesc = part.getTag("oompDesc").value
     pinss = oompDesc.replace("PI","")
     newPart = part
     if pinss.isnumeric():
         ###### FOOTPRINTS
-        newPart.addTag("kicadSymbol","SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + pinss + "_Male")
         ##newPart.addTag("kicadFootprint","Connector_PinHeader_2.54mm/PinHeader_1x" + pinss + "_P2.54mm_Vertical")
         ######  Sparkfun footprints
         sparkfunStyles = ["", "_BIG", "_LOCK", "_LOCK_LONGPADS", "_NO_SILK", "_PP_HOLES_ONLY"]
         for style in sparkfunStyles: 
-            imageFile = "oomlout_OOMP_eda/footprints/eagle/SparkFun-Eagle-Libraries/Sparkfun-Connectors/1X" + pinss + style + "/image.png"
+            imageFile = "oomlout_OOMP_eda/FOOTPRINT/eagle/SparkFun-Eagle-Libraries/Sparkfun-Connectors/1X" + pinss + style + "/image.png"
             #print("Image File: " + imageFile)
             if os.path.isfile(imageFile):
-                newPart.addTag("footprintEagle","SparkFun-Eagle-Libraries-Sparkfun-Connectors-1X" + pinss + style)
+                newPart.addTag("footprintEagle","FOOTPRINT-eagle-SparkFun-Eagle-Libraries-Sparkfun-Connectors-1X" + pinss + style)
         
         
         adafruitStyles = ["", "-CLEANBIG", "-BIGLOCK", "-CLEAN", "-LOCK", "-CB"]
         for style in adafruitStyles: 
-            imageFile = "oomlout_OOMP_eda/footprints/eagle/Adafruit-Eagle-Library/adafruit/1X" + pinss + style + "/image.png"
+            imageFile = "oomlout_OOMP_eda/FOOTPRINT/eagle/Adafruit-Eagle-Library/adafruit/1X" + pinss + style + "/image.png"
             #print("Image File: " + imageFile)
             if os.path.isfile(imageFile):
                 newPart.addTag("footprintEagle","FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-1X" + pinss + style)
@@ -179,16 +227,69 @@ def addHEAD01(part,dict):
         
         pimoroniStyles = ["","-0.1&quot;-CASTELLATED-BCREAM", "-0.1&quot;-CASTELLATED-BIGGER-ROUNDED", "-0.1&quot;-CASTELLATED-BIGGER", "-0.1&quot;-CASTELLATED", "-LOCK-MALE", "-CB","_LONGPADS"]
         for style in pimoroniStyles: 
-            imageFile = "oomlout_OOMP_eda/footprints/eagle/Pimoroni-Eagle-Library/pimoroni-headers/1X" + pinss.replace("0","") + style + "/image.png"
+            imageFile = "oomlout_OOMP_eda/FOOTPRINT/eagle/Pimoroni-Eagle-Library/pimoroni-headers/1X" + pinss.replace("0","") + style + "/image.png"
             #print("Image File: " + imageFile)
             if os.path.isfile(imageFile):
                 newPart.addTag("footprintEagle","FOOTPRINT-eagle-Pimoroni-Eagle-Library-pimoroni-headers-1" + pinss + style)
         
-        newPart.addTag("footprintKicad","kicad-footprints/Connector_PinHeader_2.54mm/PinHeader_1x" + pinss + "_P2.54mm_Vertical")
+        newPart.addTag("footprintKicad","FOOTPRINT-kicad-kicad-footprints-Connector_PinHeader_2.54mm-PinHeader_1x" + pinss + "_P2.54mm_Vertical")
         
 
+def addHEAD01SHRO(part,dict):
+    oompDesc = part.getTag("oompDesc").value
+    pinss = oompDesc.replace("PI2X","")
+    newPart = part
+    if pinss.isnumeric():
+        footprints = []
+        base = "FOOTPRINT-kicad-kicad-footprints-Connector_IDC-IDC-Header_2x" + pinss
+        footprints.append(base + "_P2.54mm_Horizontal")
+        footprints.append(base + "_P2.54mm_Vertical")
 
 
+        for footprint in footprints:
+            newPart.addTag("footprintKicad",footprint)
+
+def addHEADJSTXH(part,dict):
+    oompDesc = part.getTag("oompDesc").value
+    pinss = oompDesc.replace("PI","")
+    newPart = part
+    if pinss.isnumeric():
+        footprints = []
+        #FOOTPRINT-kicad-kicad-footprints-Connector_JST-JST_XH_B10B-XH-AM_1x10_P2.50mm_Vertical
+        base = "FOOTPRINT-kicad-kicad-footprints-Connector_JST-JST_XH_B" + str(int(pinss)) + "B-XH-AM_1x" + pinss
+        footprints.append(base + "_P2.50mm_Vertical")
+        base = "FOOTPRINT-kicad-kicad-footprints-Connector_JST-JST_XH_B" + str(int(pinss)) + "B-XH-A_1x" + pinss
+        footprints.append(base + "_P2.50mm_Vertical")
+
+
+        for footprint in footprints:
+            newPart.addTag("footprintKicad",footprint)
+
+
+def addTERSSymbols(part,dict):
+    oompDesc = part.getTag("oompDesc").value
+    pinss = oompDesc.replace("PI","")
+    newPart = part
+    if pinss.isnumeric():
+        ###### FOOTPRINTS
+        symbols = []
+        base = "SYMBOL-kicad-kicad-symbols-Connector-Screw_Terminal_01x" + pinss
+        symbols.append(base)
+        for symbol in symbols:
+            ###### TODO add a check for existance
+            newPart.addTag("symbolKicad",symbol)
+
+def addTERS35D(part,dict):
+    oompDesc = part.getTag("oompDesc").value
+    pinss = oompDesc.replace("PI","")
+    newPart = part
+    if pinss.isnumeric():
+        footprints = []
+        base = "FOOTPRINT-kicad-kicad-footprints-TerminalBlock_4Ucon-TerminalBlock_4Ucon_1x" + pinss
+        footprints.append(base + "_P3.50mm_Vertical")
+    
+        for footprint in footprints:
+            newPart.addTag("footprintKicad",footprint)  
 
 ##################################################################################
 ##########################  Parts

@@ -53,3 +53,6 @@ OOMP.oompAddDetail(category="index",code="WS2811",name="(WS2811)")
 OOMP.oompAddDetail(category="index",code="TC3590",name="(3590)")
 
 ###### Project ones
+
+######  Headers
+OOMP.oompAddDetail(category="index",code="SHRO",name="Shrouded (IDC)")

@@ -165,32 +165,14 @@ def generateReadmePart(item,mdFile):
     ###### EDA
     mdFile.new_header(level=2, title="EDA")
     ######  Footprints    
-    images = []
-    imageName = []
-    footprints = []    
-    footprintTags = [['footprintKicad',"kicad"],['footprintEagle','eagle']]        
-    for type in footprintTags:
-        tags = item.getTags(type[0])   
-        
-        for tag in tags:
-            footprint = tag.value            
-            if footprint != "":                    
-                #print("Footprint:" + footprint)
-                linkPath = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/"+ type[1] + "/" + footprint + "/"
-                #https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/footprints/kicad/kicad-footprints/Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical/image.png
-                imagePath="https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/footprints/"+ type[1] + "/" + footprint + "/image_140.png"
-                name = type[1] + "/" + footprint
-                footprints.append(mdGetImage(image=imagePath,alt=name) + "<br> " + mdGetLink(text=name,link=linkPath))
-                #mdFile.new_line(mdFile.new_inline_link(text=footprint,link=linkPath))
-                #mdFile.new_line(mdFile.new_inline_image(text=footprint,path=imagePath))
-    if len(footprints) > 0:
-        mdFile.new_header(level=3, title="Footprints")
-        addDisplayTable(mdFile,footprints,4)            
+    footprintTags = ['footprintEagle','footprintKicad']        
+    addFootprintTable(mdFile,item,footprintTags,"Footprints")
+    ######  Symbols      
+    footprintTags = ['symbolEagle','symbolKicad']       
+    addFootprintTable(mdFile,item,footprintTags,"Symbols")    
     ###### Instances
     instances = item.getTags("oompInstances")
     if len(instances) > 1:
-
-        mdFile.new_header(level=3, title="Instances")
         addOompInstanceTable(mdFile,item)
 
 
@@ -198,22 +180,7 @@ def generateReadmePart(item,mdFile):
     #baseName = ""
     #title='Footprints'
     #addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir="")   
-    ######  Symbols      
-    mdFile.new_header(level=3, title="Symbols")
-    images = []
-    imageName = []
-    footprintTags = ['kicadSymbol','eagleSymbol','sparkfunSymbol','adafruitSymbol']        
-    for tag in footprintTags:
-        footprint = item.getTag(tag).value            
-        if footprint != "":
-            #print("Footprint:" + footprint)
-            images.append("/eda/symbols/" + tag.replace("Symbol","") + "/" + footprint)
-            imageName.append(tag + " " + footprint)
-    extension = ".png"
-    baseName = ""
-    title='Footprints'
-    addOompTable(mdFile,images,imageName,baseName,extension,title,baseDir="")   
-
+    
 
 #####################################################################################
 ####################################################################################
@@ -290,7 +257,8 @@ def addTags(item,mdFile):
 
 
 def addOompInstanceTable(mdFile,item):
-    mdFile.new_line()
+    mdFile.new_line()    
+    mdFile.new_header(level=3, title="Instances")
 
 
     tags = item.getTags("oompInstances")
@@ -341,6 +309,32 @@ def addOompInstanceTable(mdFile,item):
 
     mdFile.new_table(columns=columns, rows=rows, text=cells, text_align='center')                           
 
+
+def addFootprintTable(mdFile,item,footprintTags,nam):
+    footprints = []        
+    for type in footprintTags:
+        tags = item.getTags(type)   
+        for tag in tags:
+            footprint = tag.value            
+            if footprint != "":                    
+                #print("Footprint:" + footprint)
+                foot = OOMP.getPartByID(footprint)
+                linkPath = foot.getFilename("",relative="github")
+                #https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/FOOTPRINT/eagle/SparkFun-Eagle-Libraries/Sparkfun-Connectors/1X02/
+                #https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/eagle/SparkFun-Eagle-Libraries/Sparkfun-Connectors/1X02/
+                #linkPath = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/"+ type[1] + "/" + footprint + "/"
+                #https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/footprints/kicad/kicad-footprints/Connector_PinHeader_2.54mm/PinHeader_1x03_P2.54mm_Vertical/image.png
+                #imagePath="https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/footprints/"+ type[1] + "/" + footprint + "/image_140.png"
+                imagePath = foot.getFilename("image",resolution="140",relative="githubraw")
+                name = foot.getID()
+                footprints.append(mdGetLink(text=mdGetImage(image=imagePath,alt=name) + "<br> " + name,link=linkPath))
+                #https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/FOOTPRINT/eagle/SparkFun-Eagle-Libraries/Sparkfun-Connectors/1X02/image_140.png
+                #https://github.com/oomlout/oomlout_OOMP_eda/tree/main/footprints/eagle/SparkFun-Eagle-Libraries/Sparkfun-Connectors/1X02/image_140.png
+                #mdFile.new_line(mdFile.new_inline_link(text=footprint,link=linkPath))
+                #mdFile.new_line(mdFile.new_inline_image(text=footprint,path=imagePath))
+    if len(footprints) > 0:
+        mdFile.new_header(level=3, title=nam)
+        addDisplayTable(mdFile,footprints,4)            
 
 def addOompPartTable(mdFile,item):
     mdFile.new_line()

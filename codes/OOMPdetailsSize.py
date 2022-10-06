@@ -667,6 +667,9 @@ OOMP.oompAddDetail(category="size",code="SZ130",name="130 Size")
 ######  More recent Additions
 OOMP.oompAddDetail(category="size",code="XHP70",name="XHP 70")
 
+######  Headers
+OOMP.oompAddDetail(category="size",code="JSTXH",name="JST XH (2.5 mm)")
+
 ######  Companies for projects
 OOMP.oompAddDetail(category="size",code="ADAF",name="Adafruit")
 OOMP.oompAddDetail(category="size",code="ARDC",name="Compatible Arduino")
