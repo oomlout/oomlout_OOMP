@@ -270,7 +270,7 @@ def addOompInstanceTable(mdFile,item):
     statLine = statLine + "Prevalance: (" + str(count) + "\\" + str(total) + ") " + str(round((count/total)* 100,4)) + "%  \n"
     mdFile.new_line(statLine)
 
-    parts = ["OOMP Instances"]
+    parts = ["Project","Occur-<br>rences","Identifiers"]
     unique = []
     for tag in tags:
         if tag.value["PROJECT"] not in unique:
@@ -287,8 +287,12 @@ def addOompInstanceTable(mdFile,item):
         identifier = identifier[0:len(identifier)-2]
         project = OOMP.getPartByID(p)
         id = project.getID()
-        if id == "----":
+        if id == "----":            
             v = "ERROR " + p + " " + identifier
+            parts.append(p)
+            #parts.append("")
+            parts.append("")
+            parts.append(identifier)
         else:
             name = project.getTag("oompName").value
             if name == "":
@@ -299,15 +303,20 @@ def addOompInstanceTable(mdFile,item):
             text = p + "<br> " + name + " <br>" + "Used " + str(count) + " time" + plural + ".<br>" + identifier
             link = project.getFilename("",relative="github")
             v = mdGetLink(text,link)
+            parts.append(mdGetLink(p + "<br>" + name,link))
+            #parts.append(mdGetLink(name,link))
+            parts.append(mdGetLink(str(count),link))
+            parts.append(mdGetLink(identifier,link))
         #value = getOompPartLine(str(partsTags[c].value))
         if v != "":
-            parts.append(v)
+            pass
+            #parts.append(v)
 
-    columns = 1
-    rows = len(parts)    
+    columns = 3
+    rows = len(parts) /3
     cells = parts
 
-    mdFile.new_table(columns=columns, rows=rows, text=cells, text_align='center')                           
+    mdFile.new_table(columns=columns, rows=int(rows), text=cells, text_align='center')                           
 
 
 def addFootprintTable(mdFile,item,footprintTags,nam):
@@ -341,7 +350,7 @@ def addOompPartTable(mdFile,item):
 
     tags = item.getTags("oompParts")
     rawTags = item.getTags("rawParts")
-    parts = ["OOMP Parts"]
+    parts = ["OOMP ID","Name","Identifier"]
 
     unique = []    
     for tag in tags:
@@ -362,8 +371,11 @@ def addOompPartTable(mdFile,item):
         id = part.getID()
         if "VREG-" in u:
             pass
-        if id == "----":
+        if id == "----":            
             v = u + "<BR>" + identifier
+            parts.append(u)
+            parts.append("")
+            parts.append(identifier)
         else:
             name = part.getTag("name").value
             #text = mdGetImage(part.getFilename("image",extension="png", resolution="140",relative="githubweb"),alt=id) + " " + id + " " + name
@@ -371,15 +383,25 @@ def addOompPartTable(mdFile,item):
             text = u + "<br> " + name + "<br> " + identifier
             link = part.getFilename("",relative="github")
             v = mdGetLink(text,link)
+            parts.append(mdGetLink(u,link))
+            parts.append(mdGetLink(name,link))
+            parts.append(mdGetLink(identifier,link))
+        #value = getOompPartLine(str(partsTags[c].value))
+            #v = "<tr>" + "<td>" + mdGetLink(u,link) + "</td>"  + "<td>" + mdGetLink(name,link) + "</td>"  + "<td>" + mdGetLink(identifier,link) + "</td>" + "</tr>"
         #value = getOompPartLine(str(partsTags[c].value))
         if v != "":
-            parts.append(v)
+            pass
+            #parts.append(v)
 
-    columns = 1
-    rows = len(parts)    
+    columns = 3
+    rows = len(parts)/3    
     cells = parts
 
-    mdFile.new_table(columns=columns, rows=rows, text=cells, text_align='center')                           
+    #mdFile.write("<table>  \n")
+    #for line in parts:
+    #    mdFile.write(line + "  \n")
+    #mdFile.write("</table>  \n")
+    mdFile.new_table(columns=columns, rows=int(rows), text=cells, text_align='center')                           
 
 def getOompPartLine(value):
     rv = ""

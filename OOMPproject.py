@@ -59,6 +59,7 @@ def harvestEagleBoardToKicad(file,directory,overwrite=False):
         oomSendEsc(2)
         oomDelay(15)
         oomMouseClick(pos=kicadFootprintMiddle,delay=2)
+        oomSendEsc(delay=2)
         #fill zones
         oomSend("b",15)
         ######  save board
@@ -73,6 +74,61 @@ def harvestEagleBoardToKicad(file,directory,overwrite=False):
         kicadClosePcb(False)
     else:
         print("        SKIPPING")
+
+
+def harvestEagleSchemToKicad(file,directory,overwrite=False):
+    ######  open kicad launch window and place in topleft corner 
+    # need a blank project loaded 
+    dirKicad =   OOMP.baseDir + directory + "kicad/"
+    oomMakeDir(dirKicad)
+    boardKicad = dirKicad + "schematicKicad.kicad_sch"
+    print(    "HarvestEagleBoardToKicad: " + file)
+    if overwrite or not os.path.exists(boardKicad):
+        oomMouseClick(pos=kicadActive,delay=5)       
+        oomMouseClick(pos=kicadFile,delay=5)       
+        oomSendDown(8,delay=2)
+        oomSendRight(1,delay=2)
+        oomSendDown(1,delay=2)
+        oomSendEnter(delay=5)
+        ###### filedialog box open
+        filename = (OOMP.baseDir + file).replace("/","\\")
+        oomSend(filename,5)
+        oomSendEnter(10)
+        ######  set temp folder
+        tempDir = OOMP.baseDir + "oomlout_OOMP_projects/sourceFiles/tempB/"
+        
+        
+        oomDeleteDirectory(tempDir + "boardEagle.pretty/", safety=False)
+        oomDeleteDirectory(tempDir + "boardEagle-backups/", safety=False)        
+        #oomDeleteDirectory(tempDir, safety=False)
+        oomMakeDir(tempDir)
+        oomSend(tempDir.replace("/","\\"),2)
+        oomSendEnter(5)        
+        oomSendEnter(10)
+        oomSend("y",10)
+        ######  match layers dialog
+        oomSendTab(6,5)
+        oomSendEnter(2)
+        oomSendTab(1,2)
+        oomSendEnter(10)
+        oomSendEsc(2)
+        oomSendEsc(2)
+        oomSendEsc(2)
+        oomDelay(15)
+        oomMouseClick(pos=kicadFootprintMiddle,delay=2)
+
+        ######  save board
+        oomSendAltKey("f",2)
+        oomSendDown(1,delay=2)
+        oomSendEnter(delay=5)
+        oomSend(boardKicad.replace("/","\\").replace("\\\\","\\"),2)
+        oomSendEnter(delay=10)
+        oomSend("y",2)
+        oomSendEnter(delay=2)
+        ###### close project
+        kicadClosePcb(False)
+    else:
+        print("        SKIPPING")        
 
 def kicadClosePcb(noSave=True):
     oomSendAltKey("f",2)

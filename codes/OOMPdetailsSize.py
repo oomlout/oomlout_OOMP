@@ -687,3 +687,6 @@ OOMP.oompAddDetail(category="size",code="PAND8",name="SMD (6.3 mm) (Panasonic D8
 OOMP.oompAddDetail(category="size",code="PANE",name="SMD (8 mm) (Panasonic E)")
 OOMP.oompAddDetail(category="size",code="PANF",name="SMD (8 mm) (Panasonic F)")
 OOMP.oompAddDetail(category="size",code="PANG",name="SMD (10 mm) (Panasonic G)")
+
+######  Project Companies
+OOMP.oompAddDetail(category="size",code="ELLA",name="Electro Lama")
