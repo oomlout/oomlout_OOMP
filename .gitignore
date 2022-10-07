@@ -3,6 +3,8 @@
 # THis is where other repositories can be downloaded to work from ex.footprint libraries
 sourceFiles/
 
+# This is where the the module portion is stored (https://github.com/oomlout/oomlout_OOMP_modules)
+oomlout_OOMP_modules/
 # This is where the eda (footprints and schematic symbols from eagle and CAD) details are stored in a seperate repository (https://github.com/oomlout/oomlout_OOMP_eda)
 oomlout_OOMP_eda/
 # This is where the part details are stored in a seperate repository (https://github.com/oomlout/oomlout_OOMP_parts)

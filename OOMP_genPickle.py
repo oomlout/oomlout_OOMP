@@ -2,7 +2,7 @@ import OOMP
 
 print("Generating Pickle Files:")
 OOMP.loadParts("all")
-OOMP.loadParts("nofootprints")
+#OOMP.loadParts("nofootprints")
 #OOMP.loadParts("parts")
 
 print(OOMP.getReport())

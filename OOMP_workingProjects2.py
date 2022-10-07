@@ -20,7 +20,7 @@ interactiveBomImages = False
 partsHarvest = True
 matchParts = True
 loadInstances = False
-pcbDraw = False
+pcbDraw = True
 matchFootprints = True
 
 filter="projects"

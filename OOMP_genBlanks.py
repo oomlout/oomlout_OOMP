@@ -23,7 +23,7 @@ filter = "all"
 #filter = "nofootprints"
 #filter = "footprints"
 #filter = "symbols"
-#filter="projects"
+filter="projects"
 
 OOMP.getItems("load",cache=False)
 

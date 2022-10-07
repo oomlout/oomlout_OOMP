@@ -430,7 +430,8 @@ def makeInteractiveHtmlBomImages(project,overwrite=False):
     backimageDownload = "C:/Users/aaron/Downloads/boardKicad.B.png" 
     if os.path.exists(filename):
         if not os.path.exists(frontimage) or not os.path.exists(backimage) or not os.path.exists(bom) or overwrite:
-            oomLaunchWebsite(filename)
+            #oomLaunchWebsite(filename)
+            oomLaunchOpen(filename)
             oomDelay(10)
             menuButton = [1160,120]
             frontimagePos = [950,250]
