@@ -81,6 +81,16 @@ def makeAll():
         hexID = "HXH" + str(x)
         makePart(type,size,color,desc,index,hexID)
 
+    
+    ###### ADXL345
+    type = "SENS"
+    size = "LG14"
+    color = "X"
+    desc = "K345"
+    index = "01"
+    hexID = "SEN345"
+
+    makePart(type,size,color,desc,index,hexID)
 
 makeAll()
 #makeOne()
