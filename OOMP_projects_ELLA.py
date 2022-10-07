@@ -18,5 +18,39 @@ def createProjects():
 
     OOMP_projects_BASE.makeProject(d)
 
+    ind = 2
+    rev = "A"
+    d["oompColor"] = str(ind).zfill(4)
+    d["oompIndex"] = rev.zfill(2)
+    d["hexID"] = "PRE" + str(ind)
+    d["name"] = "Zoe Rev " + rev
+    d["gitRepo"] = "https://github.com/electrolama/zoe"
+    d["eagleBoard"] = "/Revision " + rev +"/pi-zigbee-poe-rtc.brd"
+    d["eagleSchem"] = d["eagleBoard"].replace(".brd",".sch")
+    OOMP_projects_BASE.makeProject(d)
+
+    ind = ind
+    rev = "B"
+    d["oompColor"] = str(ind).zfill(4)
+    d["oompIndex"] = rev.zfill(2)
+    d["hexID"] = "PRE" + str(ind)
+    d["name"] = "Zoe Rev " + rev
+    d["gitRepo"] = "https://github.com/electrolama/zoe"
+    d["eagleBoard"] = "/Revision " + rev +"/pi-zigbee-poe-rtc.brd"
+    d["eagleSchem"] = d["eagleBoard"].replace(".brd",".sch")
+    OOMP_projects_BASE.makeProject(d)
+
+    ind = ind
+    rev = "C"
+    d["oompColor"] = str(ind).zfill(4)
+    d["oompIndex"] = rev.zfill(2)
+    d["hexID"] = "PRE" + str(ind)
+    d["name"] = "Zoe Rev " + rev
+    d["gitRepo"] = "https://github.com/electrolama/zoe"
+    d["eagleBoard"] = "/Revision " + rev +"/pi-zigbee-poe-rtc.brd"
+    d["eagleSchem"] = d["eagleBoard"].replace(".brd",".sch")
+    OOMP_projects_BASE.makeProject(d)
 
 
+
+    d["oompIndex"] = "01"

@@ -18,6 +18,8 @@ def harvestEagleBoardToKicad(file,directory,overwrite=False):
     boardKicad = dirKicad + "boardKicad.kicad_pcb"
     print(    "HarvestEagleBoardToKicad: " + file)
     if overwrite or not os.path.exists(boardKicad):
+        oomLaunchKicad()
+        oomDelay(10)
         oomMouseClick(pos=kicadActive,delay=5)       
         oomMouseClick(pos=kicadFile,delay=5)       
         #oomSendAltTab(1,delay=3)
@@ -182,9 +184,19 @@ def harvestEagleSchematicFile(file,directory,overwrite=False):
     #if overwrite or not os.path.exists(pngFile):
     print("Harvesting Eagle Schematic: " + file)
     if overwrite or  (not os.path.exists(partFile) or not os.path.exists(imageFile)):
-        print("    Missing Files")
-        oomMouseClick(pos=kicadActive,delay=5)            
+        oomLaunchEagle(OOMP.baseDir + file)
+        oomDelay(20)
+            
+        oomSendMaximize()
+        oomDelay(2)
+        oomSendMaximize()
+        oomDelay(2)
+        #oomMouseClick(pos=kicadActive,delay=5)            
         oomSendControl("o",delay=5)
+        #oomSendAltKey("f",2)
+        #oomSend("o",1)
+        #oomSend("b",1)
+        
         fullFile = OOMP.baseDir + file
         oomSend(fullFile.replace("/","\\"),delay=3)
         oomSendEnter(2)
@@ -204,6 +216,8 @@ def harvestEagleSchematicFile(file,directory,overwrite=False):
         if overwrite or not os.path.exists(filename):
             print("        " + filename)
             eagleExport(filename,5,overwrite=overwrite)
+
+        oomSendAltKey("x")
         
 
 def harvestEagleBoardFile(file,directory,overwrite=False):
@@ -217,9 +231,20 @@ def harvestEagleBoardFile(file,directory,overwrite=False):
     #if overwrite or not os.path.exists(pngFile):
     print("Harvesting Eagle Board: " + file)
     if overwrite or not (os.path.exists(partFile) or os.path.exists(netFile) or os.path.exists(pinFile) or os.path.exists(imageFile)):
-        print("    Missing Files")
-        oomMouseClick(pos=kicadActive,delay=5)            
+        oomLaunchEagle(OOMP.baseDir + file)
+        oomDelay(20)
+            
+        oomSendMaximize()
+        oomDelay(2)
+        oomSendMaximize()
+        oomDelay(2)
+        #oomMouseClick(pos=kicadActive,delay=5)            
         oomSendControl("o",delay=5)
+        #oomSendAltKey("f",2)
+        #oomSend("o",1)
+        #oomSend("b",1)
+        
+
         fullFile = OOMP.baseDir + file
         oomSend(fullFile.replace("/","\\"),delay=3)
         oomSendEnter(2)
@@ -250,6 +275,9 @@ def harvestEagleBoardFile(file,directory,overwrite=False):
         if overwrite or not os.path.exists(filename):
             print("        " + filename)
             eagleExport(filename,3,overwrite=overwrite)
+
+        #close eagle
+        oomSendAltKey("x")
 
 
 
@@ -395,6 +423,9 @@ def eagleExport(filename,downs,overwrite=False):
             oomSendSpace()
             oomDelay(2)
         oomSend(filename.replace("/","\\"),2)
+        if ".png" in filename:
+            oomSendTab(4,delay=2)
+            oomSend("1200",delay=1)
         oomSendEnter(5)
         if "BOM" in filename:
             oomSendEsc(2)
@@ -439,7 +470,8 @@ def makeInteractiveHtmlBomImages(project,overwrite=False):
             bomPos = [955,410]
             oomDeleteFile(frontimageDownload)
             oomDeleteFile(backimageDownload)
-            oomMouseClick(pos=menuButton,delay=1)
+            oomMouseClick(pos=menuButton,delay=2)
+            oomMouseClick(pos=menuButton,delay=2)
             oomMouseClick(pos=frontimagePos,delay=3)
             oomMouseClick(pos=backimagePos,delay=3)
             oomMouseClick(pos=bomPos,delay=3)

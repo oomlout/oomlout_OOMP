@@ -1,5 +1,6 @@
 import OOMP
 import OOMPproject
+import OOMPprojectParts
 from oomBase import *
 
 ######  Company Files
@@ -52,6 +53,7 @@ def makeProject(d):
     oomWriteToFile(outputFile,contents)
 
 def harvestProjects():
+    oomLaunchKicad()
     for project in OOMP.getItems("projects"):
         test = project.getTag("gitRepo").value
         if test != "":
@@ -63,13 +65,13 @@ def harvestProject(project,all=False,gitPull=False,copyBaseFiles=False,harvestEa
 
     if all or gitPull:
         pass
-        #gitPullProject(project)
+        gitPullProject(project)
     if all or copyBaseFiles:
         pass
-        #copyBaseFilesProject(project)
+        copyBaseFilesProject(project)
     if all or harvestEagle:        
         pass
-        #harvestEagleProject(project,overwrite)
+        harvestEagleProject(project,overwrite)
     if all or harvestKicad:
         pass
         harvestKicadProject(project,overwrite)
@@ -116,24 +118,25 @@ def harvestEagleProject(project,overwrite=False):
     eagleBoardFile = project.getFilename("boardeagle")
     projectDir = project.getFolder()
     eagleBoardFileFull = project.getFilename("boardeagle",relative="full")
-    oomLaunchOpen(eagleBoardFileFull)
-    oomDelay(20)
-    oomSendMaximize()
-    oomDelay(2)
-    oomSendMaximize()
-    oomDelay(2)
     OOMPproject.harvestEagleBoardFile(eagleBoardFile,projectDir,overwrite=overwrite)
     OOMPproject.harvestEagleSchematicFile(eagleBoardFile.replace("boardEagle.brd","schematicEagle.sch"),projectDir,overwrite=overwrite)
-    oomSendAltKey("x",delay=5)
-    oomSendAltKey("x",delay=5)
+    #oomSendAltKey("x",delay=5)
+    #oomSendAltKey("x",delay=5)
 
 def harvestKicadProject(project,overwrite=False):
     print("    Harvesting Kicad Files ")
-    kicadBoardFile = project.getFilename("boardkicad")
-    oomLaunchKicad()
-    oomDelay(10)
+    ###### Convert to kicad
+    kicadBoardFile = project.getFilename("boardkicad")    
     eagleBoardFile = project.getFilename("boardeagle")
     projectDir = project.getFolder()
     OOMPproject.harvestEagleBoardToKicad(eagleBoardFile,projectDir,overwrite=overwrite)
     OOMPproject.harvestEagleSchemToKicad(eagleBoardFile.replace("boardEagle.brd","schematicEagle.sch"),projectDir,overwrite=overwrite)
+    ###### get files out of kicad
     OOMPproject.harvestKicadBoardFile(kicadBoardFile,projectDir,overwrite=overwrite)
+    ###### interactive BOM
+    OOMPproject.makeInteractiveHtmlBom(project,overwrite)
+    OOMPproject.makeInteractiveHtmlBomImages(project,overwrite)
+    OOMPprojectParts.harvestParts(project,overwrite=overwrite)
+    OOMPprojectParts.matchParts(project)
+    for part in OOMP.getItems("parts"):
+            part.exportTags("detailsInstancesOomp",["oompInstances"]) 

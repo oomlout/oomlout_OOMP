@@ -238,8 +238,8 @@ def getInstanceCount(calc=False):
 
 class oompDict(dict):
     def __init__(self,index=None):
-        self.__dict__ = {}
-    
+        self.__dict__ = {}     
+
     def append(self,newPart):
         oompID = newPart.getTag("oompID").value
         if oompID == "----":
@@ -1003,6 +1003,7 @@ class oompDetail:
 
 def loadParts(type):
     if type != "pickle":  
+        reset()
         import codes.OOMPdetailsType
         import codes.OOMPdetailsSize
         import codes.OOMPdetailsColor
@@ -1117,6 +1118,20 @@ def loadDirectoryOld(directory,fileFilter="details.py"):
 
 #### import parts
 
+def reset():
+    global partsFootprints,partsSymbols,partsParts,partsNoFootprints,partsProjects,partsTemplates,details,parts
+    
+    partsFootprints = oompDict()
+    partsSymbols = oompDict()
+    partsParts = oompDict()
+    partsNoFootprints = oompDict()
+    partsProjects = oompDict()
+    partsTemplates = oompDict()
+
+    details = oompDetailDict()
+
+    parts = oompDict()
+
 partsFootprints = oompDict()
 partsSymbols = oompDict()
 partsParts = oompDict()
@@ -1127,4 +1142,6 @@ partsTemplates = oompDict()
 details = oompDetailDict()
 
 parts = oompDict()
+
+
 pass
