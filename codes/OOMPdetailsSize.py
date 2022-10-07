@@ -669,6 +669,7 @@ OOMP.oompAddDetail(category="size",code="XHP70",name="XHP 70")
 
 ######  Headers
 OOMP.oompAddDetail(category="size",code="JSTXH",name="JST XH (2.5 mm)")
+OOMP.oompAddDetail(category="size",code="JSTSH",name="JST XH (1 mm)")
 
 ######  Companies for projects
 OOMP.oompAddDetail(category="size",code="ADAF",name="Adafruit")

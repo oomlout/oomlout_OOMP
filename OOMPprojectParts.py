@@ -125,6 +125,10 @@ def matchFootprint(part):
             addHEAD01SHRO(part,dict)
         if "HEAD-JSTXH" in oompID and oompIndex == "01":
             addHEADJSTXH(part,dict)
+        if "HEAD-JSTSH" in oompID and oompIndex == "SM":
+            addHEADJSTSH(part,dict)
+        if "HEAD-JSTSHR" in oompID and oompIndex == "RS":
+            addHEADJSTSH(part,dict)
         if oompSize == "0805":
             add0805(part,dict)
         if oompType == "TERS":
@@ -244,6 +248,36 @@ def addHEAD01SHRO(part,dict):
         base = "FOOTPRINT-kicad-kicad-footprints-Connector_IDC-IDC-Header_2x" + pinss
         footprints.append(base + "_P2.54mm_Horizontal")
         footprints.append(base + "_P2.54mm_Vertical")
+
+
+        for footprint in footprints:
+            newPart.addTag("footprintKicad",footprint)
+
+def addHEADJSTSH(part,dict):
+    oompDesc = part.getTag("oompDesc").value
+    pinss = oompDesc.replace("PI","")
+    newPart = part
+    if pinss.isnumeric():
+        footprints = []
+        #FOOTPRINT-kicad-kicad-footprints-Connector_JST-JST_SH_BM04B-SRSS-TB_1x04-1MP_P1.00mm_Vertical
+        #JST_SH_BM04B-SRSS-TB_1x04-1MP_P1.00mm_Vertical
+        base = "FOOTPRINT-kicad-kicad-footprints-Connector_JST-JST_SH_BM" + pinss + "B-SRSS-TB_1x" + pinss + "-1MP_P1.00mm_Vertical"
+        footprints.append(base)
+
+
+        for footprint in footprints:
+            newPart.addTag("footprintKicad",footprint)
+
+def addHEADJSTSHR(part,dict):
+    oompDesc = part.getTag("oompDesc").value
+    pinss = oompDesc.replace("PI","")
+    newPart = part
+    if pinss.isnumeric():
+        footprints = []
+        #FOOTPRINT-kicad-kicad-footprints-Connector_JST-JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal
+        
+        base = "FOOTPRINT-kicad-kicad-footprints-Connector_JST-JST_SH_SM" + pinss + "B-SRSS-TB_1x" + pinss + "-1MP_P1.00mm_Horizontal"
+        footprints.append(base)
 
 
         for footprint in footprints:

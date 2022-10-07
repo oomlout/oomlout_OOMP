@@ -72,13 +72,41 @@ def makeAll():
     color = "X"
     desc = "PI01"
     index = "01"
-    hexID = "T35L1"
+    hexID = "JX"
 
     #makePart(type,size,color,desc,index,hexID)
 
     for x in range(1,20+1):
         desc = "PI" + str(x).zfill(2)
         hexID = "HXH" + str(x)
+        makePart(type,size,color,desc,index,hexID)
+
+    type = "HEAD"
+    size = "JSTSH"
+    color = "X"
+    desc = "PI01"
+    index = "SM"
+    hexID = "T35L1"
+
+    #makePart(type,size,color,desc,index,hexID)
+
+    for x in range(1,20+1):
+        desc = "PI" + str(x).zfill(2)
+        hexID = "HSH" + str(x)
+        makePart(type,size,color,desc,index,hexID)
+
+    type = "HEAD"
+    size = "JSTSH"
+    color = "X"
+    desc = "PI01"
+    index = "RS"
+    hexID = "T35L1"
+
+    #makePart(type,size,color,desc,index,hexID)
+
+    for x in range(1,20+1):
+        desc = "PI" + str(x).zfill(2)
+        hexID = "HSHR" + str(x)
         makePart(type,size,color,desc,index,hexID)
 
     
