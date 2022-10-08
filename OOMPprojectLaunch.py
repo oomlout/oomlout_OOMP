@@ -3,6 +3,7 @@ from OOMPproject import *
 from OOMPprojectHarvest import *
 from OOMPprojectParts import *
 import OOMP
+import OOMP_projects_partsMatch
 
 def doTasks(overwrite =False,filter="projects",eagleToKicad=False,kicadProcess=False,eagleProcess=False,interactiveBom=False,interactiveBomImages=False,partsHarvest=False,matchParts=False,loadInstances=False,pcbDraw=False,matchFootprints=False):
     oomMouseClick(pos=kicadActive,delay=1)
@@ -15,6 +16,7 @@ def doTasks(overwrite =False,filter="projects",eagleToKicad=False,kicadProcess=F
 
 
     for project in OOMP.getItems(filter):
+        #print("                              DOING PROJECT " + project.getID())
         doTask(project,overwrite,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,interactiveBomImages=interactiveBomImages,partsHarvest=partsHarvest,matchParts=matchParts,loadInstances=loadInstances,filter=filter,pcbDraw=pcbDraw,matchFootprints=matchFootprints)
 
     if loadInstances:
@@ -60,12 +62,12 @@ def doTask(project,overwrite=False,eagleToKicad=False,kicadProcess=False,eaglePr
         makeInteractiveHtmlBomImages(project,overwrite)
 
     if partsHarvest: #open board in kicad and export things like 3d render and bom
-        if overwrite or project.ifFileExists("detailsPartsRaw"):
-            OOMPprojectParts.harvestParts(project,overwrite=overwrite)
+        #if overwrite or project.ifFileExists("detailsPartsRaw"):
+        OOMPprojectParts.harvestParts(project,overwrite=overwrite)
 
     if matchParts:
-        if overwrite or project.ifFileExists("detailsPartsOomp"):
-            OOMPprojectParts.matchParts(project)
+        #if overwrite or project.ifFileExists("detailsPartsOomp"):
+        OOMP_projects_partsMatch.matchParts(project)
 
     if loadInstances:
         OOMPprojectParts.loadInstances(project)

@@ -89,6 +89,7 @@ def getItems(type="",cache=False):
             rv = []
             for part in parts:
                 t = part.getTag("oompType")
+
                 if t.value == "PROJ":
                     rv.append(part)
             partsProjects = rv
@@ -561,7 +562,7 @@ class oompItem:
                     fileExtra = "image" + resolutionString + ".jpg"  
             
         
-        imageTypePng = ["kicadPcb3d","kicadPcb3dFront","kicadPcb3dBack","eagleImage","eagleSchemImage"]        
+        imageTypePng = ["kicadPcb3d","kicadPcb3dFront","kicadPcb3dBack","kicadschem","eagleImage","eagleSchemImage"]        
         for imageType in imageTypePng:            
             name = imageType
             allNames.append(name)
@@ -619,6 +620,10 @@ class oompItem:
         allNames.append(name)
         if filename.lower() == name:        
             fileExtra = "kicad/boardKicad.kicad_pcb"
+        name = "kicadbom"
+        allNames.append(name)
+        if filename.lower() == name:        
+            fileExtra = "kicad/boardKicadBom.csv"
         if filename.lower() == "dirkicad":
             fileExtra = "kicad/"
         if filename.lower() == "dirkicad":

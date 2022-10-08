@@ -7,6 +7,9 @@ OOMP.loadParts("all")
 
 print(OOMP.getReport())
 
-import OOMP_genBlanks
+#import OOMP_genBlanks
 
 input("ALL DONE")
+
+for part in OOMP.parts:
+    print(part.getID())
