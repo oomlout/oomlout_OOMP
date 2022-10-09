@@ -4,10 +4,18 @@ import OOMPprojectParts
 from oomBase import *
 
 ######  Company Files
+import OOMP_projects_ADAF
 import OOMP_projects_ELLA
+import OOMP_projects_IBBC
+import OOMP_projects_SEED
+import OOMP_projects_SOPA
 
 def createAllProjects():
+    OOMP_projects_IBBC.createProjects()
+    OOMP_projects_ADAF.createProjects()    
     OOMP_projects_ELLA.createProjects()
+    OOMP_projects_SEED.createProjects()
+    OOMP_projects_SOPA.createProjects()
 
 def makeProject(d):
     type = d["oompType"]
@@ -34,19 +42,38 @@ def makeProject(d):
     contents = contents.replace("INDEXZZ",index)
     contents = contents.replace("HEXZZ",hexID)
 
-
-    sp = d["gitRepo"].split("/")
-    repoName = sp[len(sp)-1]
-
+    repoName = ""
     extraTags = []
+    try:
+        sp = d["gitRepo"].split("/")
+        repoName = sp[len(sp)-1]
+        d["gitName"] = repoName
+    except:
+        print("No gitRepo found")
+    
+    
+
+    tagList = ["name","gitRepo","gitName","eagleBoard","eagleSchem","kicadBoard","kicadSchem",]
+    
     tagString = ""
-    extraTags.append(OOMP.oompTag("name",d["name"]))
-    extraTags.append(OOMP.oompTag("gitRepo",d["gitRepo"]))
-    extraTags.append(OOMP.oompTag("gitName",repoName))
-    extraTags.append(OOMP.oompTag("eagleBoard",d["eagleBoard"]))
-    extraTags.append(OOMP.oompTag("eagleSchem",d["eagleSchem"]))
+    for tag in tagList:
+        try:
+            extraTags.append(OOMP.oompTag(tag,d[tag]))        
+        except:
+            print("No " + tag + " found")
+
+    try:
+        for tag in d["extraTags"]:
+            extraTags.append(OOMP.oompTag(tag[0],tag[1]))        
+    except:
+        print("no extra tags")
+
     for tag in extraTags:
         tagString = tagString + tag.getPythonLine() + "\n"
+
+    
+
+
 
     contents = contents.replace("EXTRAZZ",tagString)
 
@@ -56,6 +83,7 @@ def harvestProjects():
     oomLaunchKicad()
     for project in OOMP.getItems("projects"):
         test = project.getTag("gitRepo").value
+        test = "GO"
         if test != "":
             harvestProject(project,all=True)
 
@@ -80,7 +108,8 @@ def gitPullProject(project):
     print("    Pulling or cloning project ")
     gitRepo = project.getTag("gitRepo").value
     if gitRepo == "":
-        raise Exception("No git repo for project")
+        #raise Exception("No git repo for project")
+        print("        No Git Repo Found SKIPPING")
     else:
         oomGitPull(gitRepo,"sourceFiles/git/")
 
@@ -89,6 +118,7 @@ def copyBaseFilesProject(project):
     type = "Board"
     filename = project.getTag("eagle" + type).value    
     outfile = outFile = project.getFilename(type + "Eagle")
+    inFile = ""
     if filename != "":
         inFile = "sourceFiles/git/" + project.getTag("gitName").value + "/" + filename
     else:
@@ -96,9 +126,12 @@ def copyBaseFilesProject(project):
         if filename != "":
             inFile = "sourceFiles/git/" + project.getTag("gitName").value + "/" + filename
             outfile = outFile = project.getFilename(type + "Kicad")
+            oomMakeDir(project.getFilename("dirKicad"))
         else:
-            raise Exception("No source board file found")
-    oomCopyFile(inFile,outFile)
+            #raise Exception("No source board file found")
+            print("        No Board File Found SKIPPING")
+    if inFile != "":
+        oomCopyFile(inFile,outFile)
     type = "Schem"
     filename = project.getTag("eagle" + type).value    
     outfile = outFile = project.getFilename(type + "Eagle")
@@ -109,9 +142,12 @@ def copyBaseFilesProject(project):
         if filename != "":
             inFile = "sourceFiles/git/" + project.getTag("gitName").value + "/" + filename
             outfile = outFile = project.getFilename(type + "Kicad")
+            oomMakeDir(project.getFilename("dirKicad"))
         else:
-            raise Exception("No source board file found")
-    oomCopyFile(inFile,outFile)
+            #raise Exception("No source board file found")
+            print("        No Schematic File Found SKIPPING")
+    if inFile != "":
+        oomCopyFile(inFile,outFile)
     
 def harvestEagleProject(project,overwrite=False):
     print("    Harvesting Eagle Files ")
@@ -133,6 +169,7 @@ def harvestKicadProject(project,overwrite=False):
     OOMPproject.harvestEagleSchemToKicad(eagleBoardFile.replace("boardEagle.brd","schematicEagle.sch"),projectDir,overwrite=overwrite)
     ###### get files out of kicad
     OOMPproject.harvestKicadBoardFile(kicadBoardFile,projectDir,overwrite=overwrite)
+    OOMPproject.harvestKicadSchemFile(kicadBoardFile,projectDir,overwrite=overwrite)
     ###### interactive BOM
     OOMPproject.makeInteractiveHtmlBom(project,overwrite)
     OOMPproject.makeInteractiveHtmlBomImages(project,overwrite)

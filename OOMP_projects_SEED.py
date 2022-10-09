@@ -11,7 +11,7 @@ def createProjects():
     
     d["hexID"] = "PRS20054"
 
-    d["name"] = "Grove - ADXL345 - 3-Axis Digital Accelerometer(±16g)"
+    d["name"] = "Grove - ADXL345 - 3-Axis Digital Accelerometer(+/-16g)"
     #d["gitRepo"] = ""
     #d["gitName"] = ""
     #d["eagleBoard"] = ""

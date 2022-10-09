@@ -14,7 +14,7 @@ def createProjects():
     d["name"] = "ADXL345 Breakout"
     d["gitRepo"] = "https://github.com/oomlout/IBBC_0001"
     d["gitName"] = "IBBC_0001"
-    d["kicadBoard"] = "working/IBBC_0001/IBBC_0001/IBBC_0001.kicad_pcb"
+    d["kicadBoard"] = "working/IBBC_0001/IBBC_0001.kicad_pcb"
     d["kicadSchem"] = d["kicadBoard"].replace("kicad_pcb","kicad_sch")
 
     OOMP_projects_BASE.makeProject(d)

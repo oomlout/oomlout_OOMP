@@ -12,8 +12,8 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 #OOMPprojectLaunch.doTasks("projects")
 overwrite= False
 eagleProcess= False          #eagle pcb open
-eagleToKicad = False        #kicad launcher open
-kicadProcess = True        #kicad launcher open
+eagleToKicad = True        #kicad launcher open
+kicadProcess = False        #kicad launcher open
 interactiveBom = False
 interactiveBomImages = False
 partsHarvest = False
@@ -21,7 +21,7 @@ matchParts = False
 loadInstances = False
 
 filter="footprints"
-#filter="projects"
+filter="projects"
 OOMPprojectLaunch.doTasks(overwrite=overwrite,filter=filter,eagleToKicad=eagleToKicad,kicadProcess=kicadProcess,eagleProcess=eagleProcess,interactiveBom=interactiveBom,interactiveBomImages=interactiveBomImages,partsHarvest=partsHarvest,matchParts=matchParts,loadInstances=loadInstances)
 
 overwrite=True

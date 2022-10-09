@@ -176,6 +176,42 @@ def harvestKicadBoardFile(file="",directory="",part="",overwrite=False,filter="p
 
             kicadClosePcb()
 
+def harvestKicadSchemFile(file="",directory="",part="",overwrite=False,filter="projects"):
+    
+    boardKicad = ""
+    dirKicad = ""
+    if part != "":
+        boardKicad = part.getFilename("schemKicad")
+        dirKicad = part.getFilename("dirKicad")
+        directory = part.getDir()
+
+    else:
+        dirKicad =   OOMP.baseDir + directory + "kicad/"
+        boardKicad = dirKicad + "schematicKicad.kicad_sch"
+    imageFile = directory + "kicadSchem.png"
+    print("Harvesting Kicad Board File: " + boardKicad)
+    if os.path.isfile(boardKicad) and (overwrite or True):
+        if overwrite or not os.path.isfile(imageFile):
+            oomLaunchPopen("eeschema.exe " + boardKicad,10)
+            oomMouseMove(pos=kicadFootprintMiddle,delay=2)
+            oomMouseMove(pos=kicadActive,delay=2)
+            oomMouseMove(pos=kicadFootprintMiddle,delay=2)
+            oomMouseMove(pos=kicadActive,delay=2)
+            oomMouseMove(pos=kicadFootprintMiddle,delay=2)
+            oomMouseMove(pos=kicadActive,delay=2)
+            oomMouseMove(pos=kicadFootprintMiddle,delay=2)
+            oomMouseClick(pos=kicadActive,delay=5)    
+            
+            oomSendAltKey("f",delay=2)
+            oomSend("e",1)
+            oomSendEnter(delay=2)
+            oomClipboardSaveImage(imageFile)
+
+
+
+            kicadClosePcb()
+            oomSendEsc(delay=5)
+
 def harvestEagleSchematicFile(file,directory,overwrite=False):
     dxfFile = OOMP.baseDir + directory + "eagleImage.dxf"
     imageFile = OOMP.baseDir + directory + "eagleSchemImage.png"
@@ -183,41 +219,46 @@ def harvestEagleSchematicFile(file,directory,overwrite=False):
     #if overwrite or not os.path.exists(dxfFile):
     #if overwrite or not os.path.exists(pngFile):
     print("Harvesting Eagle Schematic: " + file)
-    if overwrite or  (not os.path.exists(partFile) or not os.path.exists(imageFile)):
-        oomLaunchEagle(OOMP.baseDir + file)
-        oomDelay(20)
+    if(os.path.exists(file)):
+        if overwrite or  (not os.path.exists(partFile) or not os.path.exists(imageFile)):
+            oomLaunchEagle(OOMP.baseDir + file)
+            oomDelay(25)
+            ##### no back annotation message
+            oomSendEnter(delay=2)  
+            ##### no back annotation message
+            oomSendEnter(delay=2)    
+                
+            oomSendMaximize()
+            oomDelay(2)
+            oomSendMaximize()
+            oomDelay(2)
+            #oomMouseClick(pos=kicadActive,delay=5)            
+            oomSendControl("o",delay=5)
+            #oomSendAltKey("f",2)
+            #oomSend("o",1)
+            #oomSend("b",1)
             
-        oomSendMaximize()
-        oomDelay(2)
-        oomSendMaximize()
-        oomDelay(2)
-        #oomMouseClick(pos=kicadActive,delay=5)            
-        oomSendControl("o",delay=5)
-        #oomSendAltKey("f",2)
-        #oomSend("o",1)
-        #oomSend("b",1)
-        
-        fullFile = OOMP.baseDir + file
-        oomSend(fullFile.replace("/","\\"),delay=3)
-        oomSendEnter(2)
-        oomSendEnter(2)
-        oomSend("n",10)
-        #maybe close warning window
-        oomMouseClick(pos=eagleCloseText,delay=5)            
-        
+            fullFile = OOMP.baseDir + file
+            oomSend(fullFile.replace("/","\\"),delay=3)
+            oomSendEnter(2)
+            oomSendEnter(2)
+            oomSend("n",10)
+            #maybe close warning window
+            oomMouseClick(pos=eagleCloseText,delay=5)            
+            
 
-        ###### BOM
-        filename = partFile
-        if overwrite or not os.path.exists(filename):
-            print("        " + filename)
-            eagleExport(filename,6,overwrite=overwrite)
-        ###### Image
-        filename = imageFile
-        if overwrite or not os.path.exists(filename):
-            print("        " + filename)
-            eagleExport(filename,5,overwrite=overwrite)
+            ###### BOM
+            filename = partFile
+            if overwrite or not os.path.exists(filename):
+                print("        " + filename)
+                eagleExport(filename,6,overwrite=overwrite)
+            ###### Image
+            filename = imageFile
+            if overwrite or not os.path.exists(filename):
+                print("        " + filename)
+                eagleExport(filename,5,overwrite=overwrite)
 
-        oomSendAltKey("x")
+            oomSendAltKey("x")
         
 
 def harvestEagleBoardFile(file,directory,overwrite=False):
@@ -230,55 +271,59 @@ def harvestEagleBoardFile(file,directory,overwrite=False):
     #if overwrite or not os.path.exists(dxfFile):
     #if overwrite or not os.path.exists(pngFile):
     print("Harvesting Eagle Board: " + file)
-    if overwrite or not (os.path.exists(partFile) or os.path.exists(netFile) or os.path.exists(pinFile) or os.path.exists(imageFile)):
-        oomLaunchEagle(OOMP.baseDir + file)
-        oomDelay(20)
+    if(os.path.exists(file)):
+        if overwrite or not (os.path.exists(partFile) or os.path.exists(netFile) or os.path.exists(pinFile) or os.path.exists(imageFile)):
+            oomLaunchEagle(OOMP.baseDir + file)
+            oomDelay(25)
+            ##### no back annotation message
+            oomSendEnter(delay=2)    
+            ##### no back annotation message
+            oomSendEnter(delay=2)    
+            oomSendMaximize()
+            oomDelay(2)
+            oomSendMaximize()
+            oomDelay(2)
+            #oomMouseClick(pos=kicadActive,delay=5)            
+            oomSendControl("o",delay=5)
+            #oomSendAltKey("f",2)
+            #oomSend("o",1)
+            #oomSend("b",1)
             
-        oomSendMaximize()
-        oomDelay(2)
-        oomSendMaximize()
-        oomDelay(2)
-        #oomMouseClick(pos=kicadActive,delay=5)            
-        oomSendControl("o",delay=5)
-        #oomSendAltKey("f",2)
-        #oomSend("o",1)
-        #oomSend("b",1)
-        
 
-        fullFile = OOMP.baseDir + file
-        oomSend(fullFile.replace("/","\\"),delay=3)
-        oomSendEnter(2)
-        oomSend("n",10)
-        #maybe close warning window
-        oomMouseClick(pos=eagleCloseText,delay=5)            
-        
+            fullFile = OOMP.baseDir + file
+            oomSend(fullFile.replace("/","\\"),delay=3)
+            oomSendEnter(2)        
+            oomSend("n",10)
+            oomSendEnter(delay=2)
+            #maybe close warning window
+            oomMouseClick(pos=eagleCloseText,delay=5)            
+            
 
-        ###### Part List
-        filename = OOMP.baseDir + directory + "eagleParts.txt"
-        if overwrite or not os.path.exists(filename):
-            print("        " + filename)
-            eagleExport(filename,1,overwrite=overwrite)
-        ###### Net List
-        filename = OOMP.baseDir + directory + "eagleNetlist.txt"
-        if overwrite or not os.path.exists(filename):
-            print("        " + filename)
-            eagleExport(filename,0,overwrite=overwrite)
-        ###### Pin List
-        filename = OOMP.baseDir + directory + "eaglePinlist.txt"
-        if overwrite or not os.path.exists(filename):
-            print("        " + filename)
-            eagleExport(filename,2,overwrite=overwrite)
-        ###### image
-        ###### set export to 1200
-        filename = OOMP.baseDir + directory + "eagleImage.png"
-        
-        if overwrite or not os.path.exists(filename):
-            print("        " + filename)
-            eagleExport(filename,3,overwrite=overwrite)
+            ###### Part List
+            filename = OOMP.baseDir + directory + "eagleParts.txt"
+            if overwrite or not os.path.exists(filename):
+                print("        " + filename)
+                eagleExport(filename,1,overwrite=overwrite)
+            ###### Net List
+            filename = OOMP.baseDir + directory + "eagleNetlist.txt"
+            if overwrite or not os.path.exists(filename):
+                print("        " + filename)
+                eagleExport(filename,0,overwrite=overwrite)
+            ###### Pin List
+            filename = OOMP.baseDir + directory + "eaglePinlist.txt"
+            if overwrite or not os.path.exists(filename):
+                print("        " + filename)
+                eagleExport(filename,2,overwrite=overwrite)
+            ###### image
+            ###### set export to 1200
+            filename = OOMP.baseDir + directory + "eagleImage.png"
+            
+            if overwrite or not os.path.exists(filename):
+                print("        " + filename)
+                eagleExport(filename,3,overwrite=overwrite)
 
-        #close eagle
-        oomSendAltKey("x")
-
+            #close eagle
+            oomSendAltKey("x")
 
 
 def kicadExport(filename,type,overwrite=False):
@@ -475,9 +520,20 @@ def makeInteractiveHtmlBomImages(project,overwrite=False):
             oomMouseClick(pos=frontimagePos,delay=3)
             oomMouseClick(pos=backimagePos,delay=3)
             oomMouseClick(pos=bomPos,delay=3)
-            oomCopyFile(frontimageDownload,frontimage)
-            oomCopyFile(backimageDownload,backimage)
-            oomCopyFile(bomDownload,bom)
+            
+            try:
+                oomCopyFile(frontimageDownload,frontimage)
+                oomCopyFile(backimageDownload,backimage)
+                oomCopyFile(bomDownload,bom)
+            except:
+                frontimageDownload = "C:/Users/aaron/Downloads/boardKicad.2.F.png" 
+                backimageDownload = "C:/Users/aaron/Downloads/boardKicad.2.B.png" 
+                oomCopyFile(frontimageDownload,frontimage)
+                oomCopyFile(backimageDownload,backimage)
+                oomCopyFile(bomDownload,bom)                
+                oomDeleteFile(frontimageDownload)
+                oomDeleteFile(backimageDownload)
+
             oomSendControl("w")
         else:
             print("        SKIPPING")

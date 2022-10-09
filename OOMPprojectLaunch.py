@@ -40,16 +40,22 @@ def doTasks(overwrite =False,filter="projects",eagleToKicad=False,kicadProcess=F
 def doTask(project,overwrite=False,eagleToKicad=False,kicadProcess=False,eagleProcess=False,interactiveBom=False,interactiveBomImages=False,partsHarvest=False,matchParts=False,loadInstances=False,pcbDraw=False,matchFootprints=False,filter="projects"):
     projectDir = project.getFolder()
     eagleBoardFile = project.getFilename("boardeagle")
+    eagleSchemFile = project.getFilename("schemeagle")
     kicadBoardFile = project.getFilename("boardkicad")
+    kicadSchemFile = project.getFilename("schemkicad")
 
 
 
     if kicadProcess: #open board in kicad and export things like 3d render and bom               
         if os.path.isfile(kicadBoardFile):
             harvestKicadBoardFile(kicadBoardFile,projectDir,overwrite=overwrite,filter=filter)
+        if os.path.isfile(kicadSchemFile):            
+            harvestKicadSchemFile(kicadBoardFile,projectDir,overwrite=overwrite,filter=filter)
     if eagleToKicad: #open board in kicad and export things like 3d render and bom
         if os.path.isfile(eagleBoardFile):
             harvestEagleBoardToKicad(eagleBoardFile,projectDir,overwrite=overwrite)
+        if os.path.isfile(eagleSchemFile):
+            harvestEagleBoardToKicad(eagleSchemFile,projectDir,overwrite=overwrite)            
     if eagleProcess: #open board in kicad and export things like 3d render and bom
         if os.path.isfile(eagleBoardFile):
             harvestEagleBoardFile(eagleBoardFile,projectDir,overwrite=overwrite)
