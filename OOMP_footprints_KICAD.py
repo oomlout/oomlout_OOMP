@@ -9,7 +9,6 @@ from kiutils.footprint import Footprint
 
 def createFootprints():
     owners = ["kicad-footprints"]
-    skips = ["Pololu_Breakout-16_15.2x20.3mm"]
     for owner in owners:
         footprints = getKicadFootprintNames(owner)        
         for footprint in footprints: 
@@ -20,8 +19,7 @@ def createFootprints():
             d["oompDesc"] =  footprint[0]
             d["FOOTPRINT"] = footprint[1]
             loadFootprintDict(d)
-            if d["oompIndex"] not in skips:
-                makeFootprint(d)
+            makeFootprint(d)
 
 
 def makeFootprint(d):

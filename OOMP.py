@@ -983,10 +983,14 @@ class oompTag:
 
     def getPythonLine(self):
         v = self.value
+        if "QH" in str(v):
+            pass
         if isinstance(v,dict):
-            return "newPart.addTag('" + self.name + "'," + str(self.value).replace("'","").replace('"','').replace("\\","") + ")" 
+            rv = "newPart.addTag('" + self.name + "'," + str(self.value).replace("'","").replace('"','').replace("\\","") + ")" 
+            return rv
         else:
-            return "newPart.addTag('" + self.name + "','" + str(self.value).replace("'","").replace('"','').replace("\\","") + "')" 
+            rv = "newPart.addTag('" + self.name + "','" + str(self.value).replace("'","").replace('"','').replace("\\","") + "')" 
+            return rv
 
     def getValue(self):
         return self.value
@@ -1059,11 +1063,15 @@ def loadDirectory(directory,fileFilter=["details.py"]):
     filename = "sourceFiles/oompLoad.py"
     f = open(filename, "a+")
     testing = 1000000000000000000
+    skip = "Pololu_Breakout-16_15.2x20.3mm"
     for filter in fileFilter:
         files = glob.glob(directory + "**/" + filter,recursive=True)
         for file in files:
-            string = oomReadFileToString(file)
-            f.write(string + "\n")
+            if skip not in file:
+                string = oomReadFileToString(file)
+                f.write(string + "\n")
+            else:
+                pass
     f.close()
     
 
@@ -1093,6 +1101,7 @@ def loadDirectoryOld(directory,fileFilter="details.py"):
     #testing = 7000
     #testing = 5000
     #testing = 1000
+    skip = ["Pololu_Breakout-16_15.2x20.3mm"]
     count = 0
     for subdir, dirs, files in os.walk(directory):
             if count > testing:
@@ -1104,21 +1113,22 @@ def loadDirectoryOld(directory,fileFilter="details.py"):
                     print("Breaking " + str(count) + " " + str(testing))
                     break
                 if(fileFilter in file):
-                    moduleName = file.replace(".py","")
-                    moduleName = subdir.replace("\\",".") + "." + moduleName
-                    ##print("    moduleName: " + moduleName)
-                    #print(".",end="")
-                    try:
-                        __import__(moduleName)    
-                    except:
-                        ###### For dealing with folders with a full stop
-                        sourceFile = subdir + "/" + file
-                        destFile = "sourceFiles/temp/" + str(random.randint(0,999999999)) + ".py"
-                        moduleName = destFile.replace("\\",".").replace("/",".").replace(".py","")
-                        shutil.copyfile(sourceFile,destFile)
-                        time.sleep(0.01)
-                        __import__(moduleName)   
-                        os.remove(destFile) 
+                    if skip not in file:
+                        moduleName = file.replace(".py","")
+                        moduleName = subdir.replace("\\",".") + "." + moduleName
+                        ##print("    moduleName: " + moduleName)
+                        #print(".",end="")
+                        try:
+                            __import__(moduleName)    
+                        except:
+                            ###### For dealing with folders with a full stop
+                            sourceFile = subdir + "/" + file
+                            destFile = "sourceFiles/temp/" + str(random.randint(0,999999999)) + ".py"
+                            moduleName = destFile.replace("\\",".").replace("/",".").replace(".py","")
+                            shutil.copyfile(sourceFile,destFile)
+                            time.sleep(0.01)
+                            __import__(moduleName)   
+                            os.remove(destFile) 
 
 
 #### import parts

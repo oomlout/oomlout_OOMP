@@ -6,6 +6,8 @@ OOMP.loadParts("all")
 #OOMP.loadParts("nofootprints")
 #OOMP.loadParts("parts")
 
+#__import__("sourceFiles.oompLoad")  
+#exportPickle() 
 
 
 print(OOMP.getReport())
