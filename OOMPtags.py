@@ -182,7 +182,7 @@ def getFootprintHex(filter):
    ### kicad ones    
     replaceList.append(["",""])
     replaceList.append(["kicad-kicad-footprints".upper(),"K"])
-
+    replaceList.append(["kicad-kicad-symbols".upper(),"K"])
     ######  Kicad libraries
     replaceList.append(["Varistor".upper(),"V"])
     replaceList.append(["Audio_Module".upper(),"A"])

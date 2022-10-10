@@ -880,7 +880,7 @@ def harvestKicadSymbols(overwrite=False):
             
 
 
-
+####### DEPRICATED nowe in OOMP_symbols_KICAD
 def getKicadSymbolNames(owner):
     directory = "C:/GH/oomlout_OOMP/oomlout_OOMP_eda/sourceFiles/" + owner + "/"
 

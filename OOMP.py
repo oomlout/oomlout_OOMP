@@ -984,9 +984,9 @@ class oompTag:
     def getPythonLine(self):
         v = self.value
         if isinstance(v,dict):
-            return "newPart.addTag('" + self.name + "'," + str(self.value) + ")" 
+            return "newPart.addTag('" + self.name + "'," + str(self.value).replace("'","").replace('"','').replace("\\","") + ")" 
         else:
-            return "newPart.addTag('" + self.name + "','" + str(self.value) + "')" 
+            return "newPart.addTag('" + self.name + "','" + str(self.value).replace("'","").replace('"','').replace("\\","") + "')" 
 
     def getValue(self):
         return self.value
