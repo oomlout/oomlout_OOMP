@@ -572,7 +572,8 @@ class oompItem:
                     fileExtra = "image" + resolutionString + ".jpg"  
             
         
-        imageTypePng = ["kicadPcb3d","kicadPcb3dFront","kicadPcb3dBack","kicadschem","eagleImage","eagleSchemImage"]        
+        imageTypePng = ["kicadPcb3d","kicadPcb3dFront","kicadPcb3dBack","kicadSchem", "eagleImage","eagleSchemImage"]        
+
         for imageType in imageTypePng:            
             name = imageType
             allNames.append(name)
@@ -634,8 +635,10 @@ class oompItem:
         allNames.append(name)
         if filename.lower() == name:        
             fileExtra = "kicad/boardKicadBom.csv"
-        if filename.lower() == "dirkicad":
-            fileExtra = "kicad/"
+        name = "schemkicad"
+        allNames.append(name)
+        if filename.lower() == name:        
+            fileExtra = "kicad/schematicKicad.kicad_sch"
         if filename.lower() == "dirkicad":
             fileExtra = "kicad/"
 

@@ -16,8 +16,9 @@ def harvestEagleBoardToKicad(file,directory,overwrite=False):
     dirKicad =   OOMP.baseDir + directory + "kicad/"
     oomMakeDir(dirKicad)
     boardKicad = dirKicad + "boardKicad.kicad_pcb"
+    boardEagle = OOMP.baseDir + "boardEagle.brd"
     print(    "HarvestEagleBoardToKicad: " + file)
-    if overwrite or not os.path.exists(boardKicad):
+    if (overwrite or not os.path.exists(boardKicad)) and os.path.exists(boardEagle):
         oomLaunchKicad()
         oomDelay(10)
         oomMouseClick(pos=kicadActive,delay=5)       
@@ -65,8 +66,9 @@ def harvestEagleBoardToKicad(file,directory,overwrite=False):
         #fill zones
         oomSend("b",15)
         ######  save board
-        oomSendAltKey("f",2)
-        oomSendDown(1,delay=2)
+        #oomSendAltKey("f",2)
+        oomMouseClick(pos=kicadFile,delay=5)
+        oomSendDown(2,delay=2)
         oomSendEnter(delay=5)
         oomSend(boardKicad.replace("/","\\").replace("\\\\","\\"),2)
         oomSendEnter(delay=10)
@@ -84,8 +86,9 @@ def harvestEagleSchemToKicad(file,directory,overwrite=False):
     dirKicad =   OOMP.baseDir + directory + "kicad/"
     oomMakeDir(dirKicad)
     boardKicad = dirKicad + "schematicKicad.kicad_sch"
-    print(    "HarvestEagleBoardToKicad: " + file)
-    if overwrite or not os.path.exists(boardKicad):
+    boardEagle = OOMP.baseDir + directory + "schematicEagle.sch"
+    print(    "HarvestEagleSchematicToKicad: " + file)
+    if (overwrite or not os.path.exists(boardKicad)) and os.path.exists(boardEagle):
         oomMouseClick(pos=kicadActive,delay=5)       
         oomMouseClick(pos=kicadFile,delay=5)       
         oomSendDown(8,delay=2)
@@ -108,20 +111,11 @@ def harvestEagleSchemToKicad(file,directory,overwrite=False):
         oomSendEnter(5)        
         oomSendEnter(10)
         oomSend("y",10)
-        ######  match layers dialog
-        oomSendTab(6,5)
-        oomSendEnter(2)
-        oomSendTab(1,2)
-        oomSendEnter(10)
-        oomSendEsc(2)
-        oomSendEsc(2)
-        oomSendEsc(2)
-        oomDelay(15)
-        oomMouseClick(pos=kicadFootprintMiddle,delay=2)
-
+        
         ######  save board
-        oomSendAltKey("f",2)
-        oomSendDown(1,delay=2)
+        #oomSendAltKey("f",2)
+        oomMouseClick(pos=kicadFile,delay=5)
+        oomSendDown(2,delay=2)
         oomSendEnter(delay=5)
         oomSend(boardKicad.replace("/","\\").replace("\\\\","\\"),2)
         oomSendEnter(delay=10)
@@ -133,7 +127,8 @@ def harvestEagleSchemToKicad(file,directory,overwrite=False):
         print("        SKIPPING")        
 
 def kicadClosePcb(noSave=True):
-    oomSendAltKey("f",2)
+    #oomSendAltKey("f",2)
+    oomMouseClick(pos=kicadFile,delay=5)
     oomSendUp(delay=2)
     oomSendEnter(delay=2)
     if noSave:
@@ -202,7 +197,8 @@ def harvestKicadSchemFile(file="",directory="",part="",overwrite=False,filter="p
             oomMouseMove(pos=kicadFootprintMiddle,delay=2)
             oomMouseClick(pos=kicadActive,delay=5)    
             
-            oomSendAltKey("f",delay=2)
+            #oomSendAltKey("f",delay=2)            
+            oomMouseClick(pos=kicadFile,delay=5)   
             oomSend("e",1)
             oomSendEnter(delay=2)
             oomClipboardSaveImage(imageFile)
@@ -222,7 +218,7 @@ def harvestEagleSchematicFile(file,directory,overwrite=False):
     if(os.path.exists(file)):
         if overwrite or  (not os.path.exists(partFile) or not os.path.exists(imageFile)):
             oomLaunchEagle(OOMP.baseDir + file)
-            oomDelay(25)
+            oomDelay(45)
             ##### no back annotation message
             oomSendEnter(delay=2)  
             ##### no back annotation message
@@ -274,7 +270,7 @@ def harvestEagleBoardFile(file,directory,overwrite=False):
     if(os.path.exists(file)):
         if overwrite or not (os.path.exists(partFile) or os.path.exists(netFile) or os.path.exists(pinFile) or os.path.exists(imageFile)):
             oomLaunchEagle(OOMP.baseDir + file)
-            oomDelay(25)
+            oomDelay(45)
             ##### no back annotation message
             oomSendEnter(delay=2)    
             ##### no back annotation message
@@ -324,6 +320,7 @@ def harvestEagleBoardFile(file,directory,overwrite=False):
 
             #close eagle
             oomSendAltKey("x")
+            oomSendEsc(delay=2)
 
 
 def kicadExport(filename,type,overwrite=False):
@@ -552,6 +549,7 @@ def makeInteractiveHtmlBomImages(project,overwrite=False):
 ####### -l Eagle-export
 ####### --remap "C:\\GH\\oomlout_OOMP\\pcbDrawRemap.json"
 def renderPcbDraw(project,overwrite):
+    ###### need to  pip install pcbdraw in kicad consile and pip install pyvirtualdisplay, and Pillow
     oompID = project.getID()
     print("Making PCB Draw for: "  + oompID  )
     filename = project.getFilename("boardKicad",relative="full").replace("/","\\")

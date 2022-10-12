@@ -2,22 +2,33 @@ import OOMP
 import OOMP_projects_BASE
 
 def createProjects():
-    d = {}
-    d["oompType"] = "PROJ"
-    d["oompSize"] = "IBBC"
-    d["oompColor"] = "0001"
-    d["oompDesc"] = "STAN"
-    d["oompIndex"] = "01"
+    projects = []
+
+    count = 1
+    base = {}
+    base["oompType"] = "PROJ"
+    base["oompSize"] = "IBBC"
+    base["format"] = "kicad"
     
-    d["hexID"] = "PRI1"
+    base["github"] = "https://github.com/oomlout/"
 
-    d["name"] = "ADXL345 Breakout"
-    d["gitRepo"] = "https://github.com/oomlout/IBBC_0001"
-    d["gitName"] = "IBBC_0001"
-    d["kicadBoard"] = "working/IBBC_0001/IBBC_0001.kicad_pcb"
-    d["kicadSchem"] = d["kicadBoard"].replace("kicad_pcb","kicad_sch")
+    base["name"] = "ADXL345 Breakout"
+    d = processDict(base.copy(),"IBBC_0001",count,version="V001");projects.append(d.copy());
+    d = processDict(base.copy(),"IBBC_0001",count,version="V002");projects.append(d.copy());
+    
+    for d in projects:
+        OOMP_projects_BASE.makeProjectNew(d)
+    
 
-    OOMP_projects_BASE.makeProject(d)
-
+def processDict(d,bName,count,version):
+    #### Manual
+    
+    d["name"] = d["name"] + " " + version
+    d["repo"] = bName
+    d["file"] = bName + "_" + version + "/" + bName
+    d["oompIndex"] = version
+    #### Auto
+    d["count"] = count
+    return d
 
 
