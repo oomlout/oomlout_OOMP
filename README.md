@@ -77,17 +77,6 @@ A tag consists of a name and a value. Some tags are further defined in a sperate
 * EDA
 	Not developed yet.
 
-### Project Files  
-
-
-
-
-* details.py -- This is the main file to define a project. It is generated in OOMP_projects_*company*.py. It contains the required tags for a project (all others are harvested) (Required tags: oompType: PROJ, oompSize: *COMPANY CODE*, oompColor: Number or code of, oompDesc: STAN or note, oompIndex: version number, gitRepo: location of git repo, gitName: name of git repo, eagleBoard: name of board file in repo, eagleSchematic: name of schemativ file in repo (can also be kicad board and schematic file)
-
-
-
-
-
 ## Notes
 
 ### EDA
@@ -103,3 +92,12 @@ A tag consists of a name and a value. Some tags are further defined in a sperate
 
 * Symbols
 	* Kicad Symbols - default symbols that ship with kicad (https://gitlab.com/kicad/libraries/kicad-symbols)
+##### KIUTILS library notes
+
+https://github.com/mvnmgrx/kiutils
+
+
+
+
+
+	

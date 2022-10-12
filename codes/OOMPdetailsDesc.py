@@ -30,6 +30,15 @@ OOMP.oompAddDetail(category="desc",code="UH22D",name="2.2 uH")
 OOMP.oompAddDetail(category="desc",code="UH47D",name="4.7 uH")
 OOMP.oompAddDetail(category="desc",code="UH10",name="10 uH")
 OOMP.oompAddDetail(category="desc",code="01P",name="1 Pin")
+###### AMP
+for x in range (1,9):
+    OOMP.oompAddDetail(category="desc",code="A" + str(x) + "D",name=str(x*100) +" mA")
+for x in range (10,100):
+    name = str(round(x/10,1)) +" A"
+    OOMP.oompAddDetail(category="desc",code="A" + str(x) + "D",name=name)
+for x in range (1,250):
+    OOMP.oompAddDetail(category="desc",code="A" + str(x),name= str(x) +" A")
+
 OOMP.oompAddDetail(category="desc",code="A01D",name="100 mA")
 OOMP.oompAddDetail(category="desc",code="A015D",name="150 mA")
 OOMP.oompAddDetail(category="desc",code="A02D",name="200 mA")

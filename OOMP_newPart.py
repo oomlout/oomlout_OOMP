@@ -71,6 +71,30 @@ def makeAll():
         hexID = "HSHR" + str(x)    
         makePart(type,size,color,desc,index,hexID)
 
+
+
+    ##############################
+    ######  REFU
+    parts=[]
+    type = "REFU";size = "1812";color = "X"
+    parts.append(["A35D","V6"])
+    parts.append(["A3","V6"])
+    parts.append(["A26D","V8"])
+    parts.append(["A2","V8"])
+    parts.append(["A16D","V8"])
+    parts.append(["A11D","V8"])
+    parts.append(["A15D","V6"])
+    parts.append(["A35D","V6"])
+    parts.append(["A075D","V132D"])
+    parts.append(["A5D","V15"])
+    parts.append(["A2D","V30"])
+    parts.append(["A1D","V60"])
+    for part in parts:
+        desc = part[0]
+        index = part[1]
+        hexID = "RF18" + desc.replace("A","")
+        makePart(type,size,color,desc,index,hexID)
+
     ##############################
     ######  RESA
     resistorSmall = ["O102","O103","O220","O222","O472"]

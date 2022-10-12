@@ -48,6 +48,7 @@ def getItems(type="",cache=False):
         getItems("footprints",cache=False)
         getItems("symbols",cache=False)
         getItems("parts",cache=False)
+        getItems("moduless",cache=False)
         getItems("nofootprints",cache=False)
         getItems("projects",cache=False)
         getItems("templates",cache=False)        
@@ -60,6 +61,13 @@ def getItems(type="",cache=False):
                 if t.value == "FOOTPRINT":
                     rv.append(part)
             partsFootprints = rv
+        if type.upper() == "MODULES":
+            rv = []
+            for part in parts:
+                t = part.getTag("oompType")
+                if t.value == "BLOCK" or t.value == "MODULE" :
+                    rv.append(part)
+            partsSymbols = rv
         if type.upper() == "SYMBOLS":
             rv = []
             for part in parts:
@@ -434,6 +442,8 @@ class oompItem:
                 rv = "oomlout_OOMP_eda/" + oompType + "/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
             elif oompType == "SYMBOL":
                 rv = "oomlout_OOMP_eda/" + oompType + "/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
+            elif oompType == "MODULE" or oompType == "BLOCK" :
+                rv = "oomlout_OOMP_modules/" + oompType + "/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
             elif oompType == "PROJ":
                 rv = "oomlout_OOMP_projects/"  + oompID + "/" 
             else:
@@ -1037,6 +1047,10 @@ def loadParts(type):
             print("    Loading:    Templates")
             directory = "templates\\diag\\"
             loadDirectory(directory,fileFilter=defaultFilter)
+        if type == "all" or type == "modules" or type == "nofootprints":
+            print("    Loading:    Modules")
+            directory = "oomlout_OOMP_modules\\"            
+            loadDirectory(directory,fileFilter=defaultFilter)         
         if type == "all" or type == "eda":
             print("    Loading:    EDA")
             directory = "oomlout_OOMP_eda\\"            

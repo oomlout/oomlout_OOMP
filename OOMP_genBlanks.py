@@ -8,6 +8,7 @@ print(OOMP.getReport())
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 filter = "all"
+filter = "parts"
 #filter = "nofootprints"
 #filter = "footprints"
 #filter = "symbols"
@@ -23,4 +24,4 @@ OOMPgenerate.generateAll(filter =filter,labels=True)
 ######  Overwrite Readme and JSON
 OOMPgenerate.generateAll(filter =filter,readmes=True,json=True,overwrite=True)
 
-input("ALL DONE")
+#input("ALL DONE")
