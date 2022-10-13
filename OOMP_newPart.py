@@ -19,7 +19,7 @@ def makePart(type,size,color,desc,index,hexID,extraTags=[]):
     contents = contents.replace("HEXZZ",hexID)
     
     
-    extraTags = []
+    
     tagString = ""
     for tag in extraTags:
         tagString = tagString + tag.getPythonLine() + "\n"
@@ -139,10 +139,10 @@ def makeAll():
     type = "USBS";size = "TC";color = "X";desc = "K31";index = "01";hexID = "USCK31"
     extraTags = []
     data = {"companyName" : "LCSC", "companyCode" : "C-LCSC", "partNumber" : "C165948"}
-    extraTags.append(["distributorPartNumber",data])
+    extraTags.append(OOMP.oompTag("distributorPartNumber",data))
     data = {"companyName" : "Korean Hroparts Elec", "companyCode" : "C-KHRO", "partNumber" : "TYPE-C-31-M-12"}
-    extraTags.append(["manufacturerPartNumber",data])
-    makePart(type,size,color,desc,index,hexID,extraTags)
+    extraTags.append(OOMP.oompTag("manufacturerPartNumber",data))
+    makePart(type,size,color,desc,index,hexID,extraTags=extraTags)
 
     ##############################
     ######  VREG

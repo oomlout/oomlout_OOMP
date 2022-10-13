@@ -1014,7 +1014,7 @@ class oompTag:
         if "QH" in str(v):
             pass
         if isinstance(v,dict):
-            rv = "newPart.addTag('" + self.name + "'," + str(self.value).replace("'","").replace('"','').replace("\\","") + ")" 
+            rv = "newPart.addTag('" + self.name + "'," + str(self.value).replace("\\","") + ")" 
             return rv
         else:
             rv = "newPart.addTag('" + self.name + "','" + str(self.value).replace("'","").replace('"','').replace("\\","") + "')" 
