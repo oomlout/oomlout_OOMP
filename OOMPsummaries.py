@@ -83,7 +83,7 @@ def generateReadme(item,overwrite=False):
         type = item.getType()
         if type== "FOOTPRINT":
             generateReadmeFootprint(item, mdFile)
-        elif type== "PROJ":
+        elif type== "PROJ" or  type== "MODULE" or  type== "BLOCK"  :
             generateReadmeProject(item, mdFile)
         elif type== "SYMBOL":
             generateReadmeProject(item, mdFile)

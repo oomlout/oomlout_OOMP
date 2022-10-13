@@ -48,7 +48,7 @@ def getItems(type="",cache=False):
         getItems("footprints",cache=False)
         getItems("symbols",cache=False)
         getItems("parts",cache=False)
-        getItems("moduless",cache=False)
+        getItems("modules",cache=False)
         getItems("nofootprints",cache=False)
         getItems("projects",cache=False)
         getItems("templates",cache=False)        
@@ -79,7 +79,7 @@ def getItems(type="",cache=False):
             rv = []
             for part in parts:
                 t = part.getTag("oompType")
-                if t.value == "TEMPLATE" or t.value == "FOOTPRINT" or t.value == "SYMBOL" or t.value == "PROJ"  :
+                if t.value == "TEMPLATE" or t.value == "FOOTPRINT" or t.value == "SYMBOL" or t.value == "PROJ"   or t.value == "BLOCK"   or t.value == "MODULE"  :
                     c = "SKIP"
                 else:
                     rv.append(part)
