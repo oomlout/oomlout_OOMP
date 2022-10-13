@@ -6,6 +6,8 @@ import OOMP_projects_partsMatch
 
 import OOMP_modules_OOML
 
+from oomBase import *
+
 def createAllModules():
     OOMP_modules_OOML.createModules()
 

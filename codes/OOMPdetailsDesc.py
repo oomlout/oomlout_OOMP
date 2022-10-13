@@ -3059,6 +3059,7 @@ OOMP.oompAddDetail(category="desc",code="KMIC5225",name="MIC5225")
 OOMP.oompAddDetail(category="desc",code="KMIC5205",name="MIC5205")
 OOMP.oompAddDetail(category="desc",code="KLP298XS",name="LP298XS")
 OOMP.oompAddDetail(category="desc",code="KAP2112K",name="AP2112K")
+OOMP.oompAddDetail(category="desc",code="KLD1117",name="LD1117")
 OOMP.oompAddDetail(category="desc",code="KXC6206",name="XC6206")
 
 ###### DIODES
@@ -3074,6 +3075,8 @@ OOMP.oompAddDetail(category="desc",code="COAN",name="Common Anode")
 ######  Sensors
 OOMP.oompAddDetail(category="desc",code="K18B20",name="DS18B20 (1-Wire Digital Thermometer)")
 
+######  USB
+OOMP.oompAddDetail(category="desc",code="K31",name="TYPE-C-31-M-12")
 
 OOMP.oompAddDetail(category="desc",code="HINGE",name="Hinged")
 OOMP.oompAddDetail(category="desc",code="FLAT",name="Flat")

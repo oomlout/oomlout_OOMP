@@ -176,6 +176,7 @@ OOMP.oompAddDetail(category="size",code="MC",name="Micro")
 OOMP.oompAddDetail(category="size",code="MN",name="Mini")
 OOMP.oompAddDetail(category="size",code="TA",name="Type A")
 OOMP.oompAddDetail(category="size",code="TB",name="Type B")
+OOMP.oompAddDetail(category="size",code="TC",name="Type C")
 OOMP.oompAddDetail(category="size",code="SC",name="Solid")
 OOMP.oompAddDetail(category="size",code="01D",name="0.1 mm")
 OOMP.oompAddDetail(category="size",code="02D",name="0.2 mm")
@@ -664,6 +665,10 @@ OOMP.oompAddDetail(category="size",code="L169W130H18",name="169 mm x 130 mm x 18
 
 
 OOMP.oompAddDetail(category="size",code="SZ130",name="130 Size")
+
+######  SMD Parts
+OOMP.oompAddDetail(category="size",code="DPAK",name="DPAK")
+OOMP.oompAddDetail(category="size",code="SO8",name="SO-8")
 
 ######  More recent Additions
 OOMP.oompAddDetail(category="size",code="XHP70",name="XHP 70")

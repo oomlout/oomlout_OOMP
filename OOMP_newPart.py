@@ -1,10 +1,10 @@
 import OOMP
 from oomBase import *
 
-def makePart(type,size,color,desc,index,hexID):
+def makePart(type,size,color,desc,index,hexID,extraTags=[]):
     oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
 
-    inputFile = "C:/GH/oomlout_OOMP/oomlout_OOMP_parts/AAAA-AAA-A-AAAA-AA/XXXdetailsXXX.py"
+    inputFile = "templates/partsTemplate.py"
     outputDir = "C:/GH/oomlout_OOMP/oomlout_OOMP_parts/" + oompID + "/"
     outputFile = outputDir + "details.py"
 
@@ -17,6 +17,15 @@ def makePart(type,size,color,desc,index,hexID):
     contents = contents.replace("DESCZZ",desc)
     contents = contents.replace("INDEXZZ",index)
     contents = contents.replace("HEXZZ",hexID)
+    
+    
+    extraTags = []
+    tagString = ""
+    for tag in extraTags:
+        tagString = tagString + tag.getPythonLine() + "\n"
+
+    contents = contents.replace("EXTRAZZ",tagString)
+
 
     oomWriteToFile(outputFile,contents)
 
@@ -123,6 +132,33 @@ def makeAll():
         desc = "PI" + str(x).zfill(2)
         hexID = "T35L" + str(x)
         makePart(type,size,color,desc,index,hexID)
+
+    ##############################
+    ######  USB
+    ######  C31
+    type = "USBS";size = "TC";color = "X";desc = "K31";index = "01";hexID = "USCK31"
+    extraTags = []
+    data = {"companyName" : "LCSC", "companyCode" : "C-LCSC", "partNumber" : "C165948"}
+    extraTags.append(["distributorPartNumber",data])
+    data = {"companyName" : "Korean Hroparts Elec", "companyCode" : "C-KHRO", "partNumber" : "TYPE-C-31-M-12"}
+    extraTags.append(["manufacturerPartNumber",data])
+    makePart(type,size,color,desc,index,hexID,extraTags)
+
+    ##############################
+    ######  VREG
+    ######  LD1117
+    type = "VREG";size = "";color = "X";desc = "KLD1117";index = "01";hexID = "VR1117"
+
+    list = ["SO223","SO8","DPAK","T220"]
+    list2 = ["V12D","V18D","V25D","V33D","V5"]
+    for l in list:
+        size = l
+        for ll in list2:
+            index = ll
+            hexID = "VR1117" + l.replace("SO","").replace("T","").replace("T","").replace("DPAK","D") + ll.replace("D","").replace("V","")
+            makePart(type,size,color,desc,index,hexID)
+
+
 
 
 
