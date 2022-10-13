@@ -3,6 +3,10 @@ import OOMP
 print("Generating Pickle Files:")
 
 OOMP.loadParts("all")
+
+
+# OOMP.loadParts("modules")
+
 #OOMP.loadParts("nofootprints")
 #OOMP.loadParts("parts")
 
@@ -12,8 +16,8 @@ OOMP.loadParts("all")
 
 print(OOMP.getReport())
 
-import OOMP_genBlanks
-import OOMP_genBlanks
+#import OOMP_genBlanks
+#import OOMP_genBlanks
 
 
 

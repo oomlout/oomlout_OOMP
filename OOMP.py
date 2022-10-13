@@ -182,6 +182,7 @@ def getReport():
     rv = rv + "Number of Footprints: "+ str(len(getItems("footprints"))) + "\n"
     rv = rv + "Number of Parts: "+ str(len(getItems("parts"))) + "\n"
     rv = rv + "Number of Projects: "+ str(len(getItems("projects"))) + "\n"
+    rv = rv + "Number of Modules: "+ str(len(getItems("modules"))) + "\n"
     return rv
 
 ######  Directory routines
@@ -443,7 +444,7 @@ class oompItem:
             elif oompType == "SYMBOL":
                 rv = "oomlout_OOMP_eda/" + oompType + "/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
             elif oompType == "MODULE" or oompType == "BLOCK" :
-                rv = "oomlout_OOMP_modules/" + oompType + "/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
+                rv = "oomlout_OOMP_modules/" + oompID + "/"
             elif oompType == "PROJ":
                 rv = "oomlout_OOMP_projects/"  + oompID + "/" 
             else:
@@ -467,7 +468,7 @@ class oompItem:
         return rv
 
     def getFilename(self,filename,relative="",resolution="",extension=""):
-
+        oompType = self.getTag("oompType").value
 
         allNames = []
         allImagesNames = []
@@ -627,10 +628,19 @@ class oompItem:
 
         ######  Kicad files
         
+
+        ###### module stuff
+
+        
+
+
         name = "boardkicad"
-        allNames.append(name)
+        allNames.append(name)                
         if filename.lower() == name:        
-            fileExtra = "kicad/boardKicad.kicad_pcb"
+            if oompType == "MODULE" or  oompType == "BLOCK": 
+                fileExtra = self.getID() + ".kicad_pcb"
+            else:
+                fileExtra = "kicad/boardKicad.kicad_pcb"
         name = "kicadbom"
         allNames.append(name)
         if filename.lower() == name:        
@@ -638,7 +648,12 @@ class oompItem:
         name = "schemkicad"
         allNames.append(name)
         if filename.lower() == name:        
-            fileExtra = "kicad/schematicKicad.kicad_sch"
+            if oompType == "MODULE" or  oompType == "BLOCK": 
+                fileExtra = self.getID() + ".kicad_sch"    
+            else:
+                fileExtra = "kicad/schematicKicad.kicad_sch"
+                
+
         if filename.lower() == "dirkicad":
             fileExtra = "kicad/"
 

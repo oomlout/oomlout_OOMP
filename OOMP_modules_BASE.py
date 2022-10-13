@@ -1,6 +1,10 @@
 import OOMP
 import OOMPproject
 import OOMPprojectParts
+import OOMP_projects_partsMatch
+
+import OOMP_projects_BASE
+
 from oomBase import *
 
 ######  Company Files
@@ -220,5 +224,43 @@ def harvestModules():
         if test != "":
             harvestModule(project,all=True)
 
-def harvestModule(project,overwrite=False):
-        OOMP_projects_BASE.harvestProject(project,overwrite)
+def harvestModule(project,all=False,gitPull=False,copyBaseFiles=False,harvestEagle=False,harvestKicad=False,overwrite=False):
+    oompID = project.getID()
+    print("Harvesting Project: " + oompID)
+
+    if all or gitPull:
+        pass
+        #gitPullProject(project)
+    if all or copyBaseFiles:
+        pass
+        #copyBaseFilesProject(project)
+    if all or harvestEagle:        
+        pass
+        #harvestEagleProject(project,overwrite)
+    if all or harvestKicad:
+        pass
+        harvestKicadProject(project,overwrite)
+
+
+def harvestKicadProject(project,overwrite=False):
+    print("    Harvesting Kicad Files ")
+    ###### Convert to kicad
+    kicadBoardFile = project.getFilename("boardkicad")    
+    kicadSchemFile = project.getFilename("schemkicad")
+    
+    projectDir = project.getFolder()
+    ###### get files out
+    #  of kicad
+    OOMPproject.harvestKicadBoardFile(part=project,overwrite=overwrite)
+    OOMPproject.harvestKicadSchemFile(part=project,overwrite=overwrite)
+    ###### interactive BOM
+    OOMPproject.makeInteractiveHtmlBom(project,overwrite)
+    ###### currently broken for kicad files
+    OOMPprojectParts.harvestParts(project,overwrite=overwrite)
+    OOMP_projects_partsMatch.matchParts(project)
+
+    OOMPproject.renderPcbDraw(project,overwrite)
+    if False:
+        for part in OOMP.getItems("parts"):
+                part.exportTags("detailsInstancesOomp",["oompInstances"]) 
+

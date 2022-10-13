@@ -158,6 +158,7 @@ def harvestKicadBoardFile(file="",directory="",part="",overwrite=False,filter="p
             oomSend("b",10)
             oomMouseClick(pos=kicadActive,delay=5)    
             filename = OOMP.baseDir + directory + "kicad/"
+            oomMakeDir(filename)
             if filter == "projects":
                 kicadExport(filename,"bom",overwrite=overwrite)
             if filter == "projects":    
