@@ -3,6 +3,7 @@ import OOMPtags #### hex for footprint
 import OOMP_footprints_BASE
 from oomBase import *
 
+import glob
 import os
 
 from kiutils.footprint import Footprint
@@ -45,7 +46,7 @@ def createFootprints():
             directory = "oomlout_OOMP_eda/FOOTPRINT/kicad/" + owner + "/" + footprint[0]
             oomMakeDir(directory)
             makeFootprint(d)
-
+    footprints = getKicadFootprintNamesMega()    
 
 def makeFootprint(d):
     type = d["oompType"]
@@ -160,6 +161,36 @@ def getKicadFootprintNames(owner):
             pass
             #break  ## For only one file
     return footprints    
+
+def getKicadFootprintNamesMega():
+    directory = "sourceFiles/mega/kicad-fotprints/" 
+    footprints = []
+    count = 0
+    files = glob(directory)
+    """
+    for subdir, dirs, files in os.walk(directory):
+        for file in files:
+            if not "/src" in subdir: ###### skip source folder
+                filename = subdir + "/" + file
+                if("kicad_mod" in file and "Obsolete" not in filename):                                
+                    print("Working on File: "  + filename)
+                    try:
+                        foot = Footprint().from_file(filename)
+                        footprints.append([subdir.replace(".pretty","").replace("sourceFiles/git/" +owner + "/",""),foot])
+                    except:
+                        print("    ERROR Unable to parse file into kiutils")
+                        
+                    count = count + 1
+                    if count > 1:
+                        pass
+                        #break  ## For only one file
+        if count > 1:
+            pass
+            #break  ## For only one file
+    """
+    return footprints    
+
+
 
 def harvestFootprints(overwrite=False,copySourceFiles=False,harvestFootprintImages=False):        
     for footprint in OOMP.getItems("footprints"):

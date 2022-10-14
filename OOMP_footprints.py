@@ -5,7 +5,8 @@ import OOMP_footprints_KICAD
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 OOMP.loadParts("pickle")
 
-#OOMP_footprints_BASE.gitPull()
+OOMP_footprints_BASE.gitPull()
+OOMP_footprints_BASE.gitFullPull()
 
 #OOMP_footprints_BASE.createAllFootprints()
 #OOMP.loadParts("all")
