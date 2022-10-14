@@ -7,10 +7,15 @@ import math
 from oomBase import *
 
 
+def getNavigation():
+    rv = "Navigation  "
+    return rv
+
 def generateReadmeIndex():    
     filename = OOMP.getDir("parts") + "\\Readme.md"
     
     mdFile = MdUtils(file_name=filename,title="")
+    mdFile.new_line(getNavigation())
     mdFile.new_header(level=1,title="Parts")
     
     
@@ -28,6 +33,8 @@ def generateReadmeIndex():
     mdFile.new_table_of_contents(table_title='Contents', depth=2)
     mdFile.create_md_file()     
     
+
+
 
 def generateRedirect():
     redirectLimit = 10000

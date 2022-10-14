@@ -9,9 +9,6 @@ import OPSC as opsc
 
 
 
-
-
-
 def generateAll(filter="all",labels=False,scads=False,renders=False,readmes=False,diagrams=False,diagRenders=False,images=False,json=False,redirects=False,overwrite=False):
 
     print("Generating for " + str(len(OOMP.parts)) + " items")

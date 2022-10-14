@@ -404,6 +404,8 @@ class oompItem:
 
     def getID(self):
         return self.getTag("oompID").value
+    def getName(self):
+        return self.getTag("name").value
     def getType(self):
         return self.getTag("oompType").value
     def getHex(self):

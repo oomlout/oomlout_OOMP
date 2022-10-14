@@ -15,8 +15,8 @@ print(OOMP.getReport())
 def create():
     OOMP_projects_BASE.createAllProjects()
 
-def all(filter=""):
-    OOMP_projects_BASE.harvestProjects(filter)
+def all(filter="",exclusions="NONE"):
+    OOMP_projects_BASE.harvestProjects(filter,exclusions)
     OOMP.loadParts("all")
     OOMP_projects_BASE.harvestProjects(filter)
     OOMP.loadParts("all")
@@ -32,16 +32,17 @@ def single(oompid):
         print("No Project Found")
     
 
-#create()
+create()
 
 #OOMP.loadParts("projects")
 #OOMP.loadParts("nofootprints")
 
 
 #all()
-filter = "IBBC"
-filter = ""
-all(filter)
+#filter = "IBBC"
+#filter = ""
+#exclusions = "NONE"
+#all(filter,exclusions)
 
 #oompID="PROJ-SIRB-0002-STAN-01"
 #single(oompID)

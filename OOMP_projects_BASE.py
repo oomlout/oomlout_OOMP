@@ -12,14 +12,16 @@ import OOMP_projects_IBBC
 import OOMP_projects_SEED
 import OOMP_projects_SIRB
 import OOMP_projects_SOPA
+import OOMP_projects_SPAR
 
 def createAllProjects():
-    OOMP_projects_IBBC.createProjects()
+    #OOMP_projects_IBBC.createProjects()
     #OOMP_projects_ADAF.createProjects()    
     #OOMP_projects_ELLA.createProjects()
     #OOMP_projects_SEED.createProjects()
     #OOMP_projects_SIRB.createProjects()
     #OOMP_projects_SOPA.createProjects()
+    OOMP_projects_SPAR.createProjects()
 
 def makeProject(d):
     type = d["oompType"]
@@ -115,7 +117,10 @@ def makeProjectNew(d):
 
     oomWriteToFile(outputFile,contents)
 
-def harvestProjects(filter=""):
+def harvestProjects(filter="",exclusions="NONE"):
+    neverString = "nnmmkjkjoijlknlkzzzz"
+    if exclusions = "NONE":
+        exclusions= neverString
     oomLaunchKicad()
     for project in OOMP.getItems("projects"):
         oompID = project.getID()
@@ -124,7 +129,8 @@ def harvestProjects(filter=""):
         skip = ["PROJ-SEED-20054-STAN-01"]
         if test != "" and oompID not in skip:
             testID = project.getID()
-            if filter in testID:
+            if filter in testID and exclusions not in testID:
+
                 harvestProject(project,all=True)
     for part in OOMP.getItems("parts"):
         part.exportTags("detailsInstancesOomp",["oompInstances"]) 
