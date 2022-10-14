@@ -14,6 +14,8 @@ def gitPull():
     ###### oomlout_OOMP_modules    
     gits.append('https://github.com/oomlout/oomlout_OOMP_kicad')
 
+    gits.append('https://github.com/Digi-Key/digikey-kicad-library')
+
     for gitLoc in gits:
         oomGitPull(gitLoc,dir)
 
