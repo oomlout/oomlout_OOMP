@@ -138,7 +138,7 @@ Property(key='Value', value='14529', id=1, position=Position(X=-7.62, Y=-21.59, 
     return d
 
 def getKicadFootprintNames(owner):
-    directory = "sourceFiles/git/" + owner + "/"    
+    directory = "sourceFiles/git/kicadStuff/" + owner + "/"    
     footprints = []
     count = 0
     for subdir, dirs, files in os.walk(directory):
@@ -149,7 +149,7 @@ def getKicadFootprintNames(owner):
                     print("Working on File: "  + filename)
                     try:
                         foot = Footprint().from_file(filename)
-                        footprints.append([subdir.replace(".pretty","").replace("sourceFiles/git/" +owner + "/",""),foot])
+                        footprints.append([subdir.replace(".pretty","").replace("sourceFiles/git/kicadStuff/" +owner + "/",""),foot])
                     except:
                         print("    ERROR Unable to parse file into kiutils")
                         
@@ -160,34 +160,6 @@ def getKicadFootprintNames(owner):
         if count > 1:
             pass
             #break  ## For only one file
-    return footprints    
-
-def getKicadFootprintNamesMega():
-    directory = "sourceFiles/mega/kicad-fotprints/" 
-    footprints = []
-    count = 0
-    files = glob(directory)
-    """
-    for subdir, dirs, files in os.walk(directory):
-        for file in files:
-            if not "/src" in subdir: ###### skip source folder
-                filename = subdir + "/" + file
-                if("kicad_mod" in file and "Obsolete" not in filename):                                
-                    print("Working on File: "  + filename)
-                    try:
-                        foot = Footprint().from_file(filename)
-                        footprints.append([subdir.replace(".pretty","").replace("sourceFiles/git/" +owner + "/",""),foot])
-                    except:
-                        print("    ERROR Unable to parse file into kiutils")
-                        
-                    count = count + 1
-                    if count > 1:
-                        pass
-                        #break  ## For only one file
-        if count > 1:
-            pass
-            #break  ## For only one file
-    """
     return footprints    
 
 

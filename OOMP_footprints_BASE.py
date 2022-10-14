@@ -22,6 +22,8 @@ def gitFullPull():
     dir = "sourceFiles/git/kicadStuff/"
     oomMakeDir(dir)
 
+    gits = []
+
     gits.append('git://smisioto.eu/kicad_libs.git')
     gits.append('https://github.com/1Bitsy/1bitsy-hardware-lib')
     gits.append('https://github.com/4ms/4ms-kicad-lib')
