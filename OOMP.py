@@ -627,7 +627,10 @@ class oompItem:
             fileExtra = "eagleBOM.csv"
 
         ######  Kicad files
-        
+        name = "kicadFootprint"
+        allNames.append(name)
+        if filename.lower() == name.lower():        
+            fileExtra = "footprint.kicad_mod"
 
         ###### module stuff
 
@@ -896,6 +899,15 @@ class oompItem:
                 id = self.getTag("oompType").value + "-" +  self.getTag("oompSize").value + "-" +  self.getTag("oompColor").value + "-" +  self.getTag("oompDesc").value + "-" +  self.getTag("oompIndex").value
                 self.addTag("oompID",id)
                 return(oompTag("oompID", id))
+        ###### Footprint Help
+        if name.lower() == "oompfootprinttype":
+            return self.getTag("oompSize")
+        if name.lower() == "oompowner":
+            return self.getTag("oompColor")
+        if name.lower() == "oomplibrary":
+            return self.getTag("oompDesc")            
+        if name.lower() == "oompfootprintname":
+            return self.getTag("oompIndex")
         if name.lower() == "oompidslashes":
             id = ""
             for x in self.tags:

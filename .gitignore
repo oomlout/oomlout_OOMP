@@ -11,6 +11,8 @@ oomlout_OOMP_eda/
 oomlout_OOMP_parts/
 # This is where the project details are stored in a seperate repository (https://github.com/oomlout/oomlout_OOMP_projects)
 oomlout_OOMP_projects/
+# This is where footprint and symbol files are stored (https://github.com/oomlout/oomlout_OOMP_kicad)
+oomlout_OOMP_kicad/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

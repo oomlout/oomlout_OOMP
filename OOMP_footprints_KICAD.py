@@ -7,9 +7,30 @@ import os
 
 from kiutils.footprint import Footprint
 
+###### kicad mousepoints
+X = 0
+Y = 0
+kicadActive =[515,14]
+kicadFootprintFilter =[145,114]
+kicadFootprintFirstResult = [145,185]
+kicadFootprintMiddle = [945,545] 
+kicadFootprintMiddlePlus = [950,550] 
+kicadFootprintTopLeft = [365,86] 
+kicadSymbolMiddle = [1105,555] 
+kicadSymbolMiddlePlus = [1110,560] 
+
+kicadFile = [80,35]
+kicad3dView = [145,35]
+
+
+kicadLibraryTop = [210,115]
+
+
 def createFootprints():
-    owners = ["kicad-footprints"]
+    owners = ["kicad-footprints","oomlout_OOMP_kicad","digikey-kicad-library"]
+    owners = ["digikey-kicad-library"]
     for owner in owners:
+        
         footprints = getKicadFootprintNames(owner)        
         for footprint in footprints: 
             d = {}
@@ -18,7 +39,11 @@ def createFootprints():
             d["oompColor"] =  owner
             d["oompDesc"] =  footprint[0]
             d["FOOTPRINT"] = footprint[1]
-            loadFootprintDict(d)
+            loadFootprintDict(d)            
+            directory = "oomlout_OOMP_eda/FOOTPRINT/kicad/" +owner
+            oomMakeDir(directory)
+            directory = "oomlout_OOMP_eda/FOOTPRINT/kicad/" + owner + "/" + footprint[0]
+            oomMakeDir(directory)
             makeFootprint(d)
 
 
@@ -33,7 +58,7 @@ def makeFootprint(d):
 
     oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
 
-    print("Making Footprint: " + oompID)
+    print("    Making Footprint")
 
     oompSlashes = type + "/" + size + "/" + color + "/" + desc + "/" + index + "/"
 
@@ -77,7 +102,7 @@ Property(key='Reference', value='U', id=0, position=Position(X=-7.62, Y=19.05, a
 Property(key='Value', value='14529', id=1, position=Position(X=-7.62, Y=-21.59, angle=0, unlocked=False), effects=Effects(font=Font(face=None, height=1.27, width=1.27, thickness=None, bold=False, italic=False, lineSpacing=None), justify=Justify(horizontally=None, vertically=None, mirror=False), hide=False))
     """
 
-    d["name"] = footprint.libraryLink.replace("'","")
+    d["name"] = str(footprint.libraryLink).replace("'","")
     try:
         d["description"] = footprint.description.replace("'","")
     except:
@@ -112,25 +137,169 @@ Property(key='Value', value='14529', id=1, position=Position(X=-7.62, Y=-21.59, 
     return d
 
 def getKicadFootprintNames(owner):
-    directory = "oomlout_OOMP_eda/sourceFiles/" + owner + "/"    
+    directory = "sourceFiles/git/" + owner + "/"    
     footprints = []
     count = 0
     for subdir, dirs, files in os.walk(directory):
         for file in files:
-            filename = subdir + "/" + file
-            if("kicad_mod" in file and "Obsolete" not in filename):                                
-                print("Working on File: "  + filename)
-                try:
-                    foot = Footprint().from_file(filename)
-                    footprints.append([subdir.replace(".pretty","").replace("oomlout_OOMP_eda/sourceFiles/kicad-footprints/",""),foot])
-                except:
-                    print("    ERROR Unable to parse file into kiutils")
-                    
-                count = count + 1
-                if count > 1:
-                    pass
-                    #break  ## For only one file
+            if not "/src" in subdir: ###### skip source folder
+                filename = subdir + "/" + file
+                if("kicad_mod" in file and "Obsolete" not in filename):                                
+                    print("Working on File: "  + filename)
+                    try:
+                        foot = Footprint().from_file(filename)
+                        footprints.append([subdir.replace(".pretty","").replace("sourceFiles/git/" +owner + "/",""),foot])
+                    except:
+                        print("    ERROR Unable to parse file into kiutils")
+                        
+                    count = count + 1
+                    if count > 1:
+                        pass
+                        #break  ## For only one file
         if count > 1:
             pass
             #break  ## For only one file
     return footprints    
+
+def harvestFootprints(overwrite=False,copySourceFiles=False,harvestFootprintImages=False):        
+    for footprint in OOMP.getItems("footprints"):
+        type =  footprint.getTag("oompFootprintType").value
+        if type.lower() == "kicad":
+            harvestFootprint(footprint,all=True,copySourceFiles=copySourceFiles,harvestFootprintImages=harvestFootprintImages,overwrite=overwrite)
+
+def harvestFootprint(footprint,all=False,copySourceFiles=False,harvestFootprintImages=False,overwrite=False):
+    print("Working on: " + footprint.getID())
+    if all or copysourceFiles:
+        pass
+        #copySourceFile(footprint,overwrite)
+    if all or harvestFootprintImages:
+        harvestKicadFootprint(footprint)
+
+
+def copySourceFile(footprint,overwrite=False):    
+    type =  footprint.getTag("oompFootprintType").value
+    destFile = footprint.getFilename("kicadFootprint")
+    print("    Copying Footprint Source File")
+    if not os.path.exists(destFile) or overwrite:        
+        owner = footprint.getTag("oompOwner").value
+        library = footprint.getTag("oompLibrary").value
+        name = footprint.getTag("oompFootprintName").value
+        sourceFile = "sourceFiles/git/" + owner + "/" + library + ".pretty/" + name + ".kicad_mod"
+
+        if os.path.isfile(destFile):
+            print("        Deleting: " + destFile)
+            os.remove(destFile)
+        
+        shutil.copyfile(sourceFile, destFile)
+    print("       SKIPPING")
+
+def harvestKicadFootprint(footprint,overwrite=False):
+    print("    Harvesting files")
+
+    
+    oompFileName = footprint.getFilename("image")
+    oompFileName3D = footprint.getFilename("kicadPcb3d")
+    oompFileName3Dfront = footprint.getFilename("kicadPcb3dFront")
+    oompFileName3Dback = footprint.getFilename("kicadPcb3dBack")
+    footprintFilename = footprint.getFilename("kicadFootprint")
+
+    #if overwrite or not os.path.isfile(oompFileName) :
+    if overwrite or not os.path.isfile(oompFileName3D) :
+        shortDelay = 1
+        longDelay = 3
+        footprintName = footprint.getTag("oompLibrary").value
+        footprintDir = footprint.getTag("oompFootprintName").value
+        print("Capturing :" + str(footprint))
+        oomMouseClick(pos=kicadActive)
+        oomDelay(shortDelay)
+        ##apply filter
+        oomMouseClick(pos=kicadFootprintFilter)
+        oomDelay(shortDelay)
+        oomSendCtrl("a")
+        oomDelay(shortDelay)
+        oomSend(footprintName + " " + footprintDir)
+        oomDelay(longDelay)
+        oomMouseDoubleClick(pos=kicadFootprintFirstResult)
+        oomDelay(longDelay)
+        #### Discard Changes
+        oomSendRight()
+        oomDelay(shortDelay)
+        oomSendEnter()
+        oomDelay(longDelay)
+        #### Export PNG
+        file = oompFileName.replace("/","\\")
+        if not os.path.exists(file):
+            oomSendAltKey("f",2)
+            oomSend("e",1)
+            oomSend("p",2)
+            oomSend(file,3)
+            oomSendEnter(delay=1)
+            oomSend("y",2)
+        #### Export Footprint
+        file = footprintFilename.replace("/","\\")
+        if not os.path.exists(file):        
+            oomSendAltKey("f",2)
+            oomSend("e",1)
+            oomSend("f",2)
+            oomSend(file,3)
+            oomSendEnter(delay=1)
+            oomSend("y",2)
+            oomSendEnter(delay=1)
+        #### 3d 
+        oomMouseClick(pos=[153,36],delay=1)
+        oomSendDown(times=2,delay=1)
+        oomSendEnter(delay=5)
+        oomSendWindowsKey("up")
+        ##### raytracing
+        oomSendAltKey("p",1)
+        oomSendEnter(2)
+        oomDelay(10)
+        #### front
+        oomSendAltKey("f",2)
+        oomSendEnter(delay=1)
+        oomSend(oompFileName3Dfront.replace("/","\\"),3)
+        oomSendEnter(delay=1)
+        oomSend("y",2)
+        oomSend("r",2)       
+        #### back
+        oomMouseClick(pos=[595,60],delay=5)
+        oomDelay(10)
+        oomSendAltKey("f",2)
+        oomSendEnter(delay=1)
+        oomSend(oompFileName3Dback.replace("/","\\"),3)
+        oomSendEnter(delay=1)
+        oomSend("y",2)        
+        oomSend("r",2)       
+        #### ortho
+        #oomMouseClick(pos=[595,60],delay=5)  
+        # Needs hotkey setting rotate x clockwise to a, z counter clockwise to d 
+        oomSend("aaaa",2)
+        # for b in range(0,4):
+        #     oomSendAltKey("v",delay=0.5)
+        #     oomSendDown(4,delay=1)  
+        #     oomSendEnter(delay=1)   
+        oomSend("dd",2)
+        oomDelay(10)
+        # for b in range(0,2):
+        #     oomSendAltKey("v",delay=0.5)
+        #     oomSendDown(9,delay=1)  
+        #     oomSendEnter(delay=1)      
+        oomSendAltKey("f",2)
+        oomSendEnter(delay=1)
+        oomSend(oompFileName3D.replace("/","\\"),3)
+        oomSendEnter(delay=1)
+        oomSend("y",2)
+        ##### close
+        oomSendAltKey("f",delay=1)
+        oomSendUp(delay=1)
+        oomSendEnter(delay=3)
+
+
+
+
+
+
+
+        oomDelay(longDelay)    
+
+        oomDelay(5)
