@@ -436,6 +436,8 @@ def getFootprintHex(filter):
     replaceList.append(["SHIELD","SH"])    
     replaceList.append(["TRANSFORMER","TR"])
     
+    replaceList.append(["RECTANGULAR","R"])
+    replaceList.append(["MM",""])
 
     replaceList.append(["SOP","S"])
 

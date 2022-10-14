@@ -197,11 +197,11 @@ def harvestKicadFootprint(footprint,overwrite=False):
     print("    Harvesting files")
 
     
-    oompFileName = footprint.getFilename("image")
-    oompFileName3D = footprint.getFilename("kicadPcb3d")
-    oompFileName3Dfront = footprint.getFilename("kicadPcb3dFront")
-    oompFileName3Dback = footprint.getFilename("kicadPcb3dBack")
-    footprintFilename = footprint.getFilename("kicadFootprint")
+    oompFileName = footprint.getFilename("image",relative="full")
+    oompFileName3D = footprint.getFilename("kicadPcb3d",relative="full")
+    oompFileName3Dfront = footprint.getFilename("kicadPcb3dFront",relative="full")
+    oompFileName3Dback = footprint.getFilename("kicadPcb3dBack",relative="full")
+    footprintFilename = footprint.getFilename("kicadFootprint",relative="full")
 
     #if overwrite or not os.path.isfile(oompFileName) :
     if overwrite or not os.path.isfile(oompFileName3D) :
