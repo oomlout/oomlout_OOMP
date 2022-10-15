@@ -1,6 +1,6 @@
 import OOMP
 
-import OOMP_summaries_COLLECTIONS
+
 
 import OOMPsummaries
 import math
@@ -12,7 +12,6 @@ def createAllSummaries(all=False,overwrite=False,filter=""):
         if filter in item.getID():
             print("Summaries For:" + item.getID())
             createSummary(item=item,all=all,overwrite=overwrite)
-    OOMP_summaries_COLLECTIONS.generateCollections()
     OOMPsummaries.generateReadmeIndex()
     
 

@@ -1,4 +1,5 @@
 import os
+from pyclbr import readmodule_ex
 import random
 import shutil
 import time
@@ -49,6 +50,7 @@ def getItems(type="",cache=False):
         getItems("symbols",cache=False)
         getItems("parts",cache=False)
         getItems("modules",cache=False)
+        getItems("collectionss",cache=False)
         getItems("nofootprints",cache=False)
         getItems("projects",cache=False)
         getItems("templates",cache=False)        
@@ -68,6 +70,13 @@ def getItems(type="",cache=False):
                 if t.value == "BLOCK" or t.value == "MODULE" :
                     rv.append(part)
             partsSymbols = rv
+        if type.upper() == "COLLECTIONS":
+            rv = []
+            for part in parts:
+                t = part.getTag("oompType")
+                if t.value == "COLLECTION":
+                    rv.append(part)
+            partsSymbols = rv
         if type.upper() == "SYMBOLS":
             rv = []
             for part in parts:
@@ -79,7 +88,7 @@ def getItems(type="",cache=False):
             rv = []
             for part in parts:
                 t = part.getTag("oompType")
-                if t.value == "TEMPLATE" or t.value == "FOOTPRINT" or t.value == "SYMBOL" or t.value == "PROJ"   or t.value == "BLOCK"   or t.value == "MODULE"  :
+                if t.value == "TEMPLATE" or t.value == "FOOTPRINT" or t.value == "SYMBOL" or t.value == "PROJ"   or t.value == "BLOCK"   or t.value == "MODULE"     or t.value == "COLLECTION"  :
                     c = "SKIP"
                 else:
                     rv.append(part)
@@ -447,6 +456,8 @@ class oompItem:
                 rv = "oomlout_OOMP_eda/" + oompType + "/" + oompSize + "/" + oompColor + "/" + oompDesc + "/" + oompIndex.replace(":","-").replace("\\","-").replace("/","-") + "/"
             elif oompType == "MODULE" or oompType == "BLOCK" :
                 rv = "oomlout_OOMP_modules/" + oompID + "/"
+            elif oompType == "COLLECTION":
+                rv = "oomlout_OOMP_collections/" + oompID + "/"
             elif oompType == "PROJ":
                 rv = "oomlout_OOMP_projects/"  + oompID + "/" 
             else:
@@ -496,6 +507,8 @@ class oompItem:
                 base = "https://github.com/oomlout/oomlout_OOMP_eda/tree/main/" + oompID + "/"
             elif "PROJ" in oompID:
                 base = "https://github.com/oomlout/oomlout_OOMP_projects/tree/main/" + oompID + "/"
+            elif "MODULE" in oompID or  "BLOCK" in oompID:
+                base = "https://github.com/oomlout/oomlout_OOMP_modules/tree/main/" + oompID + "/"
             else:    
                 base = "https://github.com/oomlout/oomlout_OOMP_parts/tree/main/" + oompID + "/"
         elif relative.lower() == "githubweb": ## relative to c
@@ -503,6 +516,10 @@ class oompItem:
             if "FOOTPRINT" in oompID  or "SYMBOL" in oompID:
                 oompID = self.getTag("oompIDslashes").value
                 base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_eda/blob/main/" + oompID + "/"
+            elif "MODULE" in oompID or  "BLOCK" in oompID:
+                base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_modules/blob/main/" + oompID + "/"
+            elif "COLLECTION" in oompID:
+                base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_collections/blob/main/" + oompID + "/"
             elif "PROJ" in oompID:
                 base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_projects/blob/main/" + oompID + "/"
             else:    
@@ -512,8 +529,12 @@ class oompItem:
             if "FOOTPRINT" in oompID or "SYMBOL" in oompID:
                 oompID = self.getTag("oompIDslashes").value
                 base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_eda/main/" + oompID + "/"
+            elif "MODULE" in oompID or  "BLOCK" in oompID:
+                base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_modules/main/" + oompID + "/"        
             elif "PROJ" in oompID:
                 base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_projects/main/" + oompID + "/"
+            elif "COLLECTION" in oompID:
+                base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_collections/main/" + oompID + "/"
             else:    
                 base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_parts/main/" + oompID + "/"
         else:
@@ -635,6 +656,14 @@ class oompItem:
             fileExtra = "footprint.kicad_mod"
 
         ###### module stuff
+
+
+
+        ###### collection stuff
+        name = "readme"
+        allNames.append(name)
+        if filename.lower() == name.lower():        
+            fileExtra = "README.md"
 
         
 
@@ -1027,7 +1056,7 @@ class oompTag:
         v = self.value
         if "QH" in str(v):
             pass
-        if isinstance(v,dict):
+        if isinstance(v,dict) or isinstance(v,list) :
             rv = "newPart.addTag('" + self.name + "'," + str(self.value).replace("\\","") + ")" 
             return rv
         else:
@@ -1082,6 +1111,10 @@ def loadParts(type):
         if type == "all" or type == "modules" or type == "nofootprints":
             print("    Loading:    Modules")
             directory = "oomlout_OOMP_modules\\"            
+            loadDirectory(directory,fileFilter=defaultFilter) 
+        if type == "all" or type == "collections" or type == "nofootprints":
+            print("    Loading:    Collections")
+            directory = "oomlout_OOMP_collections\\"            
             loadDirectory(directory,fileFilter=defaultFilter)         
         if type == "all" or type == "eda":
             print("    Loading:    EDA")
