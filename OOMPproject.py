@@ -124,7 +124,8 @@ def harvestEagleSchemToKicad(file,directory,overwrite=False):
         ###### close project
         kicadClosePcb(False)
     else:
-        print("        SKIPPING")        
+        print("        SKIPPING")  
+        
 
 def kicadClosePcb(noSave=True):
     #oomSendAltKey("f",2)
@@ -558,8 +559,10 @@ def renderPcbDraw(project,overwrite):
     pcbDrawBackFile = project.getFilename("pcbdrawback",relative="full").replace("/","\\")
     pcbDrawFilePng = project.getFilename("pcbdraw",relative="full",extension = "png").replace("/","\\")
     pcbDrawBackFilePng = project.getFilename("pcbdrawback",relative="full",extension = "png").replace("/","\\")
+    
     if os.path.exists(filename):
-        if overwrite or not os.path.exists(pcbDrawFile):
+        filesize = os.stat(filename).st_size ## pcbdraw fails on empty boards
+        if overwrite or not os.path.exists(pcbDrawFile) and filesize > 5000:
             kicadCmd = '"C:\\Program Files\\KiCad\\6.0\\bin\\kicad-cmd.bat"'
             pcbString = 'pcbDraw plot "' + filename + '" "' + pcbDrawFile + '"'
             pcbStringBack = 'pcbDraw plot --side back "' + filename + '" "' + pcbDrawBackFile + '"'

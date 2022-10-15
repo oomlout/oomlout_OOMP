@@ -119,7 +119,7 @@ def makeProjectNew(d):
 
 def harvestProjects(filter="",exclusions="NONE"):
     neverString = "nnmmkjkjoijlknlkzzzz"
-    if exclusions = "NONE":
+    if exclusions == "NONE":
         exclusions= neverString
     oomLaunchKicad()
     for project in OOMP.getItems("projects"):
@@ -160,6 +160,7 @@ def gitPullProject(project):
         print("        No Git Repo Found")
         #raise Exception("No git repo for project")
     else:
+        pass
         oomGitPull(gitRepo,"sourceFiles/git/", pause=False)
 
 def copyBaseFilesProject(project):
@@ -214,6 +215,7 @@ def harvestEagleProject(project,overwrite=False):
     projectDir = project.getFolder()
     eagleBoardFileFull = project.getFilename("boardeagle",relative="full")
     OOMPproject.harvestEagleBoardFile(eagleBoardFile,projectDir,overwrite=overwrite)
+
     OOMPproject.harvestEagleSchematicFile(eagleBoardFile.replace("boardEagle.brd","schematicEagle.sch"),projectDir,overwrite=overwrite)
     #oomSendAltKey("x",delay=5)
     #oomSendAltKey("x",delay=5)
@@ -228,10 +230,14 @@ def harvestKicadProject(project,overwrite=False):
     
     projectDir = project.getFolder()
     OOMPproject.harvestEagleBoardToKicad(eagleBoardFile,projectDir,overwrite=overwrite)
-    OOMPproject.harvestEagleSchemToKicad(eagleSchemFile,projectDir,overwrite=overwrite)
+    ###### projects that cause errors
+    skips = ["PROJ-ADAF-196-STAN-01","PROJ-ADAF-1980-STAN-01","PROJ-ADAF-2200-STAN-01","PROJ-ADAF-2566-STAN-01","PROJ-ADAF-91-STAN-01","PROJ-ADAF-259-STAN-01","PROJ-ADAF-269-STAN-01","PROJ-ADAF-280-STAN-01","PROJ-ADAF-284-STAN-01","PROJ-ADAF-292-STAN-01","PROJ-ADAF-326-STAN-01","PROJ-ADAF-358-STAN-01","PROJ-ADAF-364-STAN-01","PROJ-ADAF-376-STAN-01","PROJ-ADAF-390-STAN-01","PROJ-ADAF-391-STAN-01","PROJ-ADAF-395-STAN-01","PROJ-ADAF-466-STAN-01","PROJ-ADAF-512-STAN-01","PROJ-ADAF-572-STAN-01","PROJ-ADAF-659-STAN-01","PROJ-ADAF-661-STAN-01","PROJ-ADAF-684-STAN-01","PROJ-ADAF-714-STAN-01","PROJ-ADAF-723-STAN-01","PROJ-ADAF-757-STAN-01","PROJ-ADAF-782-STAN-01","PROJ-ADAF-795-STAN-01","PROJ-ADAF-801-STAN-01","PROJ-ADAF-802-STAN-01","PROJ-ADAF-815-STAN-01","PROJ-ADAF-878-STAN-01","PROJ-ADAF-904-STAN-01","PROJ-SPAR-10103-STAN-01","PROJ-SPAR-10182-STAN-01","PROJ-SPAR-10406-STAN-01","PROJ-SPAR-10507-STAN-01","PROJ-SPAR-10547-STAN-01","PROJ-SPAR-10618-STAN-01","PROJ-SPAR-10701-STAN-01","PROJ-SPAR-10864-STAN-01","PROJ-SPAR-10878-STAN-01","PROJ-SPAR-10888-STAN-01","PROJ-SPAR-10889-STAN-01","PROJ-SPAR-10899-STAN-01","PROJ-SPAR-10901-STAN-01","PROJ-SPAR-10914-STAN-01","PROJ-SPAR-10920-STAN-01","PROJ-SPAR-10930-STAN-01","PROJ-SPAR-10936-STAN-01","PROJ-SPAR-10940-STAN-01","PROJ-SPAR-10941-STAN-01","PROJ-SPAR-10967-STAN-01","PROJ-SPAR-10968-STAN-01","PROJ-SPAR-10995-STAN-01","PROJ-SPAR-11007-STAN-01","PROJ-SPAR-11008-STAN-01","PROJ-SPAR-11013-STAN-01","PROJ-SPAR-11018-STAN-01","PROJ-SPAR-11028-STAN-01","PROJ-SPAR-11040-STAN-01","PROJ-SPAR-11043-STAN-01","PROJ-SPAR-12081-STAN-01","PROJ-SPAR-544-STAN-01","PROJ-SPAR-716-STAN-01","PROJ-SPAR-9110-STAN-01","PROJ-SPAR-9266-STAN-01","PROJ-SPAR-9267-STAN-01","PROJ-SPAR-9346-STAN-01","PROJ-SPAR-9363-STAN-01","PROJ-SPAR-9607-STAN-01","PROJ-SPAR-9612-STAN-01","PROJ-SPAR-9814-STAN-01","PROJ-SPAR-9947-STAN-01","PROJ-SPAR-9954-STAN-01","PROJ-SPAR-9964-STAN-01","PROJ-SPAR-9981-STAN-01"]
+    if not project.getID() in skips:
+        OOMPproject.harvestEagleSchemToKicad(eagleSchemFile,projectDir,overwrite=overwrite)
     ###### get files out
     #  of kicad
     OOMPproject.harvestKicadBoardFile(kicadBoardFile,projectDir,overwrite=overwrite)
+
     OOMPproject.harvestKicadSchemFile(kicadSchemFile,projectDir,overwrite=overwrite)
     ###### interactive BOM
     OOMPproject.makeInteractiveHtmlBom(project,overwrite)
@@ -240,8 +246,9 @@ def harvestKicadProject(project,overwrite=False):
         OOMPproject.makeInteractiveHtmlBomImages(project,overwrite)
     OOMPprojectParts.harvestParts(project,overwrite=overwrite)
     OOMP_projects_partsMatch.matchParts(project)
-
-    OOMPproject.renderPcbDraw(project,overwrite)
+    skips = ["PROJ-ADAF-391-STAN-01","PROJ-ADAF-4991-STAN-01","PROJ-ADAF-3501-STAN-01","PROJ-ADAF-5100-STAN-01","PROJ-ADAF-723-STAN-01","PROJ-SPAR-10402-STAN-01","PROJ-SPAR-10412-STAN-01","PROJ-SPAR-11013-STAN-01","PROJ-SPAR-11259-STAN-01","PROJ-SPAR-11260-STAN-01","PROJ-SPAR-12634-STAN-01","PROJ-SPAR-13328-STAN-01","PROJ-SPAR-14130-STAN-01","PROJ-SPAR-16653-STAN-01","PROJ-SPAR-9565-STAN-01"]
+    if not project.getID() in skips:
+        OOMPproject.renderPcbDraw(project,overwrite)
     if False:
         for part in OOMP.getItems("parts"):
                 part.exportTags("detailsInstancesOomp",["oompInstances"]) 

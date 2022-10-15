@@ -32,17 +32,17 @@ def single(oompid):
         print("No Project Found")
     
 
-create()
+#create()
 
 #OOMP.loadParts("projects")
 #OOMP.loadParts("nofootprints")
 
 
-#all()
+
 #filter = "IBBC"
-#filter = ""
-#exclusions = "NONE"
-#all(filter,exclusions)
+filter = ""
+exclusions = "NONE" ## not working yet
+all(filter,exclusions)
 
 #oompID="PROJ-SIRB-0002-STAN-01"
 #single(oompID)
