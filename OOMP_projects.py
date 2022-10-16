@@ -31,7 +31,6 @@ def single(oompid):
     else:
         print("No Project Found")
     
-
 #create()
 
 #OOMP.loadParts("projects")
@@ -39,9 +38,11 @@ def single(oompid):
 
 
 
-#filter = "IBBC"
+
 filter = ""
+#filter = "DANP"  
 exclusions = "NONE" ## not working yet
+exclusions = "ADAF" ## not working yet
 all(filter,exclusions)
 
 #oompID="PROJ-SIRB-0002-STAN-01"

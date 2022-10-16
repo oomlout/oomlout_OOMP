@@ -469,7 +469,7 @@ def eagleExport(filename,downs,overwrite=False):
         oomSend(filename.replace("/","\\"),2)
         if ".png" in filename:
             oomSendTab(4,delay=2)
-            oomSend("1200",delay=1)
+            oomSend("300",delay=1)
         oomSendEnter(5)
         if "BOM" in filename:
             oomSendEsc(2)

@@ -51,6 +51,71 @@ def createProjects():
     d["eagleSchem"] = d["eagleBoard"].replace(".brd",".sch")
     OOMP_projects_BASE.makeProject(d)
 
-
-
     d["oompIndex"] = "01"
+
+    ###### New Style
+    projects = []
+
+    count = ind
+    base = {}
+    base["oompType"] = "PROJ"
+    base["oompSize"] = "ELLA"
+    base["format"] = "eagle"
+    base["github"] = "https://github.com/electrolama/"
+
+    d = base.copy()
+    d["name"] = "mcore h616 breakout"
+    d["repo"] = "mcore-h616-breakout"
+    d["file"] = "hardware/Revision A1/mcore-h616-breakout-RevA1"
+    d["count"] = count = count + 1
+    projects.append(d.copy())
+
+    d = base.copy()
+    d["name"] = "riscystick"
+    d["repo"] = d["name"] + "/"
+    d["file"] = "hardware/Revision A1/" + d["name"] + "-RevA1"
+    d["count"] = count = count + 1
+    projects.append(d.copy())
+
+
+    d = base.copy()
+    d["name"] = "minik"
+    d["repo"] = d["name"] + "/"
+    d["file"] = "hardware/Revision A2/" + d["name"] + "-RevA2"
+    d["count"] = count = count + 1
+    projects.append(d.copy())
+
+    d = base.copy()
+    d["name"] = "disaster01"
+    d["repo"] = d["name"] + "/"
+    d["file"] = d["name"]
+    d["count"] = count = count + 1
+    projects.append(d.copy())
+
+    d = base.copy()
+    d["name"] = "nandcat"
+    d["repo"] = d["name"] + "/"
+    d["file"] = "Revision A/nand-cat"
+    d["count"] = count = count + 1
+    projects.append(d.copy())
+
+    d = base.copy()
+    d["name"] = "pic16-usb-module"
+    d["repo"] = d["name"] + "/"
+    d["file"] = "pum"
+    d["count"] = count = count + 1
+    projects.append(d.copy())
+
+    for d in projects:
+        OOMP_projects_BASE.makeProjectNew(d)
+
+"""
+    d = base.copy()
+    d["name"] = "minik"
+    d["repo"] = d["name"] + "/"
+    d["file"] = "hardware/Revision A1/" + d["name"] + "-RevA1"
+    d["count"] = count = count + 1
+    projects.append(d.copy())
+"""
+    
+    

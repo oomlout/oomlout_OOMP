@@ -7,6 +7,7 @@ import OOMP_projects_partsMatch
 
 ######  Company Files
 import OOMP_projects_ADAF
+import OOMP_projects_DANP
 import OOMP_projects_ELLA
 import OOMP_projects_IBBC
 import OOMP_projects_SEED
@@ -15,12 +16,13 @@ import OOMP_projects_SOPA
 import OOMP_projects_SPAR
 
 def createAllProjects():
-    #OOMP_projects_IBBC.createProjects()
-    #OOMP_projects_ADAF.createProjects()    
-    #OOMP_projects_ELLA.createProjects()
-    #OOMP_projects_SEED.createProjects()
-    #OOMP_projects_SIRB.createProjects()
-    #OOMP_projects_SOPA.createProjects()
+    OOMP_projects_IBBC.createProjects()
+    OOMP_projects_ADAF.createProjects()    
+    OOMP_projects_DANP.createProjects()    
+    OOMP_projects_ELLA.createProjects()
+    OOMP_projects_SEED.createProjects()
+    OOMP_projects_SIRB.createProjects()
+    OOMP_projects_SOPA.createProjects()
     OOMP_projects_SPAR.createProjects()
 
 def makeProject(d):
@@ -48,17 +50,37 @@ def makeProject(d):
     contents = contents.replace("INDEXZZ",index)
     contents = contents.replace("HEXZZ",hexID)
 
-
-    sp = d["gitRepo"].split("/")
-    repoName = sp[len(sp)-1]
+    repoName =""
+    try:
+        sp = d["gitRepo"].split("/")
+        repoName = sp[len(sp)-1]
+    except:
+        pass
 
     extraTags = []
     tagString = ""
     extraTags.append(OOMP.oompTag("name",d["name"]))
-    extraTags.append(OOMP.oompTag("gitRepo",d["gitRepo"]))
+    try:
+        extraTags.append(OOMP.oompTag("gitRepo",d["gitRepo"]))
+    except:
+        pass
     extraTags.append(OOMP.oompTag("gitName",repoName))
-    extraTags.append(OOMP.oompTag("eagleBoard",d["eagleBoard"]))
-    extraTags.append(OOMP.oompTag("eagleSchem",d["eagleSchem"]))
+    try:
+        extraTags.append(OOMP.oompTag("eagleBoard",d["eagleBoard"]))
+    except:
+        pass
+    try:
+        extraTags.append(OOMP.oompTag("kicadBoard",d["kicadBoard"]))
+    except:
+        pass
+    try:
+        extraTags.append(OOMP.oompTag("eagleSchem",d["eagleSchem"]))
+    except:
+        pass
+    try:
+        extraTags.append(OOMP.oompTag("kicadSchem",d["kicadSchem"]))
+    except:
+        pass
     for tag in extraTags:
         tagString = tagString + tag.getPythonLine() + "\n"
 
@@ -130,7 +152,6 @@ def harvestProjects(filter="",exclusions="NONE"):
         if test != "" and oompID not in skip:
             testID = project.getID()
             if filter in testID and exclusions not in testID:
-
                 harvestProject(project,all=True)
     for part in OOMP.getItems("parts"):
         part.exportTags("detailsInstancesOomp",["oompInstances"]) 
