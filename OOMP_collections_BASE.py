@@ -9,6 +9,7 @@ def generateCollections():
    
     base = {}
    
+    ###### QWIIC
     d= base.copy()
     d["oompType"] = "COLLECTION"
     d["oompSize"] = "CONN"
@@ -24,9 +25,32 @@ def generateCollections():
     proj = OOMP.getItems("projects")
     for project in proj:
         parts = project.getTags("oompParts")
+        skip = False
         for part in parts:
-            if "HEAD-JSTSH-X-PI04-RS" in part.value:
+            if "HEAD-JSTSH-X-PI04-RS" in part.value and not skip:
                 d["collection"].append(project.getID())
+                skip = True                
+    collections.append(d.copy())
+    ###### JLC Parts Library
+    d= base.copy()
+    d["oompType"] = "COLLECTION"
+    d["oompSize"] = "PARTL"
+    d["oompColor"] = "JLCC"
+    d["oompDesc"] = "BASIC"
+    d["oompIndex"] = "01"
+    
+    d["hexID"] = "COLJLCB"
+    d["code"] = "jlcb"
+    d["name"] = "JLC Parts Library"
+    d["description"] = "A collection of all OOMP parts with JLC parts library details"
+    d["collection"] = []
+    ps = OOMP.getItems("parts")
+    for p in ps:
+        opl = p.getTags("oplPartNumber")
+        for o in opl:
+            if o.value["code"] == "C-JLCC":
+                d["collection"].append(p.getID())
+                skip = True                
     collections.append(d.copy())
 
     for p in collections:
@@ -48,7 +72,7 @@ def generateCollectionsIndex():
     parts = []
     collections = OOMP.getItems("collections")
     for collection in collections:      
-        parts.append(mdGetLink(collection.getTag("name").value,collection.getFilename("readme")))
+        parts.append(mdGetLink(collection.getTag("name").value,collection.getFilename("readme",relative="github")))
         base.addDisplayTable(mdFile,parts,4)   
     #mdFile.new_table_of_contents(table_title='Contents', depth=2)
     mdFile.create_md_file()     

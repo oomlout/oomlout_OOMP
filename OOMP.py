@@ -549,7 +549,7 @@ class oompItem:
         name =   "readme"
         allNames.append(name)
         if filename.lower() == name:            
-            fileExtra = "Readme.md"
+            fileExtra = "README.md"
         
         ######  Bom Files      
         name =   "bominteractive"
@@ -1019,8 +1019,11 @@ class oompItem:
                     rv.append(tag)
         return rv
 
-    def getName(self):
-        return self.getTag("oompID").value + " " + self.getTag("name").value
+    def getName(self,br=" "):
+        name = self.getTag("oompName").value
+        if name == "":
+            name = self.getTag("name").value
+        return self.getTag("oompID").value + br + name
 
     
 class oompTag:
