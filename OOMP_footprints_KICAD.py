@@ -29,7 +29,7 @@ kicadLibraryTop = [210,115]
 
 def createFootprints():
     owners = ["kicad-footprints","oomlout_OOMP_kicad","digikey-kicad-library"]
-    owners = ["digikey-kicad-library"]
+    #owners = ["digikey-kicad-library"]
     for owner in owners:
         
         footprints = getKicadFootprintNames(owner)        
@@ -46,7 +46,7 @@ def createFootprints():
             directory = "oomlout_OOMP_eda/FOOTPRINT/kicad/" + owner + "/" + footprint[0]
             oomMakeDir(directory)
             makeFootprint(d)
-    footprints = getKicadFootprintNamesMega()    
+    #footprints = getKicadFootprintNamesMega()    
 
 def makeFootprint(d):
     type = d["oompType"]
@@ -199,7 +199,7 @@ def copySourceFile(footprint,overwrite=False):
 def harvestKicadFootprint(footprint,overwrite=False):
     print("    Harvesting files")
 
-    
+    oompID = footprint.getID()
     oompFileName = footprint.getFilename("image",relative="full")
     oompFileName3D = footprint.getFilename("kicadPcb3d",relative="full")
     oompFileName3Dfront = footprint.getFilename("kicadPcb3dFront",relative="full")
@@ -254,9 +254,10 @@ def harvestKicadFootprint(footprint,overwrite=False):
         oomSendEnter(delay=5)
         oomSendWindowsKey("up")
         ##### raytracing
-        oomSendAltKey("p",1)
-        oomSendEnter(2)
-        oomDelay(10)
+        if "_BALL" not in oompID.upper():
+            oomSendAltKey("p",1)
+            oomSendEnter(2)
+            oomDelay(10)
         #### front
         oomSendAltKey("f",2)
         oomSendEnter(delay=1)

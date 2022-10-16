@@ -22,6 +22,9 @@ def gitPull():
 
     for gitLoc in gits:
         oomGitPull(gitLoc,dir)
+    
+def createAllFootprints():
+    OOMP_footprints_KICAD.createFootprints()
 
 def createFootprintLibraries():
     createFootprintLibrary()
@@ -644,11 +647,6 @@ def gitFullPull():
     for gitLoc in gits:
         oomGitPull(gitLoc,dir)
 
-    
-def createAllFootprints():
-    OOMP_footprints_KICAD.createFootprints()
 
-def harvestAllFootprints():
-    OOMP_footprints_KICAD.harvestFootprints()    
 
 
