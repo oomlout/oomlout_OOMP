@@ -8,12 +8,12 @@ print(OOMP.getReport())
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 filter = "all"
-filter = "parts"
+#filter = "parts"
 #filter = "nofootprints"
 #filter = "footprints"
 #filter = "symbols"
 #filter="projects"
-filter = "modules"
+#filter = "modules"
 
 OOMP.getItems("load",cache=False)
 ######  Images

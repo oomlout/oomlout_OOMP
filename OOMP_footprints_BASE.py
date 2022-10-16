@@ -4,6 +4,10 @@ from oomBase import *
 
 import OOMP_footprints_KICAD
 
+import OOMP_symbols_BASE
+
+from kiutils.footprint import Footprint
+
 def gitPull():
     gits= []
 
@@ -19,9 +23,50 @@ def gitPull():
     for gitLoc in gits:
         oomGitPull(gitLoc,dir)
 
+def createFootprintLibraries():
+    createFootprintLibrary()
+    createFootprintLibrary(directory="oomlout_OOMP_kicad/oomlout_OOMP_JLCC_Basic.pretty/",style="JLCC")
+
+def createFootprintLibrary(directory="oomlout_OOMP_kicad/oomlout_OOMP_parts.pretty/",style=""):
+    outDir = directory
+    oomMakeDir(outDir)
+    for part in OOMP.getItems("parts"):
+        oompID = part.getID()
+        hexID = part.getHex()
+        footprints = part.getTags("footprintKicad")        
+        if len(footprints) > 0:
+            print("    Writing footprint:" + oompID)
+            footprint = OOMP.getPartByID(footprints[0].value)
+            footprintID = footprint.getID()
+            include = False
+            extra= ""
+            if style == "":
+                include = True
+                extra = "-" + hexID
+            elif style == "JLCC":
+                    opl = part.getTags("oplPartNumber")
+                    for o in opl:
+                        if o.value["code"] == "C-JLCC":
+                            extra = "-" + hexID +"-" + o.value["partID"]
+                            include = True 
+                        
+                        
+            if footprintID != "----" and include:
+                footprintFile = footprint.getFilename("kicadFootprint")
+                outFile = outDir + oompID + extra + ".kicad_mod"
+                footIn = Footprint().from_file(footprintFile)
+                footIn.description = OOMP_symbols_BASE.getDesc(part) + " " + footIn.description
+                footIn.libraryLink = hexID
+                footIn.to_file(outFile)
+                pass
+            else:
+                print("        Skipping")
+
+
+    
 
 def gitFullPull():
-    dir = "sourceFiles/git/kicadStuff/"
+    dir = "sourceFiles/git/kicadStuff/mega"
     oomMakeDir(dir)
 
     gits = []

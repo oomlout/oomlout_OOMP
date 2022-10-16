@@ -27,9 +27,21 @@ def createSummary(item,all=False,overwrite=False,filter=""):
 def getLink(text,link):
     return "[" + text + "](" + link + ")"
 
+def getImage(image,alt=""):
+    return "![" + alt + "](" + image + ")"
+
 def getPictureLink(item):    
     if item.getID() != "----":
-        string = item.getFilename("kicadPcb3d",relative="githubRaw") + "<br>" + item.getID() + "  " + item.getName()
+        type = ""
+        if item.ifFileExists("kicadPcb3d"):
+            type = "kicadPcb3d"
+        elif item.ifFileExists("image", extension = "jpg"):
+            type = "image"
+
+        if type != "":
+            string = getImage(item.getFilename(type,relative="githubRaw",resolution="140")) + "<br>" + item.getName(br="<br>")
+        else:
+            string = item.getName(br="<br>")
         string = getLink(string,item.getFilename(filename="",relative="github"))
     else:
         string = "MISSING"

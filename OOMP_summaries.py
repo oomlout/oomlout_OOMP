@@ -1,6 +1,5 @@
 import OOMP
 import OOMP_summaries_BASE
-import OOMP_summaries_COLLECTIONS
 
 OOMP.loadParts("pickle")
 
@@ -12,7 +11,7 @@ def single(oompid):
     item = OOMP.getPartByID(oompid)
     testID = project.getID()
     if testID != "----":
-        OOMP_cummaries_BASE.createSummary(item,overwrite=overwrite, all=True)
+        OOMP_summaries_BASE.createSummary(item,overwrite=overwrite, all=True)
     else:
         print("No Item Found")
     
@@ -31,4 +30,3 @@ filter = ""
 #oompID="PROJ-SIRB-0002-STAN-01"
 #single(oompID)
 
-OOMP_summaries_COLLECTIONS.generateCollections()

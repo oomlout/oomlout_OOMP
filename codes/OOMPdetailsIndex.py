@@ -31,6 +31,7 @@ OOMP.oompAddDetail(category="index",code="V50",name="50v")
 OOMP.oompAddDetail(category="index",code="V63",name="63v")
 OOMP.oompAddDetail(category="index",code="V400",name="400v")
 OOMP.oompAddDetail(category="index",code="V1000",name="1000v")
+OOMP.oompAddDetail(category="index",code="V2000",name="2kV")
 OOMP.oompAddDetail(category="index",code="V75",name="75v")
 OOMP.oompAddDetail(category="index",code="V40",name="40v")
 

@@ -13,9 +13,9 @@ OOMP.loadParts("pickle")
 #OOMP_footprints_BASE.createAllFootprints()
 #OOMP.loadParts("all")
 
-#OOMP_footprints_BASE.harvestAllFootprints()
+#OOMP_footprints_BASE.harvestAllFootprioompnts()
 
-
+OOMP_footprints_BASE.createFootprintLibraries()
 
 
 

@@ -2,13 +2,15 @@ import OOMP
 
 print("Generating Pickle Files:")
 
-OOMP.loadParts("all")
+
+filter = "all"
+#filter = "nofootprints"
+#filter = "parts"
+OOMP.loadParts(filter)
 
 
 # OOMP.loadParts("modules")
 
-#OOMP.loadParts("nofootprints")
-#OOMP.loadParts("parts")
 
 #__import__("sourceFiles.oompLoad")  
 #exportPickle() 
