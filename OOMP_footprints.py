@@ -36,34 +36,12 @@ def refreshFull():
     OOMP.loadParts("all")    
     OOMP_footprints_BASE.harvestAllFootprints()
 
-#working()
-#refreshFull()
+def make():
+    pass
+    OOMP_footprints_BASE.gitPull()
+    OOMP_footprints_BASE.createAllFootprints()    
 
- #__import__("sourceFiles.oompLoad") 
-#OOMP.loadParts("pickle")
-#print(OOMP.getReport())
-#OOMP.reset()
-#OOMP.loadParts("pickle")
-#print(OOMP.getReport())
-#OOMP.reset()
-#OOMP.loadParts("pickle")
-#print(OOMP.getReport())
-#OOMP.loadParts("pickle")
-#print(OOMP.getReport())
+def harvest():
+    OOMP_footprints_BASE.harvestAllFootprints()
 
-"""
-import importlib
-
-name = "sourceFiles.oompLoad"
-
-print(OOMP.getReport())
-name = "sourceFiles.oompLoad"
-mod = importlib.import_module(name)
-importlib.reload(mod)
-print(OOMP.getReport())
-OOMP.reset()
-print(OOMP.getReport())
-importlib.reload(mod)
-print(OOMP.getReport())
-"""
-
+    
