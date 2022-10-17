@@ -3,15 +3,17 @@ import OOMP_footprints_BASE
 import OOMP_footprints_KICAD
 
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
-#OOMP.loadParts("pickle")
 
 def working():
-    OOMP_footprints_BASE.gitPull()
+    pass
+    OOMP.loadParts("pickle")
+    print(OOMP.getReport())
+    #OOMP_footprints_BASE.gitPull()
 
     #OOMP_footprints_BASE.gitFullPull()
 
 
-    OOMP_footprints_BASE.createAllFootprints()
+    #OOMP_footprints_BASE.createAllFootprints()
     #OOMP.loadParts("all")
 
     #OOMP_footprints_BASE.harvestAllFootprints()
@@ -30,9 +32,38 @@ def working():
 def refreshFull():
     OOMP.loadParts("all")
     OOMP_footprints_BASE.gitPull()
-    OOMP_footprints_BASE.createAllFootprints()
-    OOMP.loadParts("all")
+    OOMP_footprints_BASE.createAllFootprints()    
+    OOMP.loadParts("all")    
     OOMP_footprints_BASE.harvestAllFootprints()
 
 #working()
 #refreshFull()
+
+ #__import__("sourceFiles.oompLoad") 
+#OOMP.loadParts("pickle")
+#print(OOMP.getReport())
+#OOMP.reset()
+#OOMP.loadParts("pickle")
+#print(OOMP.getReport())
+#OOMP.reset()
+#OOMP.loadParts("pickle")
+#print(OOMP.getReport())
+#OOMP.loadParts("pickle")
+#print(OOMP.getReport())
+
+"""
+import importlib
+
+name = "sourceFiles.oompLoad"
+
+print(OOMP.getReport())
+name = "sourceFiles.oompLoad"
+mod = importlib.import_module(name)
+importlib.reload(mod)
+print(OOMP.getReport())
+OOMP.reset()
+print(OOMP.getReport())
+importlib.reload(mod)
+print(OOMP.getReport())
+"""
+

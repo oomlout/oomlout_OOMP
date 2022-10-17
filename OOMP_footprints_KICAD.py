@@ -254,7 +254,7 @@ def harvestKicadFootprint(footprint,overwrite=False):
         oomSendEnter(delay=5)
         oomSendWindowsKey("up")
         ##### raytracing
-        if "_BALL" not in oompID.upper():
+        if "_BALL" not in oompID.upper() and "_FLG" not in oompID.upper():
             oomSendAltKey("p",1)
             oomSendEnter(2)
             oomDelay(10)

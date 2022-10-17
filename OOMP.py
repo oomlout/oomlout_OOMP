@@ -7,6 +7,8 @@ from wsgiref.handlers import BaseCGIHandler
 import pickle 
 from oomBase import *
 
+import importlib
+
 
 
 
@@ -1130,8 +1132,12 @@ def loadParts(type):
             directory = "oomlout_OOMP_eda\\"            
             loadDirectory(directory,fileFilter=defaultFilter)         
         print("Loading: sourceFiles.oompLoad")        
-        __import__("sourceFiles.oompLoad")  
-        exportPickle()         
+        #__import__("sourceFiles.oompLoad")  
+        name = "sourceFiles.oompLoad"
+        mod = importlib.import_module(name)
+        importlib.reload(mod)
+        exportPickle()      
+        print(getReport()) 
     else:        
         reset()
         picklePartsFile = "sourceFiles/picklePartsOOMP.pickle"
@@ -1140,6 +1146,11 @@ def loadParts(type):
         global details
         parts = pickle.load(open(picklePartsFile,"rb"))
         details = pickle.load(open(pickleTagsFile,"rb"))
+        if len(parts) == 0:
+            name = "sourceFiles.oompLoad"
+            mod = importlib.import_module(name)
+            importlib.reload(mod)
+        print(getReport())
 
 def exportPickle():
     picklePartsFile = "sourceFiles/picklePartsOOMP.pickle"
