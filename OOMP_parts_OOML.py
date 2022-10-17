@@ -14,9 +14,8 @@ def createParts():
         datasheet = "sourceDatasheets/BUTA-12-X-LEDS-01.pdf"
         extraTags = []
         extraTags.append(OOMP.oompTag("footprintEagle","FOOTPRINT-eagle-SparkFun-Eagle-Libraries-SparkFun-Switches-TACTILE_SWITCH_LED_PTH_12MM"))            
-        d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-        OOMP_parts_BASE.makePart(dict = d)   
-        
+    
+          
 
     ##############################
     ######  HEAD

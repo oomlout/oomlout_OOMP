@@ -30,12 +30,16 @@ def matchFootprint(part):
             addCAPCSymbols(part,dict)        
         if oompType == "HEAD":
             addHEADSymbols(part,dict)    
+        if oompType == "LEDS":
+            addLEDSSymbols(part,dict)        
         if oompType == "RESE":
             addRESESymbols(part,dict)        
         if "HEAD-I01" in oompID and oompIndex == "01":
             addHEAD01(part,dict)
         if "HEAD-I01" in oompID and oompIndex =="SHRO":
             addHEAD01SHRO(part,dict)
+        if "HEAD-I01" in oompID and oompIndex =="SM":
+            addHEAD01SM(part,dict)
         if "HEAD-JSTXH" in oompID and oompIndex == "01":
             addHEADJSTXH(part,dict)
         if "HEAD-JSTSH" in oompID and oompIndex == "SM":
@@ -248,7 +252,7 @@ def addHEADSymbols(part,dict):
         if "PI2X" in oompDesc:
                 ###### FOOTPRINTS
                 symbols = []
-                symbols.append("SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + pinss*2 + "_Male")
+                symbols.append("SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + str(int(pinss)*2).zfill(2) + "_Male")
                 symbols.append("SYMBOL-kicad-kicad-symbols-Connector-DIN41612_02x" + pinss + "_AB")
                 base = "SYMBOL-kicad-kicad-symbols-Connector-Conn_02x" + pinss
                 symbols.append(base  + "_Row_Letter_First")
@@ -262,6 +266,10 @@ def addHEADSymbols(part,dict):
         else:
             newPart.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + pinss + "_Male")
             newPart.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Connector_Generic-Conn_01x" + pinss + "")
+
+
+def addLEDSSymbols(part,dict):
+    part.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Device-LED")
 
 def addRESESymbols(part,dict):
     part.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Device-R")
@@ -308,8 +316,21 @@ def addHEAD01SHRO(part,dict):
     if pinss.isnumeric():
         footprints = []
         base = "FOOTPRINT-kicad-kicad-footprints-Connector_IDC-IDC-Header_2x" + pinss
-        footprints.append(base + "_P2.54mm_Horizontal")
+        #footprints.append(base + "_P2.54mm_Horizontal")
         footprints.append(base + "_P2.54mm_Vertical")
+
+
+        for footprint in footprints:
+            newPart.addTag("footprintKicad",footprint)
+
+def addHEAD01SM(part,dict):
+    oompDesc = part.getTag("oompDesc").value
+    pinss = oompDesc.replace("PI2X","")
+    newPart = part
+    if pinss.isnumeric():
+        footprints = []
+        base = "FOOTPRINT-kicad-kicad-footprints-Connector_PinHeader_2.54mm-PinHeader_2x" + pinss
+        footprints.append(base + "_P2.54mm_Vertical_SMD")
 
 
         for footprint in footprints:
