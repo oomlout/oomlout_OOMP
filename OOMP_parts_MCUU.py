@@ -1,6 +1,6 @@
 import OOMP
 
-import OOMP_parts_Base
+import OOMP_parts_BASE
 
 def addParts():
 ##############################
@@ -11,21 +11,21 @@ def addParts():
         
         ss = {}
         id = "QFN14"
-        ss[id] = []
+        ss[id] = {}
         ss[id]["SYMBOL"] = "SYMBOL-kicad-kicad-symbols-MCU_Microchip_ATtiny-ATtiny84-20M"
         ss[id]["FOOTPRINT"] = "FOOTPRINT-kicad-kicad-footprints-Package_DFN_QFN-QFN-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm"
         id = "DI14"
-        ss[id] = []
+        ss[id] = {}
         ss[id]["SYMBOL"] = "SYMBOL-kicad-kicad-symbols-MCU_Microchip_ATtiny-ATtiny84-20P"
         ss[id]["FOOTPRINT"] = "FOOTPRINT-kicad-kicad-footprints-Package_DIP-DIP-14_W7.62mm"
         id = "SC14"
-        ss[id] = []
+        ss[id] = {}
         ss[id]["SYMBOL"] = "SYMBOL-kicad-kicad-symbols-MCU_Microchip_ATtiny-ATtiny20-SS"
         ss[id]["FOOTPRINT"] = "FOOTPRINT-kicad-kicad-footprints-Package_SO-SOIC-14_3.9x8.7mm_P1.27mm"
         for s in ss:
-            s = size
+            size = s
             extraTags = []
-            extraTags.append(OOMP.oompTag("footprintKicad",s["FOOTPRINT"])
-            extraTags.append(OOMP.oompTag("symbolKicad",s["SYMBOL"])
+            extraTags.append(OOMP.oompTag("footprintKicad",ss[s]["FOOTPRINT"]))
+            extraTags.append(OOMP.oompTag("symbolKicad",ss[s]["SYMBOL"]))
             d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
             OOMP_parts_BASE.makePart(dict = d)   

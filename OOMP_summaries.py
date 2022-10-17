@@ -1,7 +1,7 @@
 import OOMP
 import OOMP_summaries_BASE
 
-OOMP.loadParts("pickle")
+#OOMP.loadParts("pickle")
 
 def all(filter = ""):
     OOMP_summaries_BASE.createAllSummaries(all=True,filter=filter,overwrite=True)
@@ -15,18 +15,27 @@ def single(oompid):
     else:
         print("No Item Found")
     
+def working():
+    #create()
 
-#create()
-
-#OOMP.loadParts("projects")
-#OOMP.loadParts("nofootprints")
+    #OOMP.loadParts("projects")
+    #OOMP.loadParts("nofootprints")
 
 
-#all()
-filter = ""
-#filter = ""
-#all(filter)
+    #all()
+    filter = ""
+    #filter = ""
+    #all(filter)
 
-#oompID="PROJ-SIRB-0002-STAN-01"
-#single(oompID)
+    #oompID="PROJ-SIRB-0002-STAN-01"
+    #single(oompID)
 
+
+def make():
+    pass
+
+def harvest():
+    pass
+
+def document():
+    OOMP_summaries_BASE.createAllSummaries(all=True,filter=filter,overwrite=True)

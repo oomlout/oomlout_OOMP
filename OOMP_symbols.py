@@ -2,8 +2,18 @@ import OOMP
 import OOMP_symbols_BASE
 
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
-OOMP.loadParts("pickle")
+#OOMP.loadParts("pickle")
 
-#OOMP_symbols_BASE.createAllSymbols()
+def working():
+    #OOMP_symbols_BASE.createAllSymbols()
 
-OOMP_symbols_BASE.createSymbolLibraries()
+    OOMP_symbols_BASE.createSymbolLibraries()
+
+#working
+
+def make():
+    OOMP_symbols_BASE.createAllSymbols()
+    OOMP_symbols_BASE.createSymbolLibraries()
+
+def harvest():
+    pass

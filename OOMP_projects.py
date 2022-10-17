@@ -2,9 +2,9 @@ import OOMP
 import OOMP_projects_BASE
 
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
-OOMP.loadParts("pickle")
+#OOMP.loadParts("pickle")
 
-print(OOMP.getReport())
+#print(OOMP.getReport())
 
 
 
@@ -40,23 +40,34 @@ def single(oompid):
         OOMP_projects_BASE.harvestProject(project,dict=d,overwrite=overwrite)
     else:
         print("No Project Found")
-    
-#create()
 
-#OOMP.loadParts("projects")
-#OOMP.loadParts("nofootprints")
+def working():
 
-#filter = ""
-#filter = "DANP"  
-#exclusions = "NONE" ## not working yet
-#exclusions = "ADAF" ## not working yet
-#all(filter,exclusions)
+    #create()
 
-oompID="PROJ-SPAR-15932-STAN-01"
-single(oompID)
+    #OOMP.loadParts("projects")
+    #OOMP.loadParts("nofootprints")
+
+    #filter = ""
+    #filter = "DANP"  
+    #exclusions = "NONE" ## not working yet
+    #exclusions = "ADAF" ## not working yet
+    #all(filter,exclusions)
+
+    oompID="PROJ-SPAR-15932-STAN-01"
+    single(oompID)
 
 
 
 
+def make():
+    OOMP_projects_BASE.createAllProjects()
+
+def harvest():    
+    OOMP_projects_BASE.harvestProjects()
+    OOMP.loadParts("all")
+    OOMP_projects_BASE.harvestProjects()
+    OOMP.loadParts("all")
+    OOMP_projects_BASE.harvestProjects()
 
 

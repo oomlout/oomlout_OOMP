@@ -29,6 +29,7 @@ def makePart(type="",size="",color="",desc="",index="",hexID="",extraTags=[],dic
 
     inputFile = "templates/partsTemplate.py"
     outputDir = "C:/GH/oomlout_OOMP/oomlout_OOMP_parts/" + oompID + "/"
+    oomMakeDir(outputDir)
     outputFile = outputDir + "details.py"
 
     datasheet = ""

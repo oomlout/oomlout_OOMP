@@ -6,12 +6,14 @@ import OOMP_parts_MCUU
 
 
 def createParts():
+    
     ##############################
     ######  BUTA
     if True:
         type = "BUTA";size = "12";color = "X";desc = "LEDS";index = "01";hexID = "B12L"
         datasheet = "sourceDatasheets/BUTA-12-X-LEDS-01.pdf"
-        
+        extraTags = []
+        extraTags.append(OOMP.oompTag("footprintEagle","FOOTPRINT-eagle-SparkFun-Eagle-Libraries-SparkFun-Switches-TACTILE_SWITCH_LED_PTH_12MM"))            
         d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
         OOMP_parts_BASE.makePart(dict = d)   
         
@@ -32,8 +34,7 @@ def createParts():
         ##########
         type = "HEAD";size = "I01";color = "X";desc = "";index = "SM";hexID = ""
         datasheet = "sourceDatasheets/HEAD-I01-X-PI2X03-SM.pdf"
-        type = "HEAD";size = "I01";color = "X";desc = "";index = "";hexID = "H2X10SH"
-
+        
         for x in range(1,10+1):
             desc = "PI2X" + str(x).zfill(2)
             hexID = "H2X" + str(x) + "SM"
@@ -75,6 +76,19 @@ def createParts():
     ##############################
     ######  MCUU
         OOMP_parts_MCUU.addParts()
+
+    
+    ##############################
+    ######  MOSN
+    if True:
+        type = "MOSN";size = "T252";color = "X";desc = "K4184";index = "01";hexID = "MN2524184A"
+        oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index 
+        datasheet = "sourceDatasheets/" + oompID + ".pdf"
+        extraTags = []
+        extraTags.append(OOMP.oompTag("footprintKicad","FOOTPRINT-kicad-kicad-footprints-Package_TO_SOT_SMD-TO-252-3_TabPin2"))     
+        extraTags.append(OOMP.oompTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Device-Q_NMOS_GDS"))            
+        d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
+        OOMP_parts_BASE.makePart(dict = d) 
 
     ##############################
     ######  REFU
@@ -131,6 +145,19 @@ def createParts():
             desc = "PI" + str(x).zfill(2)
             hexID = "T35L" + str(x)
             OOMP_parts_BASE.makePart(type,size,color,desc,index,hexID)
+
+    ##############################
+    ######  TRNN
+    if True:
+        type = "TRNN";size = "SO23";color = "X";desc = "KS8050";index = "01";hexID = "TNS248050"
+        oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index 
+        datasheet = "sourceDatasheets/" + oompID + ".pdf"
+        extraTags = []
+        extraTags.append(OOMP.oompTag("footprintKicad","FOOTPRINT-kicad-kicad-footprints-Package_TO_SOT_SMD-SOT-23"))
+        extraTags.append(OOMP.oompTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Device-Q_NPN_BEC"))            
+        d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
+        OOMP_parts_BASE.makePart(dict = d) 
+
 
     ##############################
     ######  USB

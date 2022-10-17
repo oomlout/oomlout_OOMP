@@ -4,7 +4,17 @@ import OOMP_parts_BASE
 
 import OOMP_parts_EDA
 
-OOMP.loadParts("pickle")
-OOMP_parts_BASE.createAllParts()
+def working():
+    OOMP.loadParts("pickle")
+    OOMP_parts_BASE.createAllParts()
 
-#OOMP_parts_EDA.matchFootprintsSymbols()
+    #OOMP_parts_EDA.matchFootprintsSymbols()
+
+
+def make():    
+    OOMP_parts_BASE.createAllParts()
+    OOMP_parts_EDA.matchFootprintsSymbols() ##### adds a symbol or footprint file detailFootprintsOOMP
+    pass
+
+def harvest():
+    pass

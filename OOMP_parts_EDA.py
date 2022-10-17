@@ -24,6 +24,8 @@ def matchFootprint(part):
     oompIndex = part.getTag("oompIndex").value
     print("Matching Footprint for: " + "  " + oompID)
     if oompID != "----":
+        if oompType == "BUTA":
+            addBUTASymbols(part,dict)      
         if oompType == "CAPC":
             addCAPCSymbols(part,dict)        
         if oompType == "HEAD":
@@ -229,8 +231,11 @@ def add1206(part,dict):
         part.addTag(tag[0],tag[1],noDuplicate=True)
 
 
+def addBUTASymbols(part,dict):
+    part.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Switch-SW_Push")
+
 def addCAPCSymbols(part,dict):
-    part.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Device-C")
+    part.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Switch-C")
 
 
 
