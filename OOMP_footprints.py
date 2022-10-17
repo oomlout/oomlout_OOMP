@@ -3,7 +3,7 @@ import OOMP_footprints_BASE
 import OOMP_footprints_KICAD
 
 OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
-OOMP.loadParts("pickle")
+#OOMP.loadParts("pickle")
 
 def working():
     OOMP_footprints_BASE.gitPull()
