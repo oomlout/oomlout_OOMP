@@ -13,14 +13,15 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 
 def create():
-    OOMP_projects_BASE.createAllProjects()
+    make()
 
 def all(filter="",exclusions="NONE"):
-    OOMP_projects_BASE.harvestProjects(filter,exclusions)
+    OOMP_projects_BASE.harvestProjects()
     OOMP.loadParts("all")
-    OOMP_projects_BASE.harvestProjects(filter)
+    OOMP_projects_BASE.harvestProjects()
     OOMP.loadParts("all")
-    OOMP_projects_BASE.harvestProjects(filter)
+    OOMP_projects_BASE.harvestProjects()
+
 
 def single(oompid):
     d = {"all" :False,
@@ -64,10 +65,6 @@ def make():
     OOMP_projects_BASE.createAllProjects()
 
 def harvest():    
-    OOMP_projects_BASE.harvestProjects()
-    OOMP.loadParts("all")
-    OOMP_projects_BASE.harvestProjects()
-    OOMP.loadParts("all")
     OOMP_projects_BASE.harvestProjects()
 
 
