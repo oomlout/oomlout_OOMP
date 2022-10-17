@@ -1129,10 +1129,11 @@ def loadParts(type):
             print("    Loading:    EDA")
             directory = "oomlout_OOMP_eda\\"            
             loadDirectory(directory,fileFilter=defaultFilter)         
-        print("Loading: sourceFiles.oompLoad")
+        print("Loading: sourceFiles.oompLoad")        
         __import__("sourceFiles.oompLoad")  
         exportPickle()         
-    else:
+    else:        
+        reset()
         picklePartsFile = "sourceFiles/picklePartsOOMP.pickle"
         pickleTagsFile = "sourceFiles/pickleTagsOOMP.pickle"
         global parts
