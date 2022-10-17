@@ -9,7 +9,6 @@ def working():
 
     OOMP_symbols_BASE.createSymbolLibraries()
 
-#working
 
 def make():
     OOMP_symbols_BASE.createAllSymbols()
@@ -17,3 +16,6 @@ def make():
 
 def harvest():
     pass
+
+#working
+#make()

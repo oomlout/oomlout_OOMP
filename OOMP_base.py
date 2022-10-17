@@ -23,10 +23,6 @@ def all(load=False,reload=False,make=False,harvest=False,document=False):
     else:
         loadPickle()
     
-    reload = False
-    make = True
-    harvest = True
-    document = True
     #OOMP.loadParts(filter)
     print(OOMP.getReport())
     ###### Make everything
@@ -47,12 +43,12 @@ def all(load=False,reload=False,make=False,harvest=False,document=False):
     if document:
         OOMP_summaries.document()
 
+def allAll():
+    loadPickle()
+    all(load=False,reload=False,make=True,harvest=False,document=True)
+    makePickle()
+    all(load=False,reload=False,make=True,harvest=False,document=True)
+    makePickle()
+    all(load=False,reload=False,make=True,harvest=False,document=True)
 
-loadPickle()
-all(load=False,reload=False,make=True,harvest=False,document=True)
-makePickle()
-all(load=False,reload=False,make=True,harvest=False,document=True)
-makePickle()
-all(load=False,reload=False,make=True,harvest=False,document=True)
-
-input("ALL DONE")
+    input("ALL DONE")

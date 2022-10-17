@@ -38,4 +38,4 @@ def harvest():
     pass
 
 def document():
-    OOMP_summaries_BASE.createAllSummaries(all=True,filter=filter,overwrite=True)
+    OOMP_summaries_BASE.createAllSummaries(all=True,filter="",overwrite=True)
