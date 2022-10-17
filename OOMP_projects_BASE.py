@@ -157,22 +157,29 @@ def harvestProjects(filter="",exclusions="NONE"):
         part.exportTags("detailsInstancesOomp",["oompInstances"]) 
    
 
-def harvestProject(project,all=False,gitPull=False,copyBaseFiles=False,harvestEagle=False,harvestKicad=False,overwrite=False):
+def harvestProject(project,all=False,dict="",overwrite=False):
     oompID = project.getID()
     print("Harvesting Project: " + oompID)
 
-    if all or gitPull:
+    if dict != "":
+        if dict["all"]:
+            all = True
+
+    if all or dict["gitPull"]:
         pass
         gitPullProject(project)
-    if all or copyBaseFiles:
+    if all or dict["copyBaseFiles"]:
         pass
         copyBaseFilesProject(project)
-    if all or harvestEagle:        
+    if all or dict["harvestEagle"]:        
         pass
         harvestEagleProject(project,overwrite)
-    if all or harvestKicad:
+    if all or dict["harvestKicad"]:
         pass
         harvestKicadProject(project,overwrite)
+    if all or dict["matchParts"]:
+        pass
+        OOMP_projects_partsMatch.matchParts(project)
 
 def gitPullProject(project):
     print("    Pulling or cloning project ")
@@ -266,7 +273,8 @@ def harvestKicadProject(project,overwrite=False):
     if os.path.exists(eagleBoardFile):
         OOMPproject.makeInteractiveHtmlBomImages(project,overwrite)
     OOMPprojectParts.harvestParts(project,overwrite=overwrite)
-    OOMP_projects_partsMatch.matchParts(project)
+    ###### now standalone
+    #OOMP_projects_partsMatch.matchParts(project)
     skips = ["PROJ-ADAF-391-STAN-01","PROJ-ADAF-4991-STAN-01","PROJ-ADAF-3501-STAN-01","PROJ-ADAF-5100-STAN-01","PROJ-ADAF-723-STAN-01","PROJ-SPAR-10402-STAN-01","PROJ-SPAR-10412-STAN-01","PROJ-SPAR-11013-STAN-01","PROJ-SPAR-11259-STAN-01","PROJ-SPAR-11260-STAN-01","PROJ-SPAR-12634-STAN-01","PROJ-SPAR-13328-STAN-01","PROJ-SPAR-14130-STAN-01","PROJ-SPAR-16653-STAN-01","PROJ-SPAR-9565-STAN-01"]
     if not project.getID() in skips:
         OOMPproject.renderPcbDraw(project,overwrite)

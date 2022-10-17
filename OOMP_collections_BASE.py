@@ -73,7 +73,7 @@ def generateCollectionsIndex():
     collections = OOMP.getItems("collections")
     for collection in collections:      
         parts.append(mdGetLink(collection.getTag("name").value,collection.getFilename("readme",relative="github")))
-        base.addDisplayTable(mdFile,parts,4)   
+    base.addDisplayTable(mdFile,parts,4)   
     #mdFile.new_table_of_contents(table_title='Contents', depth=2)
     mdFile.create_md_file()     
     

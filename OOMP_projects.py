@@ -23,11 +23,21 @@ def all(filter="",exclusions="NONE"):
     OOMP_projects_BASE.harvestProjects(filter)
 
 def single(oompid):
-    overwrite = False
+    d = {"all" :False,
+        "gitPull" : False,
+        "copyBaseFiles" : False,
+        "harvestEagle" : False,
+        "harvestKicad" : False,
+        "matchParts" : True,
+    }
+    overwrite = True
+
+    #overwrite = False
     project = OOMP.getPartByID(oompid)
     testID = project.getID()
     if testID != "----":
-        OOMP_projects_BASE.harvestProject(project,overwrite=overwrite, all=True)
+        #OOMP_projects_BASE.harvestProject(project,overwrite=overwrite, dict={"all" : True} )
+        OOMP_projects_BASE.harvestProject(project,dict=d,overwrite=overwrite)
     else:
         print("No Project Found")
     
@@ -36,17 +46,14 @@ def single(oompid):
 #OOMP.loadParts("projects")
 #OOMP.loadParts("nofootprints")
 
-
-
-
-filter = ""
+#filter = ""
 #filter = "DANP"  
-exclusions = "NONE" ## not working yet
-exclusions = "ADAF" ## not working yet
-all(filter,exclusions)
+#exclusions = "NONE" ## not working yet
+#exclusions = "ADAF" ## not working yet
+#all(filter,exclusions)
 
-#oompID="PROJ-SIRB-0002-STAN-01"
-#single(oompID)
+oompID="PROJ-SPAR-15932-STAN-01"
+single(oompID)
 
 
 

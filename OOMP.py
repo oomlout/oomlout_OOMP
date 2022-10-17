@@ -509,6 +509,8 @@ class oompItem:
                 base = "https://github.com/oomlout/oomlout_OOMP_projects/tree/main/" + oompID + "/"
             elif "MODULE" in oompID or  "BLOCK" in oompID:
                 base = "https://github.com/oomlout/oomlout_OOMP_modules/tree/main/" + oompID + "/"
+            elif "MODULE" in oompID or  "COLLECTION" in oompID:
+                base = "https://github.com/oomlout/oomlout_OOMP_collections/tree/main/" + oompID + "/"
             else:    
                 base = "https://github.com/oomlout/oomlout_OOMP_parts/tree/main/" + oompID + "/"
         elif relative.lower() == "githubweb": ## relative to c
@@ -522,6 +524,8 @@ class oompItem:
                 base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_collections/blob/main/" + oompID + "/"
             elif "PROJ" in oompID:
                 base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_projects/blob/main/" + oompID + "/"
+            elif "COLLECTION" in oompID:
+                base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_collections/blob/main/" + oompID + "/"
             else:    
                 base = "https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_parts/blob/main/" + oompID + "/"
         elif relative.lower() == "githubraw": ## relative to c
@@ -533,6 +537,8 @@ class oompItem:
                 base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_modules/main/" + oompID + "/"        
             elif "PROJ" in oompID:
                 base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_projects/main/" + oompID + "/"
+            elif "COLLECTION" in oompID:
+                base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_collections/main/" + oompID + "/"
             elif "COLLECTION" in oompID:
                 base = "https://raw.githubusercontent.com/oomlout/oomlout_OOMP_collections/main/" + oompID + "/"
             else:    

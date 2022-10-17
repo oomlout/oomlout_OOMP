@@ -3069,8 +3069,12 @@ OOMP.oompAddDetail(category="desc",code="KMBR120",name="MBR120")
 OOMP.oompAddDetail(category="desc",code="K5053",name="SGPT5053C")
 
 ######  LEDs
+OOMP.oompAddDetail(category="desc",code="LEDS",name="LED")
 OOMP.oompAddDetail(category="desc",code="COCA",name="Common Cathode")
 OOMP.oompAddDetail(category="desc",code="COAN",name="Common Anode")
+
+######  MCUU
+OOMP.oompAddDetail(category="desc",code="ATTINY",name="ATTiny")
 
 ######  Sensors
 OOMP.oompAddDetail(category="desc",code="K18B20",name="DS18B20 (1-Wire Digital Thermometer)")

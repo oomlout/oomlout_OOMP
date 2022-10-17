@@ -12,6 +12,7 @@ import OOMP_projects_partsMatch_Special
 
 def matchParts(project):
     global PART, VALUE, DEVICE, PACAKGE, DESC, BOM
+    print("    Matching Parts")
     ###### remove tags before starting
     for c in range(0,100):
         project.removeTag("oompParts")
