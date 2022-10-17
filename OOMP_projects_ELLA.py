@@ -72,7 +72,7 @@ def createProjects():
 
     d = base.copy()
     d["name"] = "riscystick"
-    d["repo"] = d["name"] + "/"
+    d["repo"] = d["name"]
     d["file"] = "hardware/Revision A1/" + d["name"] + "-RevA1"
     d["count"] = count = count + 1
     projects.append(d.copy())
@@ -80,28 +80,28 @@ def createProjects():
 
     d = base.copy()
     d["name"] = "minik"
-    d["repo"] = d["name"] + "/"
+    d["repo"] = d["name"]
     d["file"] = "hardware/Revision A2/" + d["name"] + "-RevA2"
     d["count"] = count = count + 1
     projects.append(d.copy())
 
     d = base.copy()
     d["name"] = "disaster01"
-    d["repo"] = d["name"] + "/"
+    d["repo"] = d["name"]
     d["file"] = d["name"]
     d["count"] = count = count + 1
     projects.append(d.copy())
 
     d = base.copy()
     d["name"] = "nandcat"
-    d["repo"] = d["name"] + "/"
+    d["repo"] = d["name"]
     d["file"] = "Revision A/nand-cat"
     d["count"] = count = count + 1
     projects.append(d.copy())
 
     d = base.copy()
     d["name"] = "pic16-usb-module"
-    d["repo"] = d["name"] + "/"
+    d["repo"] = d["name"]
     d["file"] = "pum"
     d["count"] = count = count + 1
     projects.append(d.copy())
