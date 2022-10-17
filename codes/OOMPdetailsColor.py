@@ -34,5 +34,5 @@ OOMP.oompAddDetail(category="color",code="LEO",name="Leonardo")
 
 
 ###### NUmbers for microcontrollers
-for x in range(1,10000)L
+for x in range(1,10000):
     OOMP.oompAddDetail(category="color",code=str(x),name=str(x))
