@@ -2,7 +2,11 @@ import OOMP
 import OOMPeda
 from oomBase import *
 
+import OOMP_symbols_BASE
+
 import OOMP_footprints_KICAD
+
+from kiutils.footprint import Footprint
 
 def gitPull():
     gits= []
@@ -25,13 +29,14 @@ def createAllFootprints():
 
 def harvestAllFootprints():
     OOMP_footprints_KICAD.harvestFootprints()    
-    
+
 def createFootprintLibraries():
     createFootprintLibrary()
     createFootprintLibrary(directory="oomlout_OOMP_kicad/oomlout_OOMP_JLCC_Basic.pretty/",style="JLCC")
 
 def createFootprintLibrary(directory="oomlout_OOMP_kicad/oomlout_OOMP_parts.pretty/",style=""):
     outDir = directory
+    print("    Creating foortprint library: " + outDir)
     oomMakeDir(outDir)
     for part in OOMP.getItems("parts"):
         oompID = part.getID()

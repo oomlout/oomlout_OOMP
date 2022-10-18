@@ -37,5 +37,5 @@ def make():
 def harvest():
     pass
 
-def document():
-    OOMP_summaries_BASE.createAllSummaries(all=True,filter="",overwrite=True)
+def document(filter=""):
+    OOMP_summaries_BASE.createAllSummaries(all=True,filter=filter,overwrite=True)

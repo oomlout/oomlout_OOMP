@@ -558,6 +558,10 @@ class oompItem:
         allNames.append(name)
         if filename.lower() == name:            
             fileExtra = "README.md"
+        name =   "collection"
+        allNames.append(name)
+        if filename.lower() == name:            
+            fileExtra = "COLLECTION.md"
         
         ######  Bom Files      
         name =   "bominteractive"
@@ -1092,9 +1096,26 @@ class oompDetail:
     
 #### import detail lists
 
-def loadParts(type):
-    if type != "pickle":  
+def loadFast(type="pickle"):
+    if type == "all":
         reset()
+        loadParts("edaLoad")        
+        loadParts("nofootprints")
+    else:
+        reset()
+        print("Loading Fast")
+        picklePartsFile = "sourceFiles/pickleFootprintsOOMP.pickle"
+        #pickleTagsFile = "sourceFiles/pickleTagsOOMP.pickle"
+        global parts
+        global details
+        parts = pickle.load(open(picklePartsFile,"rb"))
+        #details = pickle.load(open(pickleTagsFile,"rb"))
+        loadParts("nofootprints",res=False)
+
+def loadParts(type,res=True):
+    if type != "pickle":  
+        if res:
+            reset()
         import codes.OOMPdetailsType
         import codes.OOMPdetailsSize
         import codes.OOMPdetailsColor
@@ -1104,41 +1125,49 @@ def loadParts(type):
         filename = "sourceFiles/oompLoad.py"
         if os.path.isfile(filename):
             os.remove(filename)             
+        if "load" in type.lower():
+            filename = "sourceFiles/oompFootprintLoad.py"
+            if os.path.isfile(filename):
+                os.remove(filename)             
         defaultFilter = ["details.py","details2.py","details3.py"]
         projectFilter = ["details.py","details2.py","details3.py","detailsPartsOomp.py","detailsPartsRaw.py"]
         partsFilter = ["details.py","details2.py","detailsInstancesOomp.py","detailsFootprintsOomp.py"]
         if type == "all" or type == "parts" or type == "nofootprints":        
             print("    Loading:    Parts")
             directory = "oomlout_OOMP_parts\\"
-            loadDirectory(directory,fileFilter=partsFilter)
+            loadDirectory(directory,fileFilter=partsFilter,filename=filename)
         if type == "all" or type == "projects" or type == "nofootprints":  
             print("    Loading:    Projects")          
             directory = "oomlout_OOMP_projects\\"
-            loadDirectory(directory,fileFilter=projectFilter)
+            loadDirectory(directory,fileFilter=projectFilter,filename=filename)
         if type == "all" or type == "templates" or type == "nofootprints":        
             print("    Loading:    Templates")
             directory = "templates\\diag\\"
-            loadDirectory(directory,fileFilter=defaultFilter)
+            loadDirectory(directory,fileFilter=defaultFilter,filename=filename)
         if type == "all" or type == "modules" or type == "nofootprints":
             print("    Loading:    Modules")
             directory = "oomlout_OOMP_modules\\"            
-            loadDirectory(directory,fileFilter=defaultFilter) 
+            loadDirectory(directory,fileFilter=defaultFilter,filename=filename) 
         if type == "all" or type == "collections" or type == "nofootprints":
             print("    Loading:    Collections")
             directory = "oomlout_OOMP_collections\\"            
-            loadDirectory(directory,fileFilter=defaultFilter)         
-        if type == "all" or type == "eda":
+            loadDirectory(directory,fileFilter=defaultFilter,filename=filename)         
+        if type == "all" or "eda" in type.lower():
             print("    Loading:    EDA")
             directory = "oomlout_OOMP_eda\\"            
-            loadDirectory(directory,fileFilter=defaultFilter)         
-        print("Loading: sourceFiles.oompLoad")        
+            loadDirectory(directory,fileFilter=defaultFilter,filename=filename)                 
         #__import__("sourceFiles.oompLoad")  
-        name = "sourceFiles.oompLoad"
+        name = filename.replace("/",".").replace("\\",".").replace(".py","")
+        print("Loading: " + name)        
         mod = importlib.import_module(name)
         importlib.reload(mod)
-        exportPickle()      
+        t = ""
+        if "footprint" in filename.lower():
+            t = "sourceFiles/pickleFootprintsOOMP.pickle"
+        exportPickle(t)      
         print(getReport()) 
     else:        
+        print("Loading Pickle")
         reset()
         picklePartsFile = "sourceFiles/picklePartsOOMP.pickle"
         pickleTagsFile = "sourceFiles/pickleTagsOOMP.pickle"
@@ -1152,15 +1181,15 @@ def loadParts(type):
             importlib.reload(mod)
         print(getReport())
 
-def exportPickle():
-    picklePartsFile = "sourceFiles/picklePartsOOMP.pickle"
+def exportPickle(picklePartsFile = "sourceFiles/picklePartsOOMP.pickle"): 
+    if picklePartsFile == "":
+        picklePartsFile= "sourceFiles/picklePartsOOMP.pickle"
     pickle.dump(parts, open(picklePartsFile,"wb"))
     pickleTagsFile = "sourceFiles/pickleTagsOOMP.pickle"
     pickle.dump(details, open(pickleTagsFile,"wb"))
 
 
-def loadDirectory(directory,fileFilter=["details.py"]):
-    filename = "sourceFiles/oompLoad.py"
+def loadDirectory(directory,fileFilter=["details.py"],filename="sourceFiles/oompLoad.py"):    
     f = open(filename, "a+")
     testing = 1000000000000000000
     skip = "Pololu_Breakout-16_15.2x20.3mm"

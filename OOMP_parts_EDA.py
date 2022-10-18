@@ -1,3 +1,4 @@
+
 import OOMP
 
 import os
@@ -75,6 +76,17 @@ def add(part,dict):
     for tag in tags:
         part.addTag(tag[0],tag[1],noDuplicate=True)
 
+def addEdaTags(part,type,tags):
+    
+    
+    for f in tags:
+        s = OOMP.getPartByID(f)
+        oompID = s.getID()
+        if oompID != "----":            
+            part.addTag(type,f)
+        else:
+            pass
+        #raise Exception("EDA Item not found: " + type + " - " + symbol)        
 
 def add0201(part,dict):
     oompType = part.getTag("oompType").value
@@ -239,7 +251,7 @@ def addBUTASymbols(part,dict):
     part.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Switch-SW_Push")
 
 def addCAPCSymbols(part,dict):
-    part.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Switch-C")
+    part.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Device-C")
 
 
 
@@ -252,17 +264,19 @@ def addHEADSymbols(part,dict):
         if "PI2X" in oompDesc:
                 ###### FOOTPRINTS
                 symbols = []
-                symbols.append("SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + str(int(pinss)*2).zfill(2) + "_Male")
-                symbols.append("SYMBOL-kicad-kicad-symbols-Connector-DIN41612_02x" + pinss + "_AB")
-                base = "SYMBOL-kicad-kicad-symbols-Connector-Conn_02x" + pinss
+                
+                #symbols.append("SYMBOL-kicad-kicad-symbols-Connector_Generic-DIN41612_02x" + pinss + "_AB")
+                base = "SYMBOL-kicad-kicad-symbols-Connector_Generic-Conn_02x" + pinss
+                symbols.append(base  + "_Odd_Even")
                 symbols.append(base  + "_Row_Letter_First")
                 symbols.append(base  + "_Row_Letter_Last")
                 symbols.append(base  + "_Counter_Clockwise")
-                symbols.append(base  + "_Odd_Even")
                 symbols.append(base  + "_Top_Bottom")
+                symbols.append("SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + str(int(pinss)*2).zfill(2) + "_Male")
                 for symbol in symbols:
                     ###### TODO add a check for existance
-                    newPart.addTag("symbolKicad",symbol)
+                    addEdaTags(part=newPart,tags=symbols,type="symbolKicad")
+                    
         else:
             newPart.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + pinss + "_Male")
             newPart.addTag("symbolKicad","SYMBOL-kicad-kicad-symbols-Connector_Generic-Conn_01x" + pinss + "")
@@ -276,38 +290,49 @@ def addRESESymbols(part,dict):
 
 
 def addHEAD01(part,dict):
+    oompID = part.getID()
     oompDesc = part.getTag("oompDesc").value
-    pinss = oompDesc.replace("PI","")
-    newPart = part
-    if pinss.isnumeric():
-        ###### FOOTPRINTS
-        ##newPart.addTag("kicadFootprint","Connector_PinHeader_2.54mm/PinHeader_1x" + pinss + "_P2.54mm_Vertical")
-        ######  Sparkfun footprints
-        sparkfunStyles = ["", "_BIG", "_LOCK", "_LOCK_LONGPADS", "_NO_SILK", "_PP_HOLES_ONLY"]
-        for style in sparkfunStyles: 
-            imageFile = "oomlout_OOMP_eda/FOOTPRINT/eagle/SparkFun-Eagle-Libraries/Sparkfun-Connectors/1X" + pinss + style + "/image.png"
-            #print("Image File: " + imageFile)
-            if os.path.isfile(imageFile):
-                newPart.addTag("footprintEagle","FOOTPRINT-eagle-SparkFun-Eagle-Libraries-Sparkfun-Connectors-1X" + pinss + style)
-        
-        
-        adafruitStyles = ["", "-CLEANBIG", "-BIGLOCK", "-CLEAN", "-LOCK", "-CB"]
-        for style in adafruitStyles: 
-            imageFile = "oomlout_OOMP_eda/FOOTPRINT/eagle/Adafruit-Eagle-Library/adafruit/1X" + pinss + style + "/image.png"
-            #print("Image File: " + imageFile)
-            if os.path.isfile(imageFile):
-                newPart.addTag("footprintEagle","FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-1X" + pinss + style)
-        
-        
-        pimoroniStyles = ["","-0.1&quot;-CASTELLATED-BCREAM", "-0.1&quot;-CASTELLATED-BIGGER-ROUNDED", "-0.1&quot;-CASTELLATED-BIGGER", "-0.1&quot;-CASTELLATED", "-LOCK-MALE", "-CB","_LONGPADS"]
-        for style in pimoroniStyles: 
-            imageFile = "oomlout_OOMP_eda/FOOTPRINT/eagle/Pimoroni-Eagle-Library/pimoroni-headers/1X" + pinss.replace("0","") + style + "/image.png"
-            #print("Image File: " + imageFile)
-            if os.path.isfile(imageFile):
-                newPart.addTag("footprintEagle","FOOTPRINT-eagle-Pimoroni-Eagle-Library-pimoroni-headers-1" + pinss + style)
-        
-        newPart.addTag("footprintKicad","FOOTPRINT-kicad-kicad-footprints-Connector_PinHeader_2.54mm-PinHeader_1x" + pinss + "_P2.54mm_Vertical")
-        
+    if "PI2X" not in oompID:
+        pinss = oompDesc.replace("PI","")
+        newPart = part
+        if pinss.isnumeric():
+            ###### FOOTPRINTS
+            ##newPart.addTag("kicadFootprint","Connector_PinHeader_2.54mm/PinHeader_1x" + pinss + "_P2.54mm_Vertical")
+            ######  Sparkfun footprints
+            sparkfunStyles = ["", "_BIG", "_LOCK", "_LOCK_LONGPADS", "_NO_SILK", "_PP_HOLES_ONLY"]
+            for style in sparkfunStyles: 
+                imageFile = "oomlout_OOMP_eda/FOOTPRINT/eagle/SparkFun-Eagle-Libraries/Sparkfun-Connectors/1X" + pinss + style + "/image.png"
+                #print("Image File: " + imageFile)
+                if os.path.isfile(imageFile):
+                    newPart.addTag("footprintEagle","FOOTPRINT-eagle-SparkFun-Eagle-Libraries-Sparkfun-Connectors-1X" + pinss + style)
+            
+            
+            adafruitStyles = ["", "-CLEANBIG", "-BIGLOCK", "-CLEAN", "-LOCK", "-CB"]
+            for style in adafruitStyles: 
+                imageFile = "oomlout_OOMP_eda/FOOTPRINT/eagle/Adafruit-Eagle-Library/adafruit/1X" + pinss + style + "/image.png"
+                #print("Image File: " + imageFile)
+                if os.path.isfile(imageFile):
+                    newPart.addTag("footprintEagle","FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-1X" + pinss + style)
+            
+            
+            pimoroniStyles = ["","-0.1&quot;-CASTELLATED-BCREAM", "-0.1&quot;-CASTELLATED-BIGGER-ROUNDED", "-0.1&quot;-CASTELLATED-BIGGER", "-0.1&quot;-CASTELLATED", "-LOCK-MALE", "-CB","_LONGPADS"]
+            for style in pimoroniStyles: 
+                imageFile = "oomlout_OOMP_eda/FOOTPRINT/eagle/Pimoroni-Eagle-Library/pimoroni-headers/1X" + pinss.replace("0","") + style + "/image.png"
+                #print("Image File: " + imageFile)
+                if os.path.isfile(imageFile):
+                    newPart.addTag("footprintEagle","FOOTPRINT-eagle-Pimoroni-Eagle-Library-pimoroni-headers-1" + pinss + style)
+            
+            newPart.addTag("footprintKicad","FOOTPRINT-kicad-kicad-footprints-Connector_PinHeader_2.54mm-PinHeader_1x" + pinss + "_P2.54mm_Vertical")
+    else:
+        pinss = oompDesc.replace("PI2X","")
+        newPart = part
+        if pinss.isnumeric():
+            footprints = []
+            base = "FOOTPRINT-kicad-kicad-footprints-Connector_PinHeader_2.54mm-PinHeader_2x" + pinss
+            footprints.append(base + "_P2.54mm_Vertical")
+
+            addEdaTags(part=newPart,tags=footprints,type="footprintKicad")
+            
 
 def addHEAD01SHRO(part,dict):
     oompDesc = part.getTag("oompDesc").value

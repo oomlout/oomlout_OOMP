@@ -15,7 +15,8 @@ def createParts():
         extraTags = []
         extraTags.append(OOMP.oompTag("footprintEagle","FOOTPRINT-eagle-SparkFun-Eagle-Libraries-SparkFun-Switches-TACTILE_SWITCH_LED_PTH_12MM"))            
     
-          
+    
+        
 
     ##############################
     ######  HEAD
@@ -27,7 +28,22 @@ def createParts():
         for x in range(1,10+1):
             desc = "PI2X" + str(x).zfill(2)
             hexID = "H2X" + str(x) + "SH"
-            OOMP_parts_BASE.makePart(type,size,color,desc,index, hexID)
+            extraTags = []
+            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
+            OOMP_parts_BASE.makePart(dict = d)
+
+    
+        ##########
+        ##########
+        type = "HEAD";size = "I01";color = "X";desc = "";index = "01";hexID = ""
+        datasheet = "sourceDatasheets/HEAD-I01-X-PI2X03-01.pdf"
+        
+        for x in range(1,10+1):
+            desc = "PI2X" + str(x).zfill(2)
+            hexID = "H2X" + str(x) + ""
+            extraTags = []
+            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
+            OOMP_parts_BASE.makePart(dict = d)
 
         ##########
         ##########
@@ -37,7 +53,9 @@ def createParts():
         for x in range(1,10+1):
             desc = "PI2X" + str(x).zfill(2)
             hexID = "H2X" + str(x) + "SM"
-            OOMP_parts_BASE.makePart(type,size,color,desc,index, hexID)
+            extraTags = []
+            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
+            OOMP_parts_BASE.makePart(dict = d)
 
         #########
         #########

@@ -64,7 +64,7 @@ def generatCollectionsPages():
 
 def generateCollectionsIndex():  
     print("Generating Collection Index")  
-    filename = "oomlout_OOMP_collections/README.md"
+    filename = "oomlout_OOMP_collections/COLLECTION.md"
     
     mdFile = MdUtils(file_name=filename,title="")
     mdFile.new_line(getNavigation())
@@ -72,7 +72,7 @@ def generateCollectionsIndex():
     parts = []
     collections = OOMP.getItems("collections")
     for collection in collections:      
-        parts.append(mdGetLink(collection.getTag("name").value,collection.getFilename("readme",relative="github")))
+        parts.append(mdGetLink(collection.getTag("name").value,collection.getFilename("collection",relative="github")))
     base.addDisplayTable(mdFile,parts,4)   
     #mdFile.new_table_of_contents(table_title='Contents', depth=2)
     mdFile.create_md_file()     
@@ -81,7 +81,7 @@ def generateCollectionsIndex():
 
 def generateCollectionPage(collection):       
     print("    Generating collection page for: " + collection.getTag("code").value) 
-    filename = collection.getFilename("readme")
+    filename = collection.getFilename("collection")
     
     mdFile = MdUtils(file_name=filename,title="")
     mdFile.new_header(level=1,title="Collection: " + collection.getTag("name").value)

@@ -4,6 +4,8 @@ from oomBase import *
 import OOMP_parts_OOML
 import OOMP_parts_JLCC
 
+import urllib.request
+
 def createAllParts():
     OOMP_parts_OOML.createParts()
     OOMP_parts_JLCC.createParts()
@@ -39,7 +41,23 @@ def makePart(type="",size="",color="",desc="",index="",hexID="",extraTags=[],dic
         except:
             pass
     if datasheet != "":
-        oomCopyFile(datasheet,outputDir + "datasheet.pdf" )
+        if "http" in datasheet:
+            if True:   
+                
+                download_url = datasheet
+                filename = outputDir + "datasheet"
+                if not os.path.exists(filename + ".pdf"): ######
+                    print("        Downloading datasheet: " + datasheet)
+                    response = urllib.request.urlopen(download_url)    
+                    file = open(filename + ".pdf", 'wb')
+                    file.write(response.read())
+                    file.close()            
+                else:
+                    print("        Skipping datasheet (already exists): " + datasheet)
+                pass            
+
+        else:
+            oomCopyFile(datasheet,outputDir + "datasheet.pdf" )
 
 
     print("Making: " + outputFile)

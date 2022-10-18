@@ -8,9 +8,15 @@ import OOMP_modules_OOML
 
 from oomBase import *
 
-def createAllModules():
+
+def make():
     OOMP_modules_OOML.createModules()
 
+def createAllModules():
+    make()
+
+def harvest():
+    harvestModules()
 
 def makeModule(d):
     type = d["oompType"]

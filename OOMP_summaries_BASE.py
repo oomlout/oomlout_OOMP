@@ -8,7 +8,11 @@ import math
 from oomBase import *
 
 def createAllSummaries(all=False,overwrite=False,filter=""):
-    for item in OOMP.parts:        
+    par = OOMP.parts
+    if filter == "parts":
+        par =OOMP.getItems("parts")
+        filter = ""
+    for item in par:        
         if filter in item.getID():
             print("Summaries For:" + item.getID())
             createSummary(item=item,all=all,overwrite=overwrite)

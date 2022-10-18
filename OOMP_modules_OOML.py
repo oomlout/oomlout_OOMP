@@ -7,7 +7,8 @@ def createModules():
     ############  BLOCKS
 
     ############################################################
-    ######  CONN    
+    ######  CONN 
+    #    
     d = {}
     d["oompType"] = "BLOCK";    d["oompSize"] = "CONN"
     d["oompColor"] = "I2C";    d["oompDesc"] = "STAN"
@@ -29,6 +30,13 @@ def createModules():
     d["oompColor"] = "POWE";    d["oompDesc"] = "STAN"
     d["oompIndex"] = "01";    d["hexID"] = "BCP"
     d["name"] = "Connector Block Power"    
+    d["extraTags"] = []
+    OOMP_modules_BASE.makeModule(d)
+    d = {}
+    d["oompType"] = "BLOCK";    d["oompSize"] = "CONN"
+    d["oompColor"] = "PROG";    d["oompDesc"] = "STAN"
+    d["oompIndex"] = "01";    d["hexID"] = "BCPR"
+    d["name"] = "Connector Block Programing"    
     d["extraTags"] = []
     #d["extraTags"].append([])
     OOMP_modules_BASE.makeModule(d)
@@ -55,6 +63,17 @@ def createModules():
     d["oompColor"] = "RASP";    d["oompDesc"] = "PICO"
     d["oompIndex"] = "2040";    d["hexID"] = "BCRP2040"
     d["name"] = "Connector Block Raspberry Pi Pico (2040)"    
+    d["extraTags"] = []
+    #d["extraTags"].append([])
+    OOMP_modules_BASE.makeModule(d)
+
+    ############################################################
+    ######  MCUU
+    d = {}
+    d["oompType"] = "BLOCK";    d["oompSize"] = "MCUU"
+    d["oompColor"] = "STAN";    d["oompDesc"] = "STAN"
+    d["oompIndex"] = "01";    d["hexID"] = "BMS"
+    d["name"] = "Microcontroller Block"    
     d["extraTags"] = []
     #d["extraTags"].append([])
     OOMP_modules_BASE.makeModule(d)
@@ -142,6 +161,18 @@ def createModules():
     d["extraTags"].append(["matchingBlock","BLOCK-CONN-I2C-STAN-01"])
     d["extraTags"].append(["oompParts","J1,HEAD-JSTSH-X-PI04-RS"])    
     OOMP_modules_BASE.makeModule(d)
+        ######  ISP
+    d = {}
+    d["oompType"] = "MODULE";    d["oompSize"] = "CONN"
+    d["oompColor"] = "ISP";    d["oompDesc"] = "STAN"
+    d["oompIndex"] = "01";    d["hexID"] = "MCISP"
+    d["name"] = "Connector Module ISP Programming"    
+    d["extraTags"] = []
+    d["extraTags"].append(["matchingBlock","BLOCK-CONN-PROG-STAN-01"])
+    d["extraTags"].append(["oompParts","J1,HEAD-I01-X-PI2X03-01"])    
+    OOMP_modules_BASE.makeModule(d)
+
+
         ######  OOBB
     d = {}
     d["oompType"] = "MODULE";    d["oompSize"] = "CONN"
@@ -151,6 +182,16 @@ def createModules():
     d["extraTags"] = []
     d["extraTags"].append(["matchingBlock","BLOCK-CONN-OOBB-BA-01"])
     d["extraTags"].append(["oompParts","J1,HEAD-I01-X-PI03-RA"])    
+    OOMP_modules_BASE.makeModule(d)
+        ######  OOML
+    d = {}
+    d["oompType"] = "MODULE";    d["oompSize"] = "CONN"
+    d["oompColor"] = "OOML";    d["oompDesc"] = "LED2X3"
+    d["oompIndex"] = "01";    d["hexID"] = "MCOL23"
+    d["name"] = "Connector Module 2x3 Header for LED Power"    
+    d["extraTags"] = []
+    #d["extraTags"].append(["matchingBlock","BLOCK-CONN-OOBB-BA-01"])
+    d["extraTags"].append(["oompParts","J1,HEAD-I01-X-PI2X03-01"])    
     OOMP_modules_BASE.makeModule(d)
         ######  RASP
     d = {}
@@ -181,6 +222,19 @@ def createModules():
     d["extraTags"].append(["oompParts","J1,"])    
     OOMP_modules_BASE.makeModule(d)
 
+    ############################################################
+    ######  MCUU
+    d = {}
+    d["oompType"] = "MODULE";    d["oompSize"] = "MCUU"
+    d["oompColor"] = "ATTINY84";    d["oompDesc"] = "SO14"
+    d["oompIndex"] = "01";    d["hexID"] = "SC"
+    d["name"] = "Microcontroller Module ATTiny84 (SOIC 14)"    
+    d["extraTags"] = []
+    d["extraTags"].append(["matchingBlock","BLOCK-MCUU-STAN-STAN-01"])
+    d["extraTags"].append(["oompParts","U1,MCUU-SC14-84-ATTINY-01"])
+    d["extraTags"].append(["oompParts","C1,CAPC-0603-X-NF100-V50"])    
+    OOMP_modules_BASE.makeModule(d)
+    
     ############################################################
     ######  POWE
     d = {}

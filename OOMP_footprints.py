@@ -39,7 +39,8 @@ def refreshFull():
 def make():
     pass
     OOMP_footprints_BASE.gitPull()
-    OOMP_footprints_BASE.createAllFootprints()    
+    OOMP_footprints_BASE.createAllFootprints()  
+    OOMP_footprints_BASE.createFootprintLibraries()  
 
 def harvest():
     OOMP_footprints_BASE.harvestAllFootprints()

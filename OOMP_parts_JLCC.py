@@ -6,6 +6,7 @@ import OOMP_parts_BASE
 from oomBase import *
 
 def createParts():
+    print("    Generating JLCC Parts")
     pass
     partsFile = "oomlout_OOMP_collections/COLLECTION-PARTL-JLCC-BASIC-01/current.csv"
 
@@ -39,7 +40,10 @@ def createParts():
             part["hexID"] = hexID
             print(oompID + " " + hexID)    
             pass
-            OOMP_parts_BASE.makePart(part["oompType"],part["oompSize"],part["oompColor"],part["oompDesc"],part["oompIndex"],part["hexID"],extraTags = part["extraTags"],)
+            #OOMP_parts_BASE.makePart(part["oompType"],part["oompSize"],part["oompColor"],part["oompDesc"],part["oompIndex"],part["hexID"],extraTags = part["extraTags"],)
+            part["datasheet"] = part["Datasheet"]
+            d = {"type" : part["oompType"], "size" : part["oompSize"], "color" : part["oompColor"], "desc" : part["oompDesc"], "index" : part["oompIndex"], "hexID" : part["hexID"], "datasheet" : part["datasheet"], "extraTags" : part["extraTags"]}
+            OOMP_parts_BASE.makePart(dict = d)
             count = count + 1
         else:
             print(oompID + " "  + part["Description"])  
